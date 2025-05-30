@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>後台系統功能主頁</title>
+  <link rel="stylesheet" href="./back.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+ 
+</head>
+<body>
+
+<div class="container-fluid">
+  <div class="row">
+
+    <!-- Sidebar -->
+    <nav class="col-md-3 col-lg-2 d-md-block sidebar">
+      <div class="position-sticky">
+        <h4 class="text-center mb-4">功能選單</h4>
+        <div class="accordion" id="sidebarMenu">
+          <script>
+            //直接將 HTML 字串寫進頁面中
+            document.write(` 
+                <div class="accordion-item"> 
+                  <h5 class="accordion-header" id="heading1">
+                    <button class="accordion-button collapsed bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
+                      銷售管理
+                    </button>
+                  </h5>
+                  <div id="collapse1" class="accordion-collapse collapse" aria-labelledby="heading1" data-bs-parent="#sidebarMenu">
+                    <div class="accordion-body">
+                      <ul class="list-unstyled">
+                        <li><a href="#" class="text-secondary">訂單管理</a></li>
+                        <li><a href="#" class="text-secondary">報價管理</a></li>
+                        <li><a href="#" class="text-secondary">發票折讓管理</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              `);
+                  document.write(`
+                <div class="accordion-item">
+                  <h5 class="accordion-header" id="heading1">
+                    <button class="accordion-button collapsed bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
+                      財務管理
+                    </button>
+                  </h5>
+                  <div id="collapse1" class="accordion-collapse collapse" aria-labelledby="heading1" data-bs-parent="#sidebarMenu">
+                    <div class="accordion-body">
+                      <ul class="list-unstyled">
+                        <li><a href="#" class="text-secondary">總帳務管理</a></li>
+                        <li><a href="#" class="text-secondary">應收帳款管理</a></li>
+                        <li><a href="#" class="text-secondary">應付帳款管理</a></li>
+                        <li><a href="#" class="text-secondary">報表分析</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              `);
+                  document.write(`
+                <div class="accordion-item">
+                  <h5 class="accordion-header" id="heading1">
+                    <button class="accordion-button collapsed bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
+                      二手管理
+                    </button>
+                  </h5>
+                  <div id="collapse1" class="accordion-collapse collapse" aria-labelledby="heading1" data-bs-parent="#sidebarMenu">
+                    <div class="accordion-body">
+                      <ul class="list-unstyled">
+                        <li><a href="#" class="text-secondary">托售申請資料</a></li>
+                        <li><a href="#" class="text-secondary">提款申請資料管理</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              `);
+                  document.write(`
+                <div class="accordion-item">
+                  <h5 class="accordion-header" id="heading1">
+                    <button class="accordion-button collapsed bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
+                      採購庫存管理
+                    </button>
+                  </h5>
+                  <div id="collapse1" class="accordion-collapse collapse" aria-labelledby="heading1" data-bs-parent="#sidebarMenu">
+                    <div class="accordion-body">
+                      <ul class="list-unstyled">
+                        <li><a href="#" class="text-secondary">廠商資料管理</a></li>
+                        <li><a href="#" class="text-secondary">進貨及入庫管理</a></li>
+                        <li><a href="#" class="text-secondary">出貨及出庫管理</a></li>
+                        <li><a href="#" class="text-secondary">退貨資料管理</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              `);
+                  document.write(`
+                <div class="accordion-item">
+                  <h5 class="accordion-header" id="heading1">
+                    <button class="accordion-button collapsed bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
+                      會員管理
+                    </button>
+                  </h5>
+                  <div id="collapse1" class="accordion-collapse collapse" aria-labelledby="heading1" data-bs-parent="#sidebarMenu">
+                    <div class="accordion-body">
+                      <ul class="list-unstyled">
+                        <li><a href="#" class="text-secondary">會員資料管理</a></li>
+                        <li><a href="#" class="text-secondary">會員資料匯出</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              `);
+          </script>
+          <!-- 結束 -->
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main content -->
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
+      <h2 class="text-center mb-5 ">後台系統功能總覽</h2>
+
+       <!-- 資訊管理 -->
+  <div class="module-group">
+    <div class="module-title text-danger">資訊管理</div> <!--text-xxx設定配色-->
+    <div class="module-buttons">
+      <button class="btn btn-outline-danger">系統維護管理系統</button>
+      <button class="btn btn-outline-danger">基本資料管理系統</button>
+    </div>
+  </div>
+
+  <!-- 庫存管理 -->
+  <div class="module-group">
+    <div class="module-title text-warning">庫存管理</div>
+    <div class="module-buttons">
+      <button class="btn btn-outline-warning">庫存管理系統</button>
+      <button class="btn btn-outline-warning">採購管理系統</button>
+      <button class="btn btn-outline-warning">進口管理系統</button>
+    </div>
+  </div>
+
+  <!-- 配銷管理 -->
+  <div class="module-group">
+    <div class="module-title text-primary">配銷管理</div> 
+    <div class="module-buttons">
+      <button class="btn btn-outline-primary">訂單管理系統</button>
+      <button class="btn btn-outline-primary">出口管理系統</button>
+      <button class="btn btn-outline-primary">門市專櫃總部系統</button>
+      <button class="btn btn-outline-primary">軍福品管理系統</button>
+      <button class="btn btn-outline-primary">網購管理系統</button>
+    </div>
+  </div>
+
+  <!-- 生產管理 -->
+  <div class="module-group">
+    <div class="module-title text-success">生產管理</div>
+    <div class="module-buttons">
+      <button class="btn btn-outline-success">產品結構管理系統</button>
+      <button class="btn btn-outline-success">製令交託管理系統</button>
+      <button class="btn btn-outline-success">批次需求管理系統</button>
+      <button class="btn btn-outline-success">製程管理系統</button>
+      <button class="btn btn-outline-success">品質管理</button>
+      <button class="btn btn-outline-success">成本計算</button>
+    </div>
+  </div>
+
+  <!-- 財務管理 -->
+  <div class="module-group">
+    <div class="module-title text-secondary">財務管理</div>
+    <div class="module-buttons">
+      <button class="btn btn-outline-secondary">應收應付</button>
+      <button class="btn btn-outline-secondary">營業稅申報</button>
+      <button class="btn btn-outline-secondary">票據資金</button>
+      <button class="btn btn-outline-secondary">自動分錄</button>
+      <button class="btn btn-outline-secondary">會計總帳</button>
+      <button class="btn btn-outline-secondary">零用金管理</button>
+    </div>
+  </div>
+
+  <!-- EIS主管資訊系統 -->
+  <div class="module-group">
+    <div class="module-title text-info">EIS主管資訊系統</div>
+    <div class="module-buttons">
+      <button class="btn btn-outline-info">存貨主管</button>
+      <button class="btn btn-outline-info">銷售主管</button>
+      <button class="btn btn-outline-info">專櫃主管</button>
+      <button class="btn btn-outline-info">財務主管</button>
+      <button class="btn btn-outline-info">薪工主管</button>
+      <button class="btn btn-outline-info">生產主管</button>
+      <button class="btn btn-outline-info">自訂報表</button>
+    </div>
+  </div>
+
+  <!-- 事務性管理 -->
+  <div class="module-group">
+    <div class="module-title text-muted">事務性管理</div>
+    <div class="module-buttons">
+      <button class="btn btn-outline-dark">固定資產管理系統</button>
+      <button class="btn btn-outline-dark">出勤管理系統</button>
+      <button class="btn btn-outline-dark">自動FAX/EMAIL</button>
+    </div>
+  </div>
+
+  <!--  -->
+  <div class="module-group">
+    <div class="module-title text-dark"></div>
+    <div class="module-buttons">
+      <button class="btn btn-outline-dark">POS前台結帳系統</button>
+    </div>
+  </div>
+
+    </main>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,23 +1,77 @@
  body {
-      background-color: #f8f9fa;
-    }
-    .sidebar {
-      height: 100vh;
-      background-color: #f3d0a7;
-      color: gray;
-      padding: 1rem;
-    }
-    .sidebar h5 {
-      color: #ffc107;
-    }
-    .module-group {
-      margin-bottom: 2rem;
-    }
-    .module-title {
-      font-weight: bold;
-      font-size: 1.25rem;
-      margin-bottom: 1rem;
-    }
-    .module-buttons .btn {
-      margin: 0.3rem;
-    }
+     background-color: #f8f9fa;
+ }
+
+ .sidebar {
+     height: 100vh;
+     background-color: #f3d0a7;
+     color: gray;
+     padding: 1rem;
+ }
+
+ .sidebar h4 {
+     color: black;
+ }
+
+ .sidebar h5 {
+     color: #ffc107;
+ }
+
+ .module-group {
+     margin-bottom: 2rem;
+ }
+
+ .module-title {
+     font-weight: bold;
+     font-size: 1.25rem;
+     margin-bottom: 1rem;
+ }
+
+ .module-buttons .btn {
+     margin: 0.3rem;
+ }
+
+ /* 版本一 */
+
+ /* 取消底線 */
+ /* 設定文字顏色 */
+ /* .accordion-body a {
+     text-decoration: none;
+     color: #333;
+ } */
+
+ /* 滑鼠移過時再出現底線 */
+ /* .accordion-body a:hover {
+     text-decoration: underline;
+
+ } */
+
+
+
+ /* 版本二 比較喜歡這個*/
+ /* 滑鼠滑過去時有邊框，像是按鈕 */
+ .accordion-body a {
+     display: block;
+     padding: 0.5rem 1rem;
+     border-radius: 5px;
+     text-decoration: none;
+     color: #333;
+ }
+
+ .accordion-body a:hover {
+     background-color: #f0f0f0;
+ }
+
+ /* .accordion-button 在"被展開時（非 collapsed 狀態）"有藍色框框 */
+ /* :not(.collapsed) 代表"展開中" */
+ .accordion-button:not(.collapsed) {
+  background-color: #6c757d;   /* 背景一樣深灰底 */
+  color: white;               
+  box-shadow: none;            /* 移除預設藍色外框 */
+}
+
+/* :focus 狀態也有 box-shadow 和 outline ，也要移除*/
+.accordion-button:focus {
+  box-shadow: none !important;
+  outline: none !important;
+}

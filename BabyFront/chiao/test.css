@@ -1,0 +1,33 @@
+.sidebar {
+  background-color: transparent !important;
+  padding-top: 2rem;
+}
+
+.sidebar .accordion-button {
+  font-weight: bold;
+  font-size: 1rem;
+  color: #222;
+  box-shadow: none;
+  border: none;
+}
+
+.sidebar .accordion-button:not(.collapsed) {
+  background-color: transparent;
+  color: #000;
+}
+
+.sidebar .accordion-body a {
+  text-decoration: none;
+  display: block;
+  padding: 0.3rem 0;
+  color: #8b0000;
+  font-weight: 500;
+}
+
+.sidebar .accordion-body a:hover {
+  color: #d63384;
+}
+
+.sidebar img {
+  vertical-align: middle;
+}

@@ -1,26 +1,27 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>後台系統功能主頁</title>
-  <link rel="stylesheet" href="./back.css">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
- 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>後台功能總覽</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="./back.css" rel="stylesheet">
+
 </head>
+
 <body>
+    <div class="container-fluid">
+        <div class="row">
 
-<div class="container-fluid">
-  <div class="row">
-
-    <!-- Sidebar -->
-    <nav class="col-md-3 col-lg-2 d-md-block sidebar">
-      <div class="position-sticky">
-        <h4 class="text-center mb-4">功能選單</h4>
-        <div class="accordion" id="sidebarMenu">
-          <script>
-            //直接將 HTML 字串寫進頁面中
-            document.write(` 
+            <!-- Sidebar -->
+            <nav class="col-md-3 col-lg-2 d-md-block sidebar">
+                <div class="position-sticky">
+                    <h2 class="text-center mb-4">功能選單</h2>
+                    <div class="accordion" id="sidebarMenu">
+                        <script>
+                            //直接將 HTML 字串寫進頁面中
+                            document.write(` 
                 <div class="accordion-item"> 
                   <h5 class="accordion-header" id="heading1">
                     <button class="accordion-button collapsed bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
@@ -38,7 +39,7 @@
                   </div>
                 </div>
               `);
-                  document.write(`
+                            document.write(`
                 <div class="accordion-item">
                   <h5 class="accordion-header" id="heading2">
                     <button class="accordion-button collapsed bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
@@ -57,7 +58,7 @@
                   </div>
                 </div>
               `);
-                  document.write(`
+                            document.write(`
                 <div class="accordion-item">
                   <h5 class="accordion-header" id="heading3">
                     <button class="accordion-button collapsed bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3" aria-expanded="false" aria-controls="collapse3">
@@ -74,7 +75,7 @@
                   </div>
                 </div>
               `);
-                  document.write(`
+                            document.write(`
                 <div class="accordion-item">
                   <h5 class="accordion-header" id="heading4">
                     <button class="accordion-button collapsed bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
@@ -93,7 +94,7 @@
                   </div>
                 </div>
               `);
-                  document.write(`
+                            document.write(`
                 <div class="accordion-item">
                   <h5 class="accordion-header" id="heading5">
                     <button class="accordion-button collapsed bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapse5" aria-expanded="false" aria-controls="collapse5">
@@ -110,109 +111,81 @@
                   </div>
                 </div>
               `);
-          </script>
-          <!-- 結束 -->
+                        </script>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Main content -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
+                <h2 class="text-center mb-1">後台功能</h2>
+                <div class="container">
+                    <div class="grid-container">
+                        <div class="block task vertical">
+                            <div class="block-title">事務性管理</div>
+                            <button class="btn btn-outline-dark">固定資產管理系統</button>
+                            <button class="btn btn-outline-dark">出勤管理系統</button>
+                            <button class="btn btn-outline-dark">自動 FAX/EMAIL</button>
+                        </div>
+                        <div class="block info horizontal">
+                            <div class="block-title">資訊管理</div>
+                            <button class="btn btn-outline-dark">系統維護管理系統</button>
+                            <button class="btn btn-outline-dark">基本資料管理系統</button>
+                        </div>
+                        <div class="block finance vertical">
+                            <div class="block-title">財務管理</div>
+                            <button class="btn btn-outline-dark">應收應付</button>
+                            <button class="btn btn-outline-dark">營業稅申報</button>
+                            <button class="btn btn-outline-dark">票據資金</button>
+                            <button class="btn btn-outline-dark">自動分錄</button>
+                            <button class="btn btn-outline-dark">會計總帳</button>
+                            <button class="btn btn-outline-dark">零用金管理</button>
+                        </div>
+                        <div class="block pos horizontal">
+                            <div class="block-title"></div>
+                            <button class="btn btn-outline-dark">POS 前台結帳系統</button>
+                        </div>
+                        <div class="block inventory horizontal">
+                            <div class="block-title">庫存管理</div>
+                            <button class="btn btn-outline-dark">庫存管理系統</button>
+                            <button class="btn btn-outline-dark">採購管理系統</button>
+                            <button class="btn btn-outline-dark">進口管理系統</button>
+                        </div>
+                        <div class="block sale horizontal">
+                            <div class="block-title">配銷管理</div>
+                            <button class="btn btn-outline-dark">訂單管理系統</button>
+                            <button class="btn btn-outline-dark">出口管理系統</button>
+                            <button class="btn btn-outline-dark">門市專櫃總部系統</button>
+                            <button class="btn btn-outline-dark">軍福品管理系統</button>
+                            <button class="btn btn-outline-dark">網購管理系統</button>
+                        </div>
+                        <div class="block production horizontal">
+                            <div class="block-title">生產管理</div>
+                            <button class="btn btn-outline-dark">產品結構管理系統</button>
+                            <button class="btn btn-outline-dark">製令交託管理系統</button>
+                            <button class="btn btn-outline-dark">批次需求管理系統</button>
+                            <button class="btn btn-outline-dark">製程管理系統</button>
+                            <button class="btn btn-outline-dark">品質管理</button>
+                            <button class="btn btn-outline-dark">成本計算</button>
+                        </div>
+                        <div class="block eis horizontal">
+                            <div class="block-title">EIS主管資訊系統</div>
+                            <button class="btn btn-outline-dark">存貨主管</button>
+                            <button class="btn btn-outline-dark">銷售主管</button>
+                            <button class="btn btn-outline-dark">專櫃主管</button>
+                            <button class="btn btn-outline-dark">財務主管</button>
+                            <button class="btn btn-outline-dark">薪工主管</button>
+                            <button class="btn btn-outline-dark">生產主管</button>
+                            <button class="btn btn-outline-dark">自訂報表</button>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
         </div>
-      </div>
-    </nav>
-
-    <!-- Main content -->
-    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
-      <h2 class="text-center mb-5 ">後台系統功能總覽</h2>
-
-       <!-- 資訊管理 -->
-  <div class="module-group">
-    <div class="module-title text-danger">資訊管理</div> <!--text-xxx設定配色-->
-    <div class="module-buttons">
-      <button class="btn btn-outline-danger">系統維護管理系統</button>
-      <button class="btn btn-outline-danger">基本資料管理系統</button>
     </div>
-  </div>
 
-  <!-- 庫存管理 -->
-  <div class="module-group">
-    <div class="module-title text-warning">庫存管理</div>
-    <div class="module-buttons">
-      <button class="btn btn-outline-warning">庫存管理系統</button>
-      <button class="btn btn-outline-warning">採購管理系統</button>
-      <button class="btn btn-outline-warning">進口管理系統</button>
-    </div>
-  </div>
-
-  <!-- 配銷管理 -->
-  <div class="module-group">
-    <div class="module-title text-primary">配銷管理</div> 
-    <div class="module-buttons">
-      <button class="btn btn-outline-primary">訂單管理系統</button>
-      <button class="btn btn-outline-primary">出口管理系統</button>
-      <button class="btn btn-outline-primary">門市專櫃總部系統</button>
-      <button class="btn btn-outline-primary">軍福品管理系統</button>
-      <button class="btn btn-outline-primary">網購管理系統</button>
-    </div>
-  </div>
-
-  <!-- 生產管理 -->
-  <div class="module-group">
-    <div class="module-title text-success">生產管理</div>
-    <div class="module-buttons">
-      <button class="btn btn-outline-success">產品結構管理系統</button>
-      <button class="btn btn-outline-success">製令交託管理系統</button>
-      <button class="btn btn-outline-success">批次需求管理系統</button>
-      <button class="btn btn-outline-success">製程管理系統</button>
-      <button class="btn btn-outline-success">品質管理</button>
-      <button class="btn btn-outline-success">成本計算</button>
-    </div>
-  </div>
-
-  <!-- 財務管理 -->
-  <div class="module-group">
-    <div class="module-title text-secondary">財務管理</div>
-    <div class="module-buttons">
-      <button class="btn btn-outline-secondary">應收應付</button>
-      <button class="btn btn-outline-secondary">營業稅申報</button>
-      <button class="btn btn-outline-secondary">票據資金</button>
-      <button class="btn btn-outline-secondary">自動分錄</button>
-      <button class="btn btn-outline-secondary">會計總帳</button>
-      <button class="btn btn-outline-secondary">零用金管理</button>
-    </div>
-  </div>
-
-  <!-- EIS主管資訊系統 -->
-  <div class="module-group">
-    <div class="module-title text-info">EIS主管資訊系統</div>
-    <div class="module-buttons">
-      <button class="btn btn-outline-info">存貨主管</button>
-      <button class="btn btn-outline-info">銷售主管</button>
-      <button class="btn btn-outline-info">專櫃主管</button>
-      <button class="btn btn-outline-info">財務主管</button>
-      <button class="btn btn-outline-info">薪工主管</button>
-      <button class="btn btn-outline-info">生產主管</button>
-      <button class="btn btn-outline-info">自訂報表</button>
-    </div>
-  </div>
-
-  <!-- 事務性管理 -->
-  <div class="module-group">
-    <div class="module-title text-muted">事務性管理</div>
-    <div class="module-buttons">
-      <button class="btn btn-outline-dark">固定資產管理系統</button>
-      <button class="btn btn-outline-dark">出勤管理系統</button>
-      <button class="btn btn-outline-dark">自動FAX/EMAIL</button>
-    </div>
-  </div>
-
-  <!--  -->
-  <div class="module-group">
-    <div class="module-title text-dark"></div>
-    <div class="module-buttons">
-      <button class="btn btn-outline-dark">POS前台結帳系統</button>
-    </div>
-  </div>
-
-    </main>
-  </div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

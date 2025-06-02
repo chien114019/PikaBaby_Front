@@ -79,14 +79,14 @@ public class LinePayService {
 		return responseEntity.getBody();
 	}
 	
-	private HttpEntity<String> createHttpEntity(String requestBody, String nonce, String signature) {
+	private HttpEntity<String> createHttpEntity(String body, String nonce, String signature) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("X-LINE-Authorization-Nonce", nonce);
 		headers.set("X-LINE-Authorization", signature);
 		headers.set("X-LINE-ChannelId", ChannelID);
 		headers.set("Content-Type", "application/json");	
 		
-		return new HttpEntity(requestBody, null);
+		return new HttpEntity(body, headers);
 	}
 	
 	private static String encrypt(final String keys, final String data) {

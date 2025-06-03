@@ -18,6 +18,13 @@ public class SalesOrderController {
     @Autowired private CustomerService customerService;
     @Autowired private ProductService productService;
     @Autowired private SalesOrderService orderService;
+    
+    @GetMapping
+    public String listOrders(Model model) {
+        List<SalesOrder> orders = orderService.listAll();
+        model.addAttribute("orders", orders);
+        return "order/list"; 
+    }
 
     @GetMapping("/new")
     public String createForm(Model model) {

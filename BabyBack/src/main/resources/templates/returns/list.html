@@ -22,6 +22,16 @@
     <button type="submit">查詢</button>
 </form>
 
+
+
+<form method="get" th:action="@{/returns/export}">
+    <input type="hidden" name="customerName" th:value="${param.customerName}" />
+    <input type="hidden" name="orderId" th:value="${param.orderId}" />
+    <input type="hidden" name="startDate" th:value="${param.startDate}" />
+    <input type="hidden" name="endDate" th:value="${param.endDate}" />
+    <button type="submit">匯出 Excel</button>
+</form>
+
 <hr/>
 <table border="1" cellpadding="8">
     <thead>
@@ -48,10 +58,15 @@
             <td th:text="${order.reason}"></td>
             <td>
                 <a th:href="@{'/returns/view/' + ${order.id}}">查看</a>
+                <form th:action="@{'/returns/delete/' + ${order.id}}" method="post" style="display:inline;">
+				    <button type="submit" onclick="return confirm('確定要刪除這張退貨單嗎？')">刪除</button>
+				</form>
             </td>
         </tr>
     </tbody>
 </table>
-
+	<div class="text-end">
+	  	<a class="btn btn-secondary" th:href="@{/}">返回</a>
+	</div>
 </body>
 </html>

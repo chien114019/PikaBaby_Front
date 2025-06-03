@@ -1,10 +1,15 @@
 package com.example.demo.controller;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Row;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +28,9 @@ import com.example.demo.repository.ProductRepository;
 import com.example.demo.repository.ReturnOrderDetailRepository;
 import com.example.demo.repository.ReturnOrderRepository;
 import com.example.demo.repository.SalesOrderRepository;
+
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 
 
@@ -141,7 +149,110 @@ public class ReturnOrderController {
         model.addAttribute("returnOrder", returnOrder);
         return "returns/view";
     }
+    
+    @GetMapping("/export")
+    public void exportReturnOrdersToExcel(
+        HttpServletResponse response,
+        @RequestParam(required = false) String customerName,
+        @RequestParam(required = false) String startDate,
+        @RequestParam(required = false) String endDate,
+        @RequestParam(required = false) Long orderId
+    ) throws IOException {
 
+        List<ReturnOrder> returnOrders = returnOrderRepository.findAll();
+
+        // 過濾條件（與查詢邏輯一致）
+        if (customerName != null && !customerName.isBlank()) {
+            returnOrders = returnOrders.stream()
+                .filter(ro -> ro.getSalesOrder().getCustomer().getName().contains(customerName))
+                .collect(Collectors.toList());
+        }
+        if (orderId != null) {
+            returnOrders = returnOrders.stream()
+                .filter(ro -> ro.getSalesOrder().getId().equals(orderId))
+                .collect(Collectors.toList());
+        }
+        if (startDate != null && endDate != null) {
+            LocalDate start = LocalDate.parse(startDate);
+            LocalDate end = LocalDate.parse(endDate);
+            returnOrders = returnOrders.stream()
+                .filter(ro -> !ro.getReturnDate().isBefore(start) && !ro.getReturnDate().isAfter(end))
+                .collect(Collectors.toList());
+        }
+
+        // 建立 Excel 檔案
+        Workbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet("退貨單列表");
+
+        Row header = sheet.createRow(0);
+        header.createCell(0).setCellValue("退貨單編號");
+        header.createCell(1).setCellValue("退貨日期");
+        header.createCell(2).setCellValue("原始訂單");
+        header.createCell(3).setCellValue("客戶名稱");
+        header.createCell(4).setCellValue("總金額");
+        header.createCell(5).setCellValue("退貨原因");
+
+        int rowNum = 1;
+        for (ReturnOrder ro : returnOrders) {
+            Row row = sheet.createRow(rowNum++);
+            row.createCell(0).setCellValue(ro.getReturnNo());
+            row.createCell(1).setCellValue(ro.getReturnDate().toString());
+            row.createCell(2).setCellValue(ro.getSalesOrder().getId());
+            row.createCell(3).setCellValue(ro.getSalesOrder().getCustomer().getName());
+            row.createCell(4).setCellValue(
+                ro.getDetails().stream().mapToDouble(ReturnOrderDetail::getTotal).sum()
+            );
+            row.createCell(5).setCellValue(ro.getReason());
+        }
+
+        // 設定回應標頭
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        response.setHeader("Content-Disposition", "attachment; filename=return_orders.xlsx");
+
+        workbook.write(response.getOutputStream());
+        workbook.close();
+    }
+    
+    @PostMapping("/delete/{id}")
+    public String deleteReturnOrder(@PathVariable Long id, HttpSession session) {
+        // 權限驗證（假設 session 中有角色屬性）
+        String role = (String) session.getAttribute("role");
+        if (!"ADMIN".equals(role)) {
+            return "redirect:/access-denied"; // 未授權
+        }
+
+        ReturnOrder ro = returnOrderRepository.findById(id).orElse(null);
+        if (ro != null) {
+            // 庫存扣回
+            for (ReturnOrderDetail d : ro.getDetails()) {
+                Product p = d.getProduct();
+                p.setStock(p.getStock() - d.getQty());
+                productRepository.save(p);
+            }
+
+            returnOrderRepository.delete(ro); // Cascade 一併刪明細
+        }
+
+        return "redirect:/returns/list";
+    }
+    
+    @GetMapping("/dashboard")
+    public String returnStats(Model model) {
+
+        // 每月退貨總金額統計
+        List<Object[]> monthlyStats = returnOrderRepository.getMonthlyTotal(); 
+        // 每筆格式：Object[0] = 年月(yyyy-MM), Object[1] = 金額(Double)
+
+        List<Object[]> topProducts = returnOrderDetailRepository.getTopReturnProducts();
+        // 每筆格式：Object[0] = 商品名稱, Object[1] = 次數(Long)
+
+        model.addAttribute("monthlyStats", monthlyStats != null ? monthlyStats : new ArrayList<>());
+        model.addAttribute("topProducts", topProducts != null ? topProducts : new ArrayList<>());
+        return "returns/dashboard";
+    }
+
+
+    
 
 }
 

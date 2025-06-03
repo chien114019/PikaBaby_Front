@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>二手管理/託售申請紀錄查詢</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link href="./shapply-query.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+
+            <!-- Sidebar -->
+            <nav class="col-md-3 col-lg-2 px-3 sidebar">
+                <div class="position-sticky">
+                    <img src="./images/logo-pikababy.png" alt="pika baby logo"
+                        class="img-fluid d-block mx-auto mb-1 mt-1" style="max-height: 150px;">
+                    <!-- <h2 class="text-center mb-4">功能選單</h2> -->
+                    <div class="accordion" id="sidebarMenu">
+                        <script>
+                            //直接將 HTML 字串寫進頁面中
+                            document.write(` 
+                <div class="accordion-item"> 
+                  <h5 class="accordion-header" id="heading1">
+                    <button class="accordion-button collapsed bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
+                      <i class="bi bi-cart-check me-2"></i>銷售管理
+                    </button>
+                  </h5>
+                  <div id="collapse1" class="accordion-collapse collapse" aria-labelledby="heading1" data-bs-parent="#sidebarMenu">
+                    <div class="accordion-body">
+                      <ul class="list-unstyled">
+                        <li><a href="#" class="text-secondary">訂單管理</a></li>
+                        <li><a href="#" class="text-secondary">報價管理</a></li>
+                        <li><a href="#" class="text-secondary">發票折讓管理</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              `);
+                            document.write(`
+                <div class="accordion-item">
+                  <h5 class="accordion-header" id="heading2">
+                    <button class="accordion-button collapsed bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
+                      <i class="bi bi-piggy-bank me-2"></i>財務管理
+                    </button>
+                  </h5>
+                  <div id="collapse2" class="accordion-collapse collapse" aria-labelledby="heading2" data-bs-parent="#sidebarMenu">
+                    <div class="accordion-body">
+                      <ul class="list-unstyled">
+                        <li><a href="#" class="text-secondary">總帳務管理</a></li>
+                        <li><a href="#" class="text-secondary">應收帳款管理</a></li>
+                        <li><a href="#" class="text-secondary">應付帳款管理</a></li>
+                        <li><a href="#" class="text-secondary">報表分析</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              `);
+                            document.write(`
+                <div class="accordion-item">
+                  <h5 class="accordion-header" id="heading3">
+                    <button class="accordion-button collapsed bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3" aria-expanded="false" aria-controls="collapse3">
+                      <i class="bi bi-hand-thumbs-up"></i><i class="bi bi-hand-thumbs-up-fill me-2"></i>二手管理
+                    </button>
+                  </h5>
+                  <div id="collapse3" class="accordion-collapse collapse" aria-labelledby="heading3" data-bs-parent="#sidebarMenu">
+                    <div class="accordion-body">
+                      <ul class="list-unstyled">
+                        <li><a href="#" class="text-secondary">托售申請資料</a></li>
+                        <li><a href="#" class="text-secondary">提款申請資料管理</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              `);
+                            document.write(`
+                <div class="accordion-item">
+                  <h5 class="accordion-header" id="heading4">
+                    <button class="accordion-button collapsed bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
+                      <i class="bi bi-bag-heart me-2"></i>採購庫存管理
+                    </button>
+                  </h5>
+                  <div id="collapse4" class="accordion-collapse collapse" aria-labelledby="heading4" data-bs-parent="#sidebarMenu">
+                    <div class="accordion-body">
+                      <ul class="list-unstyled">
+                        <li><a href="#" class="text-secondary">廠商資料管理</a></li>
+                        <li><a href="#" class="text-secondary">進貨及入庫管理</a></li>
+                        <li><a href="#" class="text-secondary">出貨及出庫管理</a></li>
+                        <li><a href="#" class="text-secondary">退貨資料管理</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              `);
+                            document.write(`
+                <div class="accordion-item">
+                  <h5 class="accordion-header" id="heading5">
+                    <button class="accordion-button collapsed bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapse5" aria-expanded="false" aria-controls="collapse5">
+                      <i class="bi bi-people-fill me-2"></i>會員管理
+                    </button>
+                  </h5>
+                  <div id="collapse5" class="accordion-collapse collapse" aria-labelledby="heading4" data-bs-parent="#sidebarMenu">
+                    <div class="accordion-body">
+                      <ul class="list-unstyled">
+                        <li><a href="#" class="text-secondary">會員資料管理</a></li>
+                        <li><a href="#" class="text-secondary">會員資料匯出</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              `);
+                        </script>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- 員工登入 -->
+            <div class="dropdown d-flex justify-content-end pe-4 pt-3 user">
+                <a href="#" class="d-inline-flex align-items-center text-dark text-decoration-none dropdown-toggle"
+                    id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-person-circle fs-4 me-2"></i>
+                    Hi! 總經理 小智
+                </a>
+                <ul class="dropdown-menu text-small" aria-labelledby="userDropdown">
+                    <li><a class="dropdown-item" href="#">個人資料設定</a></li>
+                    <!-- <li><a class="dropdown-item" href="#"></a></li> -->
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item text-danger" href="#">登出</a></li>
+                </ul>
+            </div>
+
+            <!-- Main content -->
+
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 offset-md-3">
+                <div class="pt-2">
+                    <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">首頁</li>
+                            <li class="breadcrumb-item">二手管理</li>
+                            <li class="breadcrumb-item active" aria-current="page">託售申請紀錄查詢</li>
+                        </ol>
+                    </nav>
+
+                    <!-- 查詢欄位 -->
+                    <div class="container my-4">
+                        <div class="row mb-4">
+                            <div class="col-md-6 d-flex"> <!--此行有兩個欄位，每欄佔一半寬度-->
+                                <div class="col-md-2 align-content-center">
+                                    <label class="form-label mb-0">申請日期：</label> <!--form-label水平表單標籤尺寸-->
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="date" class="form-control"> <!-- date為日期選擇器;form-control表單控制-->
+                                </div>
+                                <div class="col-md-1 d-flex justify-content-center">
+                                    <span class="form-label mb-0 align-content-center">~</span>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="date" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-6 d-flex"> <!--此行有兩個欄位，每欄佔一半寬度-->
+                                <div class="col-md-2 align-content-center">
+                                    <label class="form-label mb-0">商品類別：</label> <!--form-label水平表單標籤尺寸-->
+                                </div>
+                                <div class="col-md-4">
+                                    <select class="form-select" aria-label="Default select example">
+                                        <option selected>全部</option>
+                                        <option value="1">嬰兒服裝</option>
+                                        <option value="2">嬰兒推車</option>
+                                        <option value="3">嬰兒床</option>
+                                        <option value="3">嬰兒用品</option>
+                                        <option value="3">玩具</option>
+                                        <option value="3">汽座</option>
+                                        <option value="3">學步用品</option>
+                                        <option value="3">幼兒服裝</option>
+                                        <option value="3">幼教用品</option>
+                                        <option value="3">兒童服裝</option>
+                                        <option value="3">餐椅</option>
+                                        <option value="3">電器用品</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-4 ">
+                            <div class="col-md-6 d-flex"> <!--此行有兩個欄位，每欄佔一半寬度-->
+                                <div class="col-md-2 align-content-center">
+                                    <label class="form-label mb-0">審核狀態：</label> <!--form-label水平表單標籤尺寸-->
+                                </div>
+                                <div class="col-md-4">
+                                    <select class="form-select" aria-label="Default select example">
+                                        <option selected>全部</option>
+                                        <option value="1">審核中</option>
+                                        <option value="2">通過</option>
+                                        <option value="3">未通過</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6 d-flex"> <!--此行有兩個欄位，每欄佔一半寬度-->
+                                <div class="col-md-2 align-content-center">
+                                    <label class="form-label mb-0">關鍵字查詢：</label> <!--form-label水平表單標籤尺寸-->
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" placeholder="輸入關鍵字">
+                                        <button class="btn btn-outline-secondary" type="button">
+                                            <i class="bi bi-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 商品表格 -->
+                    <div class="table-responsive">
+                        <table class="table table-bordered align-middle text-center">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>編號</th>
+                                    <th>商品名稱</th>
+                                    <th>商品類別</th>
+                                    <th>數量</th>
+                                    <th>製造年份</th>
+                                    <th>申請人姓名</th>
+                                    <th>電話</th>
+                                    <th>申請日期</th>
+                                    <th>審核狀態</th>
+                                    <th>預估價格</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>森林跳跳樂</td>
+                                    <td>玩具</td>
+                                    <td>1</td>
+                                    <td>2015</td>
+                                    <td>王小寶</td>
+                                    <td>0988-999777</td>
+                                    <td>2025-05-31</td>
+                                    <td>審核中</td>
+                                    <td></td>
+                                    <td><a href="#" class="btn btn-sm btn-outline-primary">審核</a></td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>復古摩托學步車</td>
+                                    <td>學步用品</td>
+                                    <td>1</td>
+                                    <td>2021</td>
+                                    <td>張三</td>
+                                    <td>0912-458789</td>
+                                    <td>2025-05-31</td>
+                                    <td>通過</td>
+                                    <td>1999</td>
+                                    <td><a href="#" class="btn btn-sm btn-outline-primary">審核</a></td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>嬰兒移動布提籃</td>
+                                    <td>汽座</td>
+                                    <td>2</td>
+                                    <td>2023</td>
+                                    <td>莊曉明</td>
+                                    <td>0974-292328</td>
+                                    <td>2025-05-31</td>
+                                    <td>未通過</td>
+                                    <td>0</td>
+                                    <td><a href="#" class="btn btn-sm btn-outline-primary">審核</a></td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>高腳餐椅</td>
+                                    <td>餐椅</td>
+                                    <td>1</td>
+                                    <td>2019</td>
+                                    <td>莊曉明</td>
+                                    <td>0974-292328</td>
+                                    <td>2025-05-31</td>
+                                    <td>通過</td>
+                                    <td>3800</td>
+                                    <td><a href="#" class="btn btn-sm btn-outline-primary">審核</a></td>
+                                </tr>
+                                <tr>
+                                    <td>5</td>
+                                    <td>森林跳跳樂</td>
+                                    <td>玩具</td>
+                                    <td>1</td>
+                                    <td>2015</td>
+                                    <td>王小寶</td>
+                                    <td>0988-999777</td>
+                                    <td>2025-05-31</td>
+                                    <td>審核中</td>
+                                    <td></td>
+                                    <td><a href="#" class="btn btn-sm btn-outline-primary">審核</a></td>
+                                </tr>
+                                <tr>
+                                    <td>6</td>
+                                    <td>復古摩托學步車</td>
+                                    <td>學步用品</td>
+                                    <td>1</td>
+                                    <td>2021</td>
+                                    <td>張三</td>
+                                    <td>0912-458789</td>
+                                    <td>2025-05-31</td>
+                                    <td>通過</td>
+                                    <td>1999</td>
+                                    <td><a href="#" class="btn btn-sm btn-outline-primary">審核</a></td>
+                                </tr>
+                                <tr>
+                                    <td>7</td>
+                                    <td>嬰兒移動布提籃</td>
+                                    <td>汽座</td>
+                                    <td>2</td>
+                                    <td>2023</td>
+                                    <td>莊曉明</td>
+                                    <td>0974-292328</td>
+                                    <td>2025-05-31</td>
+                                    <td>未通過</td>
+                                    <td>0</td>
+                                    <td><a href="#" class="btn btn-sm btn-outline-primary">審核</a></td>
+                                </tr>
+                                <tr>
+                                    <td>8</td>
+                                    <td>高腳餐椅</td>
+                                    <td>餐椅</td>
+                                    <td>1</td>
+                                    <td>2019</td>
+                                    <td>莊曉明</td>
+                                    <td>0974-292328</td>
+                                    <td>2025-05-31</td>
+                                    <td>通過</td>
+                                    <td>3800</td>
+                                    <td><a href="#" class="btn btn-sm btn-outline-primary">審核</a></td>
+                                </tr>
+                                
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- 分頁 -->
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item"><a class="page-link" href="#">&laquo; 上一頁</a></li>
+                            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item"><a class="page-link" href="#">4</a></li>
+                            <li class="page-item"><a class="page-link" href="#">5</a></li>
+                            <li class="page-item"><a class="page-link" href="#">下一頁 &raquo;</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

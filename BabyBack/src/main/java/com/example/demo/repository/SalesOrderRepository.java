@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import com.example.demo.dto.SalesStatsDTO;
 import com.example.demo.model.SalesOrder;
 
-public interface SalesOrderRepository extends JpaRepository<SalesOrder, Integer> {
+public interface SalesOrderRepository extends JpaRepository<SalesOrder, Long> {
 	
 	@Query(value = """
 		    SELECT DATE_FORMAT(o.order_date, '%Y-%m') AS month,

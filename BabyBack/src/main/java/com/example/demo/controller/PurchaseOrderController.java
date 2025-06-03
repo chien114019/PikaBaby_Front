@@ -36,9 +36,9 @@ public class PurchaseOrderController {
     }
 
     @PostMapping("/save")
-    public String saveOrder(@RequestParam Integer supplierId,
-                            @RequestParam("productIds") Integer[] productIds,
-                            @RequestParam("quantities") Integer[] quantities) {
+    public String saveOrder(@RequestParam Long supplierId,
+                            @RequestParam("productIds") Long[] productIds,
+                            @RequestParam("quantities") Long[] quantities) {
 
         Supplier supplier = supplierService.getById(supplierId);
         PurchaseOrder order = new PurchaseOrder();

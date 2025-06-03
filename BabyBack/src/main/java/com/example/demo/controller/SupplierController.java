@@ -27,7 +27,7 @@ public class SupplierController {
     }
 
     @GetMapping("/edit/{id}")
-    public String editSupplier(@PathVariable Integer id, Model model) {
+    public String editSupplier(@PathVariable Long id, Model model) {
         Supplier supplier = supplierRepo.findById(id).orElseThrow();
         model.addAttribute("supplier", supplier);
         return "supplier/form";
@@ -40,7 +40,7 @@ public class SupplierController {
     }
 
     @GetMapping("/delete/{id}")
-    public String deleteSupplier(@PathVariable Integer id) {
+    public String deleteSupplier(@PathVariable Long id) {
         supplierRepo.deleteById(id);
         return "redirect:/suppliers";
     }

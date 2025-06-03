@@ -6,17 +6,17 @@ import jakarta.persistence.*;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     private String name;
     private Double price;
-    private Integer stock;
+    private Long stock;
     
     
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	public String getName() {
@@ -31,10 +31,10 @@ public class Product {
 	public void setPrice(Double price) {
 		this.price = price;
 	}
-	public Integer getStock() {
+	public Long getStock() {
 		return stock;
 	}
-	public void setStock(Integer stock) {
+	public void setStock(Long stock) {
 		this.stock = stock;
 	}
 

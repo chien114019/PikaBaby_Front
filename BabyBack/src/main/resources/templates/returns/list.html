@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>退貨單列表</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+<h2>退貨單列表</h2>
+
+<form method="get" th:action="@{/returns/list}">
+    <label>客戶名稱：</label>
+    <input type="text" name="customerName" />
+    
+    <label>訂單編號：</label>
+    <input type="number" name="orderId" />
+    
+    <label>日期區間：</label>
+    <input type="date" name="startDate" />
+    ~
+    <input type="date" name="endDate" />
+    
+    <button type="submit">查詢</button>
+</form>
+
+<hr/>
+<table border="1" cellpadding="8">
+    <thead>
+        <tr>
+            <th>退貨單編號</th>
+            <th>退貨日期</th>
+            <th>原始訂單</th>
+            <th>客戶名稱</th>
+            <th>總金額</th>
+            <th>退貨原因</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="order : ${returnOrders}">
+            <td th:text="${order.returnNo}"></td>
+            <td th:text="${order.returnDate}"></td>
+            <td th:text="${order.salesOrder.id}"></td>
+            <td th:text="${order.salesOrder.customer.name}"></td>
+            <td>
+                <span th:text="${#numbers.formatDecimal(
+                    order.details.?sum(d -> d.total), 1, 'POINT', 2, 'NONE')}"></span>
+            </td>
+            <td th:text="${order.reason}"></td>
+            <td>
+                <a th:href="@{'/returns/view/' + ${order.id}}">查看</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

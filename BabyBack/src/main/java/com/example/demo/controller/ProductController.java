@@ -32,13 +32,13 @@ public class ProductController {
     }
 
     @GetMapping("/edit/{id}")
-    public String editForm(@PathVariable Integer id, Model model) {
+    public String editForm(@PathVariable Long id, Model model) {
         model.addAttribute("product", service.getById(id));
         return "product/form";
     }
 
     @GetMapping("/delete/{id}")
-    public String delete(@PathVariable Integer id) {
+    public String delete(@PathVariable Long id) {
         service.delete(id);
         return "redirect:/products";
     }

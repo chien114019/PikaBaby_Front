@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 public class PurchaseOrderDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @ManyToOne
     private PurchaseOrder order;
@@ -14,14 +14,14 @@ public class PurchaseOrderDetail {
     @ManyToOne
     private Product product;
 
-    private Integer quantity;
+    private Long quantity;
     private Double unitPrice;
     
     
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	public PurchaseOrder getOrder() {
@@ -36,10 +36,10 @@ public class PurchaseOrderDetail {
 	public void setProduct(Product product) {
 		this.product = product;
 	}
-	public Integer getQuantity() {
+	public Long getQuantity() {
 		return quantity;
 	}
-	public void setQuantity(Integer quantity) {
+	public void setQuantity(Long quantity) {
 		this.quantity = quantity;
 	}
 	public Double getUnitPrice() {

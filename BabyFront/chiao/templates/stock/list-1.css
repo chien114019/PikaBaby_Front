@@ -19,6 +19,8 @@
  /* main {
   margin-left: 250px; } /* 跟 sidebar 寬度一致 */
 
+
+
  .sidebar h2 {
      color: black;
      margin-top: 2rem;
@@ -90,3 +92,11 @@
  }
 
  /* Main content */
+main h4{
+    margin-bottom: 25px;
+    margin-top: 25px;
+}
+
+.user {
+  padding-right: 20px; /* 往左移動 */
+}

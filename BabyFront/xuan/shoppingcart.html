@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PikaBaby</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      /* 促銷訊息 */
+      .top-banner {
+        background-color: #f0ebe5;
+        padding: 5px 0;
+        text-align: center;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 1001;
+      }
+
+      .nav-logo-row {
+        width: 100%;
+        padding: 30px 0 20px 0;
+        background: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        top: 30px;
+        z-index: 1000;
+      }
+
+      .nav-logo {
+        width: 100px;
+        height: auto;
+      }
+
+      nav {
+        background-color: white;
+        padding: 15px 0;
+        position: fixed;
+        width: 100%;
+        top: 150px; /* 固定在LOGO下方 */
+        z-index: 1000;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      nav .nav-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0 20px;
+        position: relative;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 60px;
+        justify-content: center;
+        margin-right: 100px;
+      }
+
+      .nav-links a {
+        text-decoration: none;
+        color: #000;
+        font-size: 16px;
+        font-weight: 500;
+      }
+
+      .nav-links a:hover {
+        color: #666;
+      }
+
+      /* 使用者區塊 */
+      .user-actions {
+        position: absolute;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        display: flex;
+        gap: 20px;
+        font-size: 20px;
+      }
+      /* 下拉選單 */
+      .dropdown {
+        position: relative;
+        display: inline-block;
+      }
+      /* 下拉選單內容 */
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: white;
+        min-width: 180px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        z-index: 1;
+        border-radius: 4px;
+        padding: 8px 0;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      .dropdown:hover .dropdown-content {
+        display: block;
+      }
+      /* 下拉選單的選項連結樣式 */
+      .dropdown-content a {
+        padding: 8px 16px;
+        display: block;
+        text-align: center;
+        font-size: 14px;
+      }
+
+      .dropdown-content a:hover {
+        background-color: #f5f5f5;
+      }
+
+      body {
+        /* min-height: 200vh; 模擬長度，讓頁面能滾動 */
+        display: flex;
+        flex-direction: column;
+        position: relative;
+      }
+
+      /* Footer */
+      footer {
+        background-color: #f0ebe5;
+        padding: 30px 0;
+        width: 100%;
+        position: relative;
+        margin-top: auto;
+      }
+
+      .footer-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        align-items: flex-start;
+        padding: 0 20px;
+      }
+
+      .footer-logo {
+        width: 100px;
+        margin-right: 40px;
+        align-self: flex-start;
+      }
+
+      .footer-section {
+        flex: 1;
+        padding: 0 30px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .footer-title,
+      .footer-section h3 {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        text-align: center;
+      }
+
+      .footer-line {
+        height: 2px;
+        background: #222;
+        width: 60%;
+        min-width: 80px;
+        max-width: 180px;
+        margin: 0 auto 16px auto;
+      }
+
+      .footer-section:first-child {
+        align-items: flex-start;
+        padding-left: 0;
+      }
+
+      .footer-section:first-child .footer-title,
+      .footer-section:first-child .footer-line {
+        text-align: left;
+        margin-left: 0;
+        margin-right: auto;
+      }
+
+      .footer-section:last-child {
+        flex: 1.5;
+      }
+
+      /* 奶瓶 */
+      .floating-bottle {
+        position: fixed;
+        right: 10px;
+        width: 60px;
+        height: 60px;
+        background-image: url("./images/bottle.png");
+        background-size: contain;
+        background-repeat: no-repeat;
+        z-index: 1002; /* 設比 top-banner(1001) / nav(1000) 還高，保證永遠在最上層 */
+        top: 0;
+        transition: top 0.1s ease-out;
+        cursor: pointer;
+      }
+      .floating-bottle:hover {
+        transform: scale(1.1);
+      }
+    </style>
+    <style>
+      /* 購物車樣式 */
+      .cart-container {
+        max-width: 1200px;
+        margin: 250px auto 50px;
+        padding: 20px;
+      }
+
+      .cart-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      .cart-table th {
+        background-color: #f9f9f9;
+        padding: 15px;
+        text-align: center;
+        font-weight: normal;
+        border-bottom: 1px solid #ddd;
+      }
+
+      .cart-table td {
+        padding: 20px 15px;
+        text-align: center;
+        vertical-align: middle;
+        border-bottom: 1px solid #eee;
+      }
+
+      .cart-item-image {
+        width: 120px;
+        height: 120px;
+        margin: 0 auto;
+      }
+
+      .cart-item-image img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+      }
+
+      .quantity-control {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .quantity-btn {
+        width: 25px;
+        height: 25px;
+        border: 1px solid #ddd;
+        background: white;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .quantity-input {
+        width: 50px;
+        text-align: center;
+        border: 1px solid #ddd;
+        padding: 5px;
+      }
+
+      .cart-summary {
+        margin-top: 30px;
+        text-align: right;
+      }
+
+      .total-items {
+        margin-bottom: 10px;
+        color: #666;
+      }
+
+      .total-price {
+        font-size: 1.2em;
+        margin-bottom: 20px;
+      }
+
+      .checkout-btn {
+        display: inline-block;
+        padding: 10px 30px;
+        background-color: #f0ebe5;
+        color: black;
+        text-decoration: none;
+        border: none;
+        cursor: pointer;
+      }
+
+      .checkout-btn:hover {
+        background-color: #e5dfd9;
+      }
+
+      /* 加購商品區域樣式 */
+      .addon-items {
+        padding: 20px;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        margin-left: 40px;
+      }
+
+      .addon-item {
+        margin-bottom: 30px;
+        text-align: center;
+      }
+
+      .addon-item img {
+        width: 100%;
+        max-width: 200px;
+        height: auto;
+        margin-bottom: 10px;
+      }
+
+      .addon-item h4 {
+        font-size: 14px;
+        margin: 10px 0;
+      }
+
+      .addon-price {
+        color: #e44d26;
+        font-weight: bold;
+        margin: 5px 0;
+      }
+
+      .add-to-cart-btn {
+        padding: 8px 15px;
+        background: #f0ebe5;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background 0.3s;
+      }
+
+      .add-to-cart-btn:hover {
+        background: #e5dfd9;
+      }
+
+      .add-to-cart-btn.added {
+        background: #ccc;
+        cursor: default;
+      }
+
+      /* 優惠碼區域樣式 */
+      .coupon-section {
+        margin-top: 20px;
+        text-align: right;
+        padding: 20px 0;
+        border-top: 1px solid #eee;
+      }
+
+      .coupon-input {
+        padding: 8px 15px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        margin-right: 10px;
+        width: 200px;
+      }
+
+      .apply-coupon-btn {
+        padding: 8px 20px;
+        background: #f0ebe5;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      .apply-coupon-btn:hover {
+        background: #e5dfd9;
+      }
+
+      .discount-amount {
+        color: #e44d26;
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 置頂的促銷訊息 -->
+    <div class="top-banner">
+      每週五六日🔥新人代理寄賣免運
+      <font color="red">25 日 23 時 14 分 35 秒</font>
+      <div style="display: inline-block; background-color: black; color: white">
+        Ispian love you
+      </div>
+    </div>
+
+    <!-- LOGO -->
+    <div class="nav-logo-row">
+      <img src="./pikababy.png" alt="PikaBaby" class="nav-logo" />
+    </div>
+
+     <!-- 導覽列 -->
+     <!-- 導覽列 -->
+     <nav>
+       <div class="nav-container">
+         <div class="nav-links">
+           <a href="#">首頁</a>
+           <div class="dropdown">
+             <a href="#">年齡區間(0-3M)</a>
+             <div class="dropdown-content">
+               <a href="#">奶瓶/奶嘴</a>
+               <a href="#">圍兜/揹巾</a>
+               <a href="#">嬰兒服裝</a>
+               <a href="#">清潔用品</a>
+               <a href="#">嬰兒推車</a>
+               <a href="#">嬰兒床</a>
+               <a href="#">哺乳用品</a>
+               <a href="#">嬰兒用品</a>
+             </div>
+           </div>
+           <div class="dropdown">
+             <a href="#">年齡區間(3-6M)</a>
+             <div class="dropdown-content">
+               <a href="#">嬰兒服裝</a>
+               <a href="#">玩具</a>
+               <a href="#">嬰兒推車</a>
+               <a href="#">嬰兒床</a>
+               <a href="#">汽座</a>
+               <a href="#">嬰兒用品</a>
+             </div>
+           </div>
+           <div class="dropdown">
+             <a href="#">年齡區間(6-12M)</a>
+             <div class="dropdown-content">
+               <a href="#">學步用品</a>
+               <a href="#">餐具用品</a>
+               <a href="#">幼兒服裝</a>
+               <a href="#">玩具</a>
+               <a href="#">嬰兒推車</a>
+               <a href="#">汽座</a>
+               <a href="#">嬰兒用品</a>
+             </div>
+           </div>
+           <div class="dropdown">
+             <a href="#">年齡區間(2-3y)</a>
+             <div class="dropdown-content">
+               <a href="#">幼教用品</a>
+               <a href="#">兒童服裝</a>
+               <a href="#">玩具</a>
+               <a href="#">汽座</a>
+               <a href="#">兒童推車</a>
+               <a href="#">餐椅</a>
+               <a href="#">電器用品</a>
+               <a href="#">嬰兒用品</a>
+             </div>
+           </div>
+           <a href="#">二手專區</a>
+           <a href="#">關於我們</a>
+         </div>
+         <div class="user-actions">
+           <a href="#">🛒</a>
+           <a href="#">👤</a>
+         </div>
+       </div>
+     </nav>
+
+    <!-- 主要內容 -->
+    <main style="margin-top: 220px; background: #fff; padding: 20px 0">
+      <div class="cart-container">
+        <div style="display: flex; gap: 20px;">
+          <!-- 左側購物車 -->
+          <div style="flex: 7;">
+            <table class="cart-table">
+              <thead>
+                <tr>
+                  <th width="5%">
+                    <input type="checkbox" id="selectAll" onchange="toggleAll(this)" checked />
+                  </th>
+                  <th width="45%">商品名稱</th>
+                  <th width="15%">商品價格</th>
+                  <th width="15%">商品數量</th>
+                  <th width="20%">數量操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <input type="checkbox" class="item-checkbox" onchange="updateTotal()" checked />
+                  </td>
+                  <td>
+                    <div class="cart-item-image">
+                      <img src="./images/car1.jpg" alt="NUNA TODL next" />
+                    </div>
+                    <div>德國 NUNA TODL next 兒童安全座椅</div>
+                    <div style="color: #666; margin-top: 5px">全配版</div>
+                  </td>
+                  <td>16000元</td>
+                  <td class="item-quantity">1</td>
+                  <td>
+                    <div class="quantity-control">
+                      <button class="quantity-btn" onclick="updateQuantity(this, -1)">-</button>
+                      <input type="text" class="quantity-input" value="1" onchange="updateTotal()" />
+                      <button class="quantity-btn" onclick="updateQuantity(this, 1)">+</button>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" class="item-checkbox" onchange="updateTotal()" checked />
+                  </td>
+                  <td>
+                    <div class="cart-item-image">
+                      <img src="./images/car2.jpg" alt="SafetyBaby" />
+                    </div>
+                    <div>德國 SafetyBaby 汽座0-12歲</div>
+                    <div style="color: #666; margin-top: 5px">isofix</div>
+                  </td>
+                  <td>13800元</td>
+                  <td class="item-quantity">1</td>
+                  <td>
+                    <div class="quantity-control">
+                      <button class="quantity-btn" onclick="updateQuantity(this, -1)">-</button>
+                      <input type="text" class="quantity-input" value="1" onchange="updateTotal()" />
+                      <button class="quantity-btn" onclick="updateQuantity(this, 1)">+</button>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="checkbox" class="item-checkbox" onchange="updateTotal()" checked />
+                  </td>
+                  <td>
+                    <div class="cart-item-image">
+                      <img src="./images/car3.jpg" alt="Chicco Bravo" />
+                    </div>
+                    <div>Chicco Bravo輕致完美手推車</div>
+                    <div style="color: #666; margin-top: 5px">定版尊爵版</div>
+                  </td>
+                  <td>16500元</td>
+                  <td class="item-quantity">1</td>
+                  <td>
+                    <div class="quantity-control">
+                      <button class="quantity-btn" onclick="updateQuantity(this, -1)">-</button>
+                      <input type="text" class="quantity-input" value="1" onchange="updateTotal()" />
+                      <button class="quantity-btn" onclick="updateQuantity(this, 1)">+</button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="cart-summary">
+              <div class="total-items">共 <span id="totalItems">3</span> 項商品，運費 0元</div>
+              <div class="coupon-section">
+                <input type="text" class="coupon-input" placeholder="請輸入優惠碼" id="couponInput">
+                <button class="apply-coupon-btn" onclick="applyCoupon()">使用優惠碼</button>
+                <div class="discount-amount" id="discountAmount"></div>
+              </div>
+              <div class="total-price">總金額 <span id="totalAmount">46300</span> 元</div>
+              <button class="checkout-btn">我要結帳</button>
+            </div>
+          </div>
+
+          <!-- 右側加購商品 -->
+          <div style="flex: 3;">
+            <h3 style="margin-bottom: 20px;">加購商品</h3>
+            <div class="addon-items">
+              <div class="addon-item">
+                <img src="./images/add1.jpg" alt="奶瓶奶嘴推薦組" />
+                <h4>奶瓶奶嘴推薦組</h4>
+                <p class="addon-price">加購價：340元</p>
+                <button class="add-to-cart-btn" onclick="addAddonToCart(this, '奶瓶奶嘴推薦組', 340)">加入購物車</button>
+              </div>
+              <div class="addon-item">
+                <img src="./images/add2.png" alt="Ching Ching小瓢蟲魔豆桌組合椅" />
+                <h4>Ching Ching 小貓頭鷹兒童組合椅</h4>
+                <p class="addon-price">加購價：350元</p>
+                <button class="add-to-cart-btn" onclick="addAddonToCart(this, 'Ching Ching小瓢蟲魔豆桌組合椅', 350)">加入購物車</button>
+              </div>
+              <div class="addon-item">
+                <img src="./images/add3.jpg" alt="Nuby 卡拉雙耳彈跳吸管杯" />
+                <h4>Nuby 卡拉雙耳彈跳吸管杯</h4>
+                <p class="addon-price">加購價：300元</p>
+                <button class="add-to-cart-btn" onclick="addAddonToCart(this, 'Nuby 卡拉雙耳彈跳吸管杯', 300)">加入購物車</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- 頁尾 -->
+    <footer>
+      <div class="footer-container">
+        <img src="./pikababy.png" alt="PikaBaby" class="footer-logo" />
+        <div class="footer-section">
+          <p class="footer-title">PikaBaby</p>
+          <div class="footer-line"></div>
+          <p>服務我們</p>
+          <p>品牌特色</p>
+        </div>
+        <div class="footer-section">
+          <h3>品牌服務</h3>
+          <div class="footer-line"></div>
+          <p>Baby Store</p>
+          <p>二手商城</p>
+        </div>
+        <div class="footer-section">
+          <h3>聯絡我們</h3>
+          <div class="footer-line"></div>
+          <p>聯絡電話：(04) 2326-5860</p>
+          <p>聯絡地址：台中市南屯區公益路二段51號18樓</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- 奶瓶 -->
+    <div class="floating-bottle"></div>
+
+    <!-- 添加 JavaScript -->
+    <script>
+      // 移動奶瓶
+      document.addEventListener("scroll", function () {
+        const bottle = document.querySelector(".floating-bottle");
+        const scrollY = window.scrollY;
+        const viewportHeight = window.innerHeight;
+        const docHeight = document.documentElement.scrollHeight;
+        const bottleHeight = bottle.offsetHeight;
+
+        const maxScrollY = docHeight - viewportHeight;
+        if (maxScrollY <= 0) {
+          bottle.style.top = "0px";
+          return;
+        }
+
+        const scrollRatio = scrollY / maxScrollY;
+        const maxScreenY = viewportHeight - bottleHeight;
+        const bottleScreenY = scrollRatio * maxScreenY;
+        bottle.style.top = bottleScreenY + "px";
+      });
+
+      // 購物車功能
+      function toggleAll(checkbox) {
+        const items = document.querySelectorAll('.item-checkbox');
+        items.forEach(item => item.checked = checkbox.checked);
+        updateTotal();
+      }
+
+      function updateQuantity(btn, delta) {
+        const row = btn.closest('tr');
+        const input = row.querySelector('.quantity-input');
+        const quantityDisplay = row.querySelector('.item-quantity');
+        let value = parseInt(input.value) + delta;
+        if (value < 1) value = 1;
+        input.value = value;
+        quantityDisplay.textContent = value;
+        updateTotal();
+      }
+
+      function updateTotal() {
+        const rows = document.querySelectorAll('.cart-table tbody tr');
+        let totalItems = 0;
+        let totalAmount = 0;
+        
+        rows.forEach(row => {
+          const checkbox = row.querySelector('.item-checkbox');
+          if (checkbox.checked) {
+            const quantity = parseInt(row.querySelector('.quantity-input').value);
+            const price = parseInt(row.querySelector('td:nth-child(3)').textContent.replace(/[^0-9]/g, ''));
+            totalItems += quantity;
+            totalAmount += price * quantity;
+          }
+        });
+
+        // 加入加購商品金額
+        const addedAddons = document.querySelectorAll('.add-to-cart-btn.added');
+        addedAddons.forEach(btn => {
+          const price = parseInt(btn.getAttribute('data-price'));
+          totalAmount += price;
+          totalItems += 1;
+        });
+
+        document.getElementById('totalItems').textContent = totalItems;
+        document.getElementById('totalAmount').textContent = totalAmount;
+      }
+
+      function addAddonToCart(btn, name, price) {
+        if (btn.classList.contains('added')) {
+          return;
+        }
+        
+        btn.classList.add('added');
+        btn.setAttribute('data-price', price);
+        btn.textContent = '已加入購物車';
+        updateTotal();
+      }
+
+      // 初始化總金額
+      document.addEventListener('DOMContentLoaded', function() {
+        updateTotal();
+      });
+
+      function applyCoupon() {
+        const couponInput = document.getElementById('couponInput');
+        const discountAmount = document.getElementById('discountAmount');
+        const totalAmountElement = document.getElementById('totalAmount');
+        
+        // 這裡可以添加實際的優惠碼邏輯
+        // 目前為演示，假設優惠碼 "WELCOME10" 可以折扣 10%
+        if (couponInput.value.toUpperCase() === 'WELCOME10') {
+          const currentTotal = parseInt(totalAmountElement.textContent);
+          const discount = Math.floor(currentTotal * 0.1);
+          const newTotal = currentTotal - discount;
+          
+          discountAmount.textContent = `已套用優惠碼：折扣 ${discount} 元`;
+          totalAmountElement.textContent = newTotal;
+          couponInput.disabled = true;
+        } else {
+          discountAmount.textContent = '無效的優惠碼';
+        }
+      }
+    </script>
+  </body>
+</html>

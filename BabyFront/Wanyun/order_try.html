@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>託售紀錄區塊</title>
+  <style>
+    body {
+      background-color:  white;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .order-card {
+      background-color: #FFF2DD;
+      border-radius: 16px;
+      padding: 2rem;
+      width: 90%;
+      max-width: 800px;
+      margin: 3rem auto;
+    }
+
+    .order-card h2 {
+      font-size: 24px;
+      margin-bottom: 0.5rem;
+    }
+
+    .order-card p.description {
+      color: #888;
+      font-size: 14px;
+      margin-bottom: 2rem;
+    }
+
+    .order-header {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 1rem;
+      font-weight: 600;
+      font-size: 15px;
+    }
+
+    .progress-bar {
+      height: 6px;
+      background-color:  #ccc;
+      border-radius: 3px;
+      margin-top: 1rem;
+    }
+
+    .pagination {
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    .pagination .page-number {
+      background-color: #f8dd57;
+      color: #ffffff;
+      display: inline-block;
+      width: 36px;
+      height: 30px;
+      line-height: 36px;
+      border-radius: 40%;
+      font-size: 16px;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+<div class="order-card">
+  <h2>託售紀錄</h2>
+  <p class="description">託售提交後，請等待審核完成並確認價格後，再進行後續處理</p>
+
+  <div class="order-header">
+    <div>商品名稱</div>
+    <div>商品數量</div>
+    <div>申請日期</div>
+    <div>審核狀態</div>
+    <div>預估價格</div>
+  </div>
+
+  <div class="progress-bar"></div>
+
+  <div class="pagination">
+    <span class="page-number">1</span>
+  </div>
+</div>
+
+</body>
+</html>

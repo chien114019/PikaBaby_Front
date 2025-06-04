@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PikaBaby</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      /* 促銷訊息 */
+      .top-banner {
+        background-color: #f0ebe5;
+        padding: 5px 0;
+        text-align: center;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 1001;
+      }
+
+      .nav-logo-row {
+        width: 100%;
+        padding: 30px 0 20px 0;
+        background: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        top: 30px;
+        z-index: 1000;
+      }
+
+      .nav-logo {
+        width: 100px;
+        height: auto;
+      }
+
+      nav {
+        background-color: white;
+        padding: 15px 0;
+        position: fixed;
+        width: 100%;
+        top: 150px; /* 固定在LOGO下方 */
+        z-index: 1000;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      nav .nav-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0 20px;
+        position: relative;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 60px;
+        justify-content: center;
+        margin-right: 100px;
+      }
+
+      .nav-links a {
+        text-decoration: none;
+        color: #000;
+        font-size: 16px;
+        font-weight: 500;
+      }
+
+      .nav-links a:hover {
+        color: #666;
+      }
+
+      /* 使用者區塊 */
+      .user-actions {
+        position: absolute;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        display: flex;
+        gap: 20px;
+        font-size: 20px;
+      }
+      /* 下拉選單 */
+      .dropdown {
+        position: relative;
+        display: inline-block;
+      }
+      /* 下拉選單內容 */
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: white;
+        min-width: 180px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        z-index: 1;
+        border-radius: 4px;
+        padding: 8px 0;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      .dropdown:hover .dropdown-content {
+        display: block;
+      }
+      /* 下拉選單的選項連結樣式 */
+      .dropdown-content a {
+        padding: 8px 16px;
+        display: block;
+        text-align: center;
+        font-size: 14px;
+      }
+
+      .dropdown-content a:hover {
+        background-color: #f5f5f5;
+      }
+
+      body {
+        min-height: 200vh; /*模擬長度，讓頁面能滾動*/
+        display: flex;
+        flex-direction: column;
+        position: relative;
+      }
+
+      /* Footer */
+      footer {
+        background-color: #f0ebe5;
+        padding: 30px 0;
+        width: 100%;
+        position: relative;
+        margin-top: auto;
+      }
+
+      .footer-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        align-items: flex-start;
+        padding: 0 20px;
+      }
+
+      .footer-logo {
+        width: 100px;
+        margin-right: 40px;
+        align-self: flex-start;
+      }
+
+      .footer-section {
+        flex: 1;
+        padding: 0 30px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .footer-title,
+      .footer-section h3 {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        text-align: center;
+      }
+
+      .footer-line {
+        height: 2px;
+        background: #222;
+        width: 60%;
+        min-width: 80px;
+        max-width: 180px;
+        margin: 0 auto 16px auto;
+      }
+
+      .footer-section:first-child {
+        align-items: flex-start;
+        padding-left: 0;
+      }
+
+      .footer-section:first-child .footer-title,
+      .footer-section:first-child .footer-line {
+        text-align: left;
+        margin-left: 0;
+        margin-right: auto;
+      }
+
+      .footer-section:last-child {
+        flex: 1.5;
+      }
+
+      /* 奶瓶 */
+      .floating-bottle {
+        position: fixed;
+        right: 10px;
+        width: 60px;
+        height: 60px;
+        background-image: url("./images/bottle.png");
+        background-size: contain;
+        background-repeat: no-repeat;
+        z-index: 1002; /* 設比 top-banner(1001) / nav(1000) 還高，保證永遠在最上層 */
+        top: 0;
+        transition: top 0.1s ease-out;
+        cursor: pointer;
+      }
+      .floating-bottle:hover {
+        transform: scale(1.1);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 置頂的促銷訊息 -->
+    <div class="top-banner">
+      每週五六日🔥新人代理寄賣免運
+      <font color="red">25 日 23 時 14 分 35 秒</font>
+      <div style="display: inline-block; background-color: black; color: white">
+        Ispian love you
+      </div>
+    </div>
+
+    <!-- LOGO -->
+    <div class="nav-logo-row">
+      <img src="./images/logo-pikababy.png" alt="PikaBaby" class="nav-logo" />
+    </div>
+
+    <!-- 導覽列 -->
+    <nav>
+      <div class="nav-container">
+        <div class="nav-links">
+          <a href="#">首頁</a>
+          <div class="dropdown">
+            <a href="#">年齡區間(0-3M)</a>
+            <div class="dropdown-content">
+              <a href="#">奶瓶/奶嘴</a>
+              <a href="#">圍兜/揹巾</a>
+              <a href="#">嬰兒服裝</a>
+              <a href="#">清潔用品</a>
+              <a href="#">嬰兒推車</a>
+              <a href="#">嬰兒床</a>
+              <a href="#">哺乳用品</a>
+              <a href="#">嬰兒用品</a>
+            </div>
+          </div>
+          <div class="dropdown">
+            <a href="#">年齡區間(3-6M)</a>
+            <div class="dropdown-content">
+              <a href="#">嬰兒服裝</a>
+              <a href="#">玩具</a>
+              <a href="#">嬰兒推車</a>
+              <a href="#">嬰兒床</a>
+              <a href="#">汽座</a>
+              <a href="#">嬰兒用品</a>
+            </div>
+          </div>
+          <div class="dropdown">
+            <a href="#">年齡區間(6-12M)</a>
+            <div class="dropdown-content">
+              <a href="#">學步用品</a>
+              <a href="#">餐具用品</a>
+              <a href="#">幼兒服裝</a>
+              <a href="#">玩具</a>
+              <a href="#">嬰兒推車</a>
+              <a href="#">汽座</a>
+              <a href="#">嬰兒用品</a>
+            </div>
+          </div>
+          <div class="dropdown">
+            <a href="#">年齡區間(2-3y)</a>
+            <div class="dropdown-content">
+              <a href="#">幼教用品</a>
+              <a href="#">兒童服裝</a>
+              <a href="#">玩具</a>
+              <a href="#">汽座</a>
+              <a href="#">兒童推車</a>
+              <a href="#">餐椅</a>
+              <a href="#">電器用品</a>
+              <a href="#">嬰兒用品</a>
+            </div>
+          </div>
+          <a href="#">二手專區</a>
+          <a href="#">關於我們</a>
+        </div>
+        <div class="user-actions">
+          <a href="#">🛒</a>
+          <a href="#">👤</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- 主要內容（測試滾動） -->
+    <!-- <main>
+      <div style=""; background: #fafafa; padding: 20px">
+        <h1>這裡是主要內容區</h1>
+      </div>
+    </main> -->
+
+    <!-- 頁尾 -->
+    <footer>
+      <div class="footer-container">
+        <img src="./images/logo-pikababy.png" alt="PikaBaby" class="footer-logo" />
+        <div class="footer-section">
+          <p class="footer-title">PikaBaby</p>
+          <div class="footer-line"></div>
+          <p>服務我們</p>
+          <p>品牌特色</p>
+        </div>
+        <div class="footer-section">
+          <h3>品牌服務</h3>
+          <div class="footer-line"></div>
+          <p>Baby Store</p>
+          <p>二手商城</p>
+        </div>
+        <div class="footer-section">
+          <h3>聯絡我們</h3>
+          <div class="footer-line"></div>
+          <p>聯絡電話：(04) 2326-5860</p>
+          <p>聯絡地址：台中市南屯區公益路二段51號18樓</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- 奶瓶 -->
+    <div class="floating-bottle"></div>
+    <script>
+      // 移動奶瓶，這一段js都是ChatGPT，可以移動但待修
+      document.addEventListener("scroll", function () {
+        const bottle = document.querySelector(".floating-bottle");
+        const scrollY = window.scrollY; // 目前已經捲動的距離
+        const viewportHeight = window.innerHeight; // 視窗高度
+        const docHeight = document.documentElement.scrollHeight; // 文件總高度
+        const bottleHeight = bottle.offsetHeight; // 奶瓶實際高度 (60px)
+
+        // 1) 算出「最大可捲動距離」(從最頂到最底，scrollY 可到的最大值)
+        const maxScrollY = docHeight - viewportHeight;
+        if (maxScrollY <= 0) {
+          // 如果文件高度不夠，就讓奶瓶直接出現在視窗最上（top=0）
+          bottle.style.top = "0px";
+          return;
+        }
+
+        // 2) 算「捲動比例」(0 ~ 1)
+        const scrollRatio = scrollY / maxScrollY;
+        //    → scrollY=0 時為 0；scrollY=maxScrollY 時為 1
+
+        // 3) 要讓奶瓶在視窗內「從最上方(0px)」移動到「最下方(viewportHeight－bottleHeight)」
+        const maxScreenY = viewportHeight - bottleHeight;
+        const bottleScreenY = scrollRatio * maxScreenY;
+        //    → 當 scrollRatio=0 時 bottleScreenY = 0
+        //    → 當 scrollRatio=1 時 bottleScreenY = viewportHeight - bottleHeight
+
+        // 4) 由於 .floating-bottle 用的是 position: fixed，
+        //    只要把它的 top 設成 bottleScreenY，就能確保
+        //    － scrollY=0 → top=0 → 擺在視窗最上方
+        //    － scrollY=maxScrollY → top=viewportHeight-bottleHeight → 擺在視窗最下方
+        bottle.style.top = bottleScreenY + "px";
+      });
+    </script>
+  </body>
+</html>

@@ -136,6 +136,77 @@
                 </ul>
             </div>
 
+            <!-- Edit Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true" data-bs-backdrop="static">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">匯款登錄</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <h3 class="modal-title fs-5 mb-3" id="exampleModalLabel">申請資料</h3>
+                            <form class="border p-4"> <!-- value 填入該筆資料內容 -->
+                                <div class="d-flex justify-content-start gap-3">
+                                    <div class="mb-3">
+                                        <label for="recipient-name" class="col-form-label">申請人姓名：</label>
+                                        <input type="text" class="form-control" id="recipient-name" value="王小寶"
+                                            readonly>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="recipient-name" class="col-form-label">申請人電話：</label>
+                                        <input type="text" class="form-control" id="recipient-name" value="0988-999777"
+                                            readonly>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-start gap-3">
+                                    <div class="mb-3">
+                                        <label for="recipient-name" class="col-form-label">申請日期：</label>
+                                        <input type="text" class="form-control" id="recipient-name" value="2025-06-01"
+                                            readonly>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="recipient-name" class="col-form-label">申請總金額：</label>
+                                        <input type="text" class="form-control" id="recipient-name" value="5000"
+                                            readonly>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-start gap-3">
+                                    <div class="mb-3 w-25">
+                                        <label for="recipient-name" class="col-form-label">提款銀行：</label>
+                                        <input type="text" class="form-control" id="recipient-name" value="700"
+                                            readonly>
+                                    </div>
+                                    <div class="mb-3 w-75">
+                                        <label for="recipient-name" class="col-form-label">提款帳戶：</label>
+                                        <input type="text" class="form-control" id="recipient-name"
+                                            value="1245987495364862" readonly>
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="d-flex justify-content-start gap-3 my-3">
+                                <div class="mb-3 w-50">
+                                    <label for="message-text" class="col-form-label">匯款狀態:</label>
+                                    <select class="form-select" aria-label="Default select example">
+                                        <option value="1" selected>未匯款</option> <!-- 預設 -->
+                                        <option value="2">已匯款</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3 w-50">
+                                    <label for="recipient-name" class="col-form-label">匯款日期：</label>
+                                    <input type="date" class="form-control"> <!-- 預設當天日期 -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-success" data-bs-dismiss="modal" id="saveBtn">儲存</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Main content -->
 
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 offset-md-3">
@@ -231,7 +302,12 @@
                                     <td>1245987495364862</td>
                                     <td>已匯款</td>
                                     <td>2025-06-03</td>
-                                    <td><a href="#" class="btn btn-sm btn-outline-primary">登錄</a></td>
+                                    <td>
+                                        <button type="button" class="btn btn-sm btn-outline-success"
+                                            data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                            登錄
+                                        </button>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>2</td>
@@ -242,7 +318,13 @@
                                     <td>500</td>
                                     <td>4578394851786948</td>
                                     <td>未匯款</td>
-                                    <td><a href="#" class="btn btn-sm btn-outline-primary">登錄</a></td>
+                                    <td></td>
+                                    <td>
+                                        <button type="button" class="btn btn-sm btn-outline-success"
+                                            data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                            登錄
+                                        </button>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>3</td>
@@ -254,7 +336,12 @@
                                     <td>5493554823845235</td>
                                     <td>已匯款</td>
                                     <td>2025-06-03</td>
-                                    <td><a href="#" class="btn btn-sm btn-outline-primary">登錄</a></td>
+                                    <td>
+                                        <button type="button" class="btn btn-sm btn-outline-success"
+                                            data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                            登錄
+                                        </button>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>4</td>
@@ -266,7 +353,12 @@
                                     <td>9876548541256921</td>
                                     <td>已匯款</td>
                                     <td>2025-06-03</td>
-                                    <td><a href="#" class="btn btn-sm btn-outline-primary">登錄</a></td>
+                                    <td>
+                                        <button type="button" class="btn btn-sm btn-outline-success"
+                                            data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                            登錄
+                                        </button>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>5</td>
@@ -278,7 +370,12 @@
                                     <td>1245987495364862</td>
                                     <td>已匯款</td>
                                     <td>2025-05-12</td>
-                                    <td><a href="#" class="btn btn-sm btn-outline-primary">登錄</a></td>
+                                    <td>
+                                        <button type="button" class="btn btn-sm btn-outline-success"
+                                            data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                            登錄
+                                        </button>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>6</td>
@@ -290,7 +387,12 @@
                                     <td>4578394851786948</td>
                                     <td>已匯款</td>
                                     <td>2025-05-12</td>
-                                    <td><a href="#" class="btn btn-sm btn-outline-primary">登錄</a></td>
+                                    <td>
+                                        <button type="button" class="btn btn-sm btn-outline-success"
+                                            data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                            登錄
+                                        </button>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>7</td>
@@ -302,7 +404,12 @@
                                     <td>5493554823845235</td>
                                     <td>已匯款</td>
                                     <td>2025-03-25</td>
-                                    <td><a href="#" class="btn btn-sm btn-outline-primary">登錄</a></td>
+                                    <td>
+                                        <button type="button" class="btn btn-sm btn-outline-success"
+                                            data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                            登錄
+                                        </button>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>8</td>
@@ -314,7 +421,12 @@
                                     <td>9876548541256921</td>
                                     <td>已匯款</td>
                                     <td>2025-03-25</td>
-                                    <td><a href="#" class="btn btn-sm btn-outline-primary">登錄</a></td>
+                                    <td>
+                                        <button type="button" class="btn btn-sm btn-outline-success"
+                                            data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                            登錄
+                                        </button>
+                                    </td>
                                 </tr>
 
                             </tbody>
@@ -339,6 +451,13 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <script>
+        $("#saveBtn").on("click", function(e) {
+            alert("儲存完畢");
+        })
+    </script>
 </body>
 
 </html>

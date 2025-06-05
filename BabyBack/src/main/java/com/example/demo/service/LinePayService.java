@@ -38,7 +38,9 @@ public class LinePayService {
 		template = new RestTemplate();
 	}
 
-	public Response RequestService(CheckoutPaymentRequestForm form) throws Exception {
+	public ResponseEntity<Response> RequestService(CheckoutPaymentRequestForm form) throws Exception {
+		System.out.println("RequestService()");
+		
 		this.form = form;
 		
 		String requestUri = "/v3/payments/request";
@@ -54,11 +56,13 @@ public class LinePayService {
 		
 //		System.out.println(responseEntity.getBody().getReturnCode());
 		
-		return responseEntity.getBody();
+		return responseEntity;
 		
 	}
 	
 	public Response ConfirmService(String transactionId, String orderId) throws Exception {
+		System.out.println("ConfirmService");
+		
         ConfirmData confirmData = new ConfirmData();
         confirmData.setAmount(form.getAmount());
         confirmData.setCurrency("TWD");

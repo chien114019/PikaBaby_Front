@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Payment</title>
+		<style type="text/css">
+			table {
+				border-collapse: collapse;
+				width: 50%				
+			}
+			th, td {
+				border: 1px solid black;
+				text-align: center;
+			}
+		</style>
+	</head>
+	<body>
+		<h1 id="shopName">PikaBaby</h1>
+		<h3 id="paySuccess" style="display: none;">付款成功</h3>
+		<h3 id="payFail" style="display: none;">付款失敗</h3>
+		<hr/>
+		<h3>Products</h3>
+		<table>
+			<thead>
+				<tr>
+					<th>ProductID</th>
+					<th>ProductName</th>
+					<th>Price</th>
+					<th>Quantity</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td id="pid">P1</td>
+					<td id="pname">嬰兒座椅</td>
+					<td id="price">1500</td>
+					<td>
+						<input type="number" min="0" id="qty" value="0">
+					</td>
+				</tr>
+<!-- 				<tr>
+					<td>P2</td>
+					<td>嬰兒座椅</td>
+					<td>1500</td>
+					<td>
+						<input type="number" id="qty1">
+					</td>
+				</tr>
+				<tr>
+					<td>P3</td>
+					<td>嬰兒座椅</td>
+					<td>1500</td>
+					<td>
+						<input type="number" id="qty1">
+					</td>
+				</tr>	 -->
+			</tbody>
+		</table>
+		<br/>
+		<button id="pay" onclick="pay()">結帳</button>
+	</body>
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+	<script type="text/javascript">
+		window.onload = function() {
+			$.ajax({
+				url: "http://localhost:8080/linepay/checkStatus",
+				success: function(data) {
+					console.log(data.returnCode);
+					if(data.returnCode == "1") {
+						$("#paySuccess").css("display", "inline-block");
+					}
+					else if(data.returnCode == "-1") {
+						$("#paySuccess").css("display", "inline-block");						
+					}
+				}
+			})
+		}
+	
+		function pay() {
+			let shopName = $("#shopName").text();
+			let pid = $("#pid").text();
+			let pname = $("#pname").text();
+			let price = $("#price").text();
+			let qty = $("#qty").prop("value");
+			let amount = price * qty;
+			let orderId = Math.ceil(Math.random() * 10000);
+						
+			console.log("shopName: " + shopName + "\n"
+					+ "pid: " + pid + "\n"
+					+ "pname: " + pname + "\n"
+					+ "price: " + price + "\n"
+					+ "qty: " + qty + "\n"
+					+ "amount: " + amount + "\n"
+					+ "orderId: " + orderId + "\n"
+					);
+			
+			let postData = {
+					"amount":amount,
+					"currency":"TWD",
+					"orderId": orderId,
+					"redirectUrls":{
+						"confirmUrl":"http://localhost:8080/linepay/confirm",
+						"cancelUrl":""
+					},
+					"packages":[
+						{
+							"id": 123456,
+							"name": shopName,
+							"amount": amount,
+							"products":[
+								{
+									"id": pid,
+									"name": pname,
+									"imageUrl":"",
+									"quantity": qty,
+									"price": price
+								}
+							]
+						}
+					]
+				}
+			
+			$.ajax({
+				method: "post",
+				url: "http://localhost:8080/linepay/request",
+				contentType : 'application/json; charset=utf-8', // 要送到server的資料型態
+				data: JSON.stringify(postData),
+				success: function(data) {
+					console.log("Success: ");
+					console.log(data);
+					let webUrl = data.info.paymentUrl.web;
+					console.log(webUrl);
+					window.location.href = data.info.paymentUrl.web;
+				}
+			})
+			
+		}
+	</script>
+</html>

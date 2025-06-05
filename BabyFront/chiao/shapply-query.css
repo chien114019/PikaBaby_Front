@@ -78,7 +78,7 @@
  /* .accordion-button 在"被展開時（非 collapsed 狀態）"有藍色框框 */
  /* :not(.collapsed) 代表"展開中" */
  .accordion-button:not(.collapsed) {
-     background-color: #6c757d;
+     background-color: #6d767e;
      /* 背景一樣深灰底 */
      color: white;
      box-shadow: none;
@@ -108,4 +108,10 @@ main h4{
 
 .modal-header, .modal-footer {
     background-color: #f3d0a7;
+}
+
+.modal img {
+    position: relative;
+    width: 30%;
+    border: 1px solid #cad1d7;
 }

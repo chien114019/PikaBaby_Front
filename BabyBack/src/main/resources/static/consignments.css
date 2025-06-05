@@ -109,3 +109,9 @@ main h4{
 .modal-header, .modal-footer {
     background-color: #f3d0a7;
 }
+
+.modal img {
+    position: relative;
+    width: 30%;
+    border: 1px solid #cad1d7;
+}

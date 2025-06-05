@@ -136,17 +136,50 @@
                 </ul>
             </div>
 
-            <!-- Edit Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+            <!-- onepress Modal -->
+            <div class="modal fade" id="onepressModal" tabindex="-1" aria-labelledby="onepressModalLabel"
                 aria-hidden="true" data-bs-backdrop="static">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="exampleModalLabel">匯款登錄</h1>
+                            <h1 class="modal-title fs-5" id="onepressModalLabel">一鍵登錄</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <h3 class="modal-title fs-5 mb-3" id="exampleModalLabel">申請資料</h3>
+                            <div class="d-flex justify-content-start gap-3 my-3">
+                                <div class="mb-3 w-50">
+                                    <label for="message-text" class="col-form-label">匯款狀態:</label>
+                                    <select class="form-select" aria-label="Default select example" readonly>
+                                        <option value="1">未匯款</option> <!-- 預設 -->
+                                        <option value="2" selected>已匯款</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3 w-50">
+                                    <label for="recipient-name" class="col-form-label">匯款日期：</label>
+                                    <input type="date" class="form-control" id="transfer-date"> <!-- 預設當天日期 -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-success" data-bs-dismiss="modal"
+                                id="saveBtn">儲存</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Edit Modal -->
+            <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel"
+                aria-hidden="true" data-bs-backdrop="static">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="editModalLabel">匯款登錄</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <h3 class="modal-title fs-5 mb-3" id="editModalLabel">申請資料</h3>
                             <form class="border p-4"> <!-- value 填入該筆資料內容 -->
                                 <div class="d-flex justify-content-start gap-3">
                                     <div class="mb-3">
@@ -155,53 +188,54 @@
                                             readonly>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="recipient-name" class="col-form-label">申請人電話：</label>
-                                        <input type="text" class="form-control" id="recipient-name" value="0988-999777"
+                                        <label for="recipient-phone" class="col-form-label">申請人電話：</label>
+                                        <input type="text" class="form-control" id="recipient-phone" value="0988-999777"
                                             readonly>
                                     </div>
                                 </div>
                                 <div class="d-flex justify-content-start gap-3">
                                     <div class="mb-3">
-                                        <label for="recipient-name" class="col-form-label">申請日期：</label>
-                                        <input type="text" class="form-control" id="recipient-name" value="2025-06-01"
+                                        <label for="apply-date" class="col-form-label">申請日期：</label>
+                                        <input type="text" class="form-control" id="apply-date" value="2025-06-01"
                                             readonly>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="recipient-name" class="col-form-label">申請總金額：</label>
-                                        <input type="text" class="form-control" id="recipient-name" value="5000"
+                                        <label for="apply-total" class="col-form-label">申請總金額：</label>
+                                        <input type="text" class="form-control" id="apply-total" value="5000"
                                             readonly>
                                     </div>
                                 </div>
                                 <div class="d-flex justify-content-start gap-3">
                                     <div class="mb-3 w-25">
-                                        <label for="recipient-name" class="col-form-label">提款銀行：</label>
-                                        <input type="text" class="form-control" id="recipient-name" value="700"
+                                        <label for="apply-bank" class="col-form-label">提款銀行：</label>
+                                        <input type="text" class="form-control" id="apply-bank" value="700"
                                             readonly>
                                     </div>
                                     <div class="mb-3 w-75">
-                                        <label for="recipient-name" class="col-form-label">提款帳戶：</label>
-                                        <input type="text" class="form-control" id="recipient-name"
+                                        <label for="apply-account" class="col-form-label">提款帳戶：</label>
+                                        <input type="text" class="form-control" id="apply-account"
                                             value="1245987495364862" readonly>
                                     </div>
                                 </div>
                             </form>
                             <div class="d-flex justify-content-start gap-3 my-3">
                                 <div class="mb-3 w-50">
-                                    <label for="message-text" class="col-form-label">匯款狀態:</label>
-                                    <select class="form-select" aria-label="Default select example">
+                                    <label for="transfer-status" class="col-form-label">匯款狀態:</label>
+                                    <select class="form-select" aria-label="Default select example" id="transfer-status">
                                         <option value="1" selected>未匯款</option> <!-- 預設 -->
                                         <option value="2">已匯款</option>
                                     </select>
                                 </div>
                                 <div class="mb-3 w-50">
-                                    <label for="recipient-name" class="col-form-label">匯款日期：</label>
-                                    <input type="date" class="form-control"> <!-- 預設當天日期 -->
+                                    <label for="transfer-date" class="col-form-label">匯款日期：</label>
+                                    <input type="date" class="form-control" id="transfer-date-single"> <!-- 預設當天日期 -->
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-                            <button type="button" class="btn btn-success" data-bs-dismiss="modal" id="saveBtn">儲存</button>
+                            <button type="button" class="btn btn-success" data-bs-dismiss="modal"
+                                id="saveBtn">儲存</button>
                         </div>
                     </div>
                 </div>
@@ -257,6 +291,12 @@
                                 <div class="col-md-4">
                                     <input type="date" class="form-control"> <!-- date為日期選擇器;form-control表單控制-->
                                 </div>
+                                <div class="col-md-1 d-flex justify-content-center">
+                                    <span class="form-label mb-0 align-content-center">~</span>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="date" class="form-control">
+                                </div>
                             </div>
                             <div class="col-md-6 d-flex"> <!--此行有兩個欄位，每欄佔一半寬度-->
                                 <div class="col-md-2 align-content-center">
@@ -288,7 +328,12 @@
                                     <th>提款帳戶</th>
                                     <th>匯款狀態</th>
                                     <th>匯款日期</th>
-                                    <th></th>
+                                    <th>
+                                        <button type="button" class="btn btn-sm btn-outline-danger"
+                                            data-bs-toggle="modal" data-bs-target="#onepressModal">
+                                            一鍵登錄
+                                        </button>
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -304,7 +349,7 @@
                                     <td>2025-06-03</td>
                                     <td>
                                         <button type="button" class="btn btn-sm btn-outline-success"
-                                            data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                            data-bs-toggle="modal" data-bs-target="#editModal">
                                             登錄
                                         </button>
                                     </td>
@@ -321,7 +366,7 @@
                                     <td></td>
                                     <td>
                                         <button type="button" class="btn btn-sm btn-outline-success"
-                                            data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                            data-bs-toggle="modal" data-bs-target="#editModal">
                                             登錄
                                         </button>
                                     </td>
@@ -338,7 +383,7 @@
                                     <td>2025-06-03</td>
                                     <td>
                                         <button type="button" class="btn btn-sm btn-outline-success"
-                                            data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                            data-bs-toggle="modal" data-bs-target="#editModal">
                                             登錄
                                         </button>
                                     </td>
@@ -355,7 +400,7 @@
                                     <td>2025-06-03</td>
                                     <td>
                                         <button type="button" class="btn btn-sm btn-outline-success"
-                                            data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                            data-bs-toggle="modal" data-bs-target="#editModal">
                                             登錄
                                         </button>
                                     </td>
@@ -372,7 +417,7 @@
                                     <td>2025-05-12</td>
                                     <td>
                                         <button type="button" class="btn btn-sm btn-outline-success"
-                                            data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                            data-bs-toggle="modal" data-bs-target="#editModal">
                                             登錄
                                         </button>
                                     </td>
@@ -389,7 +434,7 @@
                                     <td>2025-05-12</td>
                                     <td>
                                         <button type="button" class="btn btn-sm btn-outline-success"
-                                            data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                            data-bs-toggle="modal" data-bs-target="#editModal">
                                             登錄
                                         </button>
                                     </td>
@@ -406,7 +451,7 @@
                                     <td>2025-03-25</td>
                                     <td>
                                         <button type="button" class="btn btn-sm btn-outline-success"
-                                            data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                            data-bs-toggle="modal" data-bs-target="#editModal">
                                             登錄
                                         </button>
                                     </td>
@@ -423,7 +468,7 @@
                                     <td>2025-03-25</td>
                                     <td>
                                         <button type="button" class="btn btn-sm btn-outline-success"
-                                            data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                            data-bs-toggle="modal" data-bs-target="#editModal">
                                             登錄
                                         </button>
                                     </td>
@@ -454,9 +499,12 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
     <script>
-        $("#saveBtn").on("click", function(e) {
+        $("#saveBtn").on("click", function (e) {
             alert("儲存完畢");
         })
+
+        let nowDate = new Date();
+        $("input[id^='transfer-date']").attr("value", nowDate.toISOString().split('T')[0])
     </script>
 </body>
 

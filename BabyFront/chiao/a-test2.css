@@ -5,21 +5,22 @@
 
  .sidebar {
      background-color: #f3d0a7;
-     min-height: 100vh;
-     /* ✅ 高度撐滿整個畫面 */
+     height: 100vh;
+     /* 高度撐滿整個畫面 */
      position: fixed;
-     /* ✅ 固定在左邊 */
+     /* 固定在左邊 */
      top: 0;
      left: 0;
      width: 250px;
      /* 或用 col 設定寬度時要配合 main 留 margin */
      z-index: 1000;
+     overflow-y: auto;
+     /* 讓 sidebar 本體可以捲動 */
  }
+
 
  /* main {
   margin-left: 250px; } /* 跟 sidebar 寬度一致 */
-
-
 
  .sidebar h2 {
      color: black;
@@ -75,6 +76,11 @@
      background-color: #f0f0f0;
  }
 
+ /* Bootstrap 會對 .accordion-body 裡的元素套一點預設 margin，讓排版比較鬆，用手動移除 margin */
+ .accordion-body ul {
+     margin: 0;
+ }
+
  /* .accordion-button 在"被展開時（非 collapsed 狀態）"有藍色框框 */
  /* :not(.collapsed) 代表"展開中" */
  .accordion-button:not(.collapsed) {
@@ -92,17 +98,3 @@
  }
 
  /* Main content */
-
-table th,
-table td {
-  vertical-align: middle;
-  font-size: 0.95rem;
-}
-
-table td.text-end {
-  padding-right: 1rem;
-}
-
-table td.text-center {
-  text-align: center;
-}

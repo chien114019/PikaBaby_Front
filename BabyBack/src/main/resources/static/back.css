@@ -112,11 +112,9 @@
      display: grid;
      grid-template-areas:
      /* 設定 網格的版面結構 */
-         "task info finance"
-         "pos inventory finance"
-         "sale sale sale"
-         "production production production"
-         "eis eis eis";
+         "task info eis inventory"
+         "pos sale report inventory"
+         "finance finance finance finance";
      gap: 20px;
      padding: 40px;
  }
@@ -188,12 +186,17 @@
      grid-area: task;
  }
 
- .finance {
-     background-color: #f0e5ff;
-     grid-area: finance;
- }
+.finance {
+	background-color: #e5f5e5;
+	grid-area: finance;
+}
 
- .pos {
+.report {
+	background-color: #f0e5ff;
+	grid-area: report;
+}
+
+.pos {
      background-color: #e5faff;
      grid-area: pos;
  }

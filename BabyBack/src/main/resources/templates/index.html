@@ -15,7 +15,7 @@
 <body>
 
 	<!-- 主內容區 -->
-	<main class="col-md-10 ms-sm-auto px-4 py-4">
+	<main class="col-md-10 px-4 py-4">
 		<h2 class="text-center mb-3">後台功能</h2>
 		<div class="container">
 			<div class="grid-container">
@@ -38,22 +38,24 @@
 					<a th:href="@{/basic}" class="btn btn-outline-dark">公司資料維護</a>
 				</div>
 
+				<!-- 財務管理 -->
+				<div class="block finance horizontal">
+					<div class="block-title">財務管理</div>
+					<a th:href="@{/accounting/receipts}" class="btn btn-outline-dark">應收帳款管理</a>
+					<a th:href="@{/accounting/receipts}" class="btn btn-outline-dark">應付帳款管理</a>
+					<a th:href="@{/accounting/settlement}" class="btn btn-outline-dark">收款沖帳</a>
+					<a th:href="@{/accounting/settlement}" class="btn btn-outline-dark">總帳務</a>
+					<!--                        <a th:href="@{/accounting/receipts}" class="btn btn-outline-dark">收支登錄</a>
+                        <a th:href="@{/accounting/settlement}" class="btn btn-outline-dark">收款沖帳</a>
+                        <a th:href="@{/accounting/receivables}" class="btn btn-outline-dark">應收帳款管理</a>
+                        <a th:href="@{/accounting/accounts}" class="btn btn-outline-dark">帳戶類別設定</a>
+ -->
+				</div>
+
 				<!-- POS 結帳系統 -->
 				<div class="block pos horizontal">
 					<div class="block-title">POS 結帳</div>
 					<a th:href="@{/pos}" class="btn btn-outline-dark">POS 前台結帳系統</a>
-				</div>
-
-				<!-- 二手專區 -->
-				<div class="block secondhand vertical">
-					<div class="block-title">二手專區</div>
-					<a th:href="@{/secondhand/consignments}"
-						class="btn btn-outline-dark">托售申請審核</a> <a
-						th:href="@{/secondhand/withdrawals}" class="btn btn-outline-dark">提款申請審核</a>
-					<!--  					    <a th:href="@{/secondhand/review}" class="btn btn-outline-dark">審核處理</a>
-					    <a th:href="@{/secondhand/closed}" class="btn btn-outline-dark">結案紀錄</a>
-					    <a th:href="@{/secondhand/reports}" class="btn btn-outline-dark">匯出報表</a>
--->
 				</div>
 
 
@@ -79,7 +81,21 @@
 					<!--                         <a th:href="@{/reports}" class="btn btn-outline-dark">銷售報表查詢</a>
      -->
 				</div>
-				
+
+				<!-- 二手專區 -->
+				<div class="block secondhand vertical">
+					<div class="block-title">二手專區</div>
+					<a th:href="@{/secondhand/consignments}"
+						class="btn btn-outline-dark">托售申請審核</a> <a
+						th:href="@{/secondhand/withdrawals}" class="btn btn-outline-dark">提款申請審核</a>
+					<!--  					    <a th:href="@{/secondhand/review}" class="btn btn-outline-dark">審核處理</a>
+					    <a th:href="@{/secondhand/closed}" class="btn btn-outline-dark">結案紀錄</a>
+					    <a th:href="@{/secondhand/reports}" class="btn btn-outline-dark">匯出報表</a>
+-->
+				</div>
+
+
+
 				<!-- 報表管理 -->
 				<div class="block report vertical">
 					<div class="block-title">報表管理</div>
@@ -92,19 +108,7 @@
  -->
 				</div>
 
-				<!-- 財務管理 -->
-				<div class="block finance horizontal">
-					<div class="block-title">財務管理</div>
-					<a th:href="@{/accounting/receipts}" class="btn btn-outline-dark">應收帳款管理</a>
-					<a th:href="@{/accounting/receipts}" class="btn btn-outline-dark">應付帳款管理</a>
-					<a th:href="@{/accounting/settlement}" class="btn btn-outline-dark">收款沖帳</a>
-					<a th:href="@{/accounting/settlement}" class="btn btn-outline-dark">總帳務</a>
-					<!--                        <a th:href="@{/accounting/receipts}" class="btn btn-outline-dark">收支登錄</a>
-                        <a th:href="@{/accounting/settlement}" class="btn btn-outline-dark">收款沖帳</a>
-                        <a th:href="@{/accounting/receivables}" class="btn btn-outline-dark">應收帳款管理</a>
-                        <a th:href="@{/accounting/accounts}" class="btn btn-outline-dark">帳戶類別設定</a>
- -->
-				</div>
+
 
 				<!-- 系統設定與報表管理 -->
 				<!--                      <div class="block production horizontal">

@@ -15,7 +15,7 @@
 <body>
 
 	<!-- 主內容區 -->
-	<main class="col-md-10 ms-sm-auto px-4 py-4">
+	<main class="col-md-10 px-4 py-4">
 		<h2 class="text-center mb-3">後台功能</h2>
 		<div class="container">
 			<div class="grid-container">
@@ -24,7 +24,7 @@
 				<div class="block task vertical">
 					<div class="block-title">事務性管理</div>
 					<a th:href="@{/auth}" class="btn btn-outline-dark">登入/權限管理</a> <a
-						th:href="@{/members}" class="btn btn-outline-dark">會員帳號管理</a>
+						th:href="@{/customers}" class="btn btn-outline-dark">會員帳號管理</a>
 					<!--                         <a th:href="@{/company}" class="btn btn-outline-dark">公司資料維護</a> 
 -->
 				</div>
@@ -36,60 +36,6 @@
                         <a th:href="@{/categories}" class="btn btn-outline-dark">分類資料維護</a> 
 -->
 					<a th:href="@{/basic}" class="btn btn-outline-dark">公司資料維護</a>
-				</div>
-
-				<!-- POS 結帳系統 -->
-				<div class="block pos horizontal">
-					<div class="block-title">POS 結帳</div>
-					<a th:href="@{/pos}" class="btn btn-outline-dark">POS 前台結帳系統</a>
-				</div>
-
-				<!-- 二手專區 -->
-				<div class="block secondhand vertical">
-					<div class="block-title">二手專區</div>
-					<a th:href="@{/secondhand/consignments}"
-						class="btn btn-outline-dark">托售申請審核</a> <a
-						th:href="@{/secondhand/withdrawals}" class="btn btn-outline-dark">提款申請審核</a>
-					<!--  					    <a th:href="@{/secondhand/review}" class="btn btn-outline-dark">審核處理</a>
-					    <a th:href="@{/secondhand/closed}" class="btn btn-outline-dark">結案紀錄</a>
-					    <a th:href="@{/secondhand/reports}" class="btn btn-outline-dark">匯出報表</a>
--->
-				</div>
-
-
-				<!-- 進貨與庫存管理 -->
-				<div class="block inventory vertical">
-					<div class="block-title">進貨與庫存管理</div>
-					<!--                         <a th:href="@{/products}" class="btn btn-outline-dark">商品進貨管理</a>
-                        <a th:href="@{/purchases}" class="btn btn-outline-dark">採購單管理</a> 
--->
-					<a th:href="@{/purchases}" class="btn btn-outline-dark">進貨單</a> <a
-						th:href="@{/stock}" class="btn btn-outline-dark">庫存查詢</a> <a
-						th:href="@{/secondhand/products}" class="btn btn-outline-dark">商品上架</a>
-				</div>
-
-				<!-- 出貨與退貨管理 -->
-				<div class="block sale vertical">
-					<div class="block-title">出貨與退貨管理</div>
-					<a th:href="@{/orders}" class="btn btn-outline-dark">出貨單</a> <a
-						th:href="@{/returns/list}" class="btn btn-outline-dark">退貨單</a>
-					<!--                          <a th:href="@{/accounting/settlement}" class="btn btn-outline-dark">收款登錄與沖帳</a>
-                        <a th:href="@{/reports/statements}" class="btn btn-outline-dark">客戶對帳單</a>
--->
-					<!--                         <a th:href="@{/reports}" class="btn btn-outline-dark">銷售報表查詢</a>
-     -->
-				</div>
-				
-				<!-- 報表管理 -->
-				<div class="block report vertical">
-					<div class="block-title">報表管理</div>
-					<a th:href="@{/accounting/receipts}" class="btn btn-outline-dark">成本報表</a>
-					<a th:href="@{/accounting/receipts}" class="btn btn-outline-dark">銷售報表</a>
-					<!--                        <a th:href="@{/accounting/receipts}" class="btn btn-outline-dark">收支登錄</a>
-                        <a th:href="@{/accounting/settlement}" class="btn btn-outline-dark">收款沖帳</a>
-                        <a th:href="@{/accounting/receivables}" class="btn btn-outline-dark">應收帳款管理</a>
-                        <a th:href="@{/accounting/accounts}" class="btn btn-outline-dark">帳戶類別設定</a>
- -->
 				</div>
 
 				<!-- 財務管理 -->
@@ -105,6 +51,65 @@
                         <a th:href="@{/accounting/accounts}" class="btn btn-outline-dark">帳戶類別設定</a>
  -->
 				</div>
+
+				<!-- POS 結帳系統 -->
+				<div class="block pos horizontal">
+					<div class="block-title">POS 結帳</div>
+					<a th:href="@{/pos}" class="btn btn-outline-dark">POS 前台結帳系統</a>
+				</div>
+
+
+				<!-- 進貨與庫存管理 -->
+				<div class="block inventory vertical">
+					<div class="block-title">進貨與庫存管理</div>
+					<!--                         <a th:href="@{/products}" class="btn btn-outline-dark">商品進貨管理</a>
+                        <a th:href="@{/purchases}" class="btn btn-outline-dark">採購單管理</a> 
+-->
+					<a th:href="@{/purchases}" class="btn btn-outline-dark">進貨單</a> <a
+						th:href="@{/stock}" class="btn btn-outline-dark">庫存查詢</a> <a
+						th:href="@{/products}" class="btn btn-outline-dark">商品上架</a>
+						<a th:href="@{/suppliers}" class="btn btn-outline-dark">廠商建檔</a>
+				</div>
+
+				<!-- 出貨與退貨管理 -->
+				<div class="block sale vertical">
+					<div class="block-title">出貨與退貨管理</div>
+					<a th:href="@{/orders}" class="btn btn-outline-dark">出貨單</a> <a
+						th:href="@{/returns/list}" class="btn btn-outline-dark">退貨單</a>
+					<!--                          <a th:href="@{/accounting/settlement}" class="btn btn-outline-dark">收款登錄與沖帳</a>
+                        <a th:href="@{/reports/statements}" class="btn btn-outline-dark">客戶對帳單</a>
+-->
+					<!--                         <a th:href="@{/reports}" class="btn btn-outline-dark">銷售報表查詢</a>
+     -->
+				</div>
+
+				<!-- 二手專區 -->
+				<div class="block secondhand vertical">
+					<div class="block-title">二手專區</div>
+					<a th:href="@{/secondhand/consignments}"
+						class="btn btn-outline-dark">托售申請審核</a> <a
+						th:href="@{/secondhand/withdrawals}" class="btn btn-outline-dark">提款申請審核</a>
+					<!--  					    <a th:href="@{/secondhand/review}" class="btn btn-outline-dark">審核處理</a>
+					    <a th:href="@{/secondhand/closed}" class="btn btn-outline-dark">結案紀錄</a>
+					    <a th:href="@{/secondhand/reports}" class="btn btn-outline-dark">匯出報表</a>
+-->
+				</div>
+
+
+
+				<!-- 報表管理 -->
+				<div class="block report vertical">
+					<div class="block-title">報表管理</div>
+					<a th:href="@{/accounting/receipts}" class="btn btn-outline-dark">成本報表</a>
+					<a th:href="@{/dashboard}" class="btn btn-outline-dark">銷售報表</a>
+					<!--                        <a th:href="@{/accounting/receipts}" class="btn btn-outline-dark">收支登錄</a>
+                        <a th:href="@{/accounting/settlement}" class="btn btn-outline-dark">收款沖帳</a>
+                        <a th:href="@{/accounting/receivables}" class="btn btn-outline-dark">應收帳款管理</a>
+                        <a th:href="@{/accounting/accounts}" class="btn btn-outline-dark">帳戶類別設定</a>
+ -->
+				</div>
+
+
 
 				<!-- 系統設定與報表管理 -->
 				<!--                      <div class="block production horizontal">

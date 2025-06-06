@@ -14,16 +14,15 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
-
 -- 傾印  資料表 bankno 結構
 CREATE TABLE IF NOT EXISTS `bankno` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `bCode` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '銀行代碼',
   `bName` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '銀行名稱',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='銀行代碼';
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='銀行代碼';
 
--- 正在傾印表格  bankno 的資料：~37 rows (近似值)
+-- 正在傾印表格  bankno 的資料：~296 rows (近似值)
 DELETE FROM `bankno`;
 INSERT INTO `bankno` (`id`, `bCode`, `bName`) VALUES
 	(1, '004', '臺灣銀行'),
@@ -82,14 +81,26 @@ CREATE TABLE IF NOT EXISTS `consignment` (
   `price` int DEFAULT NULL COMMENT '預估價格',
   `withdrawId` int DEFAULT NULL COMMENT '提款申請 id',
   PRIMARY KEY (`id`) USING BTREE,
-  KEY `FK_apply_withdraw` (`withdrawId`),
-  KEY `FK_apply_cust` (`custId`),
-  CONSTRAINT `FK_apply_withdraw` FOREIGN KEY (`withdrawId`) REFERENCES `withdrawal` (`id`),
-  CONSTRAINT `FK_apply_cust` FOREIGN KEY (`custId`) REFERENCES `customer` (`id`)
+  KEY `FK_con_withdraw` (`withdrawId`),
+  KEY `FK_con_cust` (`custId`),
+  KEY `FK_con_pType` (`type`),
+  CONSTRAINT `FK_con_cust` FOREIGN KEY (`custId`) REFERENCES `customer` (`id`),
+  CONSTRAINT `FK_con_pType` FOREIGN KEY (`type`) REFERENCES `producttype` (`id`),
+  CONSTRAINT `FK_con_withdraw` FOREIGN KEY (`withdrawId`) REFERENCES `withdrawal` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='二手託售申請紀錄';
 
 -- 正在傾印表格  consignment 的資料：~0 rows (近似值)
 DELETE FROM `consignment`;
+
+-- 傾印  資料表 producttype 結構
+CREATE TABLE IF NOT EXISTS `producttype` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `typeName` varchar(50) NOT NULL COMMENT '種類名稱',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='商品種類';
+
+-- 正在傾印表格  producttype 的資料：~0 rows (近似值)
+DELETE FROM `producttype`;
 
 -- 傾印  資料表 withdrawal 結構
 CREATE TABLE IF NOT EXISTS `withdrawal` (

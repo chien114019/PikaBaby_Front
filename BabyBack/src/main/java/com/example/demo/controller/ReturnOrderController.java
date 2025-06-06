@@ -32,6 +32,8 @@ import com.example.demo.repository.SalesOrderRepository;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
+import com.lowagie.text.*;
+import com.lowagie.text.pdf.*;
 
 
 @Controller
@@ -249,6 +251,53 @@ public class ReturnOrderController {
         model.addAttribute("monthlyStats", monthlyStats != null ? monthlyStats : new ArrayList<>());
         model.addAttribute("topProducts", topProducts != null ? topProducts : new ArrayList<>());
         return "returns/dashboard";
+    }
+    
+    @GetMapping("/pdf/{id}")
+    public void exportReturnPdf(@PathVariable Long id, HttpServletResponse response) throws IOException {
+        ReturnOrder ro = returnOrderRepository.findById(id).orElse(null);
+        if (ro == null) return;
+
+        response.setContentType("application/pdf");
+        response.setHeader("Content-Disposition", "attachment; filename=return_" + ro.getReturnNo() + ".pdf");
+
+        Document doc = new Document(PageSize.A4);
+        PdfWriter.getInstance(doc, response.getOutputStream());
+        doc.open();
+
+        // 中文字型（避免亂碼）
+        BaseFont bf = BaseFont.createFont("resources/fonts/NotoSansTC-Regular.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+        Font font = new Font(bf, 12, Font.NORMAL);
+        Font boldFont = new Font(bf, 14, Font.BOLD);
+
+        doc.add(new Paragraph("退貨單明細", boldFont));
+        doc.add(new Paragraph("退貨單編號: " + ro.getReturnNo(), font));
+        doc.add(new Paragraph("退貨日期: " + ro.getReturnDate(), font));
+        doc.add(new Paragraph("原始訂單: " + ro.getSalesOrder().getId(), font));
+        doc.add(new Paragraph("客戶名稱: " + ro.getSalesOrder().getCustomer().getName(), font));
+        doc.add(new Paragraph("退貨原因: " + ro.getReason(), font));
+        doc.add(new Paragraph(" "));
+
+        // 明細表格
+        PdfPTable table = new PdfPTable(4);
+        table.setWidths(new float[]{4, 2, 2, 2});
+        table.setWidthPercentage(100);
+
+        // 表頭
+        table.addCell(new PdfPCell(new Phrase("商品名稱", font)));
+        table.addCell(new PdfPCell(new Phrase("數量", font)));
+        table.addCell(new PdfPCell(new Phrase("單價", font)));
+        table.addCell(new PdfPCell(new Phrase("小計", font)));
+
+        for (ReturnOrderDetail d : ro.getDetails()) {
+            table.addCell(new PdfPCell(new Phrase(d.getProduct().getName(), font)));
+            table.addCell(new PdfPCell(new Phrase(String.valueOf(d.getQty()), font)));
+            table.addCell(new PdfPCell(new Phrase(String.valueOf(d.getUnitPrice()), font)));
+            table.addCell(new PdfPCell(new Phrase(String.valueOf(d.getTotal()), font)));
+        }
+
+        doc.add(table);
+        doc.close();
     }
 
 

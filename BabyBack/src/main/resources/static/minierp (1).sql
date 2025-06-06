@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： 127.0.0.1
--- 產生時間： 2025-06-01 18:31:47
+-- 產生時間： 2025-06-06 04:51:50
 -- 伺服器版本： 10.4.32-MariaDB
 -- PHP 版本： 8.0.30
 
@@ -62,8 +62,8 @@ CREATE TABLE `product` (
 INSERT INTO `product` (`id`, `name`, `price`, `stock`) VALUES
 (2, '筆記型電腦', 39900, 5),
 (3, '滑鼠', 980, 6),
-(4, '鍵盤', 1990, 5),
-(5, '滑鼠墊', 990, 10);
+(4, '鍵盤', 1990, 3),
+(5, '滑鼠墊', 990, 9);
 
 -- --------------------------------------------------------
 
@@ -94,6 +94,35 @@ CREATE TABLE `purchase_order_detail` (
 -- --------------------------------------------------------
 
 --
+-- 資料表結構 `return_order`
+--
+
+CREATE TABLE `return_order` (
+  `id` int(11) NOT NULL,
+  `return_no` varchar(255) DEFAULT NULL,
+  `return_date` date NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `reason` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- 資料表結構 `return_order_detail`
+--
+
+CREATE TABLE `return_order_detail` (
+  `id` bigint(20) NOT NULL,
+  `return_order_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `qty` int(11) NOT NULL,
+  `unit_price` double DEFAULT NULL,
+  `total` double DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- 資料表結構 `sales_order`
 --
 
@@ -109,7 +138,8 @@ CREATE TABLE `sales_order` (
 
 INSERT INTO `sales_order` (`id`, `customer_id`, `order_date`) VALUES
 (1, 1, '2025-05-30'),
-(2, 1, '2025-05-30');
+(2, 1, '2025-05-30'),
+(3, 1, '2025-06-06');
 
 -- --------------------------------------------------------
 
@@ -131,7 +161,9 @@ CREATE TABLE `sales_order_detail` (
 
 INSERT INTO `sales_order_detail` (`id`, `order_id`, `product_id`, `quantity`, `unit_price`) VALUES
 (1, 1, 2, 1, 39900),
-(2, 2, 3, 2, 980);
+(2, 2, 3, 2, 980),
+(3, 3, 4, 2, 1990),
+(4, 3, 5, 1, 990);
 
 -- --------------------------------------------------------
 
@@ -202,6 +234,21 @@ ALTER TABLE `purchase_order_detail`
   ADD KEY `product_id` (`product_id`);
 
 --
+-- 資料表索引 `return_order`
+--
+ALTER TABLE `return_order`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_return_order_sales_order` (`order_id`);
+
+--
+-- 資料表索引 `return_order_detail`
+--
+ALTER TABLE `return_order_detail`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_detail_product` (`product_id`),
+  ADD KEY `fk_detail_return_order` (`return_order_id`);
+
+--
 -- 資料表索引 `sales_order`
 --
 ALTER TABLE `sales_order`
@@ -258,16 +305,28 @@ ALTER TABLE `purchase_order_detail`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- 使用資料表自動遞增(AUTO_INCREMENT) `return_order`
+--
+ALTER TABLE `return_order`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- 使用資料表自動遞增(AUTO_INCREMENT) `return_order_detail`
+--
+ALTER TABLE `return_order_detail`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
 -- 使用資料表自動遞增(AUTO_INCREMENT) `sales_order`
 --
 ALTER TABLE `sales_order`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `sales_order_detail`
 --
 ALTER TABLE `sales_order_detail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `supplier`
@@ -297,6 +356,19 @@ ALTER TABLE `purchase_order`
 ALTER TABLE `purchase_order_detail`
   ADD CONSTRAINT `purchase_order_detail_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `purchase_order` (`id`),
   ADD CONSTRAINT `purchase_order_detail_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`);
+
+--
+-- 資料表的限制式 `return_order`
+--
+ALTER TABLE `return_order`
+  ADD CONSTRAINT `fk_return_order_sales_order` FOREIGN KEY (`order_id`) REFERENCES `sales_order` (`id`);
+
+--
+-- 資料表的限制式 `return_order_detail`
+--
+ALTER TABLE `return_order_detail`
+  ADD CONSTRAINT `fk_detail_product` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`),
+  ADD CONSTRAINT `fk_detail_return_order` FOREIGN KEY (`return_order_id`) REFERENCES `return_order` (`id`);
 
 --
 -- 資料表的限制式 `sales_order`

@@ -15,11 +15,7 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 
--- 傾印 pikababy 的資料庫結構
-CREATE DATABASE IF NOT EXISTS `pikababy` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `pikababy`;
-
--- 傾印  資料表 pikababy.bankno 結構
+-- 傾印  資料表 bankno 結構
 CREATE TABLE IF NOT EXISTS `bankno` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `bCode` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '銀行代碼',
@@ -27,7 +23,7 @@ CREATE TABLE IF NOT EXISTS `bankno` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='銀行代碼';
 
--- 正在傾印表格  pikababy.bankno 的資料：~37 rows (近似值)
+-- 正在傾印表格  bankno 的資料：~37 rows (近似值)
 DELETE FROM `bankno`;
 INSERT INTO `bankno` (`id`, `bCode`, `bName`) VALUES
 	(1, '004', '臺灣銀行'),
@@ -68,7 +64,7 @@ INSERT INTO `bankno` (`id`, `bCode`, `bName`) VALUES
 	(36, '824', '連線銀行'),
 	(37, '826', '樂天銀行');
 
--- 傾印  資料表 pikababy.consignment 結構
+-- 傾印  資料表 consignment 結構
 CREATE TABLE IF NOT EXISTS `consignment` (
   `id` int NOT NULL AUTO_INCREMENT,
   `custId` int NOT NULL,
@@ -90,10 +86,10 @@ CREATE TABLE IF NOT EXISTS `consignment` (
   CONSTRAINT `FK_apply_withdraw` FOREIGN KEY (`withdrawId`) REFERENCES `withdrawal` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='二手託售申請紀錄';
 
--- 正在傾印表格  pikababy.consignment 的資料：~0 rows (近似值)
+-- 正在傾印表格  consignment 的資料：~0 rows (近似值)
 DELETE FROM `consignment`;
 
--- 傾印  資料表 pikababy.withdrawal 結構
+-- 傾印  資料表 withdrawal 結構
 CREATE TABLE IF NOT EXISTS `withdrawal` (
   `id` int NOT NULL AUTO_INCREMENT,
   `custId` int NOT NULL COMMENT '客戶id',
@@ -105,10 +101,12 @@ CREATE TABLE IF NOT EXISTS `withdrawal` (
   `bankAccount` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   KEY `FK_withdraw_bank` (`bankId`),
-  CONSTRAINT `FK_withdraw_bank` FOREIGN KEY (`bankId`) REFERENCES `bankno` (`id`)
+  KEY `FK_withdraw_cust` (`custId`),
+  CONSTRAINT `FK_withdraw_bank` FOREIGN KEY (`bankId`) REFERENCES `bankno` (`id`),
+  CONSTRAINT `FK_withdraw_cust` FOREIGN KEY (`custId`) REFERENCES `customer` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='二手提款申請紀錄';
 
--- 正在傾印表格  pikababy.withdrawal 的資料：~0 rows (近似值)
+-- 正在傾印表格  withdrawal 的資料：~0 rows (近似值)
 DELETE FROM `withdrawal`;
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;

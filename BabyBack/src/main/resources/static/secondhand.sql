@@ -101,9 +101,11 @@ CREATE TABLE IF NOT EXISTS `withdrawal` (
   `applyDate` date NOT NULL COMMENT '申請提款日期',
   `withdraw` int NOT NULL DEFAULT '0' COMMENT '0:未撥款；1:已撥款',
   `withdrawDate` date DEFAULT NULL COMMENT '撥款日期',
-  `bankId` int DEFAULT NULL,
+  `bankId` int unsigned DEFAULT NULL,
   `bankAccount` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `FK_withdraw_bank` (`bankId`),
+  CONSTRAINT `FK_withdraw_bank` FOREIGN KEY (`bankId`) REFERENCES `bankno` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='二手提款申請紀錄';
 
 -- 正在傾印表格  pikababy.withdrawal 的資料：~0 rows (近似值)

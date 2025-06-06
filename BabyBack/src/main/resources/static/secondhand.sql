@@ -83,7 +83,9 @@ CREATE TABLE IF NOT EXISTS `consignment` (
   `withdrawId` int DEFAULT NULL COMMENT '提款申請 id',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `FK_apply_withdraw` (`withdrawId`),
-  CONSTRAINT `FK_apply_withdraw` FOREIGN KEY (`withdrawId`) REFERENCES `withdrawal` (`id`)
+  KEY `FK_apply_cust` (`custId`),
+  CONSTRAINT `FK_apply_withdraw` FOREIGN KEY (`withdrawId`) REFERENCES `withdrawal` (`id`),
+  CONSTRAINT `FK_apply_cust` FOREIGN KEY (`custId`) REFERENCES `customer` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='二手託售申請紀錄';
 
 -- 正在傾印表格  consignment 的資料：~0 rows (近似值)

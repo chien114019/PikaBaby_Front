@@ -1,0 +1,149 @@
+package com.example.demo.model;
+
+import java.sql.Date;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+
+//	託售申請
+@Entity
+@Table(name = "Consignment")
+public class Consignment {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
+	
+	private Date applyDate;
+	private String productName;
+	private byte[] pic1;
+	private byte[] pic2;
+	private byte[] pic3;
+	private String pCondition;
+	private Integer quantity;
+	private Integer delivery;
+	private Date deliveryDate;
+	private Integer review;
+	private Integer price;
+	
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	public Date getApplyDate() {
+		return applyDate;
+	}
+	public void setApplyDate(Date applyDate) {
+		this.applyDate = applyDate;
+	}
+	public String getProductName() {
+		return productName;
+	}
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+	public byte[] getPic1() {
+		return pic1;
+	}
+	public void setPic1(byte[] pic1) {
+		this.pic1 = pic1;
+	}
+	public byte[] getPic2() {
+		return pic2;
+	}
+	public void setPic2(byte[] pic2) {
+		this.pic2 = pic2;
+	}
+	public byte[] getPic3() {
+		return pic3;
+	}
+	public void setPic3(byte[] pic3) {
+		this.pic3 = pic3;
+	}
+	public String getpCondition() {
+		return pCondition;
+	}
+	public void setpCondition(String pCondition) {
+		this.pCondition = pCondition;
+	}
+	public Integer getQuantity() {
+		return quantity;
+	}
+	public void setQuantity(Integer quantity) {
+		this.quantity = quantity;
+	}
+	public Integer getDelivery() {
+		return delivery;
+	}
+	public void setDelivery(Integer delivery) {
+		this.delivery = delivery;
+	}
+	public Date getDeliveryDate() {
+		return deliveryDate;
+	}
+	public void setDeliveryDate(Date deliveryDate) {
+		this.deliveryDate = deliveryDate;
+	}
+	public Integer getReview() {
+		return review;
+	}
+	public void setReview(Integer review) {
+		this.review = review;
+	}
+	public Integer getPrice() {
+		return price;
+	}
+	public void setPrice(Integer price) {
+		this.price = price;
+	}
+	
+//	------------------------------------
+	
+	@ManyToOne
+	@JoinColumn(name = "custId")
+	private Customer customer;
+
+	public Customer getCustomer() {
+		return customer;
+	}
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+
+//	------------------------------------
+
+	@ManyToOne
+	@JoinColumn(name = "type")
+	private ProductType productType;
+	
+	public ProductType getProductType() {
+		return productType;
+	}
+	public void setProductType(ProductType productType) {
+		this.productType = productType;
+	}
+	
+//	------------------------------------
+
+
+	@ManyToOne
+	@JoinColumn(name = "withdrawId")
+	private Withdrawal withdrawal;
+
+	public Withdrawal getWithdrawal() {
+		return withdrawal;
+	}
+	public void setWithdrawal(Withdrawal withdrawal) {
+		this.withdrawal = withdrawal;
+	}
+	
+	
+	
+}

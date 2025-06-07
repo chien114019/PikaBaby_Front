@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+  <meta charset="UTF-8">
+  <title>會員專區</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="./css/frontpage_decor.css">
+  <link rel="stylesheet" href="./css/wishlist.css">
+  <style>
+    .bg-warning-subtle {
+      background-color: #fff5dc;
+      /* 淡黃色 */
+    }
+
+    /* 訂單header */
+
+    .nav-wrapper {
+      border-bottom: 2px solid #e0e0e0;
+      /* 整條底線 */
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      padding-bottom: 0.5rem;
+    }
+
+
+    .nav-button {
+      border: none;
+      background: none;
+      color: #333;
+      padding: 0.5rem 1rem;
+      font-weight: 500;
+      position: relative;
+
+    }
+
+    .nav-button::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -2px;
+      /* 讓黃線蓋在灰線上 */
+      height: 4px;
+      width: 0%;
+      background-color: #f1f454;
+      /* 黃色底線 */
+      transition: width 0.3s;
+    }
+
+
+
+    .nav-button.active::after {
+      width: 100%;
+    }
+
+    .nav-button.active {
+      color: #000;
+      font-weight: 600;
+    }
+
+    /* 側邊攔 */
+    .sidebar {
+      position: relative;
+      background-color: #fffafa;
+      border: 2px solid #ccc;
+      margin-left: 100px;
+      margin-top: 200px;
+      padding: 2rem 1rem;
+      width: 200px;
+      font-family: sans-serif;
+    }
+
+    /* 垂直線：放在整個容器內的中間 */
+    .timeline-line {
+      position: absolute;
+      top: 40px;
+      padding-bottom: 60px;
+      left: 20px;
+      width: 2px;
+      background-color: #eacfc3;
+      z-index: 0;
+    }
+
+    .menu-item {
+      position: relative;
+      margin-left: 2.5rem;
+      margin-bottom: 2rem;
+      font-weight: 500;
+      color: #333;
+    }
+
+    .menu-item::before {
+      content: '';
+      position: absolute;
+      left: -40px;
+      top: 0.3em;
+      width: 10px;
+      height: 10px;
+      background-color: #eacfc3;
+      border-radius: 50%;
+      z-index: 1;
+    }
+
+    .menu-item:last-child {
+      margin-bottom: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 置頂的促銷訊息 -->
+  <div class="top-banner">
+    每週五六日🔥新人代理寄賣免運
+    <span style="color: red;">25 日 23 時 14 分 35 秒</span>
+    <div style="display: inline-block; background-color: black; color: white">
+      Ispain love you
+    </div>
+  </div>
+
+  <!-- LOGO -->
+  <div class="nav-logo-row">
+    <img src="./images/logo-pikababy.png" alt="PikaBaby" class="nav-logo" />
+  </div>
+
+  <!-- Main導覽列 -->
+  <nav>
+    <div class="nav-container">
+      <div class="nav-links">
+        <a href="#">首頁</a>
+        <div class="dropdown">
+          <a href="#">年齡區間(0-3M)</a>
+          <div class="dropdown-content">
+            <a href="#">奶瓶/奶嘴</a>
+            <a href="#">圍兜/揹巾</a>
+            <a href="#">嬰兒服裝</a>
+            <a href="#">清潔用品</a>
+            <a href="#">嬰兒推車</a>
+            <a href="#">嬰兒床</a>
+            <a href="#">哺乳用品</a>
+            <a href="#">嬰兒用品</a>
+          </div>
+        </div>
+        <div class="dropdown">
+          <a href="#">年齡區間(3-6M)</a>
+          <div class="dropdown-content">
+            <a href="#">嬰兒服裝</a>
+            <a href="#">玩具</a>
+            <a href="#">嬰兒推車</a>
+            <a href="#">嬰兒床</a>
+            <a href="#">汽座</a>
+            <a href="#">嬰兒用品</a>
+          </div>
+        </div>
+        <div class="dropdown">
+          <a href="#">年齡區間(6-12M)</a>
+          <div class="dropdown-content">
+            <a href="#">學步用品</a>
+            <a href="#">餐具用品</a>
+            <a href="#">幼兒服裝</a>
+            <a href="#">玩具</a>
+            <a href="#">嬰兒推車</a>
+            <a href="#">汽座</a>
+            <a href="#">嬰兒用品</a>
+          </div>
+        </div>
+        <div class="dropdown">
+          <a href="#">年齡區間(2-3y)</a>
+          <div class="dropdown-content">
+            <a href="#">幼教用品</a>
+            <a href="#">兒童服裝</a>
+            <a href="#">玩具</a>
+            <a href="#">汽座</a>
+            <a href="#">兒童推車</a>
+            <a href="#">餐椅</a>
+            <a href="#">電器用品</a>
+            <a href="#">嬰兒用品</a>
+          </div>
+        </div>
+        <a href="#">二手專區</a>
+        <a href="#">關於我們</a>
+      </div>
+      <div class="user-actions">
+        <a href="#">🛒</a>
+        <a href="#">👤</a>
+      </div>
+    </div>
+  </nav>
+  <div class="container-fluid">
+
+
+
+    <!-- 主要內容（測試滾動） -->
+    <br><br><br><br><br><br><br><br><br><br>
+    <main>
+      <!-- Header 區塊 -->
+
+      <div>
+        <!-- Icons: 購物車、會員、搜尋等 -->
+      </div>
+      </header>
+
+      <!-- 主內容區塊 -->
+      <!-- <div class="row"> -->
+        <!-- 側邊欄
+                <div class="sidebar">
+                    <div class="timeline-line"></div>
+  <div class="menu-item">訂單資訊</div>
+  <div class="menu-item">託售紀錄</div>
+</div> -->
+
+
+
+
+
+        <!-- 主要內容 -->
+        <main class="col-md-10 p-5">
+          <h3>歡迎回來，USER！</h3>
+          <br><br>
+          <!-- 導覽 Tabs -->
+
+
+          <div class="container text-center mt-4 border-bottom ">
+            <div class="d-flex justify-content-center gap-3 flex-wrap">
+              <button class="nav-button active">訂單資訊</button>
+              <button class="nav-button">會員資料</button>
+              <button class="nav-button">願望清單</button>
+              <button class="nav-button">折扣專區</button>
+              <button class="nav-button">更換密碼</button>
+            </div>
+          </div>
+
+          <br><br><br><br>
+
+
+          <!-- 願望清單 -->
+          <div class="d-flex justify-content-center">
+            <table>
+              <thead>
+                <tr>
+                  <th>項目</th>
+                  <th>單價</th>
+                  <th>數量</th>
+                  <th>小計</th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- 商品 1 -->
+                <tr>
+                  <td class="item-info">
+                    <img src="./images/nepkin.jpg" alt="汽車肚圍">
+                    <div class="item-title">Pikababy汽車鋪棉肚圍</div>
+                  </td>
+                  <td>$312</td>
+                  <td>
+                    <div class="qty-control">
+                      <button class="qty-btn-left">-</button>
+                      <button class="qty-btn-center">1</button>
+                      <button class="qty-btn-right">+</button>
+                    </div>
+                  </td>
+                  <td>$312</td>
+                  <td class="action-icons">
+                    <span>✎</span>
+                    <span>✖</span>
+                  </td>
+                </tr>
+                <!-- 商品 2 -->
+                <tr>
+                  <td class="item-info">
+                    <img src="./images/pineapple6.jpg" alt="包屁衣">
+                    <div class="item-title">Pikababy野餐系鳳梨包屁衣</div>
+                    <div class="sub-info">顏色：鮮黃｜產品規格：12M</div>
+                  </td>
+                  <td>$693</td>
+                  <td>
+                    <div class="qty-control">
+                      <button class="qty-btn-left">-</button>
+                      <button class="qty-btn-center">1</button>
+                      <button class="qty-btn-right">+</button>
+                    </div>
+                  </td>
+                  <td>$693</td>
+                  <td class="action-icons">
+                    <span>✎</span>
+                    <span>✖</span>
+                  </td>
+                </tr>
+                <!-- 商品 3 -->
+                <tr>
+                  <td class="item-info">
+                    <img src="./images/pineapple6.jpg" alt="包屁衣">
+                    <div class="item-title">Pikababy野餐系鳳梨包屁衣</div>
+                    <div class="sub-info">顏色：鮮黃｜產品規格：6M</div>
+                  </td>
+                  <td>$693</td>
+                  <td>
+                    <div class="qty-control">
+                      <button class="qty-btn-left">-</button>
+                      <button class="qty-btn-center">1</button>
+                      <button class="qty-btn-right">+</button>
+                    </div>
+                  </td>
+                  <td>$693</td>
+                  <td class="action-icons">
+                    <span>✎</span>
+                    <span>✖</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+
+
+            <script>
+              // 數量
+              function updateQty(button, delta) {
+                const row = button.closest('tr');
+                const qtySpan = row.querySelector('.qty-number');
+                let qty = parseInt(qtySpan.textContent);
+                qty = Math.max(1, qty + delta); // 最小為 1
+                qtySpan.textContent = qty;
+                const unitPrice = parseInt(row.getAttribute('data-price'));
+                const subtotalCell = row.querySelector('.subtotal');
+                subtotalCell.textContent = `$${qty * unitPrice}`;
+              }
+
+              // 導覽Tab
+              const buttons = document.querySelectorAll('.nav-button');
+              buttons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                  buttons.forEach(b => b.classList.remove('active'));
+                  btn.classList.add('active');
+                });
+              });
+            </script>
+
+
+<br><br><br><br>
+
+
+<!-- 頁尾 -->
+<footer>
+  <div class="footer-container">
+    <img src="./images/logo-pikababy.png" alt="PikaBaby" class="footer-logo" />
+    <div class="footer-section">
+      <p class="footer-title">PikaBaby</p>
+      <div class="footer-line"></div>
+      <p>服務我們</p>
+      <p>品牌特色</p>
+    </div>
+    <div class="footer-section">
+      <h3>品牌服務</h3>
+      <div class="footer-line"></div>
+      <p>Baby Store</p>
+      <p>二手商城</p>
+    </div>
+    <div class="footer-section">
+      <h3>聯絡我們</h3>
+      <div class="footer-line"></div>
+      <p>聯絡電話：(04) 2326-5860</p>
+      <p>聯絡地址：台中市南屯區公益路二段51號18樓</p>
+    </div>
+  </div>
+</footer>
+</body>
+
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>會員資料頁面</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #fffaf4;
+      padding: 2rem;
+    }
+    .card {
+      background-color: #fceccc;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.05);
+      position: relative;
+    }
+    .card h2 {
+      font-size: 1.1rem;
+      color: #5e3b1f;
+      margin-bottom: 1rem;
+    }
+    .card p {
+      margin: 0.2rem 0;
+      font-size: 0.95rem;
+    }
+    .btn {
+      background-color: #ddd;
+      border: none;
+      padding: 0.3rem 0.8rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      margin-top: 1rem;
+    }
+    .btn-primary {
+      background-color: #e2b980;
+      color: #5e3b1f;
+    }
+    .btn-danger {
+      background-color: #ffb3a7;
+      color: #812e2e;
+    }
+    .credit-card {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.95rem;
+    }
+    .note {
+      font-size: 0.8rem;
+      color: #666;
+      margin-top: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 會員資訊 -->
+  <div class="card">
+    <h2>會員資訊</h2>
+    <p>會員名稱: 某小姐</p>
+    <p>Email: pika.baby111@gmail.com</p>
+    <p>手機: 0987654321</p>
+    <p>生日: 1999-01-14</p>
+    <p>註冊日期: 2021-12-31</p>
+    <button class="btn btn-primary">編輯</button>
+  </div>
+
+  <!-- 常用地址 -->
+  <div class="card">
+    <h2>常用地址</h2>
+    <p>406 台中市北屯區松竹三路 18 號</p>
+    <button class="btn btn-primary">編輯</button>
+  </div>
+
+  <!-- 常用信用卡 -->
+  <div class="card">
+    <h2>常用信用卡</h2>
+    <div class="credit-card">
+      <span>💳 國泰世華銀行 (•••• 8860)</span>
+      <button class="btn btn-primary">預設</button>
+      <button class="btn btn-danger">刪除</button>
+    </div>
+    <div class="note">最多可登錄 3 張信用卡。</div>
+  </div>
+
+</body>
+</html>

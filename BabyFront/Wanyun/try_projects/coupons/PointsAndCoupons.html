@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>我的點數與優惠券</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #fffaf4;
+      padding: 2rem;
+    }
+
+    h2 {
+      font-size: 1.1rem;
+      color: #5e3b1f;
+      margin-bottom: 1rem;
+    }
+
+    .card {
+      background-color: #fceccc;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.05);
+    }
+
+    .dashed-box {
+      border: 2px dashed #aaa;
+      padding: 1rem;
+      border-radius: 8px;
+      background-color: #fffdf7;
+      font-size: 0.9rem;
+      color: #555;
+    }
+
+    .points {
+      text-align: right;
+      font-weight: bold;
+      color: #804d3d;
+      margin-top: 0.8rem;
+      font-size: 1rem;
+    }
+
+    .points span {
+      font-size: 1.3rem;
+    }
+
+    .section-title {
+      color: #a38b79;
+      font-size: 1rem;
+      margin: 2rem 0 1rem;
+    }
+
+    .coupon-container {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .coupon {
+      background-color: #fdf5f0;
+      border: 1px solid #e0cfc2;
+      border-radius: 10px;
+      padding: 1rem;
+      width: 230px;
+      box-shadow: 0 0 3px rgba(0,0,0,0.1);
+      position: relative;
+    }
+
+    .coupon::before,
+    .coupon::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 12px;
+      height: 24px;
+      background-color: #fffaf4;
+      border: 1px solid #e0cfc2;
+      border-radius: 50%;
+    }
+
+    .coupon::before {
+      left: -6px;
+    }
+
+    .coupon::after {
+      right: -6px;
+    }
+
+    .coupon h4 {
+      font-size: 1rem;
+      color: #5e3b1f;
+      margin-bottom: 0.5rem;
+    }
+
+    .coupon p {
+      font-size: 0.85rem;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 我的點數 -->
+  <div class="card">
+    <h2>我的點數</h2>
+    <div class="dashed-box">點數使用規範</div>
+    <div class="points">累計點數：<span>5</span> 點</div>
+  </div>
+
+  <!-- 我的優惠券 -->
+  <div class="card">
+    <h2>我的優惠券</h2>
+    <div class="dashed-box">使用規則</div>
+  </div>
+
+  <!-- 可使用優惠券 -->
+  <div class="section-title">可使用</div>
+  <div class="coupon-container">
+    <div class="coupon">
+      <h4>LINE 註冊回饋 100 點</h4>
+      <p>限購滿 $300 使用，限 Carter’s / upsimples 類別</p>
+    </div>
+    <div class="coupon">
+      <h4>新客限定：滿額送 $200 折扣</h4>
+      <p>滿 $2000 可使用，限 Carter’s 商品</p>
+    </div>
+  </div>
+
+</body>
+</html>

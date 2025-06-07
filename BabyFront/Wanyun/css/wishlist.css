@@ -1,0 +1,90 @@
+body {
+      font-family: "Microsoft JhengHei", sans-serif;
+      background-color: #f7f7f7;
+      padding: 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 6px rgba(120, 97, 97, 0.1);
+    }
+    th, td {
+      text-align: left;
+      padding: 12px;
+      border-bottom: 1px solid #eee;
+    }
+    th {
+      background-color: #f0f0f0;
+    }
+    img {
+      width: 80px;
+      border-radius: 8px;
+    }
+    .item-info {
+      text-align: left;
+    }
+    .item-title {
+      font-weight: bold;
+      color: #78a0cb;
+      margin-bottom: 4px;
+    }
+    .sub-info {
+      font-size: 14px;
+      color: #555;
+    }
+    .qty-control {
+      display: flex;
+      justify-content: start;
+      align-items: center;
+      gap: 5px;
+    }
+    .qty-btn-left {
+      width: 30px;
+      height: 30px;
+      border: none;
+      background-color: #a3bac0;
+      color: #f8fbfb;
+      font-size: 18px;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    .qty-btn-center {
+      width: 30px;
+      height: 30px;
+      border: 1px;
+      background-color: #e3f2f2;
+      color: #0b1010;
+      font-size: 18px;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+    .qty-btn-right {
+      width: 30px;
+      height: 30px;
+      border: none;
+      background-color: #f4d565;
+      color: #f3eeee;
+      font-size: 18px;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+    .qty-number {
+      width: 32px;
+      text-align: center;
+      font-weight: bold;
+    }
+    .action-icons {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      font-size: 18px;
+      cursor: pointer;
+      color: #868181;
+    }
+    .action-icons span:hover {
+      color: #030303;
+    }

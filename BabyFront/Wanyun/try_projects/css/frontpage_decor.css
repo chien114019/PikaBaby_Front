@@ -122,68 +122,67 @@
       }
 
       /* Footer */
-      footer {
-        background-color: #f0ebe5;
-        padding: 30px 0;
-        width: 100%;
-        position: relative;
-        margin-top: auto;
-      }
+     footer {
+  background-color: #f0ebe5;
+  padding: 30px 0;
+  width: 100%;
+  margin-top: auto;
+}
 
-      .footer-container {
-        max-width: 1200px;
-        margin: 0 auto;
-        display: flex;
-        align-items: flex-start;
-        padding: 0 20px;
-      }
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 0 20px;
+}
 
-      .footer-logo {
-        width: 100px;
-        margin-right: 40px;
-        align-self: flex-start;
-      }
+.footer-logo {
+  width: 100px;
+  margin-right: 40px;
+  align-self: flex-start;
+}
 
-      .footer-section {
-        flex: 1;
-        padding: 0 30px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
+.footer-section {
+  flex: 1;
+  padding: 0 30px;
+  display: flex;
+  flex-direction: column;
+}
 
-      .footer-title,
-      .footer-section h3 {
-        font-size: 24px;
-        font-weight: bold;
-        margin-bottom: 10px;
-        text-align: center;
-      }
+.footer-title,
+.footer-section h3 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-align: center;
+}
 
-      .footer-line {
-        height: 2px;
-        background: #222;
-        width: 60%;
-        min-width: 80px;
-        max-width: 180px;
-        margin: 0 auto 16px auto;
-      }
+.footer-line {
+  height: 2px;
+  background: #222;
+  width: 60%;
+  min-width: 80px;
+  max-width: 180px;
+  margin: 0 auto 16px auto;
+}
 
-      .footer-section:first-child {
-        align-items: flex-start;
-        padding-left: 0;
-      }
+.footer-section:first-child {
+  align-items: flex-start;
+  padding-left: 0;
+}
 
-      .footer-section:first-child .footer-title,
-      .footer-section:first-child .footer-line {
-        text-align: left;
-        margin-left: 0;
-        margin-right: auto;
-      }
+.footer-section:first-child .footer-title,
+.footer-section:first-child .footer-line {
+  text-align: left;
+  margin-left: 0;
+  margin-right: auto;
+}
 
-      .footer-section:last-child {
-        flex: 1.5;
-      }
+.footer-section:last-child {
+  flex: 1.5;
+}
 
       /* 奶瓶 */
       .floating-bottle {

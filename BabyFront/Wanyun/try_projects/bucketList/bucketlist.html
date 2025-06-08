@@ -172,5 +172,18 @@
       </tr>
     </tbody>
   </table>
+     <script>
+    function updateQty(button, delta) {
+      const row = button.closest('tr');
+      const qtySpan = row.querySelector('.qty-number');
+      let qty = parseInt(qtySpan.textContent);
+      qty = Math.max(1, qty + delta); // 最小為 1
+      qtySpan.textContent = qty;
+      const unitPrice = parseInt(row.getAttribute('data-price'));
+      const subtotalCell = row.querySelector('.subtotal');
+      subtotalCell.textContent = `$${qty * unitPrice}`;
+    }
+  </script>
+
 </body>
 </html>

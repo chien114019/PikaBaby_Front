@@ -52,4 +52,6 @@ public class CustomerController {
         service.delete(id);// 呼叫服務層刪除該客戶
         return "redirect:/customers";// 刪除後回到清單頁面
     }
+    
+    
 }

@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS `bank_no` (
   `b_code` varchar(255) DEFAULT NULL,
   `b_name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_g_ci;
 
 -- 正在傾印表格  pikababy.bank_no 的資料：~0 rows (近似值)
 DELETE FROM `bank_no`;

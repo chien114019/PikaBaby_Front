@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>新增收款紀錄</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+<h2>新增收款登錄</h2>
+
+<form method="post" th:action="@{/payments/create}">
+    <label>收款日期：</label>
+    <input type="date" name="payDate" required/><br/>
+
+    <label>收款金額：</label>
+    <input type="number" step="0.01" name="amount" required/><br/>
+
+    <label>付款方式：</label>
+    <select name="method">
+        <option value="現金">現金</option>
+        <option value="轉帳">轉帳</option>
+        <option value="信用卡">信用卡</option>
+    </select><br/>
+
+    <label>備註：</label>
+    <input type="text" name="note"/><br/>
+
+    <h4>選擇要沖帳的訂單</h4>
+    <table border="1">
+        <thead>
+            <tr><th>訂單編號</th><th>客戶</th><th>訂單總額</th><th>沖帳金額</th></tr>
+        </thead>
+        <tbody>
+            <tr th:each="o : ${orders}">
+                <td>
+                    <input type="hidden" name="orderId" th:value="${o.id}"/>
+                    <span th:text="${o.id}"></span>
+                </td>
+                <td th:text="${o.customer.name}"></td>
+                <td th:text="${o.totalAmount}"></td>
+                <td><input type="number" name="appliedAmount" step="0.01" value="0"/></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <button type="submit">提交收款</button>
+</form>
+
+</body>
+</html>

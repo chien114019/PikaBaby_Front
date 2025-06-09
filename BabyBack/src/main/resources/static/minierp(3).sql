@@ -22,8 +22,8 @@ USE `pikababy`;
 -- 傾印  資料表 pikababy.bank_no 結構
 CREATE TABLE IF NOT EXISTS `bank_no` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `b_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `b_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `b_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `b_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -136,7 +136,7 @@ INSERT INTO `product` (`id`, `name`, `price`, `stock`) VALUES
 -- 傾印  資料表 pikababy.product_type 結構
 CREATE TABLE IF NOT EXISTS `product_type` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `type_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '種類名稱',
+  `type_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '種類名稱',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='商品種類';
 
@@ -189,9 +189,9 @@ DELETE FROM `purchase_order_detail`;
 -- 傾印  資料表 pikababy.return_order 結構
 CREATE TABLE IF NOT EXISTS `return_order` (
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `reason` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `reason` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `return_date` date DEFAULT NULL,
-  `return_no` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `return_no` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `order_id` bigint DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -287,7 +287,7 @@ CREATE TABLE IF NOT EXISTS `with_drawal` (
   `id` int NOT NULL AUTO_INCREMENT,
   `amount` int DEFAULT NULL COMMENT '可提領金額',
   `apply_date` date DEFAULT NULL COMMENT '申請提款日期',
-  `bank_account` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `bank_account` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `withdraw` int DEFAULT NULL COMMENT '0:未撥款；1:已撥款',
   `withdraw_date` date DEFAULT NULL COMMENT '撥款日期',
   `bank_id` int DEFAULT NULL,

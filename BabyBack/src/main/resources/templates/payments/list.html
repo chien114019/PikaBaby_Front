@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>收款紀錄列表</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+<h2>收款紀錄列表</h2>
+
+<table border="1" cellpadding="8">
+    <thead>
+        <tr>
+            <th>收款日期</th>
+            <th>收款金額</th>
+            <th>付款方式</th>
+            <th>備註</th>
+            <th>對應訂單</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="p : ${payments}">
+            <td th:text="${p.payDate}"></td>
+            <td th:text="${p.amount}"></td>
+            <td th:text="${p.method}"></td>
+            <td th:text="${p.note}"></td>
+            <td>
+                <ul>
+                    <li th:each="po : ${p.orders}"
+                        th:text="'訂單編號 #' + ${po.salesOrder.id} + '：' + ${po.appliedAmount} + ' 元'">
+                    </li>
+                </ul>
+            </td>
+            <td>
+                <a th:href="@{'/payments/view/' + ${p.id}}">查看明細</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

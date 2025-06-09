@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>應收帳款列表</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+<h2>應收帳款列表</h2>
+
+<table border="1" cellpadding="8">
+    <thead>
+        <tr>
+            <th>訂單編號</th>
+            <th>客戶名稱</th>
+            <th>應收金額</th>
+            <th>狀態</th>
+            <th>到期日</th>
+            <th>建立時間</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="r : ${receivables}">
+            <td th:text="${r.order.id}"></td>
+            <td th:text="${r.customer.name}"></td>
+            <td th:text="${r.amount} + ' 元'"></td>
+            <td th:text="${r.status}"></td>
+            <td th:text="${r.dueDate}"></td>
+            <td th:text="${#temporals.format(r.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
+        </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

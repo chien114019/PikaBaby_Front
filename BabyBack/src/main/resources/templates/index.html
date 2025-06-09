@@ -44,11 +44,13 @@
 				<!-- 財務管理 -->
 				<div class="block finance vertical">
 					<div class="block-title">財務管理</div>
-					<a th:href="@{/payments/create}" class="btn btn-outline-dark">應收帳款管理</a>
-					<a th:href="@{/accounting/receipts}" class="btn btn-outline-dark">應付帳款管理</a>
-					<a th:href="@{/accounting/settlement}" class="btn btn-outline-dark">收款沖帳</a>
-					<a th:href="@{/accounting/settlement}" class="btn btn-outline-dark">總帳務</a>
-					<!--                        <a th:href="@{/accounting/receipts}" class="btn btn-outline-dark">收支登錄</a>
+					<a th:href="@{/receivables/list}" class="btn btn-outline-dark">應收帳款管理</a>
+					<a th:href="@{/payments/list}" class="btn btn-outline-dark">應付帳款管理</a>
+					
+					<!--  
+						<a th:href="@{/payments/list}" class="btn btn-outline-dark">總帳務</a>
+						<a th:href="@{/payments/list}" class="btn btn-outline-dark">收款沖帳</a>                      
+						<a th:href="@{/accounting/receipts}" class="btn btn-outline-dark">收支登錄</a>
                         <a th:href="@{/accounting/settlement}" class="btn btn-outline-dark">收款沖帳</a>
                         <a th:href="@{/accounting/receivables}" class="btn btn-outline-dark">應收帳款管理</a>
                         <a th:href="@{/accounting/accounts}" class="btn btn-outline-dark">帳戶類別設定</a>

@@ -48,6 +48,9 @@ public class SalesOrderDetail {
 	public void setUnitPrice(Double unitPrice) {
 		this.unitPrice = unitPrice;
 	}
-
+	 public double getSubTotal() {
+	        return quantity * unitPrice;
+	    }
+	 
    
 }

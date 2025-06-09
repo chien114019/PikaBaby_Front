@@ -49,7 +49,12 @@ public class SalesOrder {
 
 	public void setDetails(List<SalesOrderDetail> details) {
 		this.details = details;
+	}	
+	
+	public double getTotalAmount() {
+	    return details.stream()
+	        .mapToDouble(d -> d.getQuantity() * d.getUnitPrice())
+	        .sum();
 	}
-
     
 }

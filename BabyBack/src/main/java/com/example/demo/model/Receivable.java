@@ -1,6 +1,7 @@
 package com.example.demo.model;
 
-import java.security.Timestamp;
+
+import java.sql.Timestamp;
 import java.time.LocalDate;
 
 import jakarta.persistence.Entity;

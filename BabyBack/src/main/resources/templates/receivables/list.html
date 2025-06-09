@@ -25,7 +25,7 @@
             <td th:text="${r.amount} + ' 元'"></td>
             <td th:text="${r.status}"></td>
             <td th:text="${r.dueDate}"></td>
-            <td th:text="${#temporals.format(r.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
+            <td th:text="${#dates.format(r.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
         </tr>
     </tbody>
 </table>

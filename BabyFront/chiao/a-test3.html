@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>會員表單</title>
+  <title>應收帳款列表</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
   <link href="./a-test3.css" rel="stylesheet">
@@ -18,8 +18,10 @@
       <!-- Sidebar -->
       <nav class="col-md-3 col-lg-2 px-3 sidebar">
         <div class="position-sticky">
-          <img src="/logo-pikababy.png" alt="pika baby logo" class="img-fluid d-block mx-auto mb-1 mt-1"
-            style="max-height: 150px;">
+          <a href="http://localhost:8080/">
+            <img src="/logo-pikababy.png" alt="pika baby logo" class="img-fluid d-block mx-auto mb-1 mt-1"
+              style="max-height: 150px;">
+          </a>
           <!-- <h2 class="text-center mb-4">功能選單</h2> -->
           <div class="accordion" id="sidebarMenu">
             <script>
@@ -104,10 +106,10 @@
                   <div id="collapse5" class="accordion-collapse collapse" aria-labelledby="heading5" >
                     <div class="accordion-body">
                       <ul class="list-unstyled">
+                      <li><a href="#" class="text-secondary">廠商建檔</a></li>
+                      <li><a href="#" class="text-secondary">商品建檔</a></li>
                         <li><a href="#" class="text-secondary">進貨單</a></li>
                         <li><a href="#" class="text-secondary">庫存查詢</a></li>
-                       <li><a href="#" class="text-secondary">商品上架</a></li>
-                       <li><a href="#" class="text-secondary">廠商建檔</a></li>
                         </ul>
                     </div>
                   </div>
@@ -170,6 +172,7 @@
         </div>
       </nav>
 
+
       <!-- 員工登入 -->
       <div class="dropdown d-flex justify-content-end pe-4 pt-3 user">
         <a href="#" class="d-inline-flex align-items-center text-dark text-decoration-none dropdown-toggle"
@@ -194,33 +197,35 @@
           <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
             <ol class="breadcrumb">
               <li class="breadcrumb-item">主頁面</li>
-              <li class="breadcrumb-item">事務性管理</li>
-              <li class="breadcrumb-item active" aria-current="page">會員帳號管理</li>
+              <li class="breadcrumb-item">財務管理</li>
+              <li class="breadcrumb-item active" aria-current="page">應收帳款管理</li>
             </ol>
           </nav>
           <!-- 從此往下寫右側區域功能 -->
-           <h2>會員資料</h2>
-    <form th:action="@{/customers/save}" th:object="${customer}" method="post">
-        <input type="hidden" th:field="*{id}" />
-        <div class="mb-2">
-            <label>姓名</label>
-            <input type="text" th:field="*{name}" class="form-control" required />
-        </div>
-        <div class="mb-2">
-            <label>電話</label>
-            <input type="text" th:field="*{phone}" class="form-control" />
-        </div>
-        <div class="mb-2">
-            <label>Email</label>
-            <input type="email" th:field="*{email}" class="form-control" />
-        </div>
-        <div class="mb-2">
-            <label>地址</label>
-            <input type="text" th:field="*{address}" class="form-control" />
-        </div>
-        <button class="btn btn-success" type="submit">儲存</button>
-        <a class="btn btn-secondary" th:href="@{/customers}">取消</a>
-    </form>
+          <h2>應收帳款列表</h2>
+
+          <table border="1" cellpadding="8">
+            <thead>
+              <tr>
+                <th>訂單編號</th>
+                <th>客戶名稱</th>
+                <th>應收金額</th>
+                <th>狀態</th>
+                <th>到期日</th>
+                <th>建立時間</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="r : ${receivables}">
+                <td th:text="${r.order.id}"></td>
+                <td th:text="${r.customer.name}"></td>
+                <td th:text="${r.amount} + ' 元'"></td>
+                <td th:text="${r.status}"></td>
+                <td th:text="${r.dueDate}"></td>
+                <td th:text="${#dates.format(r.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
+              </tr>
+            </tbody>
+          </table>
 
           <!-- 從此以上寫右側區域功能 -->
         </div>
@@ -228,9 +233,9 @@
 
     </div>
   </div>
-  
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  
+
 </body>
 
 </html>

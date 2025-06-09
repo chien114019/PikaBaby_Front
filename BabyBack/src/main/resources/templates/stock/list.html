@@ -18,8 +18,10 @@
       <!-- Sidebar -->
       <nav class="col-md-3 col-lg-2 px-3 sidebar">
         <div class="position-sticky">
-          <img src="/logo-pikababy.png" alt="pika baby logo" class="img-fluid d-block mx-auto mb-1 mt-1"
-            style="max-height: 150px;">
+          <a href="http://localhost:8080/">
+  <img src="/logo-pikababy.png" alt="pika baby logo" class="img-fluid d-block mx-auto mb-1 mt-1"
+       style="max-height: 150px;">
+</a>
           <!-- <h2 class="text-center mb-4">功能選單</h2> -->
           <div class="accordion" id="sidebarMenu">
             <script>
@@ -202,17 +204,17 @@
           <h2>商品庫存查詢</h2>
 
           <!-- 搜尋表單 -->
-          <form class="row g-2 mb-3" th:action="@{/stock}" method="get">
+          <form class="row g-2 mb-3 " th:action="@{/stock}" method="get">
             <div class="col-auto">
-              <input type="text" name="keyword" class="form-control" placeholder="輸入商品名稱關鍵字" th:value="${keyword}">
+              <input type="text" name="keyword" class="form-control" placeholder="輸入『商品名稱』關鍵字" th:value="${keyword}">
             </div>
             <div class="col-auto">
               <button type="submit" class="btn btn-primary">搜尋</button>
             </div>
           </form>
 
-          <table class="table table-bordered">
-            <thead>
+          <table class="table table-bordered ">
+            <thead class="text-center">
               <tr>
                 <th>ID</th>
                 <th>名稱</th>
@@ -222,10 +224,10 @@
             </thead>
             <tbody>
               <tr th:each="p : ${products}">
-                <td th:text="${p.id}"></td>
+                <td th:text="${p.id}" class="text-center"></td>
                 <td th:text="${p.name}"></td>
                 <td th:text="${p.price}"></td>
-                <td th:text="${p.stock}"></td>
+                <td th:text="${p.stock}" class="text-center"></td>
               </tr>
             </tbody>
           </table>

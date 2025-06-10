@@ -2,28 +2,32 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>會員清單</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-  <link href="/customer.css" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>會員詳細資料</title>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<link href="/customer.css" rel="stylesheet">
 
 </head>
 
 <body>
-  <div class="container-fluid">
-    <div class="row">
+	<div class="container-fluid">
+		<div class="row">
 
-      <!-- Sidebar -->
-      <nav class="col-md-3 col-lg-2 px-3 sidebar">
-        <div class="position-sticky">
-          <a href="http://localhost:8080/"> <img src="/logo-pikababy.png" alt="pika baby logo"
-              class="img-fluid d-block mx-auto mb-1 mt-1" style="max-height: 150px;">
-          </a>
-          <!-- <h2 class="text-center mb-4">功能選單</h2> -->
-          <div class="accordion" id="sidebarMenu">
-            <script>
+			<!-- Sidebar -->
+			<nav class="col-md-3 col-lg-2 px-3 sidebar">
+				<div class="position-sticky">
+					<a href="http://localhost:8080/"> <img src="/logo-pikababy.png"
+						alt="pika baby logo" class="img-fluid d-block mx-auto mb-1 mt-1"
+						style="max-height: 150px;">
+					</a>
+					<!-- <h2 class="text-center mb-4">功能選單</h2> -->
+					<div class="accordion" id="sidebarMenu">
+						<script>
               //直接將 HTML 字串寫進頁面中
               document.write(`
                 <div class="accordion-item">
@@ -167,176 +171,148 @@
                 </div>
               `);
             </script>
-          </div>
-        </div>
-      </nav>
+					</div>
+				</div>
+			</nav>
 
-      <!-- 員工登入 -->
-      <div class="dropdown d-flex justify-content-end pe-4 pt-3 user">
-        <a href="#" class="d-inline-flex align-items-center text-dark text-decoration-none dropdown-toggle"
-          id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-          <i class="bi bi-person-circle fs-4 me-2"></i> Hi! 總經理 小智
-        </a>
-        <ul class="dropdown-menu text-small" aria-labelledby="userDropdown">
-          <li><a class="dropdown-item" href="#">個人資料設定</a></li>
-          <!-- <li><a class="dropdown-item" href="#"></a></li> -->
-          <li>
-            <hr class="dropdown-divider">
-          </li>
-          <li><a class="dropdown-item text-danger" href="#">登出</a></li>
-        </ul>
-      </div>
+			<!-- 員工登入 -->
+			<div class="dropdown d-flex justify-content-end pe-4 pt-3 user">
+				<a href="#"
+					class="d-inline-flex align-items-center text-dark text-decoration-none dropdown-toggle"
+					id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+					<i class="bi bi-person-circle fs-4 me-2"></i> Hi! 總經理 小智
+				</a>
+				<ul class="dropdown-menu text-small" aria-labelledby="userDropdown">
+					<li><a class="dropdown-item" href="#">個人資料設定</a></li>
+					<!-- <li><a class="dropdown-item" href="#"></a></li> -->
+					<li>
+						<hr class="dropdown-divider">
+					</li>
+					<li><a class="dropdown-item text-danger" href="#">登出</a></li>
+				</ul>
+			</div>
 
-      <!-- Main content -->
-      <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 offset-md-3">
-        <div class="pt-2">
-          <!-- 麵包屑 -->
-          <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item">主頁面</li>
-              <li class="breadcrumb-item">事務性管理</li>
-              <li class="breadcrumb-item active" aria-current="page">會員帳號管理</li>
-            </ol>
-          </nav>
-          <!-- 從此往下寫右側區域功能 -->
-          <h2>會員清單</h2>
+			<!-- Main content -->
+			<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 offset-md-3">
+				<div class="pt-2">
+					<!-- 麵包屑 -->
+					<nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item">主頁面</li>
+							<li class="breadcrumb-item">事務性管理</li>
+							<li class="breadcrumb-item active" aria-current="page">會員帳號管理</li>
+						</ol>
+					</nav>
+					<!-- 從此往下寫右側區域功能 -->
+
+					<!-- 會員清單頁面內容 -->
+					<h3 class="mb-3 fw-bold">會員詳細資料</h3>
+
+					<!-- 累積數據卡片列 -->
+					<div class="row mb-4 ">
+						<div class="col-md-3">
+							<div class="bg-light p-3 rounded shadow-sm text-center">
+								<div class="fw-bold">累積消費總額</div>
+								<div class="fs-4 text-primary">3,000</div>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="bg-light p-3 rounded shadow-sm text-center">
+								<div class="fw-bold">訂單數量（件）</div>
+								<div class="fs-4 text-primary">20</div>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="bg-light p-3 rounded shadow-sm text-center">
+								<div class="fw-bold">二手商品託售數量</div>
+								<div class="fs-4 text-primary">10</div>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="bg-light p-3 rounded shadow-sm text-center">
+								<div class="fw-bold">持有有效紅利（點）</div>
+								<div class="fs-4 text-primary">160</div>
+							</div>
+						</div>
+					</div>
+					<hr>
+
+					<div class="row mt-4 mb-4">
+						<!-- 左半邊：基本資料 -->
+						<div class="col-12 col-md-6 mb-3 mb-md-0">
+							<div class="border-start border-4 border-warning ps-3 h-100">
+								<h5 class="fw-bold text-primary">基本資料</h5>
+								<div class="mb-2">
+									<i class="bi bi-person-fill me-2"></i><span>姓名：王小明</span>
+								</div>
+								<div class="mb-2">
+									<i class="bi bi-gender-ambiguous me-2"></i>性別：男
+								</div>
+								<div class="mb-2">
+									<i class="bi bi-calendar-event me-2"></i>生日：2000-05-01
+								</div>
+								<div class="mb-2">
+									<i class="bi bi-envelope-fill me-2"></i>Email:
+									cyberbizgift5@gmail.com
+								</div>
+								<div class="mb-2">
+									<i class="bi bi-telephone-fill me-2"></i>電話：0952089237
+								</div>
+								<div class="mb-2">
+									<i class="bi bi-house me-2"></i>地址：408台中市南屯區公益路二段51號18樓 
+								</div>
+								<div class="mb-2">
+									<i class="bi bi-door-open-fill me-2"></i>首登時間：2025-05-20
+								</div>
+							</div>
+						</div>
+
+						<!-- 右半邊：額外資訊 -->
+						<div class="col-12 col-md-6">
+							<div class="border-start border-4 border-warning ps-3 h-100">
+								<h5 class="fw-bold text-primary">寶寶資料</h5>
+								<div class="mb-2">
+									<i class="bi bi-1-circle me-2"></i>大寶出生年月：
+								</div>
+								<div class="mb-2">
+									<i class="bi bi-1-circle me-2"></i>大寶性別：
+								</div>
+								<div class="mb-2">
+									<i class="bi bi-2-circle-fill me-2"></i>二寶出生年月：
+								</div>
+								<div class="mb-2">
+									<i class="bi bi-2-circle-fill me-2"></i>二寶性別：
+								</div>
+								<div class="mb-2">
+									<i class="bi bi-3-circle me-2"></i>小寶出生年月：
+								</div>
+								<div class="mb-2">
+									<i class="bi bi-3-circle me-2"></i>小寶性別：
+								</div>
+								<div class="mb-2">
+									<i class="bi bi-pencil-square me-2"></i>備註：
+								</div>
+
+							</div>
+						</div>
+					</div>
+
+					<!-- 功能連結 -->
+					<div class="text-end">
+						<a href="#" class="btn btn-danger btn-sm">刪除帳號</a>
+					</div>
 
 
-          <!-- 篩選條件區塊 -->
-          <!-- 標題 -->
-          <div class="card p-3">
-            <div class="mb-2 fw-bold">篩選條件</div>
-            <!-- 動態條件列 -->
-            <div id="conditionContainer" class=" d-flex flex-column gap-2"></div>
 
-            <div class="mb-1 mt-3 d-flex justify-content-between align-items-center">
-              <!-- 左邊：新增條件 -->
-              <div>
-                <button type="button" class="btn btn-outline-primary btn-sm" onclick="addCondition()">＋ 新增篩選條件</button>
-              </div>
+					<!-- 從此以上寫右側區域功能 -->
+				</div>
+			</main>
 
-              <!-- 右邊：套用與清除 -->
-              <div>
-                <button class="btn btn-primary btn-sm">套用</button>
-                <button type="button" class="btn btn-secondary btn-sm" onclick="clearConditions()">清除全部</button>
-              </div>
-            </div>
-          </div>
+		</div>
+	</div>
 
-          <!-- 搜尋區塊 -->
-          <form class="row g-3 align-items-end mt-1 mb-3" method="get" action="/receivables/search">
-            <div class="col-md-4">
-              <label for="keyword" class="form-label">查詢篩選欄位</label> <input type="text" class="form-control"
-                id="keyword" name="keyword" placeholder="請輸入公司名稱">
-            </div>
-            <div class="col-md-3">
-              <label for="startDate" class="form-label">起始日期</label> <input type="date" class="form-control"
-                id="startDate" name="startDate">
-            </div>
-            <div class="col-md-3">
-              <label for="endDate" class="form-label">結束日期</label> <input type="date" class="form-control" id="endDate"
-                name="endDate">
-            </div>
-            <div class="col-md-2 text-start">
-              <button type="submit" class="btn btn-primary w-50">
-                <i class="bi bi-search"></i> 查詢
-              </button>
-            </div>
-
-          </form>
-
-
-
-          <table class="table table-bordered">
-            <thead class="text-center">
-              <tr>
-                <th>ID</th>
-                <th>姓名</th>
-                <th>電話</th>
-                <th>Email</th>
-                <th>地址</th>
-                <th>操作</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr th:each="c : ${customers}">
-                <td th:text="${c.id}" class="text-center"></td>
-                <td th:text="${c.name}"></td>
-                <td th:text="${c.phone}"></td>
-                <td th:text="${c.email}"></td>
-                <td th:text="${c.address}"></td>
-                <td class="text-center"><a th:href="@{'/customers/detail/' + ${c.id}}"
-                    class="btn btn-primary btn-sm">詳細資料</a> <a class="btn btn-warning btn-sm"
-                    th:href="@{'/customers/edit/' + ${c.id}}">編輯</a> <a class="btn btn-danger btn-sm"
-                    th:href="@{'/customers/delete/' + ${c.id}}">刪除</a></td>
-              </tr>
-            </tbody>
-
-          </table>
-
-          <div class="text-end" >
-            <!-- 有功能 先不要刪掉 -->
-            <a class="btn btn-primary" th:href="@{/customers/new}">新增會員</a>
-            <a class="btn btn-secondary" th:href="@{/}">返回</a>
-          </div>
-
-
-
-          <!-- 從此以上寫右側區域功能 -->
-        </div>
-      </main>
-
-    </div>
-  </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js">
-  </script>
-  <script>
-    function addCondition() {
-      const container = document.getElementById('conditionContainer');
-
-      // 包裹整個條件列的 div
-      const row = document.createElement('div');
-      row.className = 'd-flex align-items-center gap-2';
-
-      // 條件欄位
-      const conditionSelect = document.createElement('select');
-      conditionSelect.className = 'form-select w-25';
-      conditionSelect.name = 'conditionField[]';
-      conditionSelect.innerHTML = `
-    <option value="">請選擇條件</option>
-    <option value="status">帳號狀態</option>
-    <option value="registerDate">註冊時間</option>
-    <option value="tag">會員標籤</option>
-    <option value="coupon">是否持有優惠券</option>
-    <option value="bonus">是否持有紅利</option>
-    <option value="vip">是否為VIP</option>
-  `;
-
-      // 條件值欄位（初始為空，等使用者輸入）
-      const detailInput = document.createElement('input');
-      detailInput.className = 'form-control w-50';
-      detailInput.name = 'conditionValue[]';
-      detailInput.placeholder = '請輸入條件內容';
-
-      // 刪除按鈕
-      const deleteBtn = document.createElement('button');
-      deleteBtn.type = 'button';
-      deleteBtn.className = 'btn btn-outline-danger btn-sm';
-      deleteBtn.innerHTML = '<i class="bi bi-trash"></i>';
-      deleteBtn.onclick = () => container.removeChild(row);
-
-      row.appendChild(conditionSelect);
-      row.appendChild(detailInput);
-      row.appendChild(deleteBtn);
-
-      container.appendChild(row);
-    }
-
-    function clearConditions() {
-      document.getElementById('conditionContainer').innerHTML = '';
-    }
-  </script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 

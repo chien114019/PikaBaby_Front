@@ -34,6 +34,7 @@ public class ReceivableController {
     }
     
     //0609喬新增
+    //可以查詢廠商關鍵字、日期區間，但一定要輸入關鍵字
     @GetMapping("/search")
     public String searchReceivables(
         @RequestParam(required = false) String keyword,
@@ -43,7 +44,7 @@ public class ReceivableController {
     ) {
         List<Receivable> results = receivableService.search(keyword, startDate, endDate);
         model.addAttribute("receivables", results);
-        return "receivables/list"; // ✅ 確保這是正確的 thymeleaf 檔案路徑
+        return "receivables/list"; //確保這是正確的 thymeleaf 檔案路徑
     }
 }
 

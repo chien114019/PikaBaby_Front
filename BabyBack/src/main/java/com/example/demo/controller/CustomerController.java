@@ -53,5 +53,18 @@ public class CustomerController {
         return "redirect:/customers";// 刪除後回到清單頁面
     }
     
+    //0610喬新增
+    //純 看客戶詳細資料
+    @GetMapping("/detail")
+    public String showDetail() {
+        return "customer/detail"; // 對應 templates/customer/detail.html
+    }
     
+    //對應指定客戶ID跳出詳細資料
+    @GetMapping("/detail/{id}")
+    public String showCustomerDetail(@PathVariable Long id, Model model) {
+        Customer customer = service.getById(id); // 這邊用 service.getById 方法
+        model.addAttribute("customer", customer);
+        return "customer/detail";
+    }
 }

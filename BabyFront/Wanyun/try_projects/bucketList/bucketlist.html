@@ -111,7 +111,7 @@
       <!-- 商品 1 -->
       <tr>
         <td class="item-info">
-          <img src="./images/nepkin.jpg" alt="汽車肚圍">
+          <img src="../images/nepkin.jpg" alt="汽車肚圍">
           <div class="item-title">麗嬰房汽車鋪棉肚圍</div>
         </td>
         <td>$312</td>
@@ -131,7 +131,7 @@
       <!-- 商品 2 -->
       <tr>
         <td class="item-info">
-          <img src="./images/pineapple6.jpg" alt="包屁衣">
+          <img src="../images/pineapple6.jpg" alt="包屁衣">
           <div class="item-title">麗嬰房野餐系鳳梨包屁衣</div>
           <div class="sub-info">顏色：鮮黃｜產品規格：12M</div>
         </td>
@@ -152,7 +152,7 @@
       <!-- 商品 3 -->
       <tr>
         <td class="item-info">
-          <img src="./images/pineapple6.jpg" alt="包屁衣">
+          <img src="../images/pineapple6.jpg" alt="包屁衣">
           <div class="item-title">麗嬰房野餐系鳳梨包屁衣</div>
           <div class="sub-info">顏色：鮮黃｜產品規格：6M</div>
         </td>
@@ -172,5 +172,18 @@
       </tr>
     </tbody>
   </table>
+     <script>
+    function updateQty(button, delta) {
+      const row = button.closest('tr');
+      const qtySpan = row.querySelector('.qty-number');
+      let qty = parseInt(qtySpan.textContent);
+      qty = Math.max(1, qty + delta); // 最小為 1
+      qtySpan.textContent = qty;
+      const unitPrice = parseInt(row.getAttribute('data-price'));
+      const subtotalCell = row.querySelector('.subtotal');
+      subtotalCell.textContent = `$${qty * unitPrice}`;
+    }
+  </script>
+
 </body>
 </html>

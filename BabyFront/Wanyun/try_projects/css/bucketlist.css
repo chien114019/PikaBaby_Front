@@ -52,16 +52,7 @@ body {
       cursor: pointer;
     }
 
-    .qty-btn-center {
-      width: 30px;
-      height: 30px;
-      border: 1px;
-      background-color: #e3f2f2;
-      color: #0b1010;
-      font-size: 18px;
-      border-radius: 50%;
-      cursor: pointer;
-    }
+  
     .qty-btn-right {
       width: 30px;
       height: 30px;
@@ -73,10 +64,18 @@ body {
       cursor: pointer;
     }
     .qty-number {
-      width: 32px;
-      text-align: center;
-      font-weight: bold;
-    }
+  width: 30px;
+  height: 30px;
+  line-height: 30px;                /* 垂直置中內容 */
+  text-align: center;              /* 水平置中內容 */
+   
+  background-color: #e3f2f2;
+  color: #0b1010;
+  font-size: 18px;
+  /* font-weight: bold; */
+  border-radius: 50%;
+  display: inline-block;           /* 確保可以套寬高 */
+}
     .action-icons {
       display: flex;
       justify-content: center;

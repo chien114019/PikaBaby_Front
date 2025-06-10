@@ -2,20 +2,21 @@
 <html lang="zh-Hant">
 
 <head>
-    <meta charset="UTF-8">
-    <title>會員專區</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="./css/frontpage_decor.css">
-    <style>
-        .bg-warning-subtle {
-            background-color: #fff5dc;
-            /* 淡黃色 */
-        }
+  <meta charset="UTF-8">
+  <title>會員專區</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../css/frontpage_decor.css">
+  <style>
+    .bg-warning-subtle {
+      background-color: #fff5dc;
+      /* 淡黃色 */
+    }
 
-        /* 訂單header */
+    /* 導覽Tabs */
 
-        .nav-wrapper {
-      border-bottom: 2px solid #e0e0e0; /* 整條底線 */
+    .nav-wrapper {
+      border-bottom: 2px solid #e0e0e0;
+      /* 整條底線 */
       display: flex;
       justify-content: center;
       gap: 1rem;
@@ -23,28 +24,30 @@
     }
 
 
-       .nav-button {
+    .nav-button {
       border: none;
       background: none;
       color: #333;
       padding: 0.5rem 1rem;
       font-weight: 500;
       position: relative;
-      
+
     }
 
     .nav-button::after {
       content: "";
       position: absolute;
       left: 0;
-      bottom: -2px; /* 讓黃線蓋在灰線上 */
+      bottom: -2px;
+      /* 讓黃線蓋在灰線上 */
       height: 4px;
       width: 0%;
-      background-color: #f1f454; /* 黃色底線 */
+      background-color: #f1f454;
+      /* 黃色底線 */
       transition: width 0.3s;
     }
 
-    
+
 
     .nav-button.active::after {
       width: 100%;
@@ -54,9 +57,10 @@
       color: #000;
       font-weight: 600;
     }
-/* 側邊攔 */
+
+    /* 側邊攔 */
     .sidebar {
-    position: relative;
+      position: relative;
       background-color: #fffafa;
       border: 2px solid #ccc;
       margin-left: 100px;
@@ -66,7 +70,7 @@
       font-family: sans-serif;
     }
 
-      /* 垂直線：放在整個容器內的中間 */
+    /* 垂直線：放在整個容器內的中間 */
     .timeline-line {
       position: absolute;
       top: 40px;
@@ -101,8 +105,8 @@
       margin-bottom: 0;
     }
 
-   /* OrderCard_2 */
-  
+    /* OrderCard_2 */
+
 
     .order-card h2 {
       font-size: 24px;
@@ -126,7 +130,7 @@
 
     .progress-bar {
       height: 6px;
-      background-color:  #ccc;
+      background-color: #ccc;
       border-radius: 3px;
       margin-top: 1rem;
     }
@@ -145,140 +149,130 @@
       line-height: 36px;
       border-radius: 40%;
       font-size: 16px;
-      font-weight: 600;}
-    </style>
+      font-weight: 600;
+    }
+  </style>
 </head>
 
 <body>
-    <!-- 置頂的促銷訊息 -->
-    <div class="top-banner">
-        每週五六日🔥新人代理寄賣免運
-        <span style="color: red;">25 日 23 時 14 分 35 秒</span>
-        <div style="display: inline-block; background-color: black; color: white">
-            Ispain love you
-        </div>
+  <!-- 置頂的促銷訊息 -->
+  <div class="top-banner">
+    每週五六日🔥新人代理寄賣免運
+    <span style="color: red;">25 日 23 時 14 分 35 秒</span>
+    <div style="display: inline-block; background-color: black; color: white">
+      Ispain love you
     </div>
-
-    <!-- LOGO -->
-    <div class="nav-logo-row">
-        <img src="./images/logo-pikababy.png" alt="PikaBaby" class="nav-logo" />
-    </div>
-
-    <!-- 導覽列 -->
-    <nav>
-        <div class="nav-container">
-            <div class="nav-links">
-                <a href="#">首頁</a>
-                <div class="dropdown">
-                    <a href="#">年齡區間(0-3M)</a>
-                    <div class="dropdown-content">
-                        <a href="#">奶瓶/奶嘴</a>
-                        <a href="#">圍兜/揹巾</a>
-                        <a href="#">嬰兒服裝</a>
-                        <a href="#">清潔用品</a>
-                        <a href="#">嬰兒推車</a>
-                        <a href="#">嬰兒床</a>
-                        <a href="#">哺乳用品</a>
-                        <a href="#">嬰兒用品</a>
-                    </div>
-                </div>
-                <div class="dropdown">
-                    <a href="#">年齡區間(3-6M)</a>
-                    <div class="dropdown-content">
-                        <a href="#">嬰兒服裝</a>
-                        <a href="#">玩具</a>
-                        <a href="#">嬰兒推車</a>
-                        <a href="#">嬰兒床</a>
-                        <a href="#">汽座</a>
-                        <a href="#">嬰兒用品</a>
-                    </div>
-                </div>
-                <div class="dropdown">
-                    <a href="#">年齡區間(6-12M)</a>
-                    <div class="dropdown-content">
-                        <a href="#">學步用品</a>
-                        <a href="#">餐具用品</a>
-                        <a href="#">幼兒服裝</a>
-                        <a href="#">玩具</a>
-                        <a href="#">嬰兒推車</a>
-                        <a href="#">汽座</a>
-                        <a href="#">嬰兒用品</a>
-                    </div>
-                </div>
-                <div class="dropdown">
-                    <a href="#">年齡區間(2-3y)</a>
-                    <div class="dropdown-content">
-                        <a href="#">幼教用品</a>
-                        <a href="#">兒童服裝</a>
-                        <a href="#">玩具</a>
-                        <a href="#">汽座</a>
-                        <a href="#">兒童推車</a>
-                        <a href="#">餐椅</a>
-                        <a href="#">電器用品</a>
-                        <a href="#">嬰兒用品</a>
-                    </div>
-                </div>
-                <a href="#">二手專區</a>
-                <a href="#">關於我們</a>
-            </div>
-            <div class="user-actions">
-                <a href="#">🛒</a>
-                <a href="#">👤</a>
-            </div>
-        </div>
-    </nav>
-    <div class="container-fluid">
-
-
-
-        <!-- 主要內容（測試滾動） -->
-        <br><br><br><br><br><br><br><br><br><br>
-        <main>
-            <!-- Header 區塊 -->
-
-            <div>
-                <!-- Icons: 購物車、會員、搜尋等 -->
-            </div>
-            </header>
-
-            <!-- 主內容區塊 -->
-            <div class="row">
-                <!-- 側邊欄 -->
-                <div class="sidebar">
-                    <div class="timeline-line"></div>
-  <div class="menu-item">訂單資訊</div>
-  <div class="menu-item">託售紀錄</div>
-</div>
-
-
-
-
-
-                <!-- 主要內容 -->
-                <main class="col-md-8 p-5">
-                    <h3>歡迎回來，USER！</h3>
-<br><br>
-                    <!-- 導覽 Tabs -->
-                    <!-- <div class="container text-center">
-  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4">
-    <div class="col">訂單資訊</div>
-    <div class="col">會員資料</div>
-    <div class="col">我的收藏</div>
-    <div class="col">更換密碼</div>
   </div>
-</div> -->
 
-                    <div class="container text-center mt-4 border-bottom ">
-                        <div class="d-flex justify-content-center gap-3 flex-wrap">
-                            <button class="nav-button active">訂單資訊</button>
-                            <button class="nav-button">會員資料</button>
-                            <button class="nav-button">願望清單</button>
-                              <button class="nav-button">折扣專區</button>
-                            <button class="nav-button">更換密碼</button>
-                        </div>
-                    </div>
+  <!-- LOGO -->
+  <div class="nav-logo-row">
+    <img src="../images/logo-pikababy.png" alt="PikaBaby" class="nav-logo" />
+  </div>
 
-                    <!-- <ul class="nav nav-tabs mt-3">
+  <!-- 導覽列 -->
+  <nav>
+    <div class="nav-container">
+      <div class="nav-links">
+        <a href="#">首頁</a>
+        <div class="dropdown">
+          <a href="#">年齡區間(0-3M)</a>
+          <div class="dropdown-content">
+            <a href="#">奶瓶/奶嘴</a>
+            <a href="#">圍兜/揹巾</a>
+            <a href="#">嬰兒服裝</a>
+            <a href="#">清潔用品</a>
+            <a href="#">嬰兒推車</a>
+            <a href="#">嬰兒床</a>
+            <a href="#">哺乳用品</a>
+            <a href="#">嬰兒用品</a>
+          </div>
+        </div>
+        <div class="dropdown">
+          <a href="#">年齡區間(3-6M)</a>
+          <div class="dropdown-content">
+            <a href="#">嬰兒服裝</a>
+            <a href="#">玩具</a>
+            <a href="#">嬰兒推車</a>
+            <a href="#">嬰兒床</a>
+            <a href="#">汽座</a>
+            <a href="#">嬰兒用品</a>
+          </div>
+        </div>
+        <div class="dropdown">
+          <a href="#">年齡區間(6-12M)</a>
+          <div class="dropdown-content">
+            <a href="#">學步用品</a>
+            <a href="#">餐具用品</a>
+            <a href="#">幼兒服裝</a>
+            <a href="#">玩具</a>
+            <a href="#">嬰兒推車</a>
+            <a href="#">汽座</a>
+            <a href="#">嬰兒用品</a>
+          </div>
+        </div>
+        <div class="dropdown">
+          <a href="#">年齡區間(2-3y)</a>
+          <div class="dropdown-content">
+            <a href="#">幼教用品</a>
+            <a href="#">兒童服裝</a>
+            <a href="#">玩具</a>
+            <a href="#">汽座</a>
+            <a href="#">兒童推車</a>
+            <a href="#">餐椅</a>
+            <a href="#">電器用品</a>
+            <a href="#">嬰兒用品</a>
+          </div>
+        </div>
+        <a href="#">二手專區</a>
+        <a href="#">關於我們</a>
+      </div>
+      <div class="user-actions">
+        <a href="#">🛒</a>
+        <a href="#">👤</a>
+      </div>
+    </div>
+  </nav>
+ 
+
+
+
+    <!-- 主要內容（測試滾動） -->
+    <br><br><br><br><br><br><br><br><br><br>
+    <main>
+      
+      
+
+      <!-- 主內容區塊 -->
+      <div class="row">
+        <!-- 側邊欄 -->
+        <div class="sidebar">
+          <div class="timeline-line"></div>
+          <div class="menu-item">訂單資訊</div>
+          <div class="menu-item">託售紀錄</div>
+        </div>
+
+
+
+
+
+        <!-- 主要內容 -->
+        <main class="col-md-8 p-5">
+          <h3>歡迎回來，USER！</h3>
+          <br><br>
+          <!-- 導覽 Tabs -->
+          
+
+          <div class="container text-center mt-4 border-bottom ">
+            <div class="d-flex justify-content-center gap-3 flex-wrap">
+              <button class="nav-button active">訂單資訊</button>
+              <button class="nav-button">會員資料</button>
+              <button class="nav-button">願望清單</button>
+              <button class="nav-button">折扣專區</button>
+              <button class="nav-button">更換密碼</button>
+            </div>
+          </div>
+
+          <!-- <ul class="nav nav-tabs mt-3">
         <li class="nav-item"><a class="nav-link active" href="#">訂單資訊</a></li>
         <li class="nav-item"><a class="nav-link" href="#">會員資料</a></li>
         <li class="nav-item"><a class="nav-link" href="#">我的收藏</a></li>
@@ -286,68 +280,68 @@
         <li class="nav-item"><a class="nav-link" href="#">更換密碼</a></li>
       </ul> -->
 
-                    <!-- 訂單資訊 -->
-                    <div class="bg-warning-subtle p-4 mt-3 rounded">
-                        <h6 class="fw-bold">訂單資訊</h6>
-                        <p>訂單編號｜日期｜訂單狀態｜付款狀態｜金額總計</p>
-                    </div>
+          <!-- 訂單資訊 -->
+          <div class="bg-warning-subtle p-4 mt-3 rounded">
+            <h6 class="fw-bold">訂單資訊</h6>
+            <p>訂單編號｜日期｜訂單狀態｜付款狀態｜金額總計</p>
+          </div>
 
-                    <!-- 託售紀錄 -->
-                    <div class="order-card bg-warning-subtle p-4 mt-3 rounded">
-  <h2>託售紀錄</h2>
-  <p class="description">託售提交後，請等待審核完成並確認價格後，再進行後續處理</p>
+          <!-- 託售紀錄 -->
+          <div class="order-card bg-warning-subtle p-4 mt-3 rounded">
+            <h2>託售紀錄</h2>
+            <p class="description">託售提交後，請等待審核完成並確認價格後，再進行後續處理</p>
 
-  <div class="order-header">
-    <div>商品名稱</div>
-    <div>商品數量</div>
-    <div>申請日期</div>
-    <div>審核狀態</div>
-    <div>預估價格</div>
-  </div>
+            <div class="order-header">
+              <div>商品名稱</div>
+              <div>商品數量</div>
+              <div>申請日期</div>
+              <div>審核狀態</div>
+              <div>預估價格</div>
+            </div>
 
-  <div class="progress-bar"></div>
+            <div class="progress-bar"></div>
 
-  <div class="pagination justify-content-center">
-    <span class="page-number">1</span>
-  </div>
-</div>
-    </div>
+            <div class="pagination justify-content-center">
+              <span class="page-number">1</span>
+            </div>
+          </div>
+      </div>
     </main>
 
     <!-- 頁尾 -->
     <footer>
-        <div class="footer-container">
-            <img src="./images/logo-pikababy.png" alt="PikaBaby" class="footer-logo" />
-            <div class="footer-section">
-                <p class="footer-title">PikaBaby</p>
-                <div class="footer-line"></div>
-                <p>服務我們</p>
-                <p>品牌特色</p>
-            </div>
-            <div class="footer-section">
-                <h3>品牌服務</h3>
-                <div class="footer-line"></div>
-                <p>Baby Store</p>
-                <p>二手商城</p>
-            </div>
-            <div class="footer-section">
-                <h3>聯絡我們</h3>
-                <div class="footer-line"></div>
-                <p>聯絡電話：(04) 2326-5860</p>
-                <p>聯絡地址：台中市南屯區公益路二段51號18樓</p>
-            </div>
+      <div class="footer-container">
+        <img src="../images/logo-pikababy.png" alt="PikaBaby" class="footer-logo" />
+        <div class="footer-section">
+          <p class="footer-title">PikaBaby</p>
+          <div class="footer-line"></div>
+          <p>服務我們</p>
+          <p>品牌特色</p>
         </div>
+        <div class="footer-section">
+          <h3>品牌服務</h3>
+          <div class="footer-line"></div>
+          <p>Baby Store</p>
+          <p>二手商城</p>
+        </div>
+        <div class="footer-section">
+          <h3>聯絡我們</h3>
+          <div class="footer-line"></div>
+          <p>聯絡電話：(04) 2326-5860</p>
+          <p>聯絡地址：台中市南屯區公益路二段51號18樓</p>
+        </div>
+      </div>
     </footer>
 
 
     <script>
-        const buttons = document.querySelectorAll('.nav-button');
-        buttons.forEach(btn => {
-            btn.addEventListener('click', () => {
-                buttons.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-            });
+      const buttons = document.querySelectorAll('.nav-button');
+      buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          buttons.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
         });
+      });
     </script>
 </body>
 

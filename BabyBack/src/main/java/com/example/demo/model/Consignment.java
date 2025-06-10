@@ -30,6 +30,7 @@ public class Consignment {
 	private Date deliveryDate;
 	private Integer review;
 	private Integer price;
+	private String produceYear;
 	
 	public Integer getId() {
 		return id;
@@ -103,9 +104,16 @@ public class Consignment {
 	public void setPrice(Integer price) {
 		this.price = price;
 	}
+	public String getProduceYear() {
+		return produceYear;
+	}
+	public void setProduceYear(String produceYear) {
+		this.produceYear = produceYear;
+	}
 	
 //	------------------------------------
 	
+
 	@ManyToOne
 	@JoinColumn(name = "custId")
 	private Customer customer;

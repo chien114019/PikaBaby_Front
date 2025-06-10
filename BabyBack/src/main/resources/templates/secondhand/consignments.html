@@ -157,73 +157,75 @@
 								<!-- value 填入該筆資料內容 -->
 								<div class="d-flex justify-content-start gap-3">
 									<div class="mb-3">
-										<label for="recipient-name" class="col-form-label">商品名稱</label>
-										<input type="text" class="form-control" id="recipient-name"
-											value="" readonly>
+										<label for="pName" class="col-form-label">商品名稱</label> <input
+											type="text" class="form-control" id="pName" value="" readonly>
 									</div>
 									<div class="mb-3">
-										<label for="recipient-name" class="col-form-label">製造年份</label>
-										<input type="text" class="form-control" id="recipient-name"
-											value="" readonly>
+										<label for="pYear" class="col-form-label">製造年份</label> <input
+											type="text" class="form-control" id="pYear" value="" readonly>
 									</div>
 								</div>
 								<div class="d-flex justify-content-start gap-3">
 									<div class="mb-3">
-										<label for="recipient-name" class="col-form-label">申請人姓名：</label>
-										<input type="text" class="form-control" id="recipient-name"
-											value="" readonly>
+										<label for="custName" class="col-form-label">申請人姓名：</label> <input
+											type="text" class="form-control" id="custName" value=""
+											readonly>
 									</div>
 									<div class="mb-3">
-										<label for="recipient-name" class="col-form-label">申請人電話：</label>
-										<input type="text" class="form-control" id="recipient-name"
-											value="" readonly>
+										<label for="custTel" class="col-form-label">申請人電話：</label> <input
+											type="text" class="form-control" id="custTel" value=""
+											readonly>
 									</div>
 								</div>
 								<div class="d-flex justify-content-start gap-3">
 									<div class="mb-3">
-										<label for="recipient-name" class="col-form-label">交貨方式：</label>
-										<input type="text" class="form-control" id="recipient-name"
-											value="" readonly>
+										<label for="delivery" class="col-form-label">交貨方式：</label> <input
+											type="text" class="form-control" id="delivery" value=""
+											readonly>
 									</div>
 									<div class="mb-3">
-										<label for="recipient-name" class="col-form-label">預約交貨日期（限面交）：</label>
-										<input type="text" class="form-control" id="recipient-name"
+										<label for="deliveryDate" class="col-form-label">預約交貨日期（限面交）：</label>
+										<input type="text" class="form-control" id="deliveryDate"
 											value="" readonly>
 									</div>
 								</div>
 								<div class="mb-3">
 									<label for="recipient-name" class="col-form-label">商品照片：</label>
 									<div class="d-flex w-100 gap-3">
-										<img
+										<img id="photo1"
 											src="https://www.fisherprice.com.tw/img.php?f=https://www.fisherprice.com.tw/img/170971217074067xys7rlnAv.jpg&w=440"
-											alt="照片一"> <img
+											alt="照片一"> <img id="photo2"
 											src="https://www.fisherprice.com.tw/img.php?f=https://www.fisherprice.com.tw/img/17097121774189JtIZudAPiM.jpg&w=440"
-											alt="照片二"> <img
+											alt="照片二"> <img id="photo3"
 											src="https://www.fisherprice.com.tw/img.php?f=https://www.fisherprice.com.tw/img/17097121738565gaRAXKS1W6.jpg&w=440"
 											alt="照片三">
 									</div>
 								</div>
 								<div class="mb-3">
-									<label for="recipient-name" class="col-form-label">商品概況：</label>
-									<textarea class="form-control" id="message-text" wrap="soft"
+									<label for="pCondition" class="col-form-label">商品概況：</label>
+									<textarea class="form-control" id="pCondition" wrap="soft"
 										readonly></textarea>
 								</div>
 							</form>
-							<div class="d-flex justify-content-start gap-3 my-3">
-								<div class="mb-3 w-50">
-									<label for="message-text" class="col-form-label">審核結果:</label>
-									<select class="form-select" aria-label="Default select example">
-										<option value="0" selected>審核中</option>
-										<option value="1">通過</option>
-										<option value="2">未通過</option>
-									</select>
+							<form action="">
+								<div class="d-flex justify-content-start gap-3 my-3">
+									<div class="mb-3 w-50">
+										<label for="result" class="col-form-label">審核結果:</label> <select
+											class="form-select" aria-label="Default select example"
+											id="result">
+											<option value="0" selected>審核中</option>
+											<option value="1">通過</option>
+											<option value="2">未通過</option>
+										</select>
+									</div>
+									<div class="mb-3 w-50">
+										<label for="price" class="col-form-label">預估價格：</label> <input
+											type="number" value="0" min="0" class="form-control"
+											id="price">
+										<!-- 預設 0 -->
+									</div>
 								</div>
-								<div class="mb-3 w-50">
-									<label for="recipient-name" class="col-form-label">預估價格：</label>
-									<input type="number" value="0" min="0" class="form-control">
-									<!-- 預設 0 -->
-								</div>
-							</div>
+							</form>
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-secondary"
@@ -248,100 +250,71 @@
 					</nav>
 
 					<!-- 查詢欄位 -->
-					<div class="container my-4">
-						<div class="row mb-4">
-							<div class="col-md-6 d-flex">
-								<!--此行有兩個欄位，每欄佔一半寬度-->
-								<div class="col-md-2 align-content-center">
-									<label class="form-label mb-0">申請日期：</label>
-									<!--form-label水平表單標籤尺寸-->
-								</div>
-								<div class="col-md-4">
-									<input type="date" class="form-control">
-									<!-- date為日期選擇器;form-control表單控制-->
-								</div>
-								<div class="col-md-1 d-flex justify-content-center">
-									<span class="form-label mb-0 align-content-center">~</span>
-								</div>
-								<div class="col-md-4">
-									<input type="date" class="form-control">
-								</div>
-							</div>
-							<div class="col-md-6 d-flex">
-								<!--此行有兩個欄位，每欄佔一半寬度-->
-								<div class="col-md-2 align-content-center">
-									<label class="form-label mb-0">商品類別：</label>
-									<!--form-label水平表單標籤尺寸-->
-								</div>
-								<div class="col-md-4">
-									<select class="form-select" aria-label="Default select example">
-                                        <option selected>全部</option>
-                                        <option value="1">嬰兒服裝</option>
-                                        <option value="2">嬰兒推車</option>
-                                        <option value="3">嬰兒床</option>
-                                        <option value="4">嬰兒用品</option>
-                                        <option value="5">玩具</option>
-                                        <option value="6">汽座</option>
-                                        <option value="7">學步用品</option>
-                                        <option value="8">幼兒服裝</option>
-                                        <option value="9">幼教用品</option>
-                                        <option value="10">兒童服裝</option>
-                                        <option value="11">餐椅</option>
-                                        <option value="12">電器用品</option>
-                                    </select>
-								</div>
-							</div>
-						</div>
-						<div class="row mb-4 ">
-							<div class="col-md-3 d-flex">
-								<!--此行有兩個欄位，每欄佔一半寬度-->
-								<div class="col-md-4 align-content-center me-1">
-									<label class="form-label mb-0">審核狀態：</label>
-									<!--form-label水平表單標籤尺寸-->
-								</div>
-								<div class="col-md-8 align-content-center">
-									<select class="form-select" aria-label="Default select example">
-										<option selected>全部</option>
-										<option value="0">審核中</option>
-										<option value="1">通過</option>
-										<option value="2">未通過</option>
-									</select>
-								</div>
-							</div>
-							<div class="col-md-3 d-flex">
-								<!--此行有兩個欄位，每欄佔一半寬度-->
-								<div class="col-md-4 align-content-center">
-									<label class="form-label mb-0">交貨方式：</label>
-									<!--form-label水平表單標籤尺寸-->
-								</div>
-								<div class="col-md-8">
-									<select class="form-select" aria-label="Default select example">
-										<option selected>全部</option>
-										<option value="1">到府取貨</option>
-										<option value="2">親自交付</option>
-										<option value="3">物流宅配</option>
-										<option value="4">超商寄件</option>
-									</select>
-								</div>
-							</div>
-							<div class="col-md-6 d-flex">
-								<!--此行有兩個欄位，每欄佔一半寬度-->
-								<div class="col-md-2 align-content-center">
-									<label class="form-label mb-0">關鍵字查詢：</label>
-									<!--form-label水平表單標籤尺寸-->
-								</div>
-								<div class="col-md-6">
-									<div class="input-group">
-										<input type="text" class="form-control" placeholder="輸入關鍵字">
-										<button class="btn btn-outline-secondary" type="button">
-											<i class="bi bi-search"></i>
-										</button>
+					<form th:action="@{/secondhand/consignments}" th:method="get">
+						<div class="container my-4">
+							<div class="row mb-4">
+								<div class="col-md-3 d-flex">
+									<div class="col-md-4 align-content-center">
+										<label class="form-label mb-0">商品類別：</label>
+									</div>
+									<div class="col-md-8">
+										<select class="form-select"
+											aria-label="Default select example" name="type">
+											<option value="" th:selected="${type == ''}">全部</option>
+											<option value="1" th:selected="${type == '1'}">嬰兒服裝</option>
+											<option value="2" th:selected="${type == '2'}">嬰兒推車</option>
+											<option value="3" th:selected="${type == '3'}">嬰兒床</option>
+											<option value="4" th:selected="${type == '4'}">嬰兒用品</option>
+											<option value="5" th:selected="${type == '5'}">玩具</option>
+											<option value="6" th:selected="${type == '6'}">汽座</option>
+											<option value="7" th:selected="${type == '7'}">學步用品</option>
+											<option value="8" th:selected="${type == '8'}">幼兒服裝</option>
+											<option value="9" th:selected="${type == '9'}">幼教用品</option>
+											<option value="10" th:selected="${type == '10'}">兒童服裝</option>
+											<option value="11" th:selected="${type == '11'}">餐椅</option>
+											<option value="12" th:selected="${type == '12'}">電器用品</option>
+										</select>
 									</div>
 								</div>
+								<div class="col-md-3 d-flex">
+									<div class="col-md-4 align-content-center me-1">
+										<label class="form-label mb-0">審核狀態：</label>
+									</div>
+									<div class="col-md-8 align-content-center">
+										<select class="form-select"
+											aria-label="Default select example" name="review">
+											<option value="" th:selected="${review == ''}">全部</option>
+											<option value="0" th:selected="${review == '0'}">審核中</option>
+											<option value="1" th:selected="${review == '1'}">通過</option>
+											<option value="2" th:selected="${review == '2'}">未通過</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-md-3 d-flex">
+									<div class="col-md-4 align-content-center">
+										<label class="form-label mb-0">交貨方式：</label>
+									</div>
+									<div class="col-md-8">
+										<select class="form-select"
+											aria-label="Default select example" name="delivery">
+											<option value="" th:selected="${delivery == ''}">全部</option>
+											<option value="0" th:selected="${delivery == '0'}">已交貨</option>
+											<option value="1" th:selected="${delivery == '1'}">到府取貨</option>
+											<option value="2" th:selected="${delivery == '2'}">親自交付</option>
+											<option value="3" th:selected="${delivery == '3'}">物流宅配</option>
+											<option value="4" th:selected="${delivery == '4'}">超商寄件</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-md-1 d-flex">
+									<button class="btn btn-outline-secondary" type="submit">
+										<i class="bi bi-search"></i>
+									</button>
+								</div>
 							</div>
 						</div>
-					</div>
-
+					</form>
+					
 					<!-- 商品表格 -->
 					<div class="table-responsive">
 						<table class="table table-bordered align-middle text-center">
@@ -365,23 +338,19 @@
 									<td th:text="${c.productType.typeName}"></td>
 									<td th:text="${c.quantity}"></td>
 									<td th:text="${c.applyDate}"></td>
-									<td th:switch="${c.delivery}">
-										<span th:case="${0}" th:text="到府取貨"></span>
-										<span th:case="${1}" th:text="物流宅配"></span>
-										<span th:case="${2}" th:text="超商寄件"></span>
-										<span th:case="${3}" th:text="已交貨"></span>
-									</td>
-									<td th:switch="${c.review}">
-										<span th:case="${0}" th:text="未審核"></span>
-										<span th:case="${1}" th:text="通過"></span>
-										<span th:case="${-1}" th:text="未通過"></span>
-									</td>
+									<td th:switch="${c.delivery}"><span th:case="${0}"
+										th:text="已交貨"></span> <span th:case="${1}" th:text="到府取貨"></span>
+										<span th:case="${2}" th:text="親自交付"></span> <span
+										th:case="${3}" th:text="物流宅配"></span> <span th:case="${4}"
+										th:text="超商寄件"></span></td>
+									<td th:switch="${c.review}"><span th:case="${0}"
+										th:text="審核中"></span> <span th:case="${1}" th:text="通過"></span>
+										<span th:case="${2}" th:text="未通過"></span></td>
 									<td th:text="${c.price}"></td>
 									<td>
 										<button type="button" class="btn btn-sm btn-outline-success"
 											data-bs-toggle="modal" data-bs-target="#editModal"
-											th:onclick="getRecord([[${c.id}]])">
-											明細審核</button>
+											th:onclick="getRecord([[${c.id}]])">明細審核</button>
 									</td>
 								</tr>
 							</tbody>
@@ -419,8 +388,47 @@
         
         function getRecord(id) {
         	console.log(id);
+        	let url = "http://localhost:8080/secondhand/consign?id=" + id;
         	$.ajax({
-        		
+        		method: "GET",
+        		url: url,
+        		success: function(data) {
+        			console.log(data);
+        			$("#pName").val(data.productName);
+        			$("#pYear").val(data.produceYear);
+        			$("#custName").val(data.customer.name);
+        			$("#custTel").val(data.customer.phone);
+        			
+        			let delivery = data.delivery;        			
+        			/*0: 已交貨；1: 到府取貨；2: 親自交付；3:物流宅配；4: 超商寄件*/
+        			switch(delivery) {
+        			case 0:
+        				$("#delivery").val("已交貨")
+        				break;
+        			case 1:
+        				$("#delivery").val("到府取貨")
+        				break;
+        			case 2:
+        				$("#delivery").val("親自交付")
+        				break;
+        			case 3:
+        				$("#delivery").val("物流宅配")
+        				break;
+        			case 4:
+        				$("#delivery").val("超商寄件")
+        				break;
+        			}
+        			
+        			$("#deliveryDate").val(data.deliveryDate);
+        			$("#pCondition").val(data.pCondition);
+        			
+        			$("#result").val(data.review);
+        			$("#price").val(data.price)
+        			
+        		},
+        		failed: function() {
+        			console.log("failed");
+        		}
         	})
         }
         

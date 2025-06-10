@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS `consignment` (
   `review` int NOT NULL DEFAULT '0' COMMENT '0:未審核；1:通過；2:未通過',
   `price` int DEFAULT NULL COMMENT '預估價格',
   `apply_date` date DEFAULT NULL COMMENT '申請日期',
-  `delivery_date` date DEFAULT NULL COMMENT '預約交貨日期(限面交)',
+  `delivery_date` date DEFAULT NULL COMMENT '預計交貨日期(到府只限周二、周四)',
   `p_condition` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `product_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `cust_id` int DEFAULT NULL,

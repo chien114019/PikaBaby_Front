@@ -272,75 +272,79 @@
 					</nav>
 
 					<!-- 查詢欄位 -->
-					<div class="container my-4">
-						<div class="row mb-4">
-							<div class="col-md-6 d-flex">
-								<!--此行有兩個欄位，每欄佔一半寬度-->
-								<div class="col-md-2 align-content-center">
-									<label class="form-label mb-0">申請日期：</label>
-									<!--form-label水平表單標籤尺寸-->
+					<form th:action="@{/secondhand/withdrawals}">
+						<div class="container my-4">
+							<div class="row mb-4">
+								<div class="col-md-6 d-flex">
+									<!--此行有兩個欄位，每欄佔一半寬度-->
+									<div class="col-md-2 align-content-center">
+										<label class="form-label mb-0">申請日期：</label>
+										<!--form-label水平表單標籤尺寸-->
+									</div>
+									<div class="col-md-4">
+										<input type="date" class="form-control" name="applySDate" th:value="${applySDate}">
+										<!-- date為日期選擇器;form-control表單控制-->
+									</div>
+									<div class="col-md-1 d-flex justify-content-center">
+										<span class="form-label mb-0 align-content-center">~</span>
+									</div>
+									<div class="col-md-4">
+										<input type="date" class="form-control" name="applyEDate" th:value="${applyEDate}">
+									</div>
 								</div>
-								<div class="col-md-4">
-									<input type="date" class="form-control">
-									<!-- date為日期選擇器;form-control表單控制-->
-								</div>
-								<div class="col-md-1 d-flex justify-content-center">
-									<span class="form-label mb-0 align-content-center">~</span>
-								</div>
-								<div class="col-md-4">
-									<input type="date" class="form-control">
-								</div>
-							</div>
-							<div class="col-md-6 d-flex">
-								<!--此行有兩個欄位，每欄佔一半寬度-->
-								<div class="col-md-2 align-content-center">
-									<label class="form-label mb-0">匯款狀態：</label>
-									<!--form-label水平表單標籤尺寸-->
-								</div>
-								<div class="col-md-4">
-									<select class="form-select" aria-label="Default select example">
-										<option selected>全部</option>
-										<option value="1">已匯款</option>
-										<option value="2">未匯款</option>
-									</select>
-								</div>
-							</div>
-						</div>
-						<div class="row mb-4 ">
-							<div class="col-md-6 d-flex">
-								<!--此行有兩個欄位，每欄佔一半寬度-->
-								<div class="col-md-2 align-content-center">
-									<label class="form-label mb-0">匯款日期：</label>
-									<!--form-label水平表單標籤尺寸-->
-								</div>
-								<div class="col-md-4">
-									<input type="date" class="form-control">
-									<!-- date為日期選擇器;form-control表單控制-->
-								</div>
-								<div class="col-md-1 d-flex justify-content-center">
-									<span class="form-label mb-0 align-content-center">~</span>
-								</div>
-								<div class="col-md-4">
-									<input type="date" class="form-control">
-								</div>
-							</div>
-							<div class="col-md-6 d-flex">
-								<!--此行有兩個欄位，每欄佔一半寬度-->
-								<div class="col-md-2 align-content-center">
-									<label class="form-label mb-0">關鍵字查詢：</label>
-									<!--form-label水平表單標籤尺寸-->
-								</div>
-								<div class="col-md-6">
-									<div class="input-group">
-										<input type="text" class="form-control" placeholder="輸入關鍵字">
-										<button class="btn btn-outline-secondary" type="button">
-											<i class="bi bi-search"></i>
-										</button>
+								<div class="col-md-6 d-flex">
+									<!--此行有兩個欄位，每欄佔一半寬度-->
+									<div class="col-md-2 align-content-center">
+										<label class="form-label mb-0">匯款狀態：</label>
+										<!--form-label水平表單標籤尺寸-->
+									</div>
+									<div class="col-md-4">
+										<select class="form-select"
+											aria-label="Default select example" name="withdraw">
+											<option value="" th:selected="${withdraw == ''}">全部</option>
+											<option value="0" th:selected="${withdraw == '0'}">未匯款</option>
+											<option value="1" th:selected="${withdraw == '1'}">已匯款</option>
+										</select>
 									</div>
 								</div>
 							</div>
+							<div class="row mb-4 ">
+								<div class="col-md-6 d-flex">
+									<!--此行有兩個欄位，每欄佔一半寬度-->
+									<div class="col-md-2 align-content-center">
+										<label class="form-label mb-0">匯款日期：</label>
+										<!--form-label水平表單標籤尺寸-->
+									</div>
+									<div class="col-md-4">
+										<input type="date" class="form-control" name="withdrawSDate" th:value="${withdrawSDate}">
+										<!-- date為日期選擇器;form-control表單控制-->
+									</div>
+									<div class="col-md-1 d-flex justify-content-center">
+										<span class="form-label mb-0 align-content-center">~</span>
+									</div>
+									<div class="col-md-4">
+										<input type="date" class="form-control" name="withdrawEDate" th:value="${withdrawEDate}">
+									</div>
+								</div>
+								<div class="col-md-5 d-flex gap-3">
+									<!--此行有兩個欄位，每欄佔一半寬度-->
+									<div class="col-md-2 align-content-center">
+										<label class="form-label mb-0">姓名查詢：</label>
+										<!--form-label水平表單標籤尺寸-->
+									</div>
+									<div class="col-md-6">
+										<input type="text" class="form-control" placeholder="輸入姓名" name="custName" 
+											th:value="${custName}">
+									</div>
+								</div>
+								<div class="col-md-1 d-flex">
+									<button class="btn btn-outline-secondary" type="submit">
+										<i class="bi bi-search"></i>
+									</button>
+								</div>
+							</div>
 						</div>
-					</div>
+					</form>
 
 					<!-- 商品表格 -->
 					<div class="table-responsive">
@@ -349,10 +353,9 @@
 								<tr>
 									<th>編號</th>
 									<th>申請人姓名</th>
-									<th>申請人電話</th>
 									<th>申請日期</th>
-									<th>申請總金額</th>
-									<th>提款銀行</th>
+									<th>總金額</th>
+									<th>銀行代碼</th>
 									<th>提款帳戶</th>
 									<th>匯款狀態</th>
 									<th>匯款日期</th>
@@ -364,16 +367,15 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr th:each="w: ${withdraws}" th:switch="${w.withdraw}">
+								<tr th:each="w: ${withdrawals}" th:switch="${w.withdraw}">
 									<td th:text="${w.id}"></td>
 									<td th:text="${w.customer.name}"></td>
-									<td th:text="${w.customer.phone}"></td>
 									<td th:text="${w.applyDate}"></td>
 									<td th:text="${w.amount}"></td>
 									<td th:text="${w.bankNo.bCode}"></td>
-									<td th:text="${w.bankNo.bName}"></td>
-									<td th:case="${0}" th:text="未撥款"></td>
-									<td th:case="${1}" th:text="未撥款"></td>
+									<td th:text="${w.bankAccount}"></td>
+									<td th:case="${0}" th:text="未匯款"></td>
+									<td th:case="${1}" th:text="已匯款"></td>
 									<td th:text="${w.withdrawDate}"></td>
 									<td>
 										<button type="button" class="btn btn-sm btn-outline-success"

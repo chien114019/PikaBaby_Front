@@ -23,102 +23,154 @@
 				<div class="position-sticky">
 					<a href="http://localhost:8080/"> <img src="/logo-pikababy.png"
 						alt="pika baby logo" class="img-fluid d-block mx-auto mb-1 mt-1"
-						style="max-height: 150px;"> <!-- <h2 class="text-center mb-4">功能選單</h2> -->
+						style="max-height: 150px;">
 					</a>
+					<!-- <h2 class="text-center mb-4">功能選單</h2> -->
 					<div class="accordion" id="sidebarMenu">
 						<script>
-                            //直接將 HTML 字串寫進頁面中
-                            document.write(` 
-                <div class="accordion-item"> 
-                  <h5 class="accordion-header" id="heading1">
-                    <button class="accordion-button collapsed bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
-                      <i class="bi bi-cart-check me-2"></i>銷售管理
-                    </button>
-                  </h5>
-                  <div id="collapse1" class="accordion-collapse collapse" aria-labelledby="heading1" data-bs-parent="#sidebarMenu">
-                    <div class="accordion-body">
-                      <ul class="list-unstyled">
-                        <li><a href="#" class="text-secondary">訂單管理</a></li>
-                        <li><a href="#" class="text-secondary">報價管理</a></li>
-                        <li><a href="#" class="text-secondary">發票折讓管理</a></li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              `);
-                            document.write(`
+              //直接將 HTML 字串寫進頁面中
+              document.write(`
                 <div class="accordion-item">
                   <h5 class="accordion-header" id="heading2">
                     <button class="accordion-button collapsed bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
-                      <i class="bi bi-piggy-bank me-2"></i>財務管理
+                      <i class="bi bi-people-fill me-2"></i>事務性管理
                     </button>
                   </h5>
-                  <div id="collapse2" class="accordion-collapse collapse" aria-labelledby="heading2" data-bs-parent="#sidebarMenu">
+                  <div id="collapse2" class="accordion-collapse collapse" aria-labelledby="heading2" >
                     <div class="accordion-body">
                       <ul class="list-unstyled">
-                        <li><a href="#" class="text-secondary">總帳務管理</a></li>
-                        <li><a href="#" class="text-secondary">應收帳款管理</a></li>
-                        <li><a href="#" class="text-secondary">應付帳款管理</a></li>
-                        <li><a href="#" class="text-secondary">報表分析</a></li>
+                        <li><a href="#" class="text-secondary">登入/權限管理</a></li>
+                        <li><a href="#" class="text-secondary">會員帳號管理</a></li>
+                        
                       </ul>
                     </div>
                   </div>
                 </div>
               `);
-                            document.write(`
+              document.write(` 
+                <div class="accordion-item"> 
+                  <h5 class="accordion-header" id="heading1">
+                    <button class="accordion-button collapsed bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
+                      <i class="bi bi-pc-display me-2"></i>資訊管理
+                    </button>
+                  </h5>
+                  <div id="collapse1" class="accordion-collapse collapse" aria-labelledby="heading1" >
+                    <div class="accordion-body">
+                      <ul class="list-unstyled">
+                        <li><a href="#" class="text-secondary">公司資料維護</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              `);
+              document.write(`
                 <div class="accordion-item">
                   <h5 class="accordion-header" id="heading3">
                     <button class="accordion-button collapsed bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3" aria-expanded="false" aria-controls="collapse3">
-                      <i class="bi bi-hand-thumbs-up"></i><i class="bi bi-hand-thumbs-up-fill me-2"></i>二手管理
+                      <i class="bi bi-piggy-bank me-2"></i>財務管理
                     </button>
                   </h5>
-                  <div id="collapse3" class="accordion-collapse collapse" aria-labelledby="heading3" data-bs-parent="#sidebarMenu">
+                  <div id="collapse3" class="accordion-collapse collapse" aria-labelledby="heading3" >
                     <div class="accordion-body">
                       <ul class="list-unstyled">
-                        <li><a href="#" class="text-secondary">托售申請資料</a></li>
-                        <li><a href="#" class="text-secondary">提款申請資料管理</a></li>
+                        <li><a href="#" class="text-secondary">應收帳款管理</a></li>
+                        <li><a href="#" class="text-secondary">應付帳款管理</a></li>
+                        <li><a href="#" class="text-secondary">收款沖帳</a></li>
+                        <li><a href="#" class="text-secondary">總帳務</a></li>
                       </ul>
                     </div>
                   </div>
                 </div>
               `);
-                            document.write(`
+              document.write(`
                 <div class="accordion-item">
                   <h5 class="accordion-header" id="heading4">
                     <button class="accordion-button collapsed bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
-                      <i class="bi bi-bag-heart me-2"></i>採購庫存管理
+                      <i class="bi bi-cash-coin me-2"></i>POS結帳
                     </button>
                   </h5>
-                  <div id="collapse4" class="accordion-collapse collapse" aria-labelledby="heading4" data-bs-parent="#sidebarMenu">
+                  <div id="collapse4" class="accordion-collapse collapse" aria-labelledby="heading4" >
                     <div class="accordion-body">
                       <ul class="list-unstyled">
-                        <li><a href="#" class="text-secondary">廠商資料管理</a></li>
-                        <li><a href="#" class="text-secondary">進貨及入庫管理</a></li>
-                        <li><a href="#" class="text-secondary">出貨及出庫管理</a></li>
-                        <li><a href="#" class="text-secondary">退貨資料管理</a></li>
+                        <li><a href="#" class="text-secondary">POS前台結帳系統</a></li>
+                        
                       </ul>
                     </div>
                   </div>
                 </div>
               `);
-                            document.write(`
+              document.write(`
                 <div class="accordion-item">
                   <h5 class="accordion-header" id="heading5">
                     <button class="accordion-button collapsed bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapse5" aria-expanded="false" aria-controls="collapse5">
-                      <i class="bi bi-people-fill me-2"></i>會員管理
+                      <i class="bi bi-cart-check me-2"></i>進貨與庫存管理
                     </button>
                   </h5>
-                  <div id="collapse5" class="accordion-collapse collapse" aria-labelledby="heading4" data-bs-parent="#sidebarMenu">
+                  <div id="collapse5" class="accordion-collapse collapse" aria-labelledby="heading5" >
                     <div class="accordion-body">
                       <ul class="list-unstyled">
-                        <li><a href="#" class="text-secondary">會員資料管理</a></li>
-                        <li><a href="#" class="text-secondary">會員資料匯出</a></li>
-                      </ul>
+                      <li><a href="#" class="text-secondary">廠商建檔</a></li>
+                      <li><a href="#" class="text-secondary">商品建檔</a></li>
+                        <li><a href="#" class="text-secondary">進貨單</a></li>
+                        <li><a href="#" class="text-secondary">庫存查詢</a></li>
+                        </ul>
                     </div>
                   </div>
                 </div>
               `);
-                        </script>
+              document.write(`
+                <div class="accordion-item">
+                  <h5 class="accordion-header" id="heading6">
+                    <button class="accordion-button collapsed bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapse6" aria-expanded="false" aria-controls="collapse6">
+                      <i class="bi bi-bag-heart me-2"></i>出貨與退貨管理
+                    </button>
+                  </h5>
+                  <div id="collapse6" class="accordion-collapse collapse" aria-labelledby="heading6" >
+                    <div class="accordion-body">
+                      <ul class="list-unstyled">
+                        <li><a href="#" class="text-secondary">出貨單</a></li>
+                        <li><a href="#" class="text-secondary">退貨單</a></li>
+                        </ul>
+                    </div>
+                  </div>
+                </div>
+              `);
+              document.write(`
+                <div class="accordion-item">
+                  <h5 class="accordion-header" id="heading7">
+                    <button class="accordion-button collapsed bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapse7" aria-expanded="false" aria-controls="collapse7">
+                      <i class="bi bi-recycle me-2"></i>二手專區
+                    </button>
+                  </h5>
+                  <div id="collapse7" class="accordion-collapse collapse" aria-labelledby="heading7" >
+                    <div class="accordion-body">
+                      <ul class="list-unstyled">
+                        <li><a href="#" class="text-secondary">托售申請審核</a></li>
+                        <li><a href="#" class="text-secondary">提款申請審核</a></li>
+                       
+                        </ul>
+                    </div>
+                  </div>
+                </div>
+              `);
+               document.write(`
+                <div class="accordion-item">
+                  <h5 class="accordion-header" id="heading8">
+                    <button class="accordion-button collapsed bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapse8" aria-expanded="false" aria-controls="collapse8">
+                      <i class="bi bi-bar-chart-line me-2"></i>報表管理
+                    </button>
+                  </h5>
+                  <div id="collapse8" class="accordion-collapse collapse" aria-labelledby="heading8" >
+                    <div class="accordion-body">
+                      <ul class="list-unstyled">
+                        <li><a href="#" class="text-secondary">成本報表</a></li>
+                        <li><a href="#" class="text-secondary">銷售報表</a></li>
+                        </ul>
+                    </div>
+                  </div>
+                </div>
+              `);
+            </script>
 					</div>
 				</div>
 			</nav>
@@ -192,8 +244,7 @@
 								<div class="mb-3">
 									<label for="recipient-name" class="col-form-label">商品照片：</label>
 									<div class="d-flex w-100 gap-3">
-										<img id="photo1" alt="照片一">
-										<img id="photo2" alt="照片二">
+										<img id="photo1" alt="照片一"> <img id="photo2" alt="照片二">
 										<img id="photo3" alt="照片三">
 									</div>
 								</div>
@@ -351,20 +402,27 @@
 						</table>
 					</div>
 
-					<!-- 分頁 -->
-					<nav aria-label="Page navigation">
-						<ul class="pagination justify-content-center">
-							<li class="page-item"><a class="page-link" href="#">&laquo;
-									上一頁</a></li>
-							<li class="page-item"><a class="page-link" href="#">1</a></li>
-							<li class="page-item"><a class="page-link" href="#">2</a></li>
-							<li class="page-item"><a class="page-link" href="#">3</a></li>
-							<li class="page-item"><a class="page-link" href="#">4</a></li>
-							<li class="page-item"><a class="page-link" href="#">5</a></li>
-							<li class="page-item"><a class="page-link" href="#">下一頁
-									&raquo;</a></li>
-						</ul>
-					</nav>
+					<div class="d-flex">
+						<div class="col-md-11">
+							<!-- 分頁 -->
+							<nav aria-label="Page navigation">
+								<ul class="pagination justify-content-center">
+									<li class="page-item"><a class="page-link" href="#">&laquo;
+											上一頁</a></li>
+									<li class="page-item"><a class="page-link" href="#">1</a></li>
+									<li class="page-item"><a class="page-link" href="#">2</a></li>
+									<li class="page-item"><a class="page-link" href="#">3</a></li>
+									<li class="page-item"><a class="page-link" href="#">4</a></li>
+									<li class="page-item"><a class="page-link" href="#">5</a></li>
+									<li class="page-item"><a class="page-link" href="#">下一頁
+											&raquo;</a></li>
+								</ul>
+							</nav>
+						</div>
+						<div class="text-end col-md-1">
+							<a class="btn btn-secondary" th:href="@{/}">返回</a>
+						</div>
+					</div>
 				</div>
 			</main>
 		</div>

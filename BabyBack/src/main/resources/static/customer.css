@@ -98,3 +98,20 @@
  }
 
  /* Main content */
+ .table td,
+.table th {
+  vertical-align: middle !important;
+}
+
+/* 按鈕區塊排版用 flex */
+.action-buttons {
+  display: flex;
+  gap: 0.5rem; /* 按鈕間距 */
+  justify-content: center; /* 讓按鈕們水平置中 */
+}
+
+/* 所有操作按鈕統一大小 */
+.action-buttons .btn {
+  min-width: 80px;
+  padding: 4px 8px;
+}

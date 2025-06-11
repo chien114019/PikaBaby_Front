@@ -204,7 +204,7 @@
           <h2>商品清單</h2>
           <a class="btn btn-primary mb-2" th:href="@{/products/new}">新增商品</a>
           <table class="table table-bordered">
-            <thead>
+            <thead class="text-center">
               <tr>
                 <th>ID</th>
                 <th>名稱</th>
@@ -214,12 +214,12 @@
               </tr>
             </thead>
             <tbody>
-              <tr th:each="p : ${products}">
-                <td th:text="${p.id}">1</td>
+              <tr th:each="p : ${products}" >
+                <td th:text="${p.id}" class="text-center">1</td>
                 <td th:text="${p.name}">Apple</td>
                 <td th:text="${p.price}">100</td>
-                <td th:text="${p.stock}">50</td>
-                <td>
+                <td th:text="${p.stock}" class="text-center">50</td>
+                <td class="text-center">
                   <a class="btn btn-warning btn-sm" th:href="@{'/products/edit/' + ${p.id}}">編輯</a>
                   <a class="btn btn-danger btn-sm" th:href="@{'/products/delete/' + ${p.id}}">刪除</a>
                 </td>

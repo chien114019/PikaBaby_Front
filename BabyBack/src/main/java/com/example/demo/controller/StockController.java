@@ -23,7 +23,11 @@ public class StockController {
         if (keyword != null && !keyword.isBlank()) {
             products = productService.searchByName(keyword);
         } else {
-            products = productService.getAllProducts();
+        	
+        	//0611喬新增
+        	products = productService.getAllProductsWithStock();
+        	
+            //products = productService.getAllProducts();
         }
         model.addAttribute("products", products);
         model.addAttribute("keyword", keyword);

@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import java.util.List;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -10,8 +12,31 @@ public class Product {
 
     private String name;
     private Double price;
-    private Long stock;
+//    private Long stock;
     
+    //0611喬新增
+    @OneToMany(mappedBy = "product")
+    private List<PurchaseOrderDetail> purchaseDetails;
+
+    // 加上一個 getter：計算目前庫存
+    @Transient
+    public long getCurrentStock() {
+        if (purchaseDetails == null) return 0;
+        return purchaseDetails.stream()
+                .mapToLong(PurchaseOrderDetail::getQuantity)
+                .sum();
+    }
+    
+    @Transient
+    private Long stock;
+
+    public Long getStock() {
+        return stock;
+    }
+
+    public void setStock(Long stock) {
+        this.stock = stock;
+    }
     
 	public Long getId() {
 		return id;
@@ -31,11 +56,12 @@ public class Product {
 	public void setPrice(Double price) {
 		this.price = price;
 	}
-	public Long getStock() {
-		return stock;
-	}
-	public void setStock(Long stock) {
-		this.stock = stock;
-	}
+//	public Long getStock() {
+//		return stock;
+//	}
+//	public void setStock(Long stock) {
+//		this.stock = stock;
+//	}
+	
 
 }

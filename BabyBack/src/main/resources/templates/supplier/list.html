@@ -18,8 +18,10 @@
       <!-- Sidebar -->
       <nav class="col-md-3 col-lg-2 px-3 sidebar">
         <div class="position-sticky">
-          <img src="/logo-pikababy.png" alt="pika baby logo" class="img-fluid d-block mx-auto mb-1 mt-1"
-            style="max-height: 150px;">
+          <a href="http://localhost:8080/"> <img src="/logo-pikababy.png"
+						alt="pika baby logo" class="img-fluid d-block mx-auto mb-1 mt-1"
+						style="max-height: 150px;">
+					</a>
           <!-- <h2 class="text-center mb-4">功能選單</h2> -->
           <div class="accordion" id="sidebarMenu">
             <script>
@@ -202,7 +204,7 @@
           <h2>供應商清單</h2>
           <a th:href="@{/suppliers/new}" class="btn btn-success mb-3">新增供應商</a>
           <table class="table table-bordered table-striped">
-            <thead>
+            <thead class="text-center">
               <tr>
                 <th>名稱</th>
                 <th>電話</th>
@@ -210,12 +212,12 @@
                 <th>操作</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody >
               <tr th:each="s : ${suppliers}">
                 <td th:text="${s.name}"></td>
                 <td th:text="${s.phone}"></td>
                 <td th:text="${s.address}"></td>
-                <td>
+                <td class="text-center">
                   <a th:href="@{/suppliers/edit/{id}(id=${s.id})}" class="btn btn-sm btn-primary">編輯</a>
                   <a th:href="@{/suppliers/delete/{id}(id=${s.id})}" class="btn btn-sm btn-danger"
                     onclick="return confirm('確定要刪除嗎？')">刪除</a>

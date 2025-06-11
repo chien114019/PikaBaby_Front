@@ -45,12 +45,27 @@ public class SalesOrderController {
         List<Product> productList = new ArrayList<>();
         for (int i = 0; i < productIds.length; i++) {
             Product product = productService.getById(productIds[i]);
-            if (quantities[i] > product.getStock()) {
+            
+            //0611喬註解
+           // if (quantities[i] > product.getStock()) {
+            	
+                //0611喬註解
+            	// 改用計算方式取得實際庫存
+                Long stock = productService.getCurrentStock(product.getId());
+
+                if (quantities[i] > stock) {
                 // 錯誤情況處理：顯示錯誤並回表單
                 model.addAttribute("order", new SalesOrder());
                 model.addAttribute("customers", customerService.listAll());
-                model.addAttribute("products", productService.listAll());
-                model.addAttribute("errorMessage", "商品「" + product.getName() + "」庫存不足，剩餘：" + product.getStock());
+                //0611喬更改
+                //model.addAttribute("products", productService.listAll());
+                model.addAttribute("products", productService.getAllProductsWithStock());
+                
+                //0611喬更改
+//                model.addAttribute("errorMessage", "商品「" + product.getName() + "」庫存不足，剩餘：" + product.getStock());
+                model.addAttribute("errorMessage", "商品「" + product.getName() + "」庫存不足，剩餘：" + stock);
+
+                
                 return "order/form";
             }
             productList.add(product);
@@ -64,8 +79,10 @@ public class SalesOrderController {
         List<SalesOrderDetail> detailList = new ArrayList<>();
         for (int i = 0; i < productIds.length; i++) {
             Product product = productList.get(i);
-            product.setStock(product.getStock() - quantities[i]);
-            productService.save(product); // 更新庫存
+            
+            //0609喬更新
+            //product.setStock(product.getStock() - quantities[i]);
+            //productService.save(product); // 更新庫存
 
             SalesOrderDetail detail = new SalesOrderDetail();
             detail.setOrder(order);

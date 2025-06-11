@@ -13,11 +13,19 @@ public class ProductController {
     @Autowired
     private ProductService service;
 
+    //0611喬新增
     @GetMapping
     public String list(Model model) {
-        model.addAttribute("products", service.listAll());
+        model.addAttribute("products", service.getAllProductsWithStock());
         return "product/list";
     }
+    
+    
+//    @GetMapping
+//    public String list(Model model) {
+//        model.addAttribute("products", service.listAll());
+//        return "product/list";
+//    }
 
     @GetMapping("/new")
     public String createForm(Model model) {

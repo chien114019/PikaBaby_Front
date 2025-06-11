@@ -11,10 +11,7 @@ import org.springframework.data.repository.query.Param;
 import com.example.demo.model.Customer;
 import com.example.demo.model.Withdrawal;
 
-public interface WithdrawalRepository extends JpaRepository<Withdrawal, Integer>{
-//	List<Withdrawal> findAllByApplyDateBetweenAndWithdrawDateBetweenAndWithdrawAndCustomer_NameContainingIgnoreCase(
-//			Date applyStart, Date applyEnd, Date withdrawStart, Date withdrawEnd, Integer withdraw, String custName);
-	
+public interface WithdrawalRepository extends JpaRepository<Withdrawal, Integer>{	
 	@Query("""
 			SELECT w FROM Withdrawal w 
 			WHERE applyDate BETWEEN :applyStart AND :applyEnd 

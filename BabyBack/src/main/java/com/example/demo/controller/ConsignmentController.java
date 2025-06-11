@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -9,10 +10,19 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.demo.model.Consignment;
+import com.example.demo.model.Response;
+import com.example.demo.model.Withdrawal;
 import com.example.demo.service.ConsignmentService;
 
+import jakarta.websocket.server.PathParam;
+
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 
 
@@ -71,10 +81,22 @@ public class ConsignmentController {
 		return "secondhand/consignments";
 	}
 	
-	@GetMapping("/consign")
-	public ResponseEntity<Consignment> getConsignById(@RequestParam String id) {
+	@GetMapping("/consign/{id}")
+	public ResponseEntity<Consignment> getConsignById(@PathVariable String id) {
 		return ResponseEntity.ok(service.getById(id));
 	}
+	
+	@PostMapping("/consign/edit/{id}")
+	public ResponseEntity<Response> editConsignment(@PathVariable String id, @RequestBody Map<String, String> body) {
+		/* Resquest: { review: "", price: ""} */
+		
+		String review = body.get("review");
+		String price = body.get("price");
+		
+		Response response = service.editConsignment(id, review, price);		
+		return ResponseEntity.ok(response);
+	}
+	
 	
 
 }

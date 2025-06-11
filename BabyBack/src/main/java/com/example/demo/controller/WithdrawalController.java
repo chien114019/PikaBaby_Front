@@ -1,16 +1,24 @@
 package com.example.demo.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.demo.model.Consignment;
+import com.example.demo.model.Response;
 import com.example.demo.model.Withdrawal;
 import com.example.demo.service.WithdrawalService;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @Controller
 @RequestMapping("/secondhand")
@@ -21,7 +29,7 @@ public class WithdrawalController {
 	
 
 	@GetMapping("/withdrawals")
-	public String getWithdrawal(Model model, @RequestParam(required = false) String applySDate, 
+	public String getWithdrawals(Model model, @RequestParam(required = false) String applySDate, 
 			@RequestParam(required = false) String applyEDate, @RequestParam(required = false) String withdrawSDate, 
 			@RequestParam(required = false) String withdrawEDate, @RequestParam(required = false) String withdraw, 
 			@RequestParam(required = false) String custName) {
@@ -109,6 +117,30 @@ public class WithdrawalController {
 		model.addAttribute("withdrawals", withdrawals);
 		return "secondhand/withdrawals";
 	}
+	
+	@GetMapping("/withdraw/{id}")
+	public ResponseEntity<Withdrawal> getWithdrawById(@PathVariable String id) {
+		return ResponseEntity.ok(service.getById(id));
+	}
+	
+	@PostMapping("/withdraw/edit/{id}")
+	public ResponseEntity<Response> editWithdraw(@RequestBody Map<String, String> body, @PathVariable String id) {
+		Response response;
+		String withdraw = body.get("withdraw");
+		String withdrawDate = body.get("withdrawDate");
+		
+		try {
+			response = service.editWithdraw(id, withdraw, withdrawDate);
+		} catch (Exception e) {
+			System.out.println(e);
+			response = new Response();
+			response.setSuccess(false);
+			response.setMesg("日期錯誤");
+		}
+		
+		return ResponseEntity.ok(response);
+	}
+	
 	
 
 }

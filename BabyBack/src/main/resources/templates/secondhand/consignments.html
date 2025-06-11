@@ -21,10 +21,10 @@
 			<!-- Sidebar -->
 			<nav class="col-md-3 col-lg-2 px-3 sidebar">
 				<div class="position-sticky">
-					<img src="/logo-pikababy.png" alt="pika baby logo"
-						class="img-fluid d-block mx-auto mb-1 mt-1"
-						style="max-height: 150px;">
-					<!-- <h2 class="text-center mb-4">功能選單</h2> -->
+					<a href="http://localhost:8080/"> <img src="/logo-pikababy.png"
+						alt="pika baby logo" class="img-fluid d-block mx-auto mb-1 mt-1"
+						style="max-height: 150px;"> <!-- <h2 class="text-center mb-4">功能選單</h2> -->
+					</a>
 					<div class="accordion" id="sidebarMenu">
 						<script>
                             //直接將 HTML 字串寫進頁面中
@@ -153,7 +153,7 @@
 						</div>
 						<div class="modal-body">
 							<h3 class="modal-title fs-5 mb-3" id="editModalLabel">申請資料</h3>
-							<form class="border p-4">
+							<div class="border p-4">
 								<!-- value 填入該筆資料內容 -->
 								<div class="d-flex justify-content-start gap-3">
 									<div class="mb-3">
@@ -192,13 +192,9 @@
 								<div class="mb-3">
 									<label for="recipient-name" class="col-form-label">商品照片：</label>
 									<div class="d-flex w-100 gap-3">
-										<img id="photo1"
-											src="https://www.fisherprice.com.tw/img.php?f=https://www.fisherprice.com.tw/img/170971217074067xys7rlnAv.jpg&w=440"
-											alt="照片一"> <img id="photo2"
-											src="https://www.fisherprice.com.tw/img.php?f=https://www.fisherprice.com.tw/img/17097121774189JtIZudAPiM.jpg&w=440"
-											alt="照片二"> <img id="photo3"
-											src="https://www.fisherprice.com.tw/img.php?f=https://www.fisherprice.com.tw/img/17097121738565gaRAXKS1W6.jpg&w=440"
-											alt="照片三">
+										<img id="photo1" alt="照片一">
+										<img id="photo2" alt="照片二">
+										<img id="photo3" alt="照片三">
 									</div>
 								</div>
 								<div class="mb-3">
@@ -206,26 +202,24 @@
 									<textarea class="form-control" id="pCondition" wrap="soft"
 										readonly></textarea>
 								</div>
-							</form>
-							<form action="">
-								<div class="d-flex justify-content-start gap-3 my-3">
-									<div class="mb-3 w-50">
-										<label for="result" class="col-form-label">審核結果:</label> <select
-											class="form-select" aria-label="Default select example"
-											id="result">
-											<option value="0" selected>審核中</option>
-											<option value="1">通過</option>
-											<option value="2">未通過</option>
-										</select>
-									</div>
-									<div class="mb-3 w-50">
-										<label for="price" class="col-form-label">預估價格：</label> <input
-											type="number" value="0" min="0" class="form-control"
-											id="price">
-										<!-- 預設 0 -->
-									</div>
+							</div>
+							<div class="d-flex justify-content-start gap-3 my-3">
+								<div class="mb-3 w-50">
+									<label for="review" class="col-form-label">審核結果:</label> <select
+										class="form-select" aria-label="Default select example"
+										id="review">
+										<option value="0" selected>審核中</option>
+										<option value="1">通過</option>
+										<option value="2">未通過</option>
+									</select>
 								</div>
-							</form>
+								<div class="mb-3 w-50">
+									<label for="price" class="col-form-label">預估價格：</label> <input
+										type="number" value="0" min="0" class="form-control"
+										id="price">
+									<!-- 預設 0 -->
+								</div>
+							</div>
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-secondary"
@@ -314,7 +308,7 @@
 							</div>
 						</div>
 					</form>
-					
+
 					<!-- 商品表格 -->
 					<div class="table-responsive">
 						<table class="table table-bordered align-middle text-center">
@@ -382,13 +376,13 @@
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
 	<script>
-        $("#saveBtn").on("click", function (e) {
+/*        $("#saveBtn").on("click", function (e) {
             alert("資料儲存完畢");
         })
-        
+*/        
         function getRecord(id) {
         	console.log(id);
-        	let url = "http://localhost:8080/secondhand/consign?id=" + id;
+        	let url = "http://localhost:8080/secondhand/consign/" + id;
         	$.ajax({
         		method: "GET",
         		url: url,
@@ -420,16 +414,65 @@
         			}
         			
         			$("#deliveryDate").val(data.deliveryDate);
+        			
+        			if(data.pic1 != null) {
+        				$("#photo1").show();
+		       			$("#photo1").attr("src", "data:image/png; base64, " + data.pic1)        				
+        			}
+        			else {
+        				$("#photo1").hide();
+        			}
+        			
+        			if(data.pic2 != null) {
+        				$("#photo2").show();
+						$("#photo2").attr("src", "data:image/png; base64, " + data.pic2)
+        			}
+        			else {
+        				$("#photo2").hide();
+        			}
+        			
+        			if(data.pic3 != null) {
+        				$("#photo3").show();
+						$("#photo3").attr("src", "data:image/png; base64, " + data.pic3)
+        			}
+        			else {
+        				$("#photo3").hide();
+        			}
+        			
         			$("#pCondition").val(data.pCondition);
         			
-        			$("#result").val(data.review);
-        			$("#price").val(data.price)
+        			$("#review").val(data.review);
+        			$("#price").val(data.price);
+        			
+        			$("#saveBtn").attr("onclick", `saveConsignment(${data.id})`);
         			
         		},
-        		failed: function() {
+        		error: function() {
         			console.log("failed");
         		}
         	})
+        }
+        
+        function saveConsignment(id) {
+        	let url = "http://localhost:8080/secondhand/consign/edit/" + id;
+        	// 傳出 id, review, price
+        	$.ajax({
+        		method: "POST",
+        		url: url,
+        		contentType: "application/json",
+        		data: JSON.stringify({
+               			"review": $("#review").val(),
+               			"price": $("#price").val()
+               		}),
+        		success: function(response) {
+		        	console.log("edit:" + id);
+		        	alert("託售申請編號 " + id + " " + response.mesg);
+		        	window.location.reload();
+        		},
+        		error: function() {
+        			alert("結果儲存失敗");
+        		}
+        	})        	
         }
         
         

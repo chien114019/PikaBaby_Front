@@ -3,10 +3,12 @@ package com.example.demo.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.model.Consignment;
 import com.example.demo.model.ProductType;
+import com.example.demo.model.Response;
 import com.example.demo.repository.ConsignmentRepository;
 import com.example.demo.repository.ProductTypeRepository;
 
@@ -18,7 +20,7 @@ public class ConsignmentService {
 	
 	@Autowired
 	private ProductTypeRepository ptRepository;
-
+	
 	public List<Consignment> getAll() {
 		return repository.findAll();
 	}
@@ -109,5 +111,31 @@ public class ConsignmentService {
 		}
 		
 		return consigments;
+	}
+	
+//	editConsigment
+	public Response editConsignment(String id, String review, String price) {
+		Response response = new Response();
+		Consignment consign = repository.findById(Integer.parseInt(id)).orElse(null);
+				
+		if (consign != null) {
+			consign.setReview(Integer.parseInt(review));
+			if (price != "") {
+				consign.setPrice(Integer.parseInt(price));
+			} else {
+				consign.setPrice(null);
+			}
+			repository.save(consign);
+			
+			response.setSuccess(true);
+			response.setMesg("修改成功");
+			
+		} else {
+			response.setSuccess(false);
+			response.setMesg("查無紀錄");
+			
+		}
+		
+		return response;
 	}
 }

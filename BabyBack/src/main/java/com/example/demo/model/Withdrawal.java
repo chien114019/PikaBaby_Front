@@ -1,6 +1,8 @@
 package com.example.demo.model;
 
-import java.sql.Date;
+import java.util.Date;
+
+//import java.sql.Date;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,6 +11,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
 //	提款申請
 @Entity
@@ -20,8 +24,12 @@ public class Withdrawal {
 	private Integer id;
 	
 	private Integer amount;
+	
+	@Temporal(TemporalType.DATE)
 	private Date applyDate;
 	private Integer withdraw;
+
+	@Temporal(TemporalType.DATE)
 	private Date withdrawDate;
 	private String bankAccount;
 	

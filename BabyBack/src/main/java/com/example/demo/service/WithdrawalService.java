@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.model.Customer;
+import com.example.demo.model.Response;
 import com.example.demo.model.Withdrawal;
 import com.example.demo.repository.CustomerRepository;
 import com.example.demo.repository.WithdrawalRepository;
@@ -22,6 +23,10 @@ public class WithdrawalService {
 	
 	public List<Withdrawal> getAll() {
 		return repository.findAll();
+	}
+	
+	public Withdrawal getById(String id) {
+		return repository.findById(Integer.parseInt(id)).orElse(null);
 	}
 	
 //	getAllByDatesAndwithdrawAndCustName
@@ -126,8 +131,29 @@ public class WithdrawalService {
 //	getAllByCustName
 	public List<Withdrawal> getAllByCustName(String custName) 
 			throws Exception {
-		return repository.findAllByCustName(custName);
+		return repository.findAllByCustName("%" + custName + "%");
 	}	
+	
+//	editWithdraw
+	public Response editWithdraw(String id, String withdraw, String withdrawDate) throws Exception {
+		Response response = new Response();
+		Withdrawal target = repository.findById(Integer.parseInt(id)).orElse(null);
+
+		if (target != null) {
+			target.setWithdraw(Integer.parseInt(withdraw));
+			target.setWithdrawDate(formatter(withdrawDate));
+			repository.save(target);
+
+			response.setSuccess(true);
+			response.setMesg("匯款登陸成功");
+			
+		} else {
+			response.setSuccess(true);
+			response.setMesg("查無紀錄，匯款登陸失敗");
+		}
+		
+		return response;
+	}
 	
 	private Date formatter(String dateStr) throws Exception {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");

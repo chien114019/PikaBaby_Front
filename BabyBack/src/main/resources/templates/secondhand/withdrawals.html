@@ -21,10 +21,10 @@
 			<!-- Sidebar -->
 			<nav class="col-md-3 col-lg-2 px-3 sidebar">
 				<div class="position-sticky">
-					<img src="/logo-pikababy.png" alt="pika baby logo"
-						class="img-fluid d-block mx-auto mb-1 mt-1"
-						style="max-height: 150px;">
-					<!-- <h2 class="text-center mb-4">功能選單</h2> -->
+					<a href="http://localhost:8080/"> <img src="/logo-pikababy.png"
+						alt="pika baby logo" class="img-fluid d-block mx-auto mb-1 mt-1"
+						style="max-height: 150px;"> <!-- <h2 class="text-center mb-4">功能選單</h2> -->
+					</a>
 					<div class="accordion" id="sidebarMenu">
 						<script>
                             //直接將 HTML 字串寫進頁面中
@@ -154,17 +154,17 @@
 						<div class="modal-body">
 							<div class="d-flex justify-content-start gap-3 my-3">
 								<div class="mb-3 w-50">
-									<label for="message-text" class="col-form-label">匯款狀態:</label>
-									<select class="form-select" aria-label="Default select example"
-										readonly>
-										<option value="1">未匯款</option>
+									<label for="withdrawAll" class="col-form-label">匯款狀態:</label>
+									<select class="form-select" aria-label="Default select example" id="withdrawAll"
+										disabled>
+										<option value="0">未匯款</option>
 										<!-- 預設 -->
-										<option value="2" selected>已匯款</option>
+										<option value="1" selected>已匯款</option>
 									</select>
 								</div>
 								<div class="mb-3 w-50">
-									<label for="recipient-name" class="col-form-label">匯款日期：</label>
-									<input type="date" class="form-control" id="transfer-date">
+									<label for="withdrawDateAll" class="col-form-label">匯款日期：</label>
+									<input type="date" class="form-control" id="withdrawDateAll">
 									<!-- 預設當天日期 -->
 								</div>
 							</div>
@@ -173,7 +173,7 @@
 							<button type="button" class="btn btn-secondary"
 								data-bs-dismiss="modal">取消</button>
 							<button type="button" class="btn btn-success"
-								data-bs-dismiss="modal" id="saveBtn">儲存</button>
+								data-bs-dismiss="modal" id="saveAllBtn">儲存</button>
 						</div>
 					</div>
 				</div>
@@ -192,59 +192,57 @@
 						</div>
 						<div class="modal-body">
 							<h3 class="modal-title fs-5 mb-3" id="editModalLabel">申請資料</h3>
-							<form class="border p-4">
-								<!-- value 填入該筆資料內容 -->
-								<div class="d-flex justify-content-start gap-3">
-									<div class="mb-3">
-										<label for="recipient-name" class="col-form-label">申請人姓名：</label>
-										<input type="text" class="form-control" id="recipient-name"
-											value="王小寶" readonly>
-									</div>
-									<div class="mb-3">
-										<label for="recipient-phone" class="col-form-label">申請人電話：</label>
-										<input type="text" class="form-control" id="recipient-phone"
-											value="0988-999777" readonly>
-									</div>
+							<!-- value 填入該筆資料內容 -->
+							<div class="d-flex justify-content-start gap-3">
+								<div class="mb-3">
+									<label for="custName" class="col-form-label">申請人姓名：</label>
+									<input type="text" class="form-control" id="custName"
+										value="王小寶" readonly>
 								</div>
-								<div class="d-flex justify-content-start gap-3">
-									<div class="mb-3">
-										<label for="apply-date" class="col-form-label">申請日期：</label> <input
-											type="text" class="form-control" id="apply-date"
-											value="2025-06-01" readonly>
-									</div>
-									<div class="mb-3">
-										<label for="apply-total" class="col-form-label">申請總金額：</label>
-										<input type="text" class="form-control" id="apply-total"
-											value="5000" readonly>
-									</div>
+								<div class="mb-3">
+									<label for="custTel" class="col-form-label">申請人電話：</label>
+									<input type="text" class="form-control" id="custTel"
+										value="0988-999777" readonly>
 								</div>
-								<div class="d-flex justify-content-start gap-3">
-									<div class="mb-3 w-25">
-										<label for="apply-bank" class="col-form-label">提款銀行：</label> <input
-											type="text" class="form-control" id="apply-bank" value="700"
-											readonly>
-									</div>
-									<div class="mb-3 w-75">
-										<label for="apply-account" class="col-form-label">提款帳戶：</label>
-										<input type="text" class="form-control" id="apply-account"
-											value="1245987495364862" readonly>
-									</div>
+							</div>
+							<div class="d-flex justify-content-start gap-3">
+								<div class="mb-3">
+									<label for="applyDate" class="col-form-label">申請日期：</label> <input
+										type="text" class="form-control" id="applyDate"
+										value="2025-06-01" readonly>
 								</div>
-							</form>
+								<div class="mb-3">
+									<label for="applyTotal" class="col-form-label">申請總金額：</label>
+									<input type="text" class="form-control" id="applyTotal"
+										value="5000" readonly>
+								</div>
+							</div>
+							<div class="d-flex justify-content-start gap-3">
+								<div class="mb-3 w-25">
+									<label for="bank" class="col-form-label">提款銀行：</label> <input
+										type="text" class="form-control" id="bank" value="700"
+										readonly>
+								</div>
+								<div class="mb-3 w-75">
+									<label for="bankAccount" class="col-form-label">提款帳戶：</label>
+									<input type="text" class="form-control" id="bankAccount"
+										value="1245987495364862" readonly>
+								</div>
+							</div>
 							<div class="d-flex justify-content-start gap-3 my-3">
 								<div class="mb-3 w-50">
-									<label for="transfer-status" class="col-form-label">匯款狀態:</label>
+									<label for="withdraw" class="col-form-label">匯款狀態:</label>
 									<select class="form-select" aria-label="Default select example"
-										id="transfer-status">
-										<option value="1" selected>未匯款</option>
+										id="withdraw">
+										<option value="0" selected>未匯款</option>
 										<!-- 預設 -->
-										<option value="2">已匯款</option>
+										<option value="1">已匯款</option>
 									</select>
 								</div>
 								<div class="mb-3 w-50">
-									<label for="transfer-date" class="col-form-label">匯款日期：</label>
+									<label for="withdrawDate" class="col-form-label">匯款日期：</label>
 									<input type="date" class="form-control"
-										id="transfer-date-single">
+										id="withdrawDate">
 									<!-- 預設當天日期 -->
 								</div>
 							</div>
@@ -282,14 +280,16 @@
 										<!--form-label水平表單標籤尺寸-->
 									</div>
 									<div class="col-md-4">
-										<input type="date" class="form-control" name="applySDate" th:value="${applySDate}">
+										<input type="date" class="form-control" name="applySDate"
+											th:value="${applySDate}">
 										<!-- date為日期選擇器;form-control表單控制-->
 									</div>
 									<div class="col-md-1 d-flex justify-content-center">
 										<span class="form-label mb-0 align-content-center">~</span>
 									</div>
 									<div class="col-md-4">
-										<input type="date" class="form-control" name="applyEDate" th:value="${applyEDate}">
+										<input type="date" class="form-control" name="applyEDate"
+											th:value="${applyEDate}">
 									</div>
 								</div>
 								<div class="col-md-6 d-flex">
@@ -316,14 +316,16 @@
 										<!--form-label水平表單標籤尺寸-->
 									</div>
 									<div class="col-md-4">
-										<input type="date" class="form-control" name="withdrawSDate" th:value="${withdrawSDate}">
+										<input type="date" class="form-control" name="withdrawSDate"
+											th:value="${withdrawSDate}">
 										<!-- date為日期選擇器;form-control表單控制-->
 									</div>
 									<div class="col-md-1 d-flex justify-content-center">
 										<span class="form-label mb-0 align-content-center">~</span>
 									</div>
 									<div class="col-md-4">
-										<input type="date" class="form-control" name="withdrawEDate" th:value="${withdrawEDate}">
+										<input type="date" class="form-control" name="withdrawEDate"
+											th:value="${withdrawEDate}">
 									</div>
 								</div>
 								<div class="col-md-5 d-flex gap-3">
@@ -333,8 +335,8 @@
 										<!--form-label水平表單標籤尺寸-->
 									</div>
 									<div class="col-md-6">
-										<input type="text" class="form-control" placeholder="輸入姓名" name="custName" 
-											th:value="${custName}">
+										<input type="text" class="form-control" placeholder="輸入姓名"
+											name="custName" th:value="${custName}">
 									</div>
 								</div>
 								<div class="col-md-1 d-flex">
@@ -361,14 +363,14 @@
 									<th>匯款日期</th>
 									<th>
 										<button type="button" class="btn btn-sm btn-outline-danger"
-											data-bs-toggle="modal" data-bs-target="#onepressModal">
+											data-bs-toggle="modal" data-bs-target="#onepressModal" onclick="onepress()">
 											一鍵登錄</button>
 									</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr th:each="w: ${withdrawals}" th:switch="${w.withdraw}">
-									<td th:text="${w.id}"></td>
+									<td class="id" th:text="${w.id}"></td>
 									<td th:text="${w.customer.name}"></td>
 									<td th:text="${w.applyDate}"></td>
 									<td th:text="${w.amount}"></td>
@@ -379,7 +381,7 @@
 									<td th:text="${w.withdrawDate}"></td>
 									<td>
 										<button type="button" class="btn btn-sm btn-outline-success"
-											data-bs-toggle="modal" data-bs-target="#editModal">
+											data-bs-toggle="modal" data-bs-target="#editModal" th:onclick="getWithdraw([[${w.id}]])">
 											登錄</button>
 									</td>
 								</tr>
@@ -412,12 +414,108 @@
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
 	<script>
-        $("#saveBtn").on("click", function (e) {
-            alert("儲存完畢");
-        })
+		let nowDate = new Date();
+        $("input[id^='withdraw']").attr("value", nowDate.toISOString().split('T')[0])
+        
+        function getWithdraw(id) {
+        	console.log(id);
+        	let url = "http://localhost:8080/secondhand/withdraw/" + id
+        	$.ajax({
+        		method: "GET",
+        		url: url,
+        		success: function(data) {
+        			console.log(data);
+        			$("#custName").val(data.customer.name);
+        			$("#custTel").val(data.customer.phone);
+        			$("#applyDate").val(data.applyDate);
+        			$("#applyTotal").val(data.amount);
+        			$("#bank").val(data.bankNo.bCode);
+        			$("#bankAccount").val(data.bankAccount);
+        			$("#withdraw").val(data.withdraw);
+        			$("#withdrawDate").val(data.withdrawDate);
+        			
+        			$("#saveBtn").attr("onclick", `saveWithdraw(${id})`);
+        		},
+        		error: function() {
+        			console.log("Error");
+        		}
+        	})
+        }
+        
+        function saveWithdraw(id) {
+        	console.log(id);
+        	let url = "http://localhost:8080/secondhand/withdraw/edit/" + id;
+        	$.ajax({
+        		method: "POST",
+        		url: url,
+        		contentType: "application/json",
+        		data: JSON.stringify({
+        			withdraw: $("#withdrawAll").val(),
+        			withdrawDate: $("#withdrawDateAll").val()
+        		}),
+        		success: function(response) {
+        			console.log(response);
+		            alert("申請編號 " + id + " " + response.mesg);
+        		},
+        		error: function() {
+					console.log("Error");
+					alert("登錄失敗");
+        		}        	
+        	})
+        	
+   			window.location.reload();
+        }
+        
+        const idList = [];
+        function onepress() {
+        	$("tbody").find(".id").each(function() {
+        		idList.push($(this).text());
+        	});
+        	console.log(idList);
+        }
 
-        let nowDate = new Date();
-        $("input[id^='transfer-date']").attr("value", nowDate.toISOString().split('T')[0])
+        $("#saveAllBtn").on("click", function() {
+        	const sucList = [];
+            const errorList = [];
+            const requests = []
+            idList.forEach(function(id) {
+                let url = "http://localhost:8080/secondhand/withdraw/edit/" + id;
+                let request = $.ajax({
+                    method: "POST",
+                    url: url,
+                    contentType: "application/json",
+                    data: JSON.stringify({
+                        withdraw: $("#withdrawAll").val(),
+                        withdrawDate: $("#withdrawDate").val()
+                    }),
+                    success: function(response) {
+                        if (response.success) {
+							sucList.push(id);
+                        }
+                        else {
+                            errorList.push(id);
+                        }
+                    },
+                    error: function() {
+                        console.log("Error");
+                        errorList.push(id);
+                    }        	
+                })
+                requests.push(request);
+            })
+            
+			$.when.apply($, requests).done(function() {
+			    // 這裡可以保證所有 ajax 都執行完了
+	            if(errorList.length != 0) {
+	                alert("申請編號 " + errorList.toString() + " 登陸失敗");
+	            }
+	            else {
+	                alert("所有紀錄登錄成功");
+	            }
+	            window.location.reload();
+			});
+  
+        })
     </script>
 </body>
 </html>

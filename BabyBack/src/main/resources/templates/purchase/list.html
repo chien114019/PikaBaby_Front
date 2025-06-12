@@ -213,6 +213,7 @@
 								<th>供應商</th>
 								<th>日期</th>
 								<th>明細</th>
+								
 							</tr>
 						</thead>
 						<tbody>
@@ -223,7 +224,8 @@
 								<td>
 									<ul>
 										<li th:each="d : ${order.details}"
-											th:text="${d.product.name + ' x ' + d.quantity + '（單價 $' + d.unitPrice + '）'}">
+											th:text="${d.product.name + ' x ' + d.quantity + '（單價 $' + d.unitPrice + '）' }">
+											<!--    -->
 										</li>
 									</ul>
 									

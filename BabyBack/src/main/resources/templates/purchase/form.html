@@ -245,6 +245,7 @@
 									<th>序號</th>
 									<th>商品</th>
 									<th>數量</th>
+									<th>金額</th>
 									<th>操作</th>
 								</tr>
 							</thead>
@@ -253,10 +254,12 @@
 									<td></td>
 									<td><select name="productIds" class="form-select" required>
 											<option th:each="p : ${products}" th:value="${p.id}"
-												th:text="${p.name} + '（$' + p.price + '）'"></option>
+												th:text="${p.name} + ''"></option>
 									</select></td>
 									<td><input type="number" name="quantities"
 										class="form-control" min="1" required></td>
+									<td><input type="number" name="unitPrice"
+										class="form-control" min="1" required></td>	
 									<td><button type="button" class="btn btn-danger btn-sm"
 											onclick="removeRow(this)">刪除</button></td>
 								</tr>

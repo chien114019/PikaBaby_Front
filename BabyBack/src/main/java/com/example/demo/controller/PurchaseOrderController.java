@@ -42,6 +42,7 @@ public class PurchaseOrderController {
     public String saveOrder(@RequestParam Long supplierId,
                             @RequestParam("productIds") Long[] productIds,
                             @RequestParam("quantities") Long[] quantities,
+                            @RequestParam("unitPrice") Long[] unitPrice,
                             @RequestParam("orderDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date orderDate) {
 
         Supplier supplier = supplierService.getById(supplierId);

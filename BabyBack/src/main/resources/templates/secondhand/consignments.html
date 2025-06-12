@@ -254,6 +254,7 @@
 										readonly></textarea>
 								</div>
 							</div>
+							<h3 class="modal-title fs-5 mt-3" id="editModalLabel">審核填寫</h3>
 							<div class="d-flex justify-content-start gap-3 my-3">
 								<div class="mb-3 w-50">
 									<label for="review" class="col-form-label">審核結果:</label> <select
@@ -502,6 +503,10 @@
         			$("#review").val(data.review);
         			$("#price").val(data.price);
         			
+                	if(data.review == 2) {
+        	        	$("#price").attr("readonly", true);
+                	}
+        			
         			$("#saveBtn").attr("onclick", `saveConsignment(${data.id})`);
         			
         		},
@@ -532,6 +537,16 @@
         		}
         	})        	
         }
+        
+        $("#review").on("change", function() {
+        	if($(this).prop("value") == 2) {
+	        	$("#price").prop("value", 0);
+	        	$("#price").attr("readonly", true);
+        	}
+        	else {
+	        	$("#price").attr("readonly", false);
+        	}
+        });
         
         
     </script>

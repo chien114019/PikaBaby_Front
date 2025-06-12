@@ -38,40 +38,6 @@ h2 {
     margin-bottom: 30px;
 }
 
-/* 步驟導覽 */
-/* ol {
-    border-left: 2px solid #e5d5c3;
-    padding-left: 20px;
-    position: relative;
-}
-
-ol li {
-    position: relative;
-    padding-left: 10px;
-    margin-bottom: 20px;
-}
-
-ol li::before {
-    content: '';
-    position: absolute;
-    left: -20px;
-    top: 5px;
-    width: 10px;
-    height: 10px;
-    background-color: #eacfc3;
-    border-radius: 50%;
-}
-
-ol li:not(:last-child)::after {
-    content: '';
-    position: absolute;
-    left: -15px;
-    top: 15px;
-    width: 2px;
-    height: 100%;
-    background-color: #eed9d2;
-} */
-
 /* 區塊標題 */
 h4 {
     font-size: 18px;
@@ -182,6 +148,28 @@ td {
     align-content: center;
 }
 
+.loader {
+    display: inline-block;
+    border: 5px solid #f3f3f3;
+    /* Light grey */
+    border-top: 5px solid #3498db;
+    /* Blue */
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
 /* 託售服務 */
 .modal-header {
     background-color: #f0ebe5;
@@ -190,6 +178,7 @@ td {
 .row-cols-6 {
     height: 300px;
 }
+
 /* HTML: <div class="hexagon"></div> */
 .hexagon {
     position: relative;
@@ -203,8 +192,8 @@ td {
 }
 
 .vl {
-  border-left: 6px solid #eacfc3;
-  height: 100%;
+    border-left: 6px solid #eacfc3;
+    height: 100%;
 }
 
 #ruleBtn {

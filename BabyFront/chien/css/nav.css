@@ -211,7 +211,7 @@ footer {
     background-repeat: no-repeat;
     z-index: 1002;
     /* 設比 top-banner(1001) / nav(1000) 還高，保證永遠在最上層 */
-    top: 0;
+    bottom: 10px;
     transition: top 0.1s ease-out;
     cursor: pointer;
 }

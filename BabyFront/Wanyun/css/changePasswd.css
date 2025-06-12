@@ -1,0 +1,13 @@
+ .form-control::placeholder {
+      color: #ccc;
+    }
+    .btn-outline-dark {
+      border-radius: 30px;
+      width: 100px;
+    }
+    .btn-disabled {
+      background-color: #eee;
+      color: #aaa;
+      border-radius: 30px;
+      width: 100px;
+    }

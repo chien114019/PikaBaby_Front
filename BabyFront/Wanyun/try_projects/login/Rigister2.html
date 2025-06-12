@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <title>建立帳號</title>
+    <style>
+        body {
+            font-family: "Noto Sans TC", sans-serif;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .brand-header h2 {
+            font-weight: bold;
+            margin-top: 10px;
+            color: #877c6e;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .social-btn {
+            width: 250px;
+            margin: 0.5rem;
+        }
+
+        .line-btn {
+            background-color: #2ac84cd6;
+            color: white;
+        }
+
+        .fb-btn {
+            background-color: #1876f2cb;
+            color: white;
+        }
+
+        .google-btn {
+            background-color: white;
+            border: 1px solid #ccc;
+            color: #333;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            text-align: left;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .row.form-group {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .row.form-group input {
+            flex: 1;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-bottom: 1px solid #ccc;
+            font-size: 1rem;
+        }
+
+        input:focus {
+            outline: none;
+            border-bottom: 2px solid #444;
+        }
+
+        .error {
+            border-bottom: 2px solid red;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 0.9rem;
+            margin-top: 4px;
+        }
+
+        .disabled-btn {
+            background-color: #ddd;
+            color: #999;
+            cursor: not-allowed;
+        }
+
+        .terms {
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 1rem;
+        }
+
+        .terms a {
+            color: #444;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="brand-header d-flex align-items-center mb-4" style="gap: 1rem;">
+        
+        <h2 class="mb-0" >PikaBaby 會員中心</h2>
+    </div>
+    <div style="height: 1px; background-color: #ddd; margin: 20px 0;"></div>
+
+    <h2>建立帳號</h2>
+
+    <!-- 社群註冊 -->
+    <div>
+        <button class="social-btn line-btn">LINE 註冊</button>
+        <button class="social-btn fb-btn">Facebook 註冊</button><br>
+        <button class="social-btn google-btn">Google 註冊</button>
+    </div>
+
+    <p style="margin: 1rem 0;">or</p>
+
+    <!-- 表單 -->
+    <form id="signupForm">
+        <div class="row form-group">
+            <input type="text" id="lastname" placeholder="姓氏" required>
+
+            <input type="text" id="firstname" placeholder="名字" required>
+        </div>
+        <div class="form-group">
+            <input type="email" id="email" placeholder="Email" required>
+        </div>
+
+        <!-- <div class="form-group">
+      <label>
+        <input type="checkbox" id="subscribe" checked>
+        訂閱 PikaBaby 電子報，第一手掌握產品與優惠消息。
+      </label>
+    </div> -->
+
+        <div class="form-group">
+            <input type="password" id="password" placeholder="密碼" oninput="validatePassword()">
+            <div id="pwError" class="error-message" style="display: none;">密碼至少要 6 個字元</div>
+        </div>
+
+        <p class="terms">
+            建立帳號，即代表你同意 PikaBaby 的
+            <a href="#">網站使用條款</a> 與
+            <a href="#">隱私權政策</a>。
+        </p>
+
+        <button type="submit" id="submitBtn" class="disabled-btn" disabled>完成</button>
+    </form>
+
+    <script>
+        function validatePassword() {
+            const pw = document.getElementById('password');
+            const error = document.getElementById('pwError');
+            const submitBtn = document.getElementById('submitBtn');
+
+            if (pw.value.length < 6) {
+                pw.classList.add('error');
+                error.style.display = 'block';
+                submitBtn.disabled = true;
+                submitBtn.classList.add('disabled-btn');
+            } else {
+                pw.classList.remove('error');
+                error.style.display = 'none';
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('disabled-btn');
+            }
+        }
+    </script>
+
+</body>
+
+</html>

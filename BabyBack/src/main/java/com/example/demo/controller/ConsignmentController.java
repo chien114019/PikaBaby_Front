@@ -32,11 +32,11 @@ public class ConsignmentController {
 
 //	--------------- 前台 API ----------------
 	
-//	@GetMapping("/consign/cust/{custId}")
-//	@ResponseBody
-//	public List<Consignment> getConsignmentsByCustId(@PathVariable String custId) {
-//		return service.getAllByCustId(custId);
-//	}
+	@GetMapping("/consign/cust/{custId}")
+	@ResponseBody
+	public List<Consignment> getConsignmentsByCustId(@PathVariable String custId) {
+		return service.getAllByCustId(custId);
+	}
 	
 	
 //	--------------- 後台 API -----------------

@@ -60,38 +60,40 @@
       font-weight: 600;
     }
 
-    
-/* footer */
+
+    /* footer */
     footer {
-  background-color: #f7f3ee; /* 頁尾背景色，可自行調整 */
-  width: 100%;
-  padding: 2rem 0;
-}
+      background-color: #f7f3ee;
+      /* 頁尾背景色，可自行調整 */
+      width: 100%;
+      padding: 2rem 0;
+    }
 
-.footer-container {
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-  max-width: 1200px;
-  margin: 0 auto; /* 水平置中 */
-}
+    .footer-container {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      max-width: 1200px;
+      margin: 0 auto;
+      /* 水平置中 */
+    }
 
-.footer-section {
-  flex: 1;
-  padding: 1rem;
-  min-width: 200px;
-}
+    .footer-section {
+      flex: 1;
+      padding: 1rem;
+      min-width: 200px;
+    }
 
-.footer-logo {
-  width: 100px;
-}
-.footer-line {
-  width: 40px;
-  height: 2px;
-  background-color: #333;
-  margin: 0.5rem 0;
-}
+    .footer-logo {
+      width: 100px;
+    }
 
+    .footer-line {
+      width: 40px;
+      height: 2px;
+      background-color: #333;
+      margin: 0.5rem 0;
+    }
   </style>
 </head>
 
@@ -189,7 +191,7 @@
 
       <!-- 主內容區塊 -->
       <!-- <div class="row"> -->
-        <!-- 側邊欄
+      <!-- 側邊欄
                 <div class="sidebar">
                     <div class="timeline-line"></div>
   <div class="menu-item">訂單資訊</div>
@@ -200,166 +202,188 @@
 
 
 
-        <!-- 主要內容 -->
-        <main class="col-md-10 p-5">
-          <h3>歡迎回來，USER！</h3>
-          <br><br>
-          <!-- 導覽 Tabs -->
+      <!-- 主要內容 -->
+      <main class="col-md-10 p-5">
+        <h3>歡迎回來，USER！</h3>
+        <br><br>
+        <!-- 導覽 Tabs -->
 
 
-          <div class="container text-center mt-4 border-bottom ">
-            <div class="d-flex justify-content-center gap-3 flex-wrap">
-              <button class="nav-button active">訂單資訊</button>
-              <button class="nav-button">會員資料</button>
-              <button class="nav-button">願望清單</button>
-              <button class="nav-button">折扣專區</button>
-              <button class="nav-button">更換密碼</button>
-            </div>
+        <div class="container text-center mt-4 border-bottom ">
+          <div class="d-flex justify-content-center gap-3 flex-wrap">
+            <button class="nav-button active">訂單資訊</button>
+            <button class="nav-button">會員資料</button>
+            <button class="nav-button">願望清單</button>
+            <button class="nav-button">折扣專區</button>
+            <button class="nav-button">更換密碼</button>
           </div>
-
-          <br><br><br><br>
-
-
-          <!-- 願望清單 -->
-          <div class="d-flex justify-content-center">
-            <table>
-              <thead>
-                <tr>
-                  <th>項目</th>
-                  <th>單價</th>
-                  <th>數量</th>
-                  <th>小計</th>
-                  <th>操作</th>
-                </tr>
-              </thead>
-              <tbody>
-                <!-- 商品 1 -->
-                <tr>
-                  <td class="item-info">
-                    <img src="../images/nepkin.jpg" alt="汽車肚圍">
-                    <div class="item-title">Pikababy汽車鋪棉肚圍</div>
-                  </td>
-                  <td>$312</td>
-                  <td>
-                    <div class="qty-control">
-                      <button class="btn qty-btn-left"  onclick="updateQty(this, -1)">-</button>
-                      <span class="qty-number">1</span>
-                      <button class="btn qty-btn-right" onclick="updateQty(this, 1)">+</button>
-                    </div>
-                  </td>
-                  <td>$312</td>
-                  <td class="action-icons">
-                    <span>✎</span>
-                    <span>✖</span>
-                  </td>
-                </tr>
-                <!-- 商品 2 -->
-                <tr>
-                  <td class="item-info">
-                    <img src="../images/pineapple6.jpg" alt="包屁衣">
-                    <div class="item-title">Pikababy野餐系鳳梨包屁衣</div>
-                    <div class="sub-info">顏色：鮮黃｜產品規格：12M</div>
-                  </td>
-                  <td>$693</td>
-                  <td>
-                    <div class="qty-control">
-                      <button class="btn  qty-btn-left" onclick="updateQty(this, -1)">-</button>
-                      <span class="qty-number">1</span>
-                      <button class="btn qty-btn-right" onclick="updateQty(this, 1)">+</button>
-                    </div>
-                  </td>
-                  <td>$693</td>
-                  <td class="action-icons">
-                    <span>✎</span>
-                    <span>✖</span>
-                  </td>
-                </tr>
-                <!-- 商品 3 -->
-                <tr>
-                  <td class="item-info">
-                    <img src="../images/pineapple6.jpg" alt="包屁衣">
-                    <div class="item-title">Pikababy野餐系鳳梨包屁衣</div>
-                    <div class="sub-info">顏色：鮮黃｜產品規格：6M</div>
-                  </td>
-                  <td>$693</td>
-                  <td>
-                    <div class="qty-control">
-                      <button class="btn qty-btn-left" onclick="updateQty(this, -1)">-</button>
-                     <span class="qty-number">1</span>
-                      <button class="btn qty-btn-right" onclick="updateQty(this, 1)">+</button>
-                    </div>
-                  </td>
-                  <td>$693</td>
-                  <td class="action-icons">
-                    <span>✎</span>
-                    <span>✖</span>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-
-
-           
-
-
-<br><br><br><br>
-
-
-<!-- 頁尾 -->
- <footer>
-        <div class="footer-container ">
-            <div class="footer-section" style="flex: 0;">
-                <img src="../images/logo-pikababy.png" alt="PikaBaby" class="footer-logo" />
-            </div>
-            <div class="footer-section w-100">
-                <p class="footer-title">PikaBaby</p>
-                <div class="footer-line"></div>
-                <p class="mb-1">服務我們</p>
-                <p class="mb-1">品牌特色</p>
-            </div>
-            <div class="footer-section w-100">
-                <h3>品牌服務</h3>
-                <div class="footer-line"></div>
-                <p class="mb-1">Baby Store</p>
-                <p class="mb-1">二手商城</p>
-            </div>
-            <div class="footer-section w-100">
-                <h3>聯絡我們</h3>
-                <div class="footer-line"></div>
-                <p class="mb-1">聯絡電話：(04) 2326-5860</p>
-                <p class="mb-1">聯絡地址：台中市南屯區公益路二段51號18樓</p>
-            </div>
         </div>
-    </footer>
 
-            <script>
-              
+        <br><br><br><br>
 
-              // 導覽Tab
-              const buttons = document.querySelectorAll('.nav-button');
-              buttons.forEach(btn => {
-                btn.addEventListener('click', () => {
-                  buttons.forEach(b => b.classList.remove('active'));
-                  btn.classList.add('active');
-                });
-              });
 
-            
-function updateQty(button, delta) {
-  const row = button.closest('tr');
-  const qtySpan = row.querySelector('.qty-number');
-  let qty = parseInt(qtySpan.textContent);
-  qty = Math.max(1, qty + delta);
-  qtySpan.textContent = qty;
+        <!-- 願望清單 -->
+        <div class="d-flex justify-content-center">
+          <table>
+            <thead>
+              <tr>
+                <th>項目</th>
+                <th>單價</th>
+                <th>數量</th>
+                <th>小計</th>
+                <th>操作</th>
+                <th>加入購物車</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- 商品 1 -->
+              <tr>
+                <td class="item-info">
+                  <img src="../images/nepkin.jpg" alt="汽車肚圍">
+                  <div class="item-title">Pikababy汽車鋪棉肚圍</div>
+                </td>
+                <td>$312</td>
+                <td>
+                  <div class="qty-control">
+                    <button class="btn qty-btn-left" onclick="updateQty(this, -1)">-</button>
+                    <span class="qty-number">1</span>
+                    <button class="btn qty-btn-right" onclick="updateQty(this, 1)">+</button>
+                  </div>
+                </td>
+                <td>$312</td>
+                <td>
+                  <div class="action-icons">
+                    <button class="icon-btn">✎</button>
+                    <button class="icon-btn">✖</button>
 
-  // 從第二欄單價抓數字（去掉 $）
-  const unitPrice = parseInt(row.children[1].textContent.replace('$', ''));
-  const subtotalCell = row.children[3];
-  subtotalCell.textContent = `$${unitPrice * qty}`;
-}
-</script>
+                  </div>
+                </td>
+                <td>
+                  <button class="btn-add">＋</button>
+                </td>
+              </tr>
+              <!-- 商品 2 -->
+              <tr>
+                <td class="item-info">
+                  <img src="../images/pineapple6.jpg" alt="包屁衣">
+                  <div class="item-title">Pikababy野餐系鳳梨包屁衣</div>
+                  <div class="sub-info">顏色：鮮黃｜產品規格：12M</div>
+                </td>
+                <td>$693</td>
+                <td>
+                  <div class="qty-control">
+                    <button class="btn  qty-btn-left" onclick="updateQty(this, -1)">-</button>
+                    <span class="qty-number">1</span>
+                    <button class="btn qty-btn-right" onclick="updateQty(this, 1)">+</button>
+                  </div>
+                </td>
+                <td>$693</td>
+                <td>
+                  <div class="action-icons">
+                    <button class="icon-btn">✎</button>
+                    <button class="icon-btn">✖</button>
+
+                  </div>
+                </td>
+                <td>
+                  <button class="btn-add">＋</button>
+                </td>
+              </tr>
+              <!-- 商品 3 -->
+              <tr>
+                <td class="item-info">
+                  <img src="../images/pineapple6.jpg" alt="包屁衣">
+                  <div class="item-title">Pikababy野餐系鳳梨包屁衣</div>
+                  <div class="sub-info">顏色：鮮黃｜產品規格：6M</div>
+                </td>
+                <td>$693</td>
+                <td>
+                  <div class="qty-control">
+                    <button class="btn qty-btn-left" onclick="updateQty(this, -1)">-</button>
+                    <span class="qty-number">1</span>
+                    <button class="btn qty-btn-right" onclick="updateQty(this, 1)">+</button>
+                  </div>
+                </td>
+                <td>$693</td>
+               <td>
+                  <div class="action-icons">
+                    <button class="icon-btn">✎</button>
+                    <button class="icon-btn">✖</button>
+
+                  </div>
+                </td>
+                <td>
+                  <button class="btn-add">＋</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+        </div>
+
+
+        <div class="text-end mt-4">
+          <button class="btn-buy-all">全部加入購物車</button>
+        </div>
+
+
+
+        <br><br><br><br>
+
+
+        <!-- 頁尾 -->
+        <footer>
+          <div class="footer-container ">
+            <div class="footer-section" style="flex: 0;">
+              <img src="../images/logo-pikababy.png" alt="PikaBaby" class="footer-logo" />
+            </div>
+            <div class="footer-section w-100">
+              <p class="footer-title">PikaBaby</p>
+              <div class="footer-line"></div>
+              <p class="mb-1">服務我們</p>
+              <p class="mb-1">品牌特色</p>
+            </div>
+            <div class="footer-section w-100">
+              <h3>品牌服務</h3>
+              <div class="footer-line"></div>
+              <p class="mb-1">Baby Store</p>
+              <p class="mb-1">二手商城</p>
+            </div>
+            <div class="footer-section w-100">
+              <h3>聯絡我們</h3>
+              <div class="footer-line"></div>
+              <p class="mb-1">聯絡電話：(04) 2326-5860</p>
+              <p class="mb-1">聯絡地址：台中市南屯區公益路二段51號18樓</p>
+            </div>
+          </div>
+        </footer>
+
+        <script>
+
+
+          // 導覽Tab
+          const buttons = document.querySelectorAll('.nav-button');
+          buttons.forEach(btn => {
+            btn.addEventListener('click', () => {
+              buttons.forEach(b => b.classList.remove('active'));
+              btn.classList.add('active');
+            });
+          });
+
+
+          function updateQty(button, delta) {
+            const row = button.closest('tr');
+            const qtySpan = row.querySelector('.qty-number');
+            let qty = parseInt(qtySpan.textContent);
+            qty = Math.max(1, qty + delta);
+            qtySpan.textContent = qty;
+
+            // 從第二欄單價抓數字（去掉 $）
+            const unitPrice = parseInt(row.children[1].textContent.replace('$', ''));
+            const subtotalCell = row.children[3];
+            subtotalCell.textContent = `$${unitPrice * qty}`;
+          }
+        </script>
 </body>
 
 </html>

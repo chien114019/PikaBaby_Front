@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+  <meta charset="UTF-8">
+  <title>會員專區</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../css/frontpage_decor.css">
+  <link rel="stylesheet" href="../css/bucketlist.css">
+  <link rel="stylesheet" href="../css/changePasswd.css">
+  <link rel="stylesheet" href="../css/memberInfo.css">
+  <link rel="stylesheet" href="../css/couponPoints.css">
+  <link rel="stylesheet" href="../css/order.css">
+  <style>
+   
+    /* 導覽Tabs */
+
+    .nav-wrapper {
+      border-bottom: 2px solid #e0e0e0;
+      /* 整條底線 */
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      padding-bottom: 0.5rem;
+    }
+
+
+    .nav-button {
+      border: none;
+      background: none;
+      color: #333;
+      padding: 0.5rem 1rem;
+      font-weight: 500;
+      position: relative;
+
+    }
+
+    .nav-button::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -2px;
+      /* 讓黃線蓋在灰線上 */
+      height: 4px;
+      width: 0%;
+      background-color: #f1f454;
+      /* 黃色底線 */
+      transition: width 0.3s;
+    }
+
+
+
+    .nav-button.active::after {
+      width: 100%;
+    }
+
+    .nav-button.active {
+      color: #000;
+      font-weight: 600;
+    }
+
+    /* 切換內容 */
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* 側邊攔 */
+    .sidebar {
+      position: relative;
+      background-color: #fffafa;
+      border: 2px solid #ccc;
+      margin-left: 100px;
+      margin-top: 200px;
+      padding: 2rem 1rem;
+      width: 200px;
+      font-family: sans-serif;
+    }
+
+    /* 垂直線：放在整個容器內的中間 */
+    .timeline-line {
+      position: absolute;
+      top: 40px;
+      padding-bottom: 60px;
+      left: 20px;
+      width: 2px;
+      background-color: #eacfc3;
+      z-index: 0;
+    }
+
+    .menu-item {
+      position: relative;
+      margin-left: 2.5rem;
+      margin-bottom: 2rem;
+      font-weight: 500;
+      color: #333;
+    }
+
+    .menu-item::before {
+      content: '';
+      position: absolute;
+      left: -40px;
+      top: 0.3em;
+      width: 10px;
+      height: 10px;
+      background-color: #eacfc3;
+      border-radius: 50%;
+      z-index: 1;
+    }
+
+    .menu-item:last-child {
+      margin-bottom: 0;
+    }
+
+    
+  </style>
+</head>
+
+<body>
+  <!-- 置頂的促銷訊息 -->
+  <div class="top-banner">
+    每週五六日🔥新人代理寄賣免運
+    <span style="color: red;">25 日 23 時 14 分 35 秒</span>
+    <div style="display: inline-block; background-color: black; color: white">
+      Ispain love you
+    </div>
+  </div>
+
+  <!-- LOGO -->
+  <div class="nav-logo-row">
+    <img src="../images/logo-pikababy.png" alt="PikaBaby" class="nav-logo" />
+  </div>
+
+  <!-- 導覽列 -->
+  <nav>
+    <div class="nav-container">
+      <div class="nav-links">
+        <a href="#">首頁</a>
+        <div class="dropdown">
+          <a href="#">年齡區間(0-3M)</a>
+          <div class="dropdown-content">
+            <a href="#">奶瓶/奶嘴</a>
+            <a href="#">圍兜/揹巾</a>
+            <a href="#">嬰兒服裝</a>
+            <a href="#">清潔用品</a>
+            <a href="#">嬰兒推車</a>
+            <a href="#">嬰兒床</a>
+            <a href="#">哺乳用品</a>
+            <a href="#">嬰兒用品</a>
+          </div>
+        </div>
+        <div class="dropdown">
+          <a href="#">年齡區間(3-6M)</a>
+          <div class="dropdown-content">
+            <a href="#">嬰兒服裝</a>
+            <a href="#">玩具</a>
+            <a href="#">嬰兒推車</a>
+            <a href="#">嬰兒床</a>
+            <a href="#">汽座</a>
+            <a href="#">嬰兒用品</a>
+          </div>
+        </div>
+        <div class="dropdown">
+          <a href="#">年齡區間(6-12M)</a>
+          <div class="dropdown-content">
+            <a href="#">學步用品</a>
+            <a href="#">餐具用品</a>
+            <a href="#">幼兒服裝</a>
+            <a href="#">玩具</a>
+            <a href="#">嬰兒推車</a>
+            <a href="#">汽座</a>
+            <a href="#">嬰兒用品</a>
+          </div>
+        </div>
+        <div class="dropdown">
+          <a href="#">年齡區間(2-3y)</a>
+          <div class="dropdown-content">
+            <a href="#">幼教用品</a>
+            <a href="#">兒童服裝</a>
+            <a href="#">玩具</a>
+            <a href="#">汽座</a>
+            <a href="#">兒童推車</a>
+            <a href="#">餐椅</a>
+            <a href="#">電器用品</a>
+            <a href="#">嬰兒用品</a>
+          </div>
+        </div>
+        <a href="#">二手專區</a>
+        <a href="#">關於我們</a>
+      </div>
+      <div class="user-actions">
+        <a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="28" fill="#000000" viewBox="0 0 256 256"><path d="M104,216a16,16,0,1,1-16-16A16,16,0,0,1,104,216Zm88-16a16,16,0,1,0,16,16A16,16,0,0,0,192,200ZM239.71,74.14l-25.64,92.28A24.06,24.06,0,0,1,191,184H92.16A24.06,24.06,0,0,1,69,166.42L33.92,40H16a8,8,0,0,1,0-16H40a8,8,0,0,1,7.71,5.86L57.19,64H232a8,8,0,0,1,7.71,10.14ZM221.47,80H61.64l22.81,82.14A8,8,0,0,0,92.16,168H191a8,8,0,0,0,7.71-5.86Z"></path></svg></a>
+        <a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="28" fill="#000000" viewBox="0 0 256 256"><path d="M230.92,212c-15.23-26.33-38.7-45.21-66.09-54.16a72,72,0,1,0-73.66,0C63.78,166.78,40.31,185.66,25.08,212a8,8,0,1,0,13.85,8c18.84-32.56,52.14-52,89.07-52s70.23,19.44,89.07,52a8,8,0,1,0,13.85-8ZM72,96a56,56,0,1,1,56,56A56.06,56.06,0,0,1,72,96Z"></path></svg></a>
+      </div>
+    </div>
+  </nav>
+
+
+
+
+  <!-- 主要內容（測試滾動） -->
+  <br><br><br><br><br><br><br><br>
+
+
+
+
+  <!-- 主內容區塊 -->
+  <div>
+    <div class="container">
+      <div class="d-flex justify-content-center ">
+
+        <!-- 主要內容 -->
+        <div class="col-md-8 p-5 text-start mx-auto">
+          <h3>歡迎回來，皮卡！</h3>
+          <br><br>
+          <!-- 導覽 Tabs -->
+          <div class="container text-center mt-4 border-bottom ">
+            <div class="d-flex justify-content-center gap-3 flex-wrap">
+              <button class="btn nav-button active" onclick="switchTab(event, 'order')">交易紀錄</button>
+              <button class="btn nav-button" onclick="switchTab(event, 'profile')">會員資料</button>
+              <button class="btn nav-button" onclick="switchTab(event, 'wishlist')">我的收藏</button>
+              <button class="btn nav-button" onclick="switchTab(event, 'discount')">折扣專區</button>
+              <button class="btn nav-button" onclick="switchTab(event, 'password')">更換密碼</button>
+            </div>
+          </div>
+          <br><br>
+          <!-- 各區塊內容 -->
+          <div id="order" class="tab-content active">
+            <div class="row">
+              <!-- 側邊欄
+            <div class="sidebar">
+              <div class="timeline-line"></div>
+              <div class="menu-item">訂單資訊</div>
+              <div class="menu-item">託售紀錄</div>
+            </div> -->
+              <!-- <ul class="nav nav-tabs mt-3">
+        <li class="nav-item"><a class="nav-link active" href="#">訂單資訊</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">會員資料</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">我的收藏</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">折扣回饋</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">更換密碼</a></li>
+      </ul> -->
+
+              <!-- 訂單資訊 -->
+              <div class="order-card bg-warning-subtle p-4 mt-3 rounded">
+                <h2>訂單資訊</h2>
+                <p class="description">訂單成立後，請等待5至10分鐘更新，方可查詢訂單資料</p>
+
+                <div class="order-header">
+                  <div>訂單編號</div>
+                  <div>日期</div>
+                  <div>訂單狀態</div>
+                  <div>付款狀態</div>
+                  <div>金額總計</div>
+                </div>
+
+                <div class="progress-bar"></div>
+
+                <div class="pagination justify-content-center">
+                  <span class="page-number">1</span>
+                </div>
+              </div>
+
+              <!-- 託售紀錄 -->
+              <div class="order-card bg-warning-subtle p-4 mt-3 rounded">
+                <h2>託售紀錄</h2>
+                <p class="description">託售提交後，請等待審核完成並確認價格後，再進行後續處理</p>
+
+                <div class="order-header">
+                  <div>商品名稱</div>
+                  <div>商品數量</div>
+                  <div>申請日期</div>
+                  <div>審核狀態</div>
+                  <div>預估價格</div>
+                </div>
+
+                <div class="progress-bar"></div>
+
+                <div class="pagination justify-content-center">
+                  <span class="page-number">1</span>
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+          <div id="profile" class="tab-content">
+            <!-- 會員資訊 -->
+            <div class="col-md-8 offset-md-2">
+              <div class="card p-4 mx-auto" style="width: 100%; max-width: 720px;">
+                <h2>會員資訊</h2>
+                <p>會員名稱: 某小姐</p>
+                <p>Email: pika.baby111@gmail.com</p>
+                <p>手機: 0987654321</p>
+                <p>生日: 1999-01-14</p>
+                <p>註冊日期: 2021-12-31</p>
+                <p>寶寶出生年月：2025-06</p>
+                <div class="d-flex justify-content-end">
+                  <button class="btn btn-edit" data-bs-toggle="modal" data-bs-target="#editModal">編輯</button>
+                </div>
+
+              </div>
+              <!-- 彈出視窗 Modal -->
+              <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered">
+                  <div class="modal-content">
+                    <h4 class="fw-bold text-center mb-4">個人資料編輯</h4>
+                    <form>
+                      <div class="row mb-3">
+                        <div class="col-md-6">
+                          <label class="form-label">姓氏</label>
+                          <input type="text" class="form-control-member" value="皮卡">
+                        </div>
+                        <div class="col-md-6">
+                          <label class="form-label">名字</label>
+                          <input type="text" class="form-control-member" value="寶貝">
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <div class="col-md-6">
+                          <label class="form-label">生日</label>
+                          <input type="text" class="form-control-member" value="1997 / 01 / 18" disabled>
+                        </div>
+                        <div class="col-md-6">
+                          <label class="form-label">性別</label>
+                          <select class="form-select">
+                            <option selected>女性</option>
+                            <option>男性</option>
+                            <option>其他</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label">手機號碼</label>
+                        <div class="d-flex gap-2 align-items-center">
+                          <select class="form-select" style="max-width: 100px;">
+                            <option>+886</option>
+                          </select>
+                          <input type="text" class="form-control-member" placeholder="912 345 678">
+                        </div>
+                        <div class="mb-4">
+                          <label class="form-label">Email</label>
+                          <input type="email" class="form-control-member" value="wanyun0118@gmail.com" disabled>
+                        </div>
+                        <div class="mb-4">
+                          <label class="form-label">寶寶出生年月</label>
+                          <input type="month" class="form-control-member" value="">
+                        </div>
+                        <div class="form-check mt-2">
+                          <input class="form-check-input" type="checkbox" id="subscribe1" checked>
+                          <label class="form-check-label" for="subscribe1">訂閱</label>
+
+                        </div>
+                        <small class="text-muted">第一手掌握產品、優惠以及會員福利的最新消息。</small>
+                      </div>
+
+
+                      <!-- <div class="form-check mt-2">
+              <input class="form-check-input" type="checkbox" id="subscribe2">
+              <label class="form-check-label" for="subscribe2">訂閱</label>
+            </div>
+            <small class="text-muted">第一手掌握產品、優惠以及會員福利的最新消息。</small>
+          </div> -->
+
+                      <!-- <div class="d-flex justify-content-end gap-3">
+            <button type="button" class="btn btn-outline-dark px-4" data-bs-dismiss="modal">取消</button>
+            <button type="submit" class="btn btn-dark px-4">儲存</button>
+          </div> -->
+                      <div class="d-flex justify-content-end gap-3">
+                        <button type="button" class="btn btn-cancel px-4" data-bs-dismiss="modal">取消</button>
+                        <button type="submit" class="btn btn-save px-4">儲存</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- 常用地址 -->
+            <div class="col-md-8 offset-md-2">
+              <div class="card p-4 mx-auto" style="width: 100%; max-width: 720px;">
+                <h2>常用地址</h2>
+                <p>406 台中市北屯區松竹三路 18 號</p>
+                <div class="d-flex justify-content-end gap-2">
+                  <button class="btn btn-edit" data-bs-toggle="modal" data-bs-target="#addressModal">編輯</button>
+                  <button class="btn btn-edit" data-bs-toggle="modal" data-bs-target="#address_addModal">新增</button>
+                </div>
+              </div>
+            </div>
+            <!-- 編輯地址彈出視窗 Modal -->
+            <div class="modal fade" id="addressModal" tabindex="-1" aria-labelledby="addressModalLabel"
+              aria-hidden="true">
+              <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+                  <h4 class="mb-4">編輯地址</h4>
+                  <form id="addressForm">
+                    <div class="mb-3">
+                      <label class="form-label">姓名 *</label>
+                      <input type="text" class="form-control" id="name" required>
+                    </div>
+
+                    <div class="row mb-3">
+                      <div class="col-md-4">
+                        <label class="form-label">縣市 *</label>
+                        <select class="form-select" id="city" required>
+                          <option selected disabled>請選擇</option>
+                          <option>台中市</option>
+                          <option>台北市</option>
+                          <option>高雄市</option>
+                        </select>
+                      </div>
+                      <div class="col-md-4">
+                        <label class="form-label">行政區 *</label>
+                        <select class="form-select" id="district" required>
+                          <option selected disabled>請選擇</option>
+                        </select>
+                      </div>
+                      <div class="col-md-4">
+                        <label class="form-label">郵遞區號</label>
+                        <input type="text" class="form-control" id="zipcode" disabled>
+                      </div>
+                    </div>
+
+                    <div class="mb-3">
+                      <label class="form-label">街道地址 *</label>
+                      <input type="text" class="form-control" id="street" required>
+                    </div>
+
+                    <div class="mb-3">
+                      <label class="form-label">手機號碼 *</label>
+                      <input type="text" class="form-control" id="phone" pattern="09\\d{8}" required>
+                    </div>
+
+                    <div class="form-check mb-2">
+                      <input class="form-check-input" type="checkbox" id="isDefaultOrder">
+                      <label class="form-check-label" for="isDefaultOrder">作為我的預設訂單地址</label>
+                    </div>
+                    <div class="form-check mb-4">
+                      <input class="form-check-input" type="checkbox" id="isDefaultShipping">
+                      <label class="form-check-label" for="isDefaultShipping">作為我的預設配送地址</label>
+                    </div>
+
+                    <div class="d-flex justify-content-end gap-3">
+                      <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">取消</button>
+                      <button type="submit" class="btn btn-primary">儲存地址</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <!-- 新增地址彈出視窗 Modal -->
+            <div class="modal fade" id="address_addModal" tabindex="-1" aria-labelledby="addressModalLabel"
+              aria-hidden="true">
+              <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+                  <h4 class="mb-4">新增地址</h4>
+                  <form id="addressForm">
+                    <div class="mb-3">
+                      <label class="form-label">姓名 *</label>
+                      <input type="text" class="form-control" id="name" required>
+                    </div>
+
+                    <div class="row mb-3">
+                      <div class="col-md-4">
+                        <label class="form-label">縣市 *</label>
+                        <select class="form-select" id="city" required>
+                          <option selected disabled>請選擇</option>
+                          <option>台中市</option>
+                          <option>台北市</option>
+                          <option>高雄市</option>
+                        </select>
+                      </div>
+                      <div class="col-md-4">
+                        <label class="form-label">行政區 *</label>
+                        <select class="form-select" id="district" required>
+                          <option selected disabled>請選擇</option>
+                        </select>
+                      </div>
+                      <div class="col-md-4">
+                        <label class="form-label">郵遞區號</label>
+                        <input type="text" class="form-control" id="zipcode" disabled>
+                      </div>
+                    </div>
+
+                    <div class="mb-3">
+                      <label class="form-label">街道地址 *</label>
+                      <input type="text" class="form-control" id="street" required>
+                    </div>
+
+                    <div class="mb-3">
+                      <label class="form-label">手機號碼 *</label>
+                      <input type="text" class="form-control" id="phone" pattern="09\\d{8}" required>
+                    </div>
+
+                    <div class="form-check mb-2">
+                      <input class="form-check-input" type="checkbox" id="isDefaultOrder">
+                      <label class="form-check-label" for="isDefaultOrder">作為我的預設訂單地址</label>
+                    </div>
+                    <div class="form-check mb-4">
+                      <input class="form-check-input" type="checkbox" id="isDefaultShipping">
+                      <label class="form-check-label" for="isDefaultShipping">作為我的預設配送地址</label>
+                    </div>
+
+                    <div class="d-flex justify-content-end gap-3">
+                      <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">取消</button>
+                      <button type="submit" class="btn btn-primary">儲存地址</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <!-- 常用信用卡 -->
+            <div class="col-md-8 offset-md-2">
+              <div class="card p-4 mx-auto" style="width: 100%; max-width: 720px;">
+                <h2>常用信用卡</h2>
+                <div class="credit-card">
+                  <span>💳 國泰世華銀行 (•••• 8860)</span>
+                  <button class="btn btn-edit">預設</button>
+                  <button class="btn btn-delete">刪除</button>
+                </div>
+                <div class="d-flex justify-content-end">
+                  <button class="btn btn-edit" data-bs-toggle="modal" data-bs-target="#cardModal">新增</button>
+                </div>
+                <!-- 信用卡彈出視窗 -->
+                <div class="modal fade" id="cardModal" tabindex="-1" aria-labelledby="cardModalLabel"
+                  aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                      <h4 class="text-center">輸入卡號</h4>
+                      <form id="cardForm">
+                        <div class="mb-3">
+                          <label class="form-label">信用卡 / 簽帳金融卡卡號</label>
+                          <input type="text" id="cardNumber" class="form-control" placeholder="0000 0000 0000 0000"
+                            maxlength="19" required>
+                        </div>
+                        <div class="row mb-3">
+                          <div class="col">
+                            <label class="form-label">有效月年</label>
+                            <input type="text" id="expiry" class="form-control" placeholder="MM/YY" maxlength="5"
+                              required>
+                          </div>
+                          <div class="col">
+                            <label class="form-label">背面末三碼</label>
+                            <input type="text" id="cvv" class="form-control" placeholder="000" maxlength="3" required>
+                          </div>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">取消</button>
+                          <button type="submit" id="nextBtn" class="btn btn-dark btn-disabled">下一步</button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                <div class="note">最多可登錄 3 張信用卡。</div>
+              </div>
+            </div>
+          </div>
+          <div id="wishlist" class="tab-content">
+            <!-- 願望清單 -->
+            <br><br>
+            <div class="d-flex justify-content-center">
+              <table>
+                <thead>
+                  <tr>
+                    <th>項目</th>
+                    <th>單價</th>
+                    <th>數量</th>
+                    <th>小計</th>
+                    <th>操作</th>
+                    <th>加入購物車</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- 商品 1 -->
+                  <tr>
+                    <td class="item-info">
+                      <img src="../images/nepkin.jpg" alt="汽車肚圍">
+                      <div class="item-title">Pikababy汽車鋪棉肚圍</div>
+                    </td>
+                    <td>$312</td>
+                    <td>
+                      <div class="qty-control">
+                        <button class="btn qty-btn-left" onclick="updateQty(this, -1)">-</button>
+                        <span class="qty-number">1</span>
+                        <button class="btn qty-btn-right" onclick="updateQty(this, 1)">+</button>
+                      </div>
+                    </td>
+                    <td>$312</td>
+                    <td>
+                      <div class="action-icons">
+                        <button class="icon-btn">✎</button>
+                        <button class="icon-btn">✖</button>
+
+                      </div>
+                    </td>
+                    <td>
+                      <button class="btn-add">＋</button>
+                    </td>
+                  </tr>
+                  <!-- 商品 2 -->
+                  <tr>
+                    <td class="item-info">
+                      <img src="../images/pineapple6.jpg" alt="包屁衣">
+                      <div class="item-title">Pikababy野餐系鳳梨包屁衣</div>
+                      <div class="sub-info">顏色：鮮黃｜產品規格：12M</div>
+                    </td>
+                    <td>$693</td>
+                    <td>
+                      <div class="qty-control">
+                        <button class="btn  qty-btn-left" onclick="updateQty(this, -1)">-</button>
+                        <span class="qty-number">1</span>
+                        <button class="btn qty-btn-right" onclick="updateQty(this, 1)">+</button>
+                      </div>
+                    </td>
+                    <td>$693</td>
+                    <td>
+                      <div class="action-icons">
+                        <button class="icon-btn">✎</button>
+                        <button class="icon-btn">✖</button>
+
+                      </div>
+                    </td>
+                    <td>
+                      <button class="btn-add">＋</button>
+                    </td>
+                  </tr>
+                  <!-- 商品 3 -->
+                  <tr>
+                    <td class="item-info">
+                      <img src="../images/pineapple6.jpg" alt="包屁衣">
+                      <div class="item-title">Pikababy野餐系鳳梨包屁衣</div>
+                      <div class="sub-info">顏色：鮮黃｜產品規格：6M</div>
+                    </td>
+                    <td>$693</td>
+                    <td>
+                      <div class="qty-control">
+                        <button class="btn qty-btn-left" onclick="updateQty(this, -1)">-</button>
+                        <span class="qty-number">1</span>
+                        <button class="btn qty-btn-right" onclick="updateQty(this, 1)">+</button>
+                      </div>
+                    </td>
+                    <td>$693</td>
+                    <td>
+                      <div class="action-icons">
+                        <button class="icon-btn">✎</button>
+                        <button class="icon-btn">✖</button>
+
+                      </div>
+                    </td>
+                    <td>
+                      <button class="btn-add">＋</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+
+            </div>
+
+
+            <div class="text-end mt-4">
+              <button class="btn-buy-all">全部加入購物車</button>
+            </div>
+          </div>
+          <div id="discount" class="tab-content">
+            <!-- 我的點數 -->
+            <div class="coupon-card">
+              <div class="coupon-h2">我的點數</div>
+              <div class="dashed-box">
+                <div class="coupon-h2">點數使用規範</div>
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="24" fill="#000000" viewBox="0 0 256 256">
+                  <path
+                    d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm45.66-93.66a8,8,0,0,1,0,11.32l-32,32a8,8,0,0,1-11.32-11.32L148.69,136H88a8,8,0,0,1,0-16h60.69l-18.35-18.34a8,8,0,0,1,11.32-11.32Z">
+                  </path>
+                </svg>
+                點數累積方式：每消費滿 NT$100 即可獲得 1 點，不含運費與折扣金額。<br>
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="24" fill="#000000" viewBox="0 0 256 256">
+                  <path
+                    d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm45.66-93.66a8,8,0,0,1,0,11.32l-32,32a8,8,0,0,1-11.32-11.32L148.69,136H88a8,8,0,0,1,0-16h60.69l-18.35-18.34a8,8,0,0,1,11.32-11.32Z">
+                  </path>
+                </svg>
+                點數折抵規則：1 點折抵 NT$1，可於下次結帳時使用。<br>
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="24" fill="#000000" viewBox="0 0 256 256">
+                  <path
+                    d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm45.66-93.66a8,8,0,0,1,0,11.32l-32,32a8,8,0,0,1-11.32-11.32L148.69,136H88a8,8,0,0,1,0-16h60.69l-18.35-18.34a8,8,0,0,1,11.32-11.32Z">
+                  </path>
+                </svg>
+                點數有效期限：依實際發放規則為準，逾期將自動失效不另行通知。<br>
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="24" fill="#000000" viewBox="0 0 256 256">
+                  <path
+                    d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm45.66-93.66a8,8,0,0,1,0,11.32l-32,32a8,8,0,0,1-11.32-11.32L148.69,136H88a8,8,0,0,1,0-16h60.69l-18.35-18.34a8,8,0,0,1,11.32-11.32Z">
+                  </path>
+                </svg>
+                不適用項目：部份活動、特定商品、或搭配其他優惠時可能無法使用，請以結帳頁顯示為準。<br>
+              </div>
+              <div class="points">累計點數：<span>5</span> 點</div>
+            </div>
+
+            <!-- 我的優惠券 -->
+            <div class="coupon-card">
+              <div class="coupon-h2">我的優惠券</div>
+              <div class="dashed-box">
+                <div class="coupon-h2">使用規則</div>
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="20" fill="#000000" viewBox="0 0 256 256">
+                  <path
+                    d="M216,72H180.92c.39-.33.79-.65,1.17-1A29.53,29.53,0,0,0,192,49.57,32.62,32.62,0,0,0,158.44,16,29.53,29.53,0,0,0,137,25.91a54.94,54.94,0,0,0-9,14.48,54.94,54.94,0,0,0-9-14.48A29.53,29.53,0,0,0,97.56,16,32.62,32.62,0,0,0,64,49.57,29.53,29.53,0,0,0,73.91,71c.38.33.78.65,1.17,1H40A16,16,0,0,0,24,88v32a16,16,0,0,0,16,16v64a16,16,0,0,0,16,16H200a16,16,0,0,0,16-16V136a16,16,0,0,0,16-16V88A16,16,0,0,0,216,72ZM149,36.51a13.69,13.69,0,0,1,10-4.5h.49A16.62,16.62,0,0,1,176,49.08a13.69,13.69,0,0,1-4.5,10c-9.49,8.4-25.24,11.36-35,12.4C137.7,60.89,141,45.5,149,36.51Zm-64.09.36A16.63,16.63,0,0,1,96.59,32h.49a13.69,13.69,0,0,1,10,4.5c8.39,9.48,11.35,25.2,12.39,34.92-9.72-1-25.44-4-34.92-12.39a13.69,13.69,0,0,1-4.5-10A16.6,16.6,0,0,1,84.87,36.87ZM40,88h80v32H40Zm16,48h64v64H56Zm144,64H136V136h64Zm16-80H136V88h80v32Z">
+                  </path>
+                </svg>
+                註冊禮：新會員首次註冊即可獲得專屬優惠券，可於符合條件的商品結帳使用。<br>
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="20" fill="#000000" viewBox="0 0 256 256">
+                  <path
+                    d="M216,72H180.92c.39-.33.79-.65,1.17-1A29.53,29.53,0,0,0,192,49.57,32.62,32.62,0,0,0,158.44,16,29.53,29.53,0,0,0,137,25.91a54.94,54.94,0,0,0-9,14.48,54.94,54.94,0,0,0-9-14.48A29.53,29.53,0,0,0,97.56,16,32.62,32.62,0,0,0,64,49.57,29.53,29.53,0,0,0,73.91,71c.38.33.78.65,1.17,1H40A16,16,0,0,0,24,88v32a16,16,0,0,0,16,16v64a16,16,0,0,0,16,16H200a16,16,0,0,0,16-16V136a16,16,0,0,0,16-16V88A16,16,0,0,0,216,72ZM149,36.51a13.69,13.69,0,0,1,10-4.5h.49A16.62,16.62,0,0,1,176,49.08a13.69,13.69,0,0,1-4.5,10c-9.49,8.4-25.24,11.36-35,12.4C137.7,60.89,141,45.5,149,36.51Zm-64.09.36A16.63,16.63,0,0,1,96.59,32h.49a13.69,13.69,0,0,1,10,4.5c8.39,9.48,11.35,25.2,12.39,34.92-9.72-1-25.44-4-34.92-12.39a13.69,13.69,0,0,1-4.5-10A16.6,16.6,0,0,1,84.87,36.87ZM40,88h80v32H40Zm16,48h64v64H56Zm144,64H136V136h64Zm16-80H136V88h80v32Z">
+                  </path>
+                </svg>
+                生日禮：生日當月將自動發送生日專屬優惠券至帳戶，限當月內使用。<br><br><br>
+
+                <div class="coupon-h2">使用限制</div><br>
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="20" fill="#000000" viewBox="0 0 256 256">
+                  <path
+                    d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216ZM140,80v96a8,8,0,0,1-16,0V95l-11.56,7.71a8,8,0,1,1-8.88-13.32l24-16A8,8,0,0,1,140,80Z">
+                  </path>
+                </svg>
+                使用優惠券折抵之訂單，如遇商品缺貨欲取消訂單者，優惠券將會返還。<br>
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="20" fill="#000000" viewBox="0 0 256 256">
+                  <path
+                    d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm25.56-92.74L120,168h32a8,8,0,0,1,0,16H104a8,8,0,0,1-6.4-12.8l43.17-57.56a16,16,0,1,0-27.86-15,8,8,0,0,1-15.09-5.34,32,32,0,1,1,55.74,29.93Z">
+                  </path>
+                </svg>
+                使用優惠券折抵之訂單，如遇退貨、取消整筆或部份商品，優惠券將會失效無法返還。<br>
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="20" fill="#000000" viewBox="0 0 256 256">
+                  <path
+                    d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm32-64a36,36,0,0,1-61.71,25.19A8,8,0,1,1,109.71,166,20,20,0,1,0,124,132a8,8,0,0,1-6.55-12.59L136.63,92H104a8,8,0,0,1,0-16h48a8,8,0,0,1,6.55,12.59l-21,30A36.07,36.07,0,0,1,160,152Z">
+                  </path>
+                </svg>
+                優惠券有效期限：請依優惠券上標示期限為準。<br>
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="20" fill="#000000" viewBox="0 0 256 256">
+                  <path
+                    d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm32-72h-8V80a8,8,0,0,0-14.31-4.91l-56,72A8,8,0,0,0,88,160h48v16a8,8,0,0,0,16,0V160h8a8,8,0,0,0,0-16Zm-24,0H104.36L136,103.32Z">
+                  </path>
+                </svg>
+                部份商品及優惠無法與優惠券並行使用，本站保有最終解釋權及修改之權利。
+              </div>
+            </div>
+
+            <!-- 可使用優惠券 -->
+            <div class="coupon-section d-flex gap-4">
+              <!-- 可使用區 -->
+              <div class="coupon-block">
+                <div class="status-tag-available">可使用</div>
+                <br><br><br>
+                <div class="coupon-container">
+                  <div class="coupon">
+                    <h4>新會員註冊回饋 100 點</h4>
+                    <p>2025-05-21 ~ 2025-06-20 </p>
+                    <p>限購滿 $300 使用，限 Carter’s / upsimples 類別</p>
+                  </div>
+                  <div class="coupon">
+                    <h4>新客限定：滿額送 $200 折扣</h4>
+                    <p>2025-05-21 ~ 2025-06-20 </p>
+                    <p>滿 $2000 可使用，限 Carter’s 商品</p>
+                  </div>
+                </div>
+              </div>
+              <!-- 已兌換區 -->
+              <div class="coupon-block">
+                <div class="status-tag-used">已兌換</div>
+                <br><br><br>
+                <div class="coupon-container">
+                  <div class="coupon">
+                    <h4>生日禮金300元</h4>
+                    <p>2025-05-21 ~ 2025-06-20 </p>
+                    <p>限購滿 $300 使用，限 Carter’s / upsimples 類別</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="password" class="tab-content">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content rounded-4 border-0">
+                  <div class="modal-body text-center p-5">
+                    <h5 id="changePasswordLabel" class="mb-4">更換密碼</h5>
+
+                    <div class="mb-3 text-start">
+                      <input type="password" class="form-control border-0 border-bottom rounded-0" placeholder="輸入新密碼">
+                    </div>
+                    <div class="mb-4 text-start">
+                      <input type="password" class="form-control border-0 border-bottom rounded-0" placeholder="確認新密碼">
+                    </div>
+
+                    <div class="d-flex justify-content-center gap-3">
+                      <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">取消</button>
+                      <button type="button" class="btn btn-disabled" disabled>儲存</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="password" class="tab-content">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content rounded-4 border-0">
+                <div class="modal-body text-center p-5">
+                  <h5 id="changePasswordLabel" class="mb-4">更換密碼</h5>
+
+                  <div class="mb-3 text-start">
+                    <input type="password" class="form-control border-0 border-bottom rounded-0" placeholder="輸入新密碼">
+                  </div>
+                  <div class="mb-4 text-start">
+                    <input type="password" class="form-control border-0 border-bottom rounded-0" placeholder="確認新密碼">
+                  </div>
+
+                  <div class="d-flex justify-content-center gap-3">
+                    <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-disabled" disabled>儲存</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 頁尾 -->
+  <footer>
+    <div class="footer-container">
+      <img src="../images/logo-pikababy.png" alt="PikaBaby" class="footer-logo" />
+      <div class="footer-section">
+        <p class="footer-title">PikaBaby</p>
+        <div class="footer-line"></div>
+        <p>服務我們</p>
+        <p>品牌特色</p>
+      </div>
+      <div class="footer-section">
+        <h3>品牌服務</h3>
+        <div class="footer-line"></div>
+        <p>Baby Store</p>
+        <p>二手商城</p>
+      </div>
+      <div class="footer-section">
+        <h3>聯絡我們</h3>
+        <div class="footer-line"></div>
+        <p>聯絡電話：(04) 2326-5860</p>
+        <p>聯絡地址：台中市南屯區公益路二段51號18樓</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+
+    // 切換頁面
+    function switchTab(event, tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+
+      document.querySelectorAll('.nav-button').forEach(el => el.classList.remove('active'));
+      event.currentTarget.classList.add('active');
+    }
+
+    // 我的收藏
+    function updateQty(button, delta) {
+      const row = button.closest('tr');
+      const qtySpan = row.querySelector('.qty-number');
+      let qty = parseInt(qtySpan.textContent);
+      qty = Math.max(1, qty + delta);
+      qtySpan.textContent = qty;
+
+      // 從第二欄單價抓數字（去掉 $）
+      const unitPrice = parseInt(row.children[1].textContent.replace('$', ''));
+      const subtotalCell = row.children[3];
+      subtotalCell.textContent = `$${unitPrice * qty}`;
+    }
+
+    //  address
+    const zipData = {
+      '台中市': {
+        '北屯區': '406',
+        '西屯區': '407'
+      },
+      '台北市': {
+        '大安區': '106'
+      },
+      '高雄市': {
+        '鼓山區': '804'
+      }
+    };
+
+    const cityEl = document.getElementById('city');
+    const districtEl = document.getElementById('district');
+    const zipcodeEl = document.getElementById('zipcode');
+
+    cityEl.addEventListener('change', () => {
+      const city = cityEl.value;
+      const districts = zipData[city];
+      districtEl.innerHTML = '<option selected disabled>請選擇</option>';
+      for (let district in districts) {
+        const opt = document.createElement('option');
+        opt.value = district;
+        opt.textContent = district;
+        districtEl.appendChild(opt);
+      }
+    });
+
+    districtEl.addEventListener('change', () => {
+      const city = cityEl.value;
+      const district = districtEl.value;
+      zipcodeEl.value = zipData[city][district];
+    });
+
+    document.getElementById('addressForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const city = cityEl.value;
+      const district = districtEl.value;
+      const zipcode = zipcodeEl.value;
+      const street = document.getElementById('street').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+
+      if (!/^09\d{8}$/.test(phone)) {
+        alert('手機號碼格式錯誤，請輸入正確的 09 開頭 10 碼號碼');
+        return;
+      }
+
+      const address = {
+        name, city, district, zipcode, street, phone,
+        isDefaultOrder: document.getElementById('isDefaultOrder').checked,
+        isDefaultShipping: document.getElementById('isDefaultShipping').checked
+      };
+
+      localStorage.setItem('userAddress', JSON.stringify(address));
+      alert('地址已儲存！');
+      document.getElementById('addressForm').reset();
+      zipcodeEl.value = '';
+      districtEl.innerHTML = '<option selected disabled>請選擇</option>';
+      bootstrap.Modal.getInstance(document.getElementById('addressModal')).hide();
+    });
+
+    // creditCard
+    const cardInput = document.getElementById('cardNumber');
+    const expiryInput = document.getElementById('expiry');
+    const cvvInput = document.getElementById('cvv');
+    const nextBtn = document.getElementById('nextBtn');
+    const maskedCardDiv = document.getElementById('maskedCard');
+
+    function formatCardNumber(value) {
+      return value.replace(/\D/g, '').replace(/(.{4})/g, '$1 ').trim();
+    }
+
+    function showMaskedCard() {
+      const data = localStorage.getItem('creditCard');
+      if (data) {
+        const { cardNumber } = JSON.parse(data);
+        const digits = cardNumber.replace(/\s/g, '');
+        const masked = '**** **** **** ' + digits.slice(-4);
+        maskedCardDiv.textContent = `已儲存卡號：${masked}`;
+      }
+    }
+
+    cardInput.addEventListener('input', () => {
+      cardInput.value = formatCardNumber(cardInput.value);
+      validateForm();
+    });
+
+    expiryInput.addEventListener('input', validateForm);
+    cvvInput.addEventListener('input', validateForm);
+
+    function validateForm() {
+      const card = cardInput.value.replace(/\s/g, '');
+      const expiry = expiryInput.value;
+      const cvv = cvvInput.value;
+
+      const isCardValid = /^\d{16}$/.test(card);
+      const isExpiryValid = /^(0[1-9]|1[0-2])\/\d{2}$/.test(expiry);
+      const isCVVValid = /^\d{3}$/.test(cvv);
+
+      if (isCardValid && isExpiryValid && isCVVValid) {
+        nextBtn.classList.remove('btn-disabled');
+      } else {
+        nextBtn.classList.add('btn-disabled');
+      }
+    }
+
+    document.getElementById('cardForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const cardData = {
+        cardNumber: cardInput.value,
+        expiry: expiryInput.value,
+        cvv: cvvInput.value
+      };
+
+      localStorage.setItem('creditCard', JSON.stringify(cardData));
+      alert('卡號已儲存至 localStorage！');
+      bootstrap.Modal.getInstance(document.getElementById('cardModal')).hide();
+      this.reset();
+      nextBtn.classList.add('btn-disabled');
+      showMaskedCard();
+    });
+
+    // 初始化顯示儲存的卡號
+    showMaskedCard();
+  </script>
+</body>
+
+</html>

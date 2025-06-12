@@ -15,6 +15,7 @@ body {
       text-align: left;
       padding: 12px;
       border-bottom: 1px solid #eee;
+       vertical-align: middle;
     }
     th {
       background-color: #f0f0f0;
@@ -76,14 +77,48 @@ body {
   border-radius: 50%;
   display: inline-block;           /* 確保可以套寬高 */
 }
-    .action-icons {
-      display: flex;
-      justify-content: center;
-      gap: 8px;
-      font-size: 18px;
-      cursor: pointer;
-      color: #868181;
-    }
-    .action-icons span:hover {
-      color: #030303;
-    }
+.action-icons{
+   display: flex;
+      justify-content: start;
+      align-items: center;
+      gap: 5px;
+      
+}
+   .icon-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 0;
+  color: #868181;
+  display: flex;
+  align-items: center;
+}
+.icon-btn:hover {
+  
+  color: #030303;
+}
+    .btn-add {
+  background-color: #fcdc3bea;
+  border: none;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-weight: bold;
+  color: #333;
+}
+.btn-add:hover {
+  background-color: #eac037;
+}
+.btn-buy-all {
+  background-color: #FCDC3B;
+  border: none;
+  padding: 10px 30px;
+  border-radius: 25px;
+  font-weight: bold;
+  font-size: 1rem;
+  color: #333;
+}
+.btn-buy-all:hover {
+  background-color: #f1cc0e;
+  
+}

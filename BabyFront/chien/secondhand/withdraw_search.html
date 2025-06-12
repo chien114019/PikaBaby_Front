@@ -30,13 +30,33 @@
         </div>
     </header>
 
+    <!-- Cancel Modal -->
+    <div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="cancelModalLabel">Modal title</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    是否確定取消申請？
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">返回</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">我要取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- 導覽列 -->
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid">
             <!-- <div class="collapse navbar-collapse justify-content-center d-flex" id="navbarSupportedContent"> -->
             <div class="collapse navbar-collapse justify-content-around d-flex" id="navbarSupportedContent">
                 <!-- LOGO -->
-                <img src="../images/logo-pikababy.png" alt="PikaBaby" style="height: 80px; width: 0px; transition: 3s; display: none;" />
+                <img src="../images/logo-pikababy.png" alt="PikaBaby"
+                    style="height: 80px; width: 0px; transition: 3s; display: none;" />
                 <ul class="navbar-nav ml-auto nav-links gap-5 me-0">
                     <li class="nav-item d-flex align-items-center">
                         <a href="#">首頁</a>
@@ -179,7 +199,8 @@
                                 <td>5419873569410521</td>
                                 <td>未匯款</td>
                                 <td class="d-flex justify-content-center">
-                                    <button type="button" class="btn btn-primary w-75 px-2">取消申請</button>
+                                    <button type="button" class="btn btn-primary w-75 px-2" data-bs-toggle="modal"
+                                        data-bs-target="#cancelModal">取消申請</button>
                                 </td>
                             </tr>
                         </tbody>

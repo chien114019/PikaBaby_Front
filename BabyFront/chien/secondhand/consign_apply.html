@@ -18,6 +18,10 @@
         #h3 {
             scroll-margin-top: 40vh;
         }
+
+        #ui-datepicker-div {
+            display: none !important;
+        }
     </style>
 
 </head>
@@ -45,7 +49,8 @@
             <!-- <div class="collapse navbar-collapse justify-content-center d-flex" id="navbarSupportedContent"> -->
             <div class="collapse navbar-collapse justify-content-around d-flex" id="navbarSupportedContent">
                 <!-- LOGO -->
-                <img src="../images/logo-pikababy.png" alt="PikaBaby" style="height: 80px; width: 0px; transition: 3s; display: none;" />
+                <img src="../images/logo-pikababy.png" alt="PikaBaby"
+                    style="height: 80px; width: 0px; transition: 3s; display: none;" />
                 <ul class="navbar-nav ml-auto nav-links gap-5 me-0">
                     <li class="nav-item d-flex align-items-center">
                         <a href="#">首頁</a>
@@ -201,24 +206,30 @@
                             <div class="col-md-8">
                                 <label class="form-label">商品圖片</label>
                                 <div class="d-flex flex-row gap-2">
-                                    <label for="picInput1" class="col-md-4">
+                                    <label for="picInput_1" class="col-md-4">
                                         <div id="addPhoto1" class="card-img-top d-flex">
                                             <i class="bi bi-plus-circle"></i>
+                                            <img id="photo1" class="w-100 h-100"
+                                                style="object-fit: cover; display: none;">
                                         </div>
                                     </label>
-                                    <input type="file" id="picInput1" style="opacity: 0; position: fixed;">
-                                    <label for="picInput2" class="col-md-4">
+                                    <input type="file" id="picInput_1" style="opacity: 0; position: fixed;">
+                                    <label for="picInput_2" class="col-md-4">
                                         <div id="addPhoto2" class="card-img-top d-flex">
                                             <i class="bi bi-plus-circle"></i>
+                                            <img id="photo2" class="w-100 h-100"
+                                                style="object-fit: cover; display: none;">
                                         </div>
                                     </label>
-                                    <input type="file" id="picInput3" style="opacity: 0; position: fixed;">
-                                    <label for="picInput3" class="col-md-4">
+                                    <input type="file" id="picInput_2" style="opacity: 0; position: fixed;">
+                                    <label for="picInput_3" class="col-md-4">
                                         <div id="addPhoto3" class="card-img-top d-flex">
                                             <i class="bi bi-plus-circle"></i>
+                                            <img id="photo3" class="w-100 h-100"
+                                                style="object-fit: cover; display: none;">
                                         </div>
                                     </label>
-                                    <input type="file" id="picInput3" style="opacity: 0; position: fixed;">
+                                    <input type="file" id="picInput_3" style="opacity: 0; position: fixed;">
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -229,7 +240,7 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label">商品狀況簡述（100字以內）</label>
-                            <textarea class="form-control" rows="3"></textarea>
+                            <textarea id="condition" class="form-control" rows="3"></textarea>
                         </div>
                     </section>
 
@@ -269,7 +280,7 @@
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label class="form-label">交付方式</label>
-                                <select class="form-select">
+                                <select id="delivery" class="form-select">
                                     <option value="1">到府取貨</option>
                                     <option value="2">親自交付</option>
                                     <option value="3">物流宅配</option>
@@ -278,7 +289,7 @@
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">預計交付日期（到府取貨限週二、週四）</label>
-                                <input type="date" class="form-control" />
+                                <input id="deliverDate" type="date" class="form-control" />
                             </div>
                         </div>
 
@@ -332,6 +343,8 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
+
     <script>
         // 移動奶瓶，這一段js都是ChatGPT，可以移動但待修
         document.addEventListener("scroll", function () {
@@ -366,7 +379,6 @@
             bottle.style.top = bottleScreenY + "px";
 
             if (window.scrollY > $("header").height()) {
-                console.log(`${$("header").height()}`)
                 $(".navbar").css("height", "fit-content");
                 $(".navbar img").css("display", "inline-block");
                 $(".navbar img").css("width", "90px");
@@ -405,7 +417,7 @@
             }
         });
     </script>
-    
+
     <script>
         // main js
         $("#minusBtn").on("click", function () {
@@ -420,77 +432,59 @@
         })
 
         // photoupload
-        document.getElementById('fileInput').addEventListener('change', function (event) {
-            var file = event.target.files[0];
-            var album = document.getElementById('album');
-            var elementCount = album.childElementCount;
+        $("input[id^='picInput']").on("change", function (e) {
+            var file = e.target.files[0];
 
             if (!file.type.match('image.*')) {
-                alert('Please select an image file');
+                alert('請上傳圖檔');
                 return;
             }
 
-            var photoCol = document.createElement('div');
-            photoCol.id = `col_${elementCount}`;
-            photoCol.className = 'col';
+            let index = e.target.id.split("_")[1];
 
-            var photoCard = document.createElement('div');
-            photoCard.className = 'card shadow-sm';
+            $(`#addPhoto${index}`).find($("i")).each(function () {
+                $(this).css("display", "none");
+            })
 
-            var img = document.createElement('img');
-            img.className = 'card-img-top photos';
-            img.src = URL.createObjectURL(file);
-            img.style.objectPosition = 'center';
-            img.setAttribute('data-bs-toggle', 'modal');
-
-            var cardBody = document.createElement('div');
-            cardBody.className = 'card-body';
-
-            var cardContent = document.createElement('p');
-            cardContent.id = `content_${elementCount}`;
-            cardContent.className = 'card-text text-truncate';
-            cardContent.innerText = '紀錄一下～';
-
-            // img.setAttribute('onclick', `photoClicked('${file.name}', '${cardContent.id}')`);
-            img.setAttribute('onclick', `photoClicked('${img.src}', '${cardContent.id}')`);
-
-            var cardFooter = document.createElement('div');
-            cardFooter.className = 'd-flex justify-content-between align-items-center';
-
-            var btnGroup = document.createElement('div');
-            btnGroup.className = 'btn-group';
-
-            var editBtn = document.createElement('button');
-            editBtn.className = 'btn btn-sm btn-outline-info';
-            editBtn.setAttribute('data-bs-toggle', 'modal');
-            editBtn.setAttribute('onclick', `editClicked('${cardContent.id}')`);
-            editBtn.innerText = 'Edit';
-
-            var deleteBtn = document.createElement('button');
-            deleteBtn.className = 'btn btn-sm btn-outline-info';
-            deleteBtn.setAttribute('data-bs-toggle', 'modal');
-            deleteBtn.setAttribute('onclick', `deleteClicked('${photoCol.id}')`);
-            deleteBtn.innerText = 'Delete';
-
-            var date = document.createElement('small');
-            date.className = 'text-body-secondary';
-            date.innerText = document.getElementById('newDate').innerText;
-
-            btnGroup.appendChild(editBtn);
-            btnGroup.appendChild(deleteBtn);
-            cardFooter.appendChild(btnGroup);
-            cardFooter.appendChild(date);
-            cardBody.appendChild(cardContent);
-            cardBody.appendChild(cardFooter);
-            photoCard.appendChild(img);
-            photoCard.appendChild(cardBody);
-            photoCol.appendChild(photoCard);
-
-            album.insertBefore(photoCol, album.childNodes[album.childNodes.length - 2]);
-            album.insertBefore(document.createTextNode('\n'), album.childNodes[album.childNodes.length - 2]);
+            let newImg = $(`#photo${index}`);
+            newImg.prop("src", URL.createObjectURL(file));
+            newImg.addClass("w-100 h-100");
+            newImg.css("display", "inline-block");
 
             console.log(file);
-        });
+        })
+
+        // 預計交付日期
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, "0");
+        const date = String(today.getDate()).padStart(2, "0");
+        const dateStr = `${year}-${month}-${date}`;
+        let prevDate = "";
+
+        $("#deliverDate").attr("min", dateStr)
+        $("#deliverDate").on("change", function() {
+            if($("#delivery").prop("value") == 1) {
+                const selectedDate = new Date($(this).prop("value"));
+                const day = selectedDate.getDay(); // 0=Sunday, 1=Monday, ..., 6=Saturday
+        
+                if (day !== 2 && day !== 4) {
+                    alert("到府取貨只能選星期二或星期四！");
+                    $(this).prop("value", prevDate); // 清空輸入
+                }
+                else {
+                    prevDate = $(this).prop("value");
+                }
+            }
+        })
+
+        // 商品敘述自數檢查
+        $("#condition").on("blur", function() {
+            if($(this).prop("value").length > 100) {
+                alert("商品概述字數限100字以內");
+            }
+        })
+
     </script>
 
 </body>

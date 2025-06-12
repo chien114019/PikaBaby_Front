@@ -12,6 +12,10 @@
     <link rel="stylesheet" href="../css/timelime.css">
 
     <style>
+        body {
+            height: fit-content;
+        }
+
         footer {
             margin-top: 0px;
             transition: 0.5s;
@@ -23,11 +27,11 @@
         }
 
         #h2 {
-            scroll-margin-top: 15vh;
+            scroll-margin-top: 0vh;
         }
 
         #h3 {
-            scroll-margin-top: -20vh;
+            scroll-margin-top: -30vh;
         }
     </style>
 </head>
@@ -191,22 +195,22 @@
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label class="form-label">會員姓名</label>
-                                <input type="text" class="form-control" />
+                                <input type="text" class="form-control" readonly/>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">聯絡電話</label>
-                                <input type="tel" class="form-control" />
+                                <input type="tel" class="form-control" readonly/>
                             </div>
                         </div>
 
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label class="form-label">電子信箱</label>
-                                <input type="email" class="form-control" />
+                                <input type="email" class="form-control" readonly/>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">會員住址</label>
-                                <input type="text" class="form-control" />
+                                <input type="text" class="form-control" readonly/>
                             </div>
                         </div>
                     </section>
@@ -319,8 +323,7 @@
             //    － scrollY=maxScrollY → top=viewportHeight-bottleHeight → 擺在視窗最下方
             bottle.style.top = bottleScreenY + "px";
 
-            if (window.scrollY > $("header").height()) {
-                console.log(`${$("header").height()}`)
+            if (window.scrollY > $("header").height() - 10) {
                 $(".navbar").css("height", "fit-content");
                 $(".navbar img").css("display", "inline-block");
                 $(".navbar img").css("width", "90px");

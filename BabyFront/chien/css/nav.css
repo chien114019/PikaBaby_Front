@@ -129,6 +129,7 @@ nav .dropdown-toggle::after {
 
 body {
     min-height: 200vh;
+    /* height: fit-content; */
     /*模擬長度，讓頁面能滾動*/
     display: flex;
     flex-direction: column;

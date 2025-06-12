@@ -205,7 +205,7 @@
 					</nav>
 					<!-- 從此往下寫右側區域功能 -->
 					<h2>進貨紀錄</h2>
-					<a class="btn btn-primary mb-3" th:href="@{/purchases/new}">新增進貨單</a>
+					<a class="btn btn-success mb-3" th:href="@{/purchases/new}">新增進貨單</a>
 					<table class="table table-bordered">
 						<thead class="text=center">
 							<tr>
@@ -226,8 +226,10 @@
 											th:text="${d.product.name + ' x ' + d.quantity + '（單價 $' + d.unitPrice + '）'}">
 										</li>
 									</ul>
+									
 								</td>
 							</tr>
+							
 						</tbody>
 					</table>
 					<div class="text-end">

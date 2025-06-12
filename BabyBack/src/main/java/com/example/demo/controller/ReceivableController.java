@@ -44,7 +44,7 @@ public class ReceivableController {
     ) {
         List<Receivable> results = receivableService.search(keyword, startDate, endDate);
         model.addAttribute("receivables", results);
-        return "receivables/list"; //確保這是正確的 thymeleaf 檔案路徑
+        return "receivables/list"; 
     }
 }
 

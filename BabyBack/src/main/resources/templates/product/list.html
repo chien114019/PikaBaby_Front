@@ -202,7 +202,7 @@
           </nav>
           <!-- 從此往下寫右側區域功能 -->
           <h2>商品清單</h2>
-          <a class="btn btn-primary mb-2" th:href="@{/products/new}">新增商品</a>
+          <a class="btn btn-success mb-2" th:href="@{/products/new}">新增商品</a>
           <table class="table table-bordered">
             <thead class="text-center">
               <tr>
@@ -220,7 +220,7 @@
                 <td th:text="${p.price}">100</td>
                 <td th:text="${p.stock}" class="text-center">50</td>
                 <td class="text-center">
-                  <a class="btn btn-warning btn-sm" th:href="@{'/products/edit/' + ${p.id}}">編輯</a>
+                  <a class="btn btn-primary btn-sm" th:href="@{'/products/edit/' + ${p.id}}">編輯</a>
                   <a class="btn btn-danger btn-sm" th:href="@{'/products/delete/' + ${p.id}}">刪除</a>
                 </td>
               </tr>

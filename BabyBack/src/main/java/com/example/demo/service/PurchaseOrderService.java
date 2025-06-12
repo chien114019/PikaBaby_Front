@@ -16,6 +16,9 @@ public class PurchaseOrderService {
     public void save(PurchaseOrder order) {
         repository.save(order);
     }
+    public void delete(PurchaseOrder order) {
+        repository.delete(order);
+    }
 
     public List<PurchaseOrder> listAll() {
         return repository.findAll();

@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.format.annotation.DateTimeFormat;
+
 
 import com.example.demo.model.Product;
 import com.example.demo.model.PurchaseOrder;
@@ -39,12 +41,13 @@ public class PurchaseOrderController {
     @PostMapping("/save")
     public String saveOrder(@RequestParam Long supplierId,
                             @RequestParam("productIds") Long[] productIds,
-                            @RequestParam("quantities") Long[] quantities) {
+                            @RequestParam("quantities") Long[] quantities,
+                            @RequestParam("orderDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date orderDate) {
 
         Supplier supplier = supplierService.getById(supplierId);
         PurchaseOrder order = new PurchaseOrder();
         order.setSupplier(supplier);
-        order.setOrderDate(new Date());
+        order.setOrderDate(orderDate);
 
         List<PurchaseOrderDetail> detailList = new ArrayList<>();
         for (int i = 0; i < productIds.length; i++) {

@@ -170,6 +170,10 @@ td {
     }
 }
 
+.btn:disabled {
+    background-color: gainsboro;
+}
+
 /* 託售服務 */
 .modal-header {
     background-color: #f0ebe5;

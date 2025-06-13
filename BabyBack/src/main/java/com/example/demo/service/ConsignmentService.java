@@ -1,5 +1,7 @@
 package com.example.demo.service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,9 @@ public class ConsignmentService {
 	@Autowired
 	private CustomerRepository cRepository;
 	
+	ProductType pType;
+	Customer cust;
+	
 	public List<Consignment> getAll() {
 		return repository.findAll();
 	}
@@ -36,15 +41,149 @@ public class ConsignmentService {
 		return consignment;
 	}
 	
+//	============= 前台API ===============
+	
 	public List<Consignment> getAllByCustId(String custId) {
-		Customer cust = cRepository.findById(Long.parseLong(custId)).orElse(null);
+		cust = cRepository.findById(Long.parseLong(custId)).orElse(null);
 		List<Consignment> consignments = repository.findAllByCustomer(cust);
+		return consignments;
+	}	
+	
+//	getAllByDateAndTypeAndReview
+	public List<Consignment> getAllByCustIdAndDateAndTypeAndReview(String custId, String applyStart, String applyEnd, String type, 
+			String review) throws Exception {
+		cust = cRepository.findById(Long.parseLong(custId)).orElse(null);
+		pType = ptRepository.findById(Integer.parseInt(type)).orElse(null);
+		List<Consignment> consignments = repository.findAllByCustomerAndApplyDateBetweenAndProductTypeAndReview(cust, 
+				formatter(applyStart), formatter(applyEnd), pType, Integer.parseInt(review));
 		return consignments;
 	}
 	
+//	getAllByCustIdAndDateAndType
+	public List<Consignment> getAllByCustIdAndDateAndType(String custId, String applyStart, String applyEnd, String type) 
+			throws Exception {
+		cust = cRepository.findById(Long.parseLong(custId)).orElse(null);
+		pType = ptRepository.findById(Integer.parseInt(type)).orElse(null);
+		List<Consignment> consignments 
+			= repository.findAllByCustomerAndApplyDateBetweenAndProductType(cust, formatter(applyStart), formatter(applyEnd), pType);
+		return consignments;
+	}
+	
+//	getAllByCustIdDateAndReview
+	public List<Consignment> getAllByCustIdDateAndReview(String custId, String applyStart, String applyEnd, String review) throws Exception {
+		cust = cRepository.findById(Long.parseLong(custId)).orElse(null);
+		List<Consignment> consignments 
+			= repository.findAllByCustomerAndApplyDateBetweenAndReview(cust, formatter(applyStart), formatter(applyEnd), Integer.parseInt(review));
+		return consignments;
+	}
+	
+//	getAllByCustIdAndDate
+	public List<Consignment> getAllByCustIdAndDate(String custId, String applyStart, String applyEnd) throws Exception {
+		cust = cRepository.findById(Long.parseLong(custId)).orElse(null);
+		List<Consignment> consignments 
+			= repository.findAllByCustomerAndApplyDateBetween(cust, formatter(applyStart), formatter(applyEnd));
+		return consignments;
+	}
+	
+//	getAllByCustIdAndApplyStartAndTypeAndReview
+	public List<Consignment> getAllByCustIdAndApplyStartAndTypeAndReview(String custId, String applyStart, String type, String review) throws Exception {
+		cust = cRepository.findById(Long.parseLong(custId)).orElse(null);
+		pType = ptRepository.findById(Integer.parseInt(type)).orElse(null);
+		List<Consignment> consignments = repository.findAllByCustomerAndApplyDateGreaterThanEqualAndProductTypeAndReview(cust, 
+				formatter(applyStart), pType, Integer.parseInt(review));
+		return consignments;
+	}
+	
+//	getAllByCustIdAndApplyStartAndType
+	public List<Consignment> getAllByCustIdAndApplyStartAndType(String custId, String applyStart, String type) throws Exception {
+		cust = cRepository.findById(Long.parseLong(custId)).orElse(null);
+		pType = ptRepository.findById(Integer.parseInt(type)).orElse(null);
+		List<Consignment> consignments = 
+				repository.findAllByCustomerAndApplyDateGreaterThanEqualAndProductType(cust, formatter(applyStart), pType);
+		return consignments;
+	}
+	
+//	getAllByCustIdAndApplyStartAndReview
+	public List<Consignment> getAllByCustIdAndApplyStartAndReview(String custId, String applyStart, String review) throws Exception {
+		cust = cRepository.findById(Long.parseLong(custId)).orElse(null);
+		List<Consignment> consignments = 
+				repository.findAllByCustomerAndApplyDateGreaterThanEqualAndReview(cust, formatter(applyStart), Integer.parseInt(review));
+		return consignments;
+	}
+	
+//	getAllByCustIdAndApplyStart
+	public List<Consignment> getAllByCustIdAndApplyStart(String custId, String applyStart) throws Exception {
+		cust = cRepository.findById(Long.parseLong(custId)).orElse(null);
+		List<Consignment> consignments = 
+				repository.findAllByCustomerAndApplyDateGreaterThanEqual(cust, formatter(applyStart));
+		return consignments;
+	}
+	
+//	getAllByCustIdAndApplyEndAndTypeAndReview
+	public List<Consignment> getAllByCustIdAndApplyEndAndTypeAndReview(String custId, String applyEnd, String type, String review) 
+			throws Exception {
+		cust = cRepository.findById(Long.parseLong(custId)).orElse(null);
+		pType = ptRepository.findById(Integer.parseInt(type)).orElse(null);
+		List<Consignment> consignments = repository.findAllByCustomerAndApplyDateLessThanEqualAndProductTypeAndReview(cust, formatter(applyEnd), 
+				pType, Integer.parseInt(review));
+		return consignments;
+	}
+	
+//	getAllByCustIdAndApplyEndAndType
+	public List<Consignment> getAllByCustIdAndApplyEndAndType(String custId, String applyEnd, String type) throws Exception {
+		cust = cRepository.findById(Long.parseLong(custId)).orElse(null);
+		pType = ptRepository.findById(Integer.parseInt(type)).orElse(null);
+		List<Consignment> consignments = repository.findAllByCustomerAndApplyDateLessThanEqualAndProductType(cust, formatter(applyEnd), pType);
+		return consignments;
+	}
+	
+//	getAllByCustIdAndApplyEndAndReview
+	public List<Consignment> getAllByCustIdAndApplyEndAndReview(String custId, String applyEnd, String review) throws Exception {
+		cust = cRepository.findById(Long.parseLong(custId)).orElse(null);
+		List<Consignment> consignments = repository.findAllByCustomerAndApplyDateLessThanEqualAndReview(cust, formatter(applyEnd), 
+				Integer.parseInt(review));
+		return consignments;
+	}
+	
+//	getAllByCustIdAndApplyEnd
+	public List<Consignment> getAllByCustIdAndApplyEnd(String custId, String applyEnd) throws Exception {
+		cust = cRepository.findById(Long.parseLong(custId)).orElse(null);
+		List<Consignment> consignments = repository.findAllByCustomerAndApplyDateLessThanEqual(cust, formatter(applyEnd));
+		return consignments;
+	}
+	
+//	getAllByCustIdAndTypeAndReview
+	public List<Consignment> getAllByCustIdAndTypeAndReview(String custId, String type, String review) throws Exception {
+		cust = cRepository.findById(Long.parseLong(custId)).orElse(null);
+		List<Consignment> consignments = repository.findAllByCustomerAndProductTypeAndReview(cust, pType, Integer.parseInt(review));
+		return consignments;
+	}
+	
+//	getAllByCustIdAndType
+	public List<Consignment> getAllByCustIdAndType(String custId, String type) throws Exception {
+		cust = cRepository.findById(Long.parseLong(custId)).orElse(null);
+		pType = ptRepository.findById(Integer.parseInt(type)).orElse(null);
+		List<Consignment> consignments = repository.findAllByCustomerAndProductType(cust, pType);
+		return consignments;
+	}
+	
+//	getAllCustIdAndByReview
+	public List<Consignment> getAllByCustIdAndReview(String custId, String review) throws Exception {
+		cust = cRepository.findById(Long.parseLong(custId)).orElse(null);
+		List<Consignment> consignments = repository.findAllByCustomerAndReview(cust, Integer.parseInt(review));
+		return consignments;
+	}
+	
+//	deleteConsignmentById
+	public void deleteConsignmentById(String id) {
+		repository.deleteById(Integer.parseInt(id));
+	}
+	
+//	============= 後台API ===============
+	
 //	getAllByTypeAndReviewAndDelivery
 	public List<Consignment> getAllByProductTypeAndReviewAndDelivery(String type, String review, String delivery) {
-		ProductType pType = ptRepository.findById(Integer.parseInt(type)).orElse(null);
+		pType = ptRepository.findById(Integer.parseInt(type)).orElse(null);
 		List<Consignment> consigments = null;
 		
 		if (pType != null && review != null && delivery != null) {
@@ -57,7 +196,7 @@ public class ConsignmentService {
 	
 //	getAllByTypeAndReview
 	public List<Consignment> getAllByProductTypeAndReview(String type, String review) {
-		ProductType pType = ptRepository.findById(Integer.parseInt(type)).orElse(null);
+		pType = ptRepository.findById(Integer.parseInt(type)).orElse(null);
 		List<Consignment> consigments = null;
 		
 		if (pType != null && review != null) {
@@ -69,7 +208,7 @@ public class ConsignmentService {
 	
 //	getAllByTypeAndDelivery
 	public List<Consignment> getAllByProductTypeAndDelivery(String type, String delivery) {
-		ProductType pType = ptRepository.findById(Integer.parseInt(type)).orElse(null);
+		pType = ptRepository.findById(Integer.parseInt(type)).orElse(null);
 		List<Consignment> consigments = null;
 		
 		if (pType != null && delivery != null) {
@@ -81,7 +220,7 @@ public class ConsignmentService {
 	
 //	getAllByProductType
 	public List<Consignment> getAllByProductType(String type) {
-		ProductType pType = ptRepository.findById(Integer.parseInt(type)).orElse(null);
+		pType = ptRepository.findById(Integer.parseInt(type)).orElse(null);
 		List<Consignment> consigments = null;
 		
 		if (pType != null) {
@@ -148,5 +287,10 @@ public class ConsignmentService {
 		}
 		
 		return response;
+	}
+	
+	private Date formatter(String dateStr) throws Exception {
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		return format.parse(dateStr);
 	}
 }

@@ -43,7 +43,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">返回</button>
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">我要取消</button>
+                    <button id="confirmBtn" type="button" class="btn btn-primary" data-bs-dismiss="modal">我要取消</button>
                 </div>
             </div>
         </div>
@@ -161,20 +161,21 @@
                     <section class="mb-5 d-flex" style="border: 5px solid #eacfc3; border-radius: 10px;">
                         <div class="p-3 d-flex gap-1 align-items-center flex-grow-1">
                             <span class="w-50">申請日期：</span>
-                            <input id="year" type="date" min="0" class="form-control">
+                            <input id="start" type="date" class="form-control">
                             <span class="d-flex flex-row align-items-center">～</span>
-                            <input id="year" type="date" min="0" class="form-control">
+                            <input id="end" type="date" class="form-control">
                         </div>
                         <div class="p-3 d-flex align-items-center flex-grow-1">
                             <span class="w-75">匯款狀態：</span>
-                            <select id="type" class="form-select">
-                                <option value="-1">全部</option>
+                            <select id="withdraw" class="form-select">
+                                <option value="">全部</option>
                                 <option value="0">未匯款</option>
                                 <option value="1">已匯款</option>
                             </select>
                         </div>
                         <div class="p-3 d-flex align-items-center">
-                            <button type="button" class="btn btn-primary"><i class="bi bi-search"></i></button>
+                            <button id="searchBtn" type="button" class="btn btn-primary"><i
+                                    class="bi bi-search"></i></button>
                         </div>
                     </section>
 
@@ -190,20 +191,7 @@
                                 <th></th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>2025-05-20</td>
-                                <td>2000</td>
-                                <td>808 玉山銀行</td>
-                                <td>5419873569410521</td>
-                                <td>未匯款</td>
-                                <td class="d-flex justify-content-center">
-                                    <button type="button" class="btn btn-primary w-75 px-2" data-bs-toggle="modal"
-                                        data-bs-target="#cancelModal">取消申請</button>
-                                </td>
-                            </tr>
-                        </tbody>
+                        <tbody></tbody>
                     </table>
                 </form>
             </div>
@@ -244,7 +232,105 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../js/navbar.js"></script>
     <script>
-        
+        const root = "http://localhost:8080/secondhand/withdraw"
+        // 測試用 id
+        const custid = 2;
+
+        $(document).ready(function () {
+            // 輸出所有托售資料
+            $("tbody").html(`<tr id="loadingRow">
+                <td colspan="8" class="text-center">
+                    <div class="d-flex justify-content-center align-content-center gap-3">
+                        <div class="loader"></div>
+                        <div>資料載入中...</div>
+                    </div>
+                </td>
+                </tr>`);
+
+            $.ajax({
+                method: "GET",
+                url: `${root}/cust/${custid}`,
+                success: function (data) {
+                    showData(data);
+                },
+                error: function () {
+                    alert("查詢錯誤");
+                }
+            })
+        })
+
+        $("#searchBtn").on("click", function () {
+            const start = $("#start").prop("value");
+            const end = $("#end").prop("value");
+            const withdraw = $("#withdraw").prop("value");
+
+            $.ajax({
+                method: "GET",
+                url: `${root}/cust/${custid}?start=${start}&end=${end}&withdraw=${withdraw}`,
+                success: function (data) {
+                    showData(data);
+                },
+                error: function () {
+                    alert("查詢錯誤");
+                }
+            })
+
+        })
+
+        function showData(data) {
+            // 清空現有資料（包含 loading）
+            $("tbody").empty();
+
+            // 判斷有沒有資料
+            if (data.length === 0) {
+                $("tbody").append(`<tr><td colspan="8" class="text-center">無資料</td></tr>`);
+                return;
+            }
+
+            data.forEach(element => {
+                let tr = $("<tr>");
+                let id = $("<td>").text(element.id);
+                let applyDate = $("<td>").text(element.applyDate);
+                let amount = $("<td>").text(element.amount);
+                let bank = $("<td>").text(`${element.bankNo.bCode} ${element.bankNo.bName}`);
+                let account = $("<td>").text(element.bankAccount);
+                let withdraw = $("<td>");
+                switch (element.withdraw) {
+                    case 0:
+                        withdraw.text("未匯款");
+                        break;
+                    case 1:
+                        withdraw.text("已匯款");
+                        break;
+                    default:
+                        break;
+                }
+
+                let btn = $("<td>").html(`<button id="cancel_${element.id}" type="button" class="btn btn-primary w-75 px-2"
+                        data-bs-toggle="modal" data-bs-target="#cancelModal" ${element.withdraw == 1 ? 'disabled' : ''} 
+                        onclick="cancel(${element.id})">    取消申請</button>`);
+
+                let row = tr.append(id, applyDate, amount, bank, account, withdraw, btn);
+                $("tbody").append(row);
+            });
+        }
+
+        function cancel(id) {
+            $("#confirmBtn").on("click", function () {
+                $.ajax({
+                    method: "DELETE",
+                    url: root + "/delete/id/" + id,
+                    success: function (response) {
+                        alert(`編號 ${id} 提款申請${response.mesg}`);
+                        window.location.reload();
+                    },
+                    error: function () {
+                        alert("取消錯誤");
+                    }
+                })
+            })
+        }
+
     </script>
 </body>
 

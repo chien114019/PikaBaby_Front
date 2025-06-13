@@ -43,7 +43,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">返回</button>
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">我要取消</button>
+                    <button id="confirmBtn" type="button" class="btn btn-primary" data-bs-dismiss="modal">我要取消</button>
                 </div>
             </div>
         </div>
@@ -266,6 +266,111 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../js/navbar.js"></script>
+    <script>
+        const root = "http://localhost:8080/secondhand/consign"
+        // 測試用 id
+        const custid = 2;
+
+        $(document).ready(function () {
+            // 輸出所有托售資料
+            $("tbody").html(`<tr id="loadingRow">
+                <td colspan="8" class="text-center">
+                    <div class="d-flex justify-content-center align-content-center gap-3">
+                        <div class="loader"></div>
+                        <div>資料載入中...</div>
+                    </div>
+                </td>
+                </tr>`);
+
+            $.ajax({
+                method: "GET",
+                url: `${root}/cust/${custid}`,
+                success: function (data) {
+                    showData(data);
+                },
+                error: function () {
+                    alert("查詢錯誤");
+                }
+            })
+        })
+
+        $("#searchBtn").on("click", function () {
+            const start = $("#start").prop("value");
+            const end = $("#end").prop("value");
+            const type = $("#type").prop("value");
+            const review = $("#review").prop("value");
+
+            $.ajax({
+                method: "GET",
+                url: `${root}/cust/${custid}?applyStart=${start}&applyEnd=${end}&type=${type}&review=${review}`,
+                success: function (data) {
+                    showData(data);
+                },
+                error: function () {
+                    alert("查詢錯誤");
+                }
+            })
+
+        })
+
+        function showData(data) {
+            // 清空現有資料（包含 loading）
+            $("tbody").empty();
+
+            // 判斷有沒有資料
+            if (data.length === 0) {
+                $("tbody").append(`<tr><td colspan="8" class="text-center">無資料</td></tr>`);
+                return;
+            }
+            // console.log(data);
+            data.forEach(element => {
+                let tr = $("<tr>");
+                let id = $("<td>").text(element.id);
+                let pname = $("<td>").text(element.productName);
+                let ptype = $("<td>").text(element.productType.typeName);
+                let qty = $("<td>").text(element.quantity);
+                let applyDate = $("<td>").text(element.applyDate);
+                let review = $("<td>");
+                switch (element.review) {
+                    case 0:
+                        review.text("審核中");
+                        break;
+                    case 1:
+                        review.text("通過");
+                        break;
+                    case 2:
+                        review.text("未通過");
+                        break;
+                    default:
+                        break;
+                }
+
+                let price = $("<td>").text(element.price);
+                let btn = $("<td>").html(`<button id="cancel_${element.id}" type="button" class="btn btn-primary w-100 px-2"
+                                data-bs-toggle="modal" data-bs-target="#cancelModal" ${element.review == 0 ? '' : 'disabled'} 
+                                onclick="cancel(${element.id})">取消申請</button>`)
+
+                let row = tr.append(id, pname, ptype, qty, applyDate, review, price, btn);
+                $("tbody").append(row);
+            });
+        }
+
+        function cancel(id) {
+            $("#confirmBtn").on("click", function () {
+                $.ajax({
+                    method: "DELETE",
+                    url: root + "/delete/id/" + id,
+                    success: function (response) {
+                        alert(`編號 ${id} 託售申請${response.mesg}`);
+                        window.location.reload();
+                    },
+                    error: function () {
+                        alert("取消錯誤");
+                    }
+                })
+            })
+        }
+    </script>
 </body>
 
 </html>

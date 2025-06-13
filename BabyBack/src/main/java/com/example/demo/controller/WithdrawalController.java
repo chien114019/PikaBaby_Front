@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -7,10 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.model.Consignment;
 import com.example.demo.model.Response;
@@ -20,6 +24,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
+@CrossOrigin(origins = "*")
 @Controller
 @RequestMapping("/secondhand")
 public class WithdrawalController {
@@ -27,14 +32,79 @@ public class WithdrawalController {
 	@Autowired
 	private WithdrawalService service;
 	
+//	================ 前台API =================
+	@GetMapping("/withdraw/cust/{custId}")
+	@ResponseBody
+	public List<Withdrawal> getWithdrawsByCustId(@PathVariable String custId, @RequestParam(required = false) String start, 
+			@RequestParam(required = false) String end, @RequestParam(required = false) String withdraw) {
 
+		List<Withdrawal> withdrawals = new ArrayList<Withdrawal>();
+
+		try {
+			if (start != null && start != "") {
+				if (end != null && end != "") {
+					if (withdraw != null && withdraw != "") {
+						withdrawals = service.getAllByCustAndDateBetweenAndWithdraw(custId, start, end, withdraw);
+					} else {
+						withdrawals = service.getAllByCustAndDateBetween(custId, start, end);
+					}
+				} else {
+					if (withdraw != null && withdraw != "") {
+						withdrawals = service.getAllByCustAndDateAfterAndWithdraw(custId, start, withdraw);					
+					} else {
+						withdrawals = service.getAllByCustAndDateAfter(custId, start);
+					}
+				}
+			} else {
+				if (end != null && end != "") {
+					if (withdraw != null && withdraw != "") {
+						withdrawals = service.getAllByCustAndDateBeforeAndWithdraw(custId, end, withdraw);
+					} else {
+						withdrawals = service.getAllByCustAndDateBefore(custId, end);
+					}
+				} else {
+					if (withdraw != null && withdraw != "") {
+						withdrawals = service.getAllByCustAndWithdraw(custId, withdraw);
+					} else {
+						withdrawals = service.getWithdrawsByCustId(custId);
+					}
+				}
+			}
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		
+		return withdrawals;
+	}
+	
+	@DeleteMapping("/withdraw/delete/id/{id}")
+	@ResponseBody
+	public ResponseEntity<Response> cancelWithdrawApply(@PathVariable String id) {
+		Response response = new Response();
+		Withdrawal target = service.getById(id);
+
+		if (target != null) {
+			service.deleteWithdrawById(id);
+			response.setMesg("取消成功");
+			response.setSuccess(true);
+		} else {
+			response.setMesg("查無紀錄，無法取消");
+			response.setSuccess(false);
+		}
+		
+		return ResponseEntity.ok(response);
+	}
+	
+	
+//	================ 後台API =================
+	
 	@GetMapping("/withdrawals")
 	public String getWithdrawals(Model model, @RequestParam(required = false) String applySDate, 
 			@RequestParam(required = false) String applyEDate, @RequestParam(required = false) String withdrawSDate, 
 			@RequestParam(required = false) String withdrawEDate, @RequestParam(required = false) String withdraw, 
 			@RequestParam(required = false) String custName) {
 		
-		List<Withdrawal> withdrawals = null;
+		List<Withdrawal> withdrawals = new ArrayList();
 		
 		try {
 			if (applySDate != null && applyEDate != null && applySDate != "" && applyEDate != "") {

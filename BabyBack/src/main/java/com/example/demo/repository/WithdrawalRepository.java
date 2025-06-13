@@ -12,6 +12,18 @@ import com.example.demo.model.Customer;
 import com.example.demo.model.Withdrawal;
 
 public interface WithdrawalRepository extends JpaRepository<Withdrawal, Integer>{	
+	
+//	============前台API=============
+	List<Withdrawal> findAllByCustomer(Customer cust);
+	List<Withdrawal> findAllByCustomerAndApplyDateBetweenAndWithdraw(Customer cust, Date start, Date end, Integer withdraw);
+	List<Withdrawal> findAllByCustomerAndApplyDateBetween(Customer cust, Date start, Date end);
+	List<Withdrawal> findAllByCustomerAndApplyDateGreaterThanEqualAndWithdraw(Customer cust, Date start, Integer withdraw);
+	List<Withdrawal> findAllByCustomerAndApplyDateGreaterThanEqual(Customer cust, Date start);
+	List<Withdrawal> findAllByCustomerAndApplyDateLessThanEqualAndWithdraw(Customer cust, Date end, Integer withdraw);
+	List<Withdrawal> findAllByCustomerAndApplyDateLessThanEqual(Customer cust, Date end);
+	List<Withdrawal> findAllByCustomerAndWithdraw(Customer cust, Integer withdraw);
+	
+//	============後台API=============
 	@Query("""
 			SELECT w FROM Withdrawal w 
 			WHERE applyDate BETWEEN :applyStart AND :applyEnd 

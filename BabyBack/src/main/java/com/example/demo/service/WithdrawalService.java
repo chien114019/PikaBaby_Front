@@ -21,6 +21,67 @@ public class WithdrawalService {
 	@Autowired
 	private WithdrawalRepository repository;
 	
+	@Autowired
+	private CustomerRepository cRepository;
+	
+	Customer cust;
+
+//	===========前台API===========
+//	getWithdrawsByCustId
+	public List<Withdrawal> getWithdrawsByCustId(String custId) {
+		cust = cRepository.findById(Long.parseLong(custId)).orElse(null);
+		return repository.findAllByCustomer(cust);
+	}
+	
+//	getAllByCustAndDateBetweenAndWithdraw
+	public List<Withdrawal> getAllByCustAndDateBetweenAndWithdraw(String custId, String start, String end, String withdraw) throws Exception {
+		cust = cRepository.findById(Long.parseLong(custId)).orElse(null);
+		return repository.findAllByCustomerAndApplyDateBetweenAndWithdraw(cust, formatter(start), formatter(end), 
+				Integer.parseInt(withdraw));
+	}
+	
+//	getAllByCustAndDateBetween
+	public List<Withdrawal> getAllByCustAndDateBetween(String custId, String start, String end) throws Exception {
+		cust = cRepository.findById(Long.parseLong(custId)).orElse(null);
+		return repository.findAllByCustomerAndApplyDateBetween(cust, formatter(start), formatter(end));
+	}
+	
+//	getAllByCustAndDateAfterAndWithdraw
+	public List<Withdrawal> getAllByCustAndDateAfterAndWithdraw(String custId, String start, String withdraw) throws Exception {
+		cust = cRepository.findById(Long.parseLong(custId)).orElse(null);
+		return repository.findAllByCustomerAndApplyDateGreaterThanEqualAndWithdraw(cust, formatter(start), Integer.parseInt(withdraw));
+	}
+	
+//	getAllByCustAndDateAfter
+	public List<Withdrawal> getAllByCustAndDateAfter(String custId, String start) throws Exception {
+		cust = cRepository.findById(Long.parseLong(custId)).orElse(null);
+		return repository.findAllByCustomerAndApplyDateGreaterThanEqual(cust, formatter(start));
+	}
+
+//	getAllByCustAndDateBeforeAndWithdraw
+	public List<Withdrawal> getAllByCustAndDateBeforeAndWithdraw(String custId, String end, String withdraw) throws Exception {
+		cust = cRepository.findById(Long.parseLong(custId)).orElse(null);
+		return repository.findAllByCustomerAndApplyDateLessThanEqualAndWithdraw(cust, formatter(end), Integer.parseInt(withdraw));
+	}
+
+//	getAllByCustAndDateBefore
+	public List<Withdrawal> getAllByCustAndDateBefore(String custId, String end) throws Exception {
+		cust = cRepository.findById(Long.parseLong(custId)).orElse(null);
+		return repository.findAllByCustomerAndApplyDateLessThanEqual(cust, formatter(end));
+	}
+	
+//	getAllByCustAndWithdraw
+	public List<Withdrawal> getAllByCustAndWithdraw(String custId, String withdraw) throws Exception {
+		cust = cRepository.findById(Long.parseLong(custId)).orElse(null);
+		return repository.findAllByCustomerAndWithdraw(cust, Integer.parseInt(withdraw));
+	}
+	
+//	deleteWithdrawById
+	public void deleteWithdrawById(String id) {
+		repository.deleteById(Integer.parseInt(id));
+	}
+	
+//	===========後台API===========
 	public List<Withdrawal> getAll() {
 		return repository.findAll();
 	}

@@ -1,6 +1,6 @@
 package com.example.demo.model;
 
-import java.sql.Date;
+import java.util.Date;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,6 +9,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
 //	託售申請
 @Entity
@@ -19,7 +21,9 @@ public class Consignment {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
+    @Temporal(TemporalType.DATE)
 	private Date applyDate;
+    
 	private String productName;
 	private byte[] pic1;
 	private byte[] pic2;
@@ -27,7 +31,10 @@ public class Consignment {
 	private String pCondition;
 	private Integer quantity;
 	private Integer delivery;
+	
+    @Temporal(TemporalType.DATE)
 	private Date deliveryDate;
+    
 	private Integer review;
 	private Integer price;
 	private String produceYear;

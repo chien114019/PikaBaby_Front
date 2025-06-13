@@ -15,14 +15,28 @@ public class CompanyService implements Company2 {
 
     @Override
     public Company getCompanyInfo() {
-        return companyRepository.findById("1").orElse(new Company()); // 假設 ID = 1 是唯一公司
+        return companyRepository.findById(51500025L).orElse(new Company()); // 假設 ID = 1 是唯一公司
     }
 
     @Override
     public void saveOrUpdate(Company company) {
-        company.setId(1L); // 固定ID（如果你只有一家）
-        companyRepository.save(company);
+        //company.setId(1L); // 固定ID（如果你只有一家）
+    	
+    	// 如果資料庫是空的，就新增
+        if (company.getId() == null || !companyRepository.existsById(company.getId())) {
+            companyRepository.save(company); // 新增
+        } else {
+            // 更新
+            companyRepository.save(company);
+        }
     }
+    
+    //0613喬新增
+    public Company getById(Long id) {
+        return companyRepository.findById(id).orElse(new Company());
+    }
+    
+    
 }
 
 

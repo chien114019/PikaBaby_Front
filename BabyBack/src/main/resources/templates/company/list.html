@@ -204,43 +204,53 @@
 						</ol>
 					</nav>
 					<!-- 從此往下寫右側區域功能 -->
-					<h2 class="mb-4 text-center">公司基本資料</h2>
-					<table class="table table-bordered text-center align-middle text-center">
-						<tbody>
-							<tr>
-								<th width="20%">公司名稱</th>
-								<td th:text="${company.name}">皮卡兒有限公司</td>
-							</tr>
-							<tr>
-								<th>統一編號</th>
-								<td th:text="${company.Id}">12345678</td>
-							</tr>
-							<tr>
-								<th>公司地址</th>
-								<td th:text="${company.address}">台中市北區復興路123號</td>
-							</tr>
-							<tr>
-								<th>聯絡電話</th>
-								<td th:text="${company.phone}">(04) 1234-5678</td>
-							</tr>
-							<tr>
-								<th>Email</th>
-								<td th:text="${company.email}">info@pikababy.com</td>
-							</tr>
-							<tr>
-								<th>聯絡人</th>
-								<td th:text="${company.contactPerson}">小智</td>
-							</tr>
-							<tr>
-								<th>備註</th>
-								<td th:text="${company.note}">目前有3個分店</td>
-							</tr>
-						</tbody>
-					</table>
+					<div class="d-flex justify-content-center align-items-center"
+						style="min-height: 75vh;">
+						<div class="card shadow rounded-4 p-4 my-4 w-75">
+							<h2 class="mb-4 text-center">公司基本資料</h2>
+							<table class="table align-middle text-center">
+								<tbody>
+									<tr>
+										<th class="bg-light">公司名稱</th>
+										<td th:text="${company.name}" >皮卡兒有限公司</td>
+									</tr>
+									<tr>
+										<th class="bg-light">統一編號</th>
+										<td th:text="${company.Id}" >12345678</td>
+									</tr>
+									<tr>
+										<th class="bg-light">公司地址</th>
+										<td th:text="${company.address}" >台中市北區復興路123號</td>
+									</tr>
+									<tr>
+										<th class="bg-light">聯絡電話</th>
+										<td th:text="${company.phone}" >(04)
+											1234-5678</td>
+									</tr>
+									<tr>
+										<th class="bg-light">Email</th>
+										<td th:text="${company.email}" >info@pikababy.com</td>
+									</tr>
+									<tr>
+										<th class="bg-light">負責人</th>
+										<td th:text="${company.contactPerson}" >小智</td>
+									</tr>
+									<tr>
+										<th class="bg-light">備註</th>
+										<td th:text="${company.note}" >目前有3個分店</td>
+									</tr>
+								</tbody>
+							</table>
 
-					<div class="text-end">
-						<a class="btn btn-primary" th:href="@{/company/form}">編輯</a> <a
-							class="btn btn-secondary" th:href="@{/}">返回</a>
+							<div class="text-end">
+								<a class="btn btn-outline-primary me-2"
+									th:href="@{/company/form}"> <i
+									class="bi bi-pencil-square me-1"></i> 編輯
+								</a> <a class="btn btn-outline-secondary" th:href="@{/}"> <i
+									class="bi bi-arrow-left-circle me-1"></i> 返回
+								</a>
+							</div>
+						</div>
 					</div>
 					<!-- 從此以上寫右側區域功能 -->
 				</div>

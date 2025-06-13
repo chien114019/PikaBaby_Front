@@ -204,69 +204,53 @@
 						</ol>
 					</nav>
 					<!-- 從此往下寫右側區域功能 -->
-					<h2>編輯公司基本資料</h2>
-
-					<form th:action="@{/company/save}" th:object="${company}"
-						method="post">
-						<input type="hidden" th:field="*{id}" />
-						<div class="mb-2">
-							<label>公司名稱</label> <input type="text" th:field="*{name}"
-								class="form-control" />
-						</div>
-
-						<!-- 版本一 -->
-						<!-- <div class="mb-2">
-							<label>統一編號</label> <input type="text" th:field="*{Id}"
-								class="form-control" readonly />
-						</div> -->
-
-						<!-- 版本二 -->
-						<!-- <div class="mb-2 position-relative">
-							<label for="companyId">統一編號</label> <input type="text"
-								id="companyId" th:field="*{id}" class="form-control" readonly
-								onfocus="showWarning()" onblur="hideWarning()" /> <small
-								id="idWarning" class="text-danger position-absolute mt-1"
-								style="display: none;"> 如要更改 id 請先跟老闆聯繫 </small>
-						</div> -->
-
-						<!-- 版本三 -->
-						<div class="mb-2 position-relative">
-							<label for="companyId">統一編號</label> <input type="text"
-								class="form-control" th:field="*{id}" readonly
-								data-bs-toggle="tooltip" data-bs-placement="right"
-								title="如要更改 id 請先跟老闆聯繫">
-						</div>
-
-						<div class="mb-2">
-							<label>公司地址</label> <input type="text" th:field="*{address}"
-								class="form-control" />
-						</div>
-						<div class="mb-2">
-							<label>聯絡電話</label> <input type="text" th:field="*{phone}"
-								class="form-control" />
-						</div>
-						<div class="mb-2">
-							<label>Email</label> <input type="email" th:field="*{email}"
-								class="form-control" />
-						</div>
-						<div class="mb-2">
-							<label>聯絡人</label> <input type="text" th:field="*{contactPerson}"
-								class="form-control" />
-						</div>
-						<div class="mb-2">
-							<label>備註</label> <input type="text" th:field="*{note}"
-								class="form-control" />
-						</div>
-
-
-						
-					</form>
-					<div class="text-end mt-4">
-					
-					<button class="btn btn-success" type="submit">儲存</button>
-						<a class="btn btn-secondary" th:href="@{/company}">取消</a>
-						<!-- <a class="btn btn-secondary" th:href="@{/company}">返回</a> -->
+					<div class="card p-4 w-75 mx-auto bg-white">
+						<h3 class="mb-4 fw-bold text-center">編輯公司基本資料</h3>
+						<form th:action="@{/company/save}" th:object="${company}" method="post">
+							<input type="hidden" th:field="*{id}" />
+							<div class="mb-3">
+								<label class="fw-bold">公司名稱</label>
+								<input type="text" th:field="*{name}" class="form-control mt-2 " />
+							</div>
+							<div class="mb-3 position-relative">
+								<label for="companyId" class="fw-bold">統一編號</label>
+								<input type="text" id="companyId" th:field="*{id}" class="form-control mt-2" readonly
+									onfocus="showIdWarning()" onblur="hideIdWarning()" />
+								<div id="idWarning" class="invalid-feedback text-danger mt-1" style="display: none;">
+									如要更改統編，請先跟老闆聯繫
+								</div>
+							</div>
+							<div class="mb-3">
+								<label class="fw-bold">公司地址</label>
+								<input type="text" th:field="*{address}" class="form-control mt-2" />
+							</div>
+							<div class="mb-3">
+								<label class="fw-bold">聯絡電話</label>
+								<input type="text" th:field="*{phone}" class="form-control mt-2" />
+							</div>
+							<div class="mb-3">
+								<label class="fw-bold">Email</label>
+								<input type="email" th:field="*{email}" class="form-control mt-2" />
+							</div>
+							<div class="mb-3">
+								<label class="fw-bold">負責人</label>
+								<input type="text" th:field="*{contactPerson}" class="form-control mt-2" />
+							</div>
+							<div class="mb-3">
+								<label class="fw-bold">備註</label>
+								<input type="text" th:field="*{note}" class="form-control mt-2" />
+							</div>
+							<div class="text-end">
+								<button class="btn btn-outline-success px-4" type="submit"><i class="bi bi-check2-square me-1"></i>儲存</button>
+								<a class="btn btn-outline-secondary px-4 ms-2" th:href="@{/company}"><i class="bi bi-x-circle me-1"></i>取消</a>
+							</div>
+						</form>
 					</div>
+
+
+					<!-- <div class="text-end mt-4">
+						<a class="btn btn-secondary" th:href="@{/company}">返回</a>
+					</div> -->
 					<!-- 從此以上寫右側區域功能 -->
 				</div>
 			</main>
@@ -277,20 +261,23 @@
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-	<!-- 版本二 -->
-	<!-- 	<script>
-  function showWarning() {
-    document.getElementById("idWarning").style.display = "block";
-  }
-
-  function hideWarning() {
-    document.getElementById("idWarning").style.display = "none";
-  }
-</script> -->
-
 	<script>
-  const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-  tooltipTriggerList.forEach(t => new bootstrap.Tooltip(t))
+  <!-- 版本四 -->
+  function showIdWarning() {
+    const idInput = document.getElementById("companyId");
+    const warning = document.getElementById("idWarning");
+
+    idInput.classList.add("is-invalid"); // 紅邊框
+    warning.style.display = "block";     // 顯示紅字
+  }
+
+  function hideIdWarning() {
+    const idInput = document.getElementById("companyId");
+    const warning = document.getElementById("idWarning");
+
+    idInput.classList.remove("is-invalid"); // 移除紅邊框
+    warning.style.display = "none";         // 隱藏紅字
+  }
 </script>
 
 

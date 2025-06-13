@@ -117,20 +117,32 @@ public class ConsignmentController {
 	@DeleteMapping("/consign/delete/id/{id}")
 	@ResponseBody
 	public ResponseEntity<Response> cancelConsignmentApply(@PathVariable String id) {
-		Response response = new Response();
+		Response response;
 		Consignment target = service.getById(id);
 
 		if (target != null) {
-			service.deleteConsignmentById(id);
-			response.setMesg("取消成功");
-			response.setSuccess(true);
+			response = service.deleteConsignmentById(id);
+			if (response.getSuccess()) {
+				response.setMesg("取消成功");				
+			} else {
+				response.setMesg("取消失敗");
+			}
 		} else {
+			response = new Response();
 			response.setMesg("查無紀錄，無法取消");
 			response.setSuccess(false);
 		}
 		
 		return ResponseEntity.ok(response);
 	}
+	
+	@PostMapping("/consign/create")
+	@ResponseBody
+	public ResponseEntity<Response> createConsignment() {
+		Response response = new Response();
+		return ResponseEntity.ok(response);
+	}
+	
 	
 //	--------------- 後台 API -----------------
 	

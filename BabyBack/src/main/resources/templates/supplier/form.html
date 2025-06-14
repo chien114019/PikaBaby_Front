@@ -204,30 +204,36 @@
 						</ol>
 					</nav>
 					<!-- 從此往下寫右側區域功能 -->
-					<h2 th:text="${supplier.id != null ? '編輯供應商' : '新增供應商'}"></h2>
+					<div class="card w-75 mx-auto bg-white m-5 shadow rounded-4" style="padding: 4rem;">
+					<h2 th:text="${supplier.id != null ? '編輯供應商' : '新增供應商'}" class="text-center"></h2>
 
 					<form th:action="@{/suppliers/save}" th:object="${supplier}"
 						method="post">
 						<input type="hidden" th:field="*{id}" />
 
 						<div class="mb-3">
-							<label class="form-label">名稱</label> <input type="text"
-								th:field="*{name}" class="form-control" required />
+							<label class="fw-bold">廠商名稱</label> <input type="text"
+								th:field="*{name}" class="form-control mt-2" required />
 						</div>
 
 						<div class="mb-3">
-							<label class="form-label">電話</label> <input type="text"
-								th:field="*{phone}" class="form-control" />
+							<label class="fw-bold">電話</label> <input type="text"
+								th:field="*{phone}" class="form-control mt-2" />
 						</div>
 
 						<div class="mb-3">
-							<label class="form-label">地址</label> <input type="text"
-								th:field="*{address}" class="form-control" />
+							<label class="fw-bold">地址</label> <input type="text"
+								th:field="*{address}" class="form-control mt-2" />
 						</div>
-
-						<button type="submit" class="btn btn-primary">儲存</button>
-						<a th:href="@{/suppliers}" class="btn btn-secondary">取消</a>
+						<div class="text-center mt-5">
+							<button type="submit" class="btn btn-outline-success">
+								<i class="bi bi-check2-square me-1"></i>儲存
+							</button>
+							<a th:href="@{/suppliers}" class="btn btn-outline-secondary ms-2">
+							<i class="bi bi-x-circle me-1"></i>取消</a>
+						</div>
 					</form>
+					</div>
 					<!-- 從此以上寫右側區域功能 -->
 				</div>
 			</main>

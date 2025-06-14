@@ -204,27 +204,48 @@
 						</ol>
 					</nav>
 					<!-- 從此往下寫右側區域功能 -->
-					<h2>新增商品</h2>
-					<form th:action="@{/products/save}" th:object="${product}"
-						method="post">
-						<input type="hidden" th:field="*{id}" />
-						<div class="mb-2 w-50">
-							<label>商品名稱</label> <input type="text" th:field="*{name}"
-								class="form-control" required />
-						</div>
-						<div class="mb-2 w-50">
-							<label>價格</label> <input type="number" step="0.01"
-								th:field="*{price}" class="form-control" required />
-						</div>
-						<!-- 0611喬更新 -->
-						<!-- <div class="mb-2">
+					<div class="card w-75 mx-auto bg-white m-5 shadow rounded-4"
+						style="padding: 4rem;">
+						<h2 class="text-center">新增商品</h2>
+						<form th:action="@{/products/save}" enctype="multipart/form-data" th:object="${product}"
+							method="post">
+							<input type="hidden" th:field="*{id}" />
+
+							<div class="mb-3">
+								<label class="fw-bold">上傳多張圖片</label> <input type="file"
+									name="images" class="form-control mt-2" multiple />
+							</div>
+
+
+							<div class="mb-3">
+								<label class="fw-bold">商品名稱</label> <input type="text"
+									th:field="*{name}" class="form-control mt-2" required />
+							</div>
+							<div class="mb-3">
+								<label class="fw-bold">販售價</label> <input type="number"
+									step="" th:field="*{price}" class="form-control mt-2"
+									required />
+							</div>
+							<div class="mb-3">
+								<label class="fw-bold">說明</label> <input type="number" step=""
+									th:field="*" class="form-control mt-2" required />
+							</div>
+
+
+							<!-- 0611喬更新 -->
+							<!-- <div class="mb-2">
 							<label>庫存</label> <input type="number" th:field="*{stock}"
 								class="form-control" required />
 						</div> -->
-						
-						<button class="btn btn-success" type="submit">儲存</button>
-						<a class="btn btn-secondary" th:href="@{/products}">取消</a>
-					</form>
+							<div class="text-center mt-5">
+								<button class="btn btn-outline-success" type="submit">
+									<i class="bi bi-check2-square me-1"></i>儲存
+								</button>
+								<a class="btn btn-outline-secondary ms-2" th:href="@{/products}"><i
+									class="bi bi-x-circle me-1"></i>取消</a>
+							</div>
+						</form>
+					</div>
 					<!-- 從此以上寫右側區域功能 -->
 				</div>
 			</main>

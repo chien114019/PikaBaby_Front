@@ -204,7 +204,8 @@
 						</ol>
 					</nav>
 					<!-- 從此往下寫右側區域功能 -->
-					<div class="card p-4 w-75 mx-auto bg-white">
+					<!-- shadow：加上陰影   rounded-4：加上圓角（border-radius）-->
+					<div class="card w-75 mx-auto bg-white m-5 shadow rounded-4" style="padding: 4rem;">
 						<h3 class="mb-4 fw-bold text-center">編輯公司基本資料</h3>
 						<form th:action="@{/company/save}" th:object="${company}" method="post">
 							<input type="hidden" th:field="*{id}" />
@@ -240,7 +241,7 @@
 								<label class="fw-bold">備註</label>
 								<input type="text" th:field="*{note}" class="form-control mt-2" />
 							</div>
-							<div class="text-end">
+							<div class="text-center mt-5">
 								<button class="btn btn-outline-success px-4" type="submit"><i class="bi bi-check2-square me-1"></i>儲存</button>
 								<a class="btn btn-outline-secondary px-4 ms-2" th:href="@{/company}"><i class="bi bi-x-circle me-1"></i>取消</a>
 							</div>

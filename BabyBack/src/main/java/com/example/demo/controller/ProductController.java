@@ -2,10 +2,14 @@ package com.example.demo.controller;
 
 import com.example.demo.model.Product;
 import com.example.demo.service.ProductService;
+
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @RequestMapping("/products")
@@ -34,8 +38,14 @@ public class ProductController {
     }
 
     @PostMapping("/save")
-    public String save(@ModelAttribute Product product) {
-        service.save(product);
+    public String save(@ModelAttribute Product product,
+                       @RequestParam("imageFiles") MultipartFile[] imageFiles) { //接收 <input type="file" name="images" multiple> 的所有上傳圖
+        try {
+            service.save(product, imageFiles);
+        } catch (IOException e) { //若使用者上傳壞圖或檔案轉換錯誤，會被捕捉並避免 crash
+            e.printStackTrace(); // 也可以記 log
+            return "error"; // 或回傳錯誤頁
+        }
         return "redirect:/products";
     }
 

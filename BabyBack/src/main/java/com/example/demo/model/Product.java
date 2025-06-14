@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.*;
@@ -30,13 +31,14 @@ public class Product {
     @Transient
     private Long stock;
 
-    public Long getStock() {
-        return stock;
-    }
-
-    public void setStock(Long stock) {
-        this.stock = stock;
-    }
+    
+    //0614喬新增 圖片關聯欄位
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Transient
+    private List<ProductImage> images = new ArrayList<>();
+    
+    
+    
     
 	public Long getId() {
 		return id;
@@ -62,6 +64,20 @@ public class Product {
 //	public void setStock(Long stock) {
 //		this.stock = stock;
 //	}
-	
+	 public Long getStock() {
+	        return stock;
+	    }
+
+	    public void setStock(Long stock) {
+	        this.stock = stock;
+	    }
+	    
+	    public List<ProductImage> getImages() {
+	        return images;
+	    }
+
+	    public void setImages(List<ProductImage> images) {
+	        this.images = images;
+	    }
 
 }

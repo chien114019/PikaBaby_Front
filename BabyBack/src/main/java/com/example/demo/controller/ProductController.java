@@ -1,11 +1,15 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.Product;
+import com.example.demo.model.ProductImage;
+import com.example.demo.repository.ProductImageRepository;
 import com.example.demo.service.ProductService;
 
 import java.io.IOException;
+import java.net.URLConnection;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -51,7 +55,9 @@ public class ProductController {
 
     @GetMapping("/edit/{id}")
     public String editForm(@PathVariable Long id, Model model) {
-        model.addAttribute("product", service.getById(id));
+    	 Product product = service.getById(id);
+        model.addAttribute("product", product);
+        model.addAttribute("images", product.getImages()); // 讓 HTML 可顯示圖片
         return "product/form";
     }
 
@@ -59,5 +65,35 @@ public class ProductController {
     public String delete(@PathVariable Long id) {
         service.delete(id);
         return "redirect:/products";
+    }
+    
+    
+    @Autowired
+    private ProductImageRepository imageRepository;
+    
+    @GetMapping("/images/{id}")
+    @ResponseBody
+    public ResponseEntity<byte[]> serveImage(@PathVariable Long id) {
+        ProductImage image = imageRepository.findById(id).orElse(null);
+        if (image == null || image.getImageData() == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        String contentType = URLConnection.guessContentTypeFromName(image.getImagePath());
+        return ResponseEntity.ok()
+            .header("Content-Type", contentType != null ? contentType : "application/octet-stream")
+            .body(image.getImageData());
+    }
+    
+    @DeleteMapping("/images/{id}")
+    @ResponseBody
+    public ResponseEntity<String> deleteImage(@PathVariable Long id) {
+        ProductImage image = imageRepository.findById(id).orElse(null);
+        if (image == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        imageRepository.deleteById(id);
+        return ResponseEntity.ok("deleted");
     }
 }

@@ -34,7 +34,6 @@ public class Product {
     
     //0614喬新增 圖片關聯欄位
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    @Transient
     private List<ProductImage> images = new ArrayList<>();
     
     

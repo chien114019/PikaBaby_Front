@@ -27,7 +27,7 @@
 					</a>
 					<!-- <h2 class="text-center mb-4">功能選單</h2> -->
 					<div class="accordion" id="sidebarMenu">
-						<script>
+										<script>
               //直接將 HTML 字串寫進頁面中
               document.write(`
                 <div class="accordion-item">
@@ -39,8 +39,8 @@
                   <div id="collapse2" class="accordion-collapse collapse" aria-labelledby="heading2" >
                     <div class="accordion-body">
                       <ul class="list-unstyled">
-                        <li><a href="#" class="text-secondary">登入/權限管理</a></li>
-                        <li><a href="#" class="text-secondary">會員帳號管理</a></li>
+                        <li><a href="/auth" class="text-secondary">登入/權限管理</a></li>
+                        <li><a href="/customers" class="text-secondary">會員帳號管理</a></li>
                         
                       </ul>
                     </div>
@@ -51,13 +51,13 @@
                 <div class="accordion-item"> 
                   <h5 class="accordion-header" id="heading1">
                     <button class="accordion-button collapsed bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
-                      <i class="bi bi-pc-display me-2"></i>資訊管理
+                      <i  class="bi bi-pc-display me-2"></i>資訊管理
                     </button>
                   </h5>
                   <div id="collapse1" class="accordion-collapse collapse" aria-labelledby="heading1" >
                     <div class="accordion-body">
                       <ul class="list-unstyled">
-                        <li><a href="#" class="text-secondary">公司資料維護</a></li>
+                        <li><a href="/company" class="text-secondary">公司資料維護</a></li>
                       </ul>
                     </div>
                   </div>
@@ -73,10 +73,9 @@
                   <div id="collapse3" class="accordion-collapse collapse" aria-labelledby="heading3" >
                     <div class="accordion-body">
                       <ul class="list-unstyled">
-                        <li><a href="#" class="text-secondary">應收帳款管理</a></li>
-                        <li><a href="#" class="text-secondary">應付帳款管理</a></li>
-                        <li><a href="#" class="text-secondary">收款沖帳</a></li>
-                        <li><a href="#" class="text-secondary">總帳務</a></li>
+                        <li><a href="/receivables/list" class="text-secondary">應收帳款管理</a></li>
+                        <li><a href="/payments/list" class="text-secondary">應付帳款管理</a></li>
+                       
                       </ul>
                     </div>
                   </div>
@@ -92,7 +91,7 @@
                   <div id="collapse4" class="accordion-collapse collapse" aria-labelledby="heading4" >
                     <div class="accordion-body">
                       <ul class="list-unstyled">
-                        <li><a href="#" class="text-secondary">POS前台結帳系統</a></li>
+                        <li><a href="/pos" class="text-secondary">POS前台結帳系統</a></li>
                         
                       </ul>
                     </div>
@@ -109,10 +108,10 @@
                   <div id="collapse5" class="accordion-collapse collapse" aria-labelledby="heading5" >
                     <div class="accordion-body">
                       <ul class="list-unstyled">
-                      <li><a href="#" class="text-secondary">廠商建檔</a></li>
-                      <li><a href="#" class="text-secondary">商品建檔</a></li>
-                        <li><a href="#" class="text-secondary">進貨單</a></li>
-                        <li><a href="#" class="text-secondary">庫存查詢</a></li>
+                      <li><a href="/suppliers" class="text-secondary">廠商建檔</a></li>
+                      <li><a href="/products" class="text-secondary">商品建檔</a></li>
+                        <li><a href="/purchases" class="text-secondary">進貨單</a></li>
+                        <li><a href="/stock" class="text-secondary">庫存查詢</a></li>
                         </ul>
                     </div>
                   </div>
@@ -128,8 +127,8 @@
                   <div id="collapse6" class="accordion-collapse collapse" aria-labelledby="heading6" >
                     <div class="accordion-body">
                       <ul class="list-unstyled">
-                        <li><a href="#" class="text-secondary">出貨單</a></li>
-                        <li><a href="#" class="text-secondary">退貨單</a></li>
+                        <li><a href="/orders" class="text-secondary">出貨單</a></li>
+                        <li><a href="/returns/list" class="text-secondary">退貨單</a></li>
                         </ul>
                     </div>
                   </div>
@@ -145,15 +144,15 @@
                   <div id="collapse7" class="accordion-collapse collapse" aria-labelledby="heading7" >
                     <div class="accordion-body">
                       <ul class="list-unstyled">
-                        <li><a href="#" class="text-secondary">托售申請審核</a></li>
-                        <li><a href="#" class="text-secondary">提款申請審核</a></li>
+                        <li><a href="/secondhand/consignments" class="text-secondary">托售申請審核</a></li>
+                        <li><a href="/secondhand/withdrawals" class="text-secondary">提款申請審核</a></li>
                        
                         </ul>
                     </div>
                   </div>
                 </div>
               `);
-              document.write(`
+               document.write(`
                 <div class="accordion-item">
                   <h5 class="accordion-header" id="heading8">
                     <button class="accordion-button collapsed bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapse8" aria-expanded="false" aria-controls="collapse8">
@@ -163,8 +162,8 @@
                   <div id="collapse8" class="accordion-collapse collapse" aria-labelledby="heading8" >
                     <div class="accordion-body">
                       <ul class="list-unstyled">
-                        <li><a href="#" class="text-secondary">成本報表</a></li>
-                        <li><a href="#" class="text-secondary">銷售報表</a></li>
+                        <li><a href="/accounting/receipts" class="text-secondary">成本報表</a></li>
+                        <li><a href="/dashboard" class="text-secondary">銷售報表</a></li>
                         </ul>
                     </div>
                   </div>
@@ -224,15 +223,15 @@
 								type="date" class="form-control" id="endDate" name="endDate">
 						</div>
 						<div class="col-md-2 text-start">
-							<button type="submit" class="btn btn-primary w-50">
+							<button type="submit" class="btn btn-outline-primary w-50">
 								<i class="bi bi-search"></i> 查詢
 							</button>
 						</div>
 					</form>
 					<!-- 表格區塊 -->
 					<div class="table-responsive">
-						<table class="table table-bordered table-hover table-striped align-middle">
-							<thead class="table-dark text-center">
+						<table class="table table-bordered table-hover  align-middle">
+							<thead class="text-center">
 								<tr>
 									<th>訂單編號</th>
 									<th>客戶名稱</th>
@@ -244,18 +243,19 @@
 							</thead>
 							<tbody>
 								<tr th:each="r : ${receivables}" class="text-center">
-									<td th:text="${r.order.id}"></td>
-									<td th:text="${r.customer.name}"></td>
-									<td th:text="${r.amount} + ' 元'"></td>
-									<td th:text="${r.status}"></td>
-									<td th:text="${r.dueDate}"></td>
-									<td th:text="${#dates.format(r.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
+									<td th:text="${r.order.id}">3</td>
+									<td th:text="${r.customer.name}">張可可</td>
+									
+									<td th:text="'$' + ${#numbers.formatDecimal(r.amount, 0, 'COMMA', 0, 'POINT')} + ' 元'">$3,600元</td>
+									<td th:text="${r.status}">未收款</td>
+									<td th:text="${r.dueDate}">到期日</td>
+									<td th:text="${#dates.format(r.createdAt, 'yyyy-MM-dd HH:mm')}">建立時間</td>
 								</tr>
 							</tbody>
 						</table>
 					</div>
 					<div class="text-end">
-						<a class="btn btn-secondary" th:href="@{/}">返回</a>
+						<a class="btn btn-outline-secondary" th:href="@{/}"><i class="bi bi-arrow-left-circle me-1"></i>返回</a>
 					</div>
 				</div>
 			</main>

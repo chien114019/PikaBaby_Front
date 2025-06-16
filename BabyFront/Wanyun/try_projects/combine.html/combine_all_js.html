@@ -5,117 +5,16 @@
   <meta charset="UTF-8">
   <title>會員專區</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="../css/frontpage_decor.css">
+  <link rel="stylesheet" href="../css/frontpage2.css">
   <link rel="stylesheet" href="../css/bucketlist.css">
   <link rel="stylesheet" href="../css/changePasswd.css">
   <link rel="stylesheet" href="../css/memberInfo.css">
   <link rel="stylesheet" href="../css/couponPoints.css">
   <link rel="stylesheet" href="../css/order.css">
+  <link rel="stylesheet" href="../css/navbutton.css">
   <style>
-   
-    /* 導覽Tabs */
-
-    .nav-wrapper {
-      border-bottom: 2px solid #e0e0e0;
-      /* 整條底線 */
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-      padding-bottom: 0.5rem;
-    }
 
 
-    .nav-button {
-      border: none;
-      background: none;
-      color: #333;
-      padding: 0.5rem 1rem;
-      font-weight: 500;
-      position: relative;
-
-    }
-
-    .nav-button::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      bottom: -2px;
-      /* 讓黃線蓋在灰線上 */
-      height: 4px;
-      width: 0%;
-      background-color: #f1f454;
-      /* 黃色底線 */
-      transition: width 0.3s;
-    }
-
-
-
-    .nav-button.active::after {
-      width: 100%;
-    }
-
-    .nav-button.active {
-      color: #000;
-      font-weight: 600;
-    }
-
-    /* 切換內容 */
-    .tab-content {
-      display: none;
-    }
-
-    .tab-content.active {
-      display: block;
-    }
-
-    /* 側邊攔 */
-    .sidebar {
-      position: relative;
-      background-color: #fffafa;
-      border: 2px solid #ccc;
-      margin-left: 100px;
-      margin-top: 200px;
-      padding: 2rem 1rem;
-      width: 200px;
-      font-family: sans-serif;
-    }
-
-    /* 垂直線：放在整個容器內的中間 */
-    .timeline-line {
-      position: absolute;
-      top: 40px;
-      padding-bottom: 60px;
-      left: 20px;
-      width: 2px;
-      background-color: #eacfc3;
-      z-index: 0;
-    }
-
-    .menu-item {
-      position: relative;
-      margin-left: 2.5rem;
-      margin-bottom: 2rem;
-      font-weight: 500;
-      color: #333;
-    }
-
-    .menu-item::before {
-      content: '';
-      position: absolute;
-      left: -40px;
-      top: 0.3em;
-      width: 10px;
-      height: 10px;
-      background-color: #eacfc3;
-      border-radius: 50%;
-      z-index: 1;
-    }
-
-    .menu-item:last-child {
-      margin-bottom: 0;
-    }
-
-    
   </style>
 </head>
 
@@ -123,9 +22,9 @@
   <!-- 置頂的促銷訊息 -->
   <div class="top-banner">
     每週五六日🔥新人代理寄賣免運
-    <span style="color: red;">25 日 23 時 14 分 35 秒</span>
+    <font color="red">25 日 23 時 14 分 35 秒</font>
     <div style="display: inline-block; background-color: black; color: white">
-      Ispain love you
+      Ispian love you
     </div>
   </div>
 
@@ -135,66 +34,101 @@
   </div>
 
   <!-- 導覽列 -->
-  <nav>
-    <div class="nav-container">
-      <div class="nav-links">
-        <a href="#">首頁</a>
-        <div class="dropdown">
-          <a href="#">年齡區間(0-3M)</a>
-          <div class="dropdown-content">
-            <a href="#">奶瓶/奶嘴</a>
-            <a href="#">圍兜/揹巾</a>
-            <a href="#">嬰兒服裝</a>
-            <a href="#">清潔用品</a>
-            <a href="#">嬰兒推車</a>
-            <a href="#">嬰兒床</a>
-            <a href="#">哺乳用品</a>
-            <a href="#">嬰兒用品</a>
-          </div>
-        </div>
-        <div class="dropdown">
-          <a href="#">年齡區間(3-6M)</a>
-          <div class="dropdown-content">
-            <a href="#">嬰兒服裝</a>
-            <a href="#">玩具</a>
-            <a href="#">嬰兒推車</a>
-            <a href="#">嬰兒床</a>
-            <a href="#">汽座</a>
-            <a href="#">嬰兒用品</a>
-          </div>
-        </div>
-        <div class="dropdown">
-          <a href="#">年齡區間(6-12M)</a>
-          <div class="dropdown-content">
-            <a href="#">學步用品</a>
-            <a href="#">餐具用品</a>
-            <a href="#">幼兒服裝</a>
-            <a href="#">玩具</a>
-            <a href="#">嬰兒推車</a>
-            <a href="#">汽座</a>
-            <a href="#">嬰兒用品</a>
-          </div>
-        </div>
-        <div class="dropdown">
-          <a href="#">年齡區間(2-3y)</a>
-          <div class="dropdown-content">
-            <a href="#">幼教用品</a>
-            <a href="#">兒童服裝</a>
-            <a href="#">玩具</a>
-            <a href="#">汽座</a>
-            <a href="#">兒童推車</a>
-            <a href="#">餐椅</a>
-            <a href="#">電器用品</a>
-            <a href="#">嬰兒用品</a>
-          </div>
-        </div>
-        <a href="#">二手專區</a>
-        <a href="#">關於我們</a>
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+      <div class="collapse navbar-collapse justify-content-center d-flex" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto nav-links gap-5 me-0">
+          <li class="nav-item d-flex align-items-center">
+            <a href="#">首頁</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">
+              年齡區間(0-3M)
+            </a>
+            <div class="dropdown-menu p-3 justify-content-center" aria-labelledby="navbarDropdown1">
+              <a class="dropdown-item" href="#">奶瓶/奶嘴</a>
+              <a class="dropdown-item" href="#">圍兜/揹巾</a>
+              <a class="dropdown-item" href="#">嬰兒服裝</a>
+              <a class="dropdown-item" href="#">清潔用品</a>
+              <a class="dropdown-item" href="#">嬰兒推車</a>
+              <a class="dropdown-item" href="#">嬰兒床</a>
+              <a class="dropdown-item" href="#">哺乳用品</a>
+              <a class="dropdown-item" href="#">嬰兒用品</a>
+            </div>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">
+              年齡區間(3-6M)
+            </a>
+            <div class="dropdown-menu p-3 justify-content-center" aria-labelledby="navbarDropdown2">
+              <a class="dropdown-item" href="#">嬰兒服裝</a>
+              <a class="dropdown-item" href="#">玩具</a>
+              <a class="dropdown-item" href="#">嬰兒推車</a>
+              <a class="dropdown-item" href="#">嬰兒床</a>
+              <a class="dropdown-item" href="#">汽座</a>
+              <a class="dropdown-item" href="#">嬰兒用品</a>
+            </div>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown3" role="button" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">
+              年齡區間(6-12M)
+            </a>
+            <div class="dropdown-menu p-3 justify-content-center" aria-labelledby="navbarDropdown3">
+              <a class="dropdown-item" href="#">學步用品</a>
+              <a class="dropdown-item" href="#">餐具用品</a>
+              <a class="dropdown-item" href="#">幼兒服裝</a>
+              <a class="dropdown-item" href="#">玩具</a>
+              <a class="dropdown-item" href="#">嬰兒推車</a>
+              <a class="dropdown-item" href="#">汽座</a>
+              <a class="dropdown-item" href="#">嬰兒用品</a>
+            </div>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown4" role="button" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">
+              年齡區間(2-3y)
+            </a>
+            <div class="dropdown-menu p-3 justify-content-center" aria-labelledby="navbarDropdown4">
+              <a class="dropdown-item" href="#">幼教用品</a>
+              <a class="dropdown-item" href="#">兒童服裝</a>
+              <a class="dropdown-item" href="#">玩具</a>
+              <a class="dropdown-item" href="#">汽座</a>
+              <a class="dropdown-item" href="#">兒童推車</a>
+              <a class="dropdown-item" href="#">餐椅</a>
+              <a class="dropdown-item" href="#">電器用品</a>
+              <a class="dropdown-item" href="#">嬰兒用品</a>
+            </div>
+          </li>
+          <li class="nav-item d-flex align-items-center">
+            <a href="#">二手專區</a>
+          </li>
+          <li class="nav-item d-flex align-items-center">
+            <a href="#">關於我們</a>
+          </li>
+          <ul class="d-flex gap-3">
+            <li class="nav-item d-flex align-items-center">
+              <a class="fs-5" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="28" fill="#000000"
+                  viewBox="0 0 256 256">
+                  <path
+                    d="M104,216a16,16,0,1,1-16-16A16,16,0,0,1,104,216Zm88-16a16,16,0,1,0,16,16A16,16,0,0,0,192,200ZM239.71,74.14l-25.64,92.28A24.06,24.06,0,0,1,191,184H92.16A24.06,24.06,0,0,1,69,166.42L33.92,40H16a8,8,0,0,1,0-16H40a8,8,0,0,1,7.71,5.86L57.19,64H232a8,8,0,0,1,7.71,10.14ZM221.47,80H61.64l22.81,82.14A8,8,0,0,0,92.16,168H191a8,8,0,0,0,7.71-5.86Z">
+                  </path>
+                </svg></a>
+            </li>
+            <li class="nav-item d-flex align-items-center">
+              <a class="fs-5" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="28" fill="#000000"
+                  viewBox="0 0 256 256">
+                  <path
+                    d="M230.92,212c-15.23-26.33-38.7-45.21-66.09-54.16a72,72,0,1,0-73.66,0C63.78,166.78,40.31,185.66,25.08,212a8,8,0,1,0,13.85,8c18.84-32.56,52.14-52,89.07-52s70.23,19.44,89.07,52a8,8,0,1,0,13.85-8ZM72,96a56,56,0,1,1,56,56A56.06,56.06,0,0,1,72,96Z">
+                  </path>
+                </svg></a>
+            </li>
+          </ul>
+        </ul>
       </div>
-      <div class="user-actions">
-        <a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="28" fill="#000000" viewBox="0 0 256 256"><path d="M104,216a16,16,0,1,1-16-16A16,16,0,0,1,104,216Zm88-16a16,16,0,1,0,16,16A16,16,0,0,0,192,200ZM239.71,74.14l-25.64,92.28A24.06,24.06,0,0,1,191,184H92.16A24.06,24.06,0,0,1,69,166.42L33.92,40H16a8,8,0,0,1,0-16H40a8,8,0,0,1,7.71,5.86L57.19,64H232a8,8,0,0,1,7.71,10.14ZM221.47,80H61.64l22.81,82.14A8,8,0,0,0,92.16,168H191a8,8,0,0,0,7.71-5.86Z"></path></svg></a>
-        <a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="28" fill="#000000" viewBox="0 0 256 256"><path d="M230.92,212c-15.23-26.33-38.7-45.21-66.09-54.16a72,72,0,1,0-73.66,0C63.78,166.78,40.31,185.66,25.08,212a8,8,0,1,0,13.85,8c18.84-32.56,52.14-52,89.07-52s70.23,19.44,89.07,52a8,8,0,1,0,13.85-8ZM72,96a56,56,0,1,1,56,56A56.06,56.06,0,0,1,72,96Z"></path></svg></a>
-      </div>
+
     </div>
   </nav>
 
@@ -214,16 +148,31 @@
 
         <!-- 主要內容 -->
         <div class="col-md-8 p-5 text-start mx-auto">
-          <h3>歡迎回來，皮卡！</h3>
-          <br><br>
+          <!-- <div class="col-md-8 p-5 text-center mx-auto">
+            <h2>PikaBaby 會員中心</h2>
+          </div>
+          <h3>歡迎回來，皮卡！</h3> -->
+
+          <div class="text-center mb-4">
+            <!-- <h3 class="fw-bold"> PikaBaby 會員中心</h3> -->
+
+            <h5 class="text-start text-muted mt-2">歡迎回來，皮卡！</h5>
+          </div>
+          <br>
+
           <!-- 導覽 Tabs -->
           <div class="container text-center mt-4 border-bottom ">
             <div class="d-flex justify-content-center gap-3 flex-wrap">
-              <button class="btn nav-button active" onclick="switchTab(event, 'order')">交易紀錄</button>
-              <button class="btn nav-button" onclick="switchTab(event, 'profile')">會員資料</button>
-              <button class="btn nav-button" onclick="switchTab(event, 'wishlist')">我的收藏</button>
-              <button class="btn nav-button" onclick="switchTab(event, 'discount')">折扣專區</button>
-              <button class="btn nav-button" onclick="switchTab(event, 'password')">更換密碼</button>
+              <button class="btn nav-button active" onclick="switchTab(event, 'order')"> 交易紀錄</button>
+              <button class="btn nav-button" onclick="switchTab(event, 'profile')"> 會員資料</button>
+              <button class="btn nav-button" onclick="switchTab(event, 'wishlist')"> 我的收藏</button>
+              <button class="btn nav-button" onclick="switchTab(event, 'discount')"> 折扣專區</button>
+              <button class="btn nav-button" onclick="switchTab(event, 'password')"> 帳號管理</button>
+              <!-- <button class="btn nav-button active" onclick="switchTab(event, 'order')">🧾 交易紀錄</button>
+              <button class="btn nav-button" onclick="switchTab(event, 'profile')">🧍 會員資料</button>
+              <button class="btn nav-button" onclick="switchTab(event, 'wishlist')">❤️ 我的收藏</button>
+              <button class="btn nav-button" onclick="switchTab(event, 'discount')">🎁 折扣專區</button>
+              <button class="btn nav-button" onclick="switchTab(event, 'password')">🔑 帳號管理</button> -->
             </div>
           </div>
           <br><br>
@@ -290,44 +239,50 @@
           <div id="profile" class="tab-content">
             <!-- 會員資訊 -->
             <div class="col-md-8 offset-md-2">
-              <div class="card p-4 mx-auto" style="width: 100%; max-width: 720px;">
+              <div class="card p-4 mx-auto" style="width: 100%">
                 <h2>會員資訊</h2>
                 <p>會員名稱: 某小姐</p>
                 <p>Email: pika.baby111@gmail.com</p>
                 <p>手機: 0987654321</p>
                 <p>生日: 1999-01-14</p>
                 <p>註冊日期: 2021-12-31</p>
-                <p>寶寶出生年月：2025-06</p>
+                <p>寶寶出生年月：</p>
+                <p><svg xmlns="http://www.w3.org/2000/svg" width="32" height="24" fill="#000000" viewBox="0 0 256 256">
+                    <path
+                      d="M232,104a56.06,56.06,0,0,0-56-56H136a24,24,0,0,1,24-24,8,8,0,0,0,0-16,40,40,0,0,0-40,40H80a56.06,56.06,0,0,0-56,56,16,16,0,0,0,8,13.83V128c0,35.53,33.12,62.12,59.74,83.49C103.66,221.07,120,234.18,120,240a8,8,0,0,0,16,0c0-5.82,16.34-18.93,28.26-28.51C190.88,190.12,224,163.53,224,128V117.83A16,16,0,0,0,232,104ZM80,64h96a40.06,40.06,0,0,1,40,40H40A40,40,0,0,1,80,64Zm74.25,135c-10.62,8.52-20,16-26.25,23.37-6.25-7.32-15.63-14.85-26.25-23.37C77.8,179.79,48,155.86,48,128v-8H208v8C208,155.86,178.2,179.79,154.25,199Z">
+                    </path>
+                  </svg>2025/6</p>
                 <div class="d-flex justify-content-end">
-                  <button class="btn btn-edit" data-bs-toggle="modal" data-bs-target="#editModal">編輯</button>
+                  <button class="btn membercards-btn  btn-primary btn-edit" data-bs-toggle="modal"
+                    data-bs-target="#editModal">編輯</button>
                 </div>
 
               </div>
               <!-- 彈出視窗 Modal -->
               <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg modal-dialog-centered">
-                  <div class="modal-content">
-                    <h4 class="fw-bold text-center mb-4">個人資料編輯</h4>
+                  <div class="modal-content info-modal-content">
+                    <h4 class="fw-bold text-center mb-4 modal-title-custom info-modal-title-custom">個人資料編輯</h4>
                     <form>
                       <div class="row mb-3">
                         <div class="col-md-6">
-                          <label class="form-label">姓氏</label>
-                          <input type="text" class="form-control-member" value="皮卡">
+                          <label class="form-label info-form-label">姓氏</label>
+                          <input type="text" class="form-control info-form-control" value="皮卡">
                         </div>
                         <div class="col-md-6">
-                          <label class="form-label">名字</label>
-                          <input type="text" class="form-control-member" value="寶貝">
+                          <label class="form-label info-form-label">名字</label>
+                          <input type="text" class="form-control info-form-control" value="寶貝">
                         </div>
                       </div>
 
                       <div class="row mb-3">
                         <div class="col-md-6">
-                          <label class="form-label">生日</label>
-                          <input type="text" class="form-control-member" value="1997 / 01 / 18" disabled>
+                          <label class="form-label info-form-label">生日</label>
+                          <input type="text" class="form-control info-form-control" value="1997 / 01 / 18" disabled>
                         </div>
                         <div class="col-md-6">
-                          <label class="form-label">性別</label>
-                          <select class="form-select">
+                          <label class="form-label info-form-label">性別</label>
+                          <select class="form-select info-form-select">
                             <option selected>女性</option>
                             <option>男性</option>
                             <option>其他</option>
@@ -336,27 +291,41 @@
                       </div>
 
                       <div class="mb-3">
-                        <label class="form-label">手機號碼</label>
+                        <label class="form-label info-form-label">手機號碼</label>
                         <div class="d-flex gap-2 align-items-center">
-                          <select class="form-select" style="max-width: 100px;">
+                          <select class="form-select info-form-select" style="max-width: 100px;">
                             <option>+886</option>
                           </select>
-                          <input type="text" class="form-control-member" placeholder="912 345 678">
+                          <input type="text" class="form-control info-form-control" placeholder="912 345 678">
                         </div>
                         <div class="mb-4">
-                          <label class="form-label">Email</label>
-                          <input type="email" class="form-control-member" value="wanyun0118@gmail.com" disabled>
+                          <label class="form-label info-form-label">Email</label>
+                          <input type="email" class="form-control info-form-control" value="wanyun0118@gmail.com"
+                            disabled>
                         </div>
-                        <div class="mb-4">
-                          <label class="form-label">寶寶出生年月</label>
-                          <input type="month" class="form-control-member" value="">
+                        <div>
+                          <div id="baby-container">
+                            <!-- 初始寶寶欄位 -->
+                            <div class="mb-4 baby-field">
+                              <label class="form-label info-form-label">寶寶出生年月</label>
+                              <div class="d-flex gap-2">
+                                <input type="month" class="form-control info-form-control" name="baby1" />
+                                <button type="button" class="btn membercards-btn btn-danger btn-delete"
+                                  onclick="removeBabyField(this)">X</button>
+                              </div>
+                            </div>
+
+                          </div><button type="button" class="btn btn-outline-warning btn-sm"
+                            onclick="addBabyField()">新增寶寶生日</button>
                         </div>
-                        <div class="form-check mt-2">
-                          <input class="form-check-input" type="checkbox" id="subscribe1" checked>
-                          <label class="form-check-label" for="subscribe1">訂閱</label>
+                        <br>
+
+                        <div class="form-check info-form-check mt-2">
+                          <input class="form-check-input info-form-check-input" type="checkbox" id="subscribe1" checked>
+                          <label class="form-check-label info-form-check-label" for="subscribe1">訂閱</label>
 
                         </div>
-                        <small class="text-muted">第一手掌握產品、優惠以及會員福利的最新消息。</small>
+                        <small class="text-muted info-text-muted">第一手掌握產品、優惠以及會員福利的最新消息。</small>
                       </div>
 
 
@@ -372,8 +341,8 @@
             <button type="submit" class="btn btn-dark px-4">儲存</button>
           </div> -->
                       <div class="d-flex justify-content-end gap-3">
-                        <button type="button" class="btn btn-cancel px-4" data-bs-dismiss="modal">取消</button>
-                        <button type="submit" class="btn btn-save px-4">儲存</button>
+                        <button type="button" class="btn info-btn-cancel px-4" data-bs-dismiss="modal">取消</button>
+                        <button type="submit" class="btn info-btn-save px-4">儲存</button>
                       </div>
                     </form>
                   </div>
@@ -382,12 +351,22 @@
             </div>
             <!-- 常用地址 -->
             <div class="col-md-8 offset-md-2">
-              <div class="card p-4 mx-auto" style="width: 100%; max-width: 720px;">
+              <div class="card p-4 mx-auto" style="width: 100%; ">
                 <h2>常用地址</h2>
-                <p>406 台中市北屯區松竹三路 18 號</p>
+                <div class="d-flex align-items-center justify-content-between">
+                  <span>406 台中市北屯區松竹三路 18 號</span>
+                  <div>
+                    <button class="btn membercards-btn btn-primary btn-edit" data-bs-toggle="modal"
+                      data-bs-target="#addressModal">編輯</button>
+                    <button class="btn membercards-btn btn-danger btn-delete">刪除</button>
+                  </div>
+
+                </div>
+
                 <div class="d-flex justify-content-end gap-2">
-                  <button class="btn btn-edit" data-bs-toggle="modal" data-bs-target="#addressModal">編輯</button>
-                  <button class="btn btn-edit" data-bs-toggle="modal" data-bs-target="#address_addModal">新增</button>
+
+                  <button class="btn membercards-btn btn-primary btn-edit" data-bs-toggle="modal"
+                    data-bs-target="#address_addModal">新增</button>
                 </div>
               </div>
             </div>
@@ -395,8 +374,8 @@
             <div class="modal fade" id="addressModal" tabindex="-1" aria-labelledby="addressModalLabel"
               aria-hidden="true">
               <div class="modal-dialog modal-lg modal-dialog-centered">
-                <div class="modal-content">
-                  <h4 class="mb-4">編輯地址</h4>
+                <div class="modal-content address-modal-content">
+                  <h4 class="address-title mb-4">編輯地址</h4>
                   <form id="addressForm">
                     <div class="mb-3">
                       <label class="form-label">姓名 *</label>
@@ -446,7 +425,7 @@
 
                     <div class="d-flex justify-content-end gap-3">
                       <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">取消</button>
-                      <button type="submit" class="btn btn-primary">儲存地址</button>
+                      <button type="submit" class="btn btn-primary btn-address">儲存地址</button>
                     </div>
                   </form>
                 </div>
@@ -456,8 +435,8 @@
             <div class="modal fade" id="address_addModal" tabindex="-1" aria-labelledby="addressModalLabel"
               aria-hidden="true">
               <div class="modal-dialog modal-lg modal-dialog-centered">
-                <div class="modal-content">
-                  <h4 class="mb-4">新增地址</h4>
+                <div class="modal-content address-modal-content">
+                  <h4 class="address-title mb-4">新增地址</h4>
                   <form id="addressForm">
                     <div class="mb-3">
                       <label class="form-label">姓名 *</label>
@@ -507,7 +486,7 @@
 
                     <div class="d-flex justify-content-end gap-3">
                       <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">取消</button>
-                      <button type="submit" class="btn btn-primary">儲存地址</button>
+                      <button type="submit" class="btn btn-primary btn-address">儲存地址</button>
                     </div>
                   </form>
                 </div>
@@ -515,42 +494,48 @@
             </div>
             <!-- 常用信用卡 -->
             <div class="col-md-8 offset-md-2">
-              <div class="card p-4 mx-auto" style="width: 100%; max-width: 720px;">
+              <div class="card p-4 mx-auto" style="width: 100%; ">
                 <h2>常用信用卡</h2>
-                <div class="credit-card">
+                <div class="credit-card d-flex align-items-center justify-content-between">
                   <span>💳 國泰世華銀行 (•••• 8860)</span>
-                  <button class="btn btn-edit">預設</button>
-                  <button class="btn btn-delete">刪除</button>
+                  <div>
+                    <button class="btn membercards-btn btn-primary btn-edit">預設</button>
+                    <button class="btn membercards-btn btn-danger btn-delete">刪除</button>
+                  </div>
+
                 </div>
                 <div class="d-flex justify-content-end">
-                  <button class="btn btn-edit" data-bs-toggle="modal" data-bs-target="#cardModal">新增</button>
+                  <button class="btn membercards-btn btn-primary btn-edit" data-bs-toggle="modal"
+                    data-bs-target="#cardModal">新增</button>
                 </div>
                 <!-- 信用卡彈出視窗 -->
                 <div class="modal fade" id="cardModal" tabindex="-1" aria-labelledby="cardModalLabel"
                   aria-hidden="true">
                   <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                      <h4 class="text-center">輸入卡號</h4>
+                    <div class="modal-content credit-modal-content">
+                      <h4 class="credit-title text-center">輸入卡號</h4>
                       <form id="cardForm">
                         <div class="mb-3">
-                          <label class="form-label">信用卡 / 簽帳金融卡卡號</label>
-                          <input type="text" id="cardNumber" class="form-control" placeholder="0000 0000 0000 0000"
-                            maxlength="19" required>
+                          <label class="form-label credit-text">信用卡 / 簽帳金融卡卡號</label>
+                          <input type="text" id="cardNumber" class="form-control credit-form-control"
+                            placeholder="0000 0000 0000 0000" maxlength="19" required>
                         </div>
                         <div class="row mb-3">
                           <div class="col">
-                            <label class="form-label">有效月年</label>
-                            <input type="text" id="expiry" class="form-control" placeholder="MM/YY" maxlength="5"
-                              required>
+                            <label class="form-label credit-text">有效月年</label>
+                            <input type="text" id="expiry" class="form-control credit-form-control" placeholder="MM/YY"
+                              maxlength="5" required>
                           </div>
                           <div class="col">
-                            <label class="form-label">背面末三碼</label>
-                            <input type="text" id="cvv" class="form-control" placeholder="000" maxlength="3" required>
+                            <label class="form-label credit-text">背面末三碼</label>
+                            <input type="text" id="cvv" class="form-control credit-form-control" placeholder="000"
+                              maxlength="3" required>
                           </div>
                         </div>
                         <div class="d-flex justify-content-between">
                           <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">取消</button>
-                          <button type="submit" id="nextBtn" class="btn btn-dark btn-disabled">下一步</button>
+                          <button type="submit" id="nextBtn"
+                            class="btn btn-dark btn-disabled credit-btn-disabled">下一步</button>
                         </div>
                       </form>
                     </div>
@@ -561,7 +546,7 @@
             </div>
           </div>
           <div id="wishlist" class="tab-content">
-            <!-- 願望清單 -->
+            <!-- 我的收藏 -->
             <br><br>
             <div class="d-flex justify-content-center">
               <table>
@@ -698,6 +683,16 @@
                 不適用項目：部份活動、特定商品、或搭配其他優惠時可能無法使用，請以結帳頁顯示為準。<br>
               </div>
               <div class="points">累計點數：<span>5</span> 點</div>
+              <!-- 收合控制按鈕 -->
+              <button type="button" class="btn btn-outline-warning btn-sm mt-3" onclick="toggleDetail(this)">
+                顯示點數明細
+              </button>
+
+              <!-- 收合區塊 -->
+              <div id="points-detail-container" class="mt-3 collapse">
+                <div class="point-detail-item mb-2">🧾 2025-06-01 開通會員 新客好禮贈 +100 點</div>
+                <div class="point-detail-item mb-2">🧾 2025-06-10 消費滿300 獲得 +3 點</div>
+              </div>
             </div>
 
             <!-- 我的優惠券 -->
@@ -778,27 +773,7 @@
                 </div>
               </div>
             </div>
-            <div id="password" class="tab-content">
-              <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content rounded-4 border-0">
-                  <div class="modal-body text-center p-5">
-                    <h5 id="changePasswordLabel" class="mb-4">更換密碼</h5>
 
-                    <div class="mb-3 text-start">
-                      <input type="password" class="form-control border-0 border-bottom rounded-0" placeholder="輸入新密碼">
-                    </div>
-                    <div class="mb-4 text-start">
-                      <input type="password" class="form-control border-0 border-bottom rounded-0" placeholder="確認新密碼">
-                    </div>
-
-                    <div class="d-flex justify-content-center gap-3">
-                      <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">取消</button>
-                      <button type="button" class="btn btn-disabled" disabled>儲存</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
           <div id="password" class="tab-content">
             <div class="modal-dialog modal-dialog-centered">
@@ -807,18 +782,24 @@
                   <h5 id="changePasswordLabel" class="mb-4">更換密碼</h5>
 
                   <div class="mb-3 text-start">
-                    <input type="password" class="form-control border-0 border-bottom rounded-0" placeholder="輸入新密碼">
+                    <input type="password" class="form-control pwd-form-control border-0 border-bottom rounded-0"
+                      placeholder="輸入新密碼">
                   </div>
                   <div class="mb-4 text-start">
-                    <input type="password" class="form-control border-0 border-bottom rounded-0" placeholder="確認新密碼">
+                    <input type="password" class="form-control pwd-form-control border-0 border-bottom rounded-0"
+                      placeholder="確認新密碼">
                   </div>
 
                   <div class="d-flex justify-content-center gap-3">
-                    <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-disabled" disabled>儲存</button>
+                    <button type="button" class="btn btn-outline-dark pwd-btn-outline-dark"
+                      data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-disabled pwd-btn-disabled">儲存</button>
                   </div>
                 </div>
               </div>
+            </div>
+            <div class="text-center p-5">
+              <h6 id="changePasswordLabel" class="mb-4 custom-underline">刪除帳號</h6>
             </div>
           </div>
         </div>
@@ -1005,6 +986,63 @@
 
     // 初始化顯示儲存的卡號
     showMaskedCard();
+
+    // addBaby
+    function addBabyField() {
+      const container = document.getElementById('baby-container');
+      const babyFields = container.querySelectorAll('.baby-field');
+
+      // 最多三筆
+      if (babyFields.length >= 3) {
+        alert("最多只能新增三位寶寶");
+        return;
+      }
+
+      const index = babyFields.length + 1;
+      const babyNames = ['寶寶', '二寶', '三寶'];
+      const babyLabel = babyNames[index - 1] || `寶寶 ${index}`;
+
+      const newDiv = document.createElement('div');
+      newDiv.className = "mb-4 baby-field";
+      newDiv.innerHTML = `
+      <label class="form-label info-form-label">${babyLabel}出生年月</label>
+      <div class="d-flex gap-2">
+        <input type="month" class="form-control info-form-control" name="baby${index}" />
+        <button type="button" class="btn membercards-btn btn-danger btn-delete"
+                                onclick="removeBabyField(this)">X</button>
+      </div>
+    `;
+
+      container.appendChild(newDiv);
+    }
+
+    function removeBabyField(button) {
+      const container = document.getElementById('baby-container');
+      const fieldDiv = button.closest('.baby-field');
+      if (fieldDiv) {
+        fieldDiv.remove();
+      }
+
+      // 重新編號與命名
+      const babyFields = container.querySelectorAll('.baby-field');
+      const babyNames = ['大寶', '二寶', '三寶'];
+
+      babyFields.forEach((field, i) => {
+        const label = field.querySelector('label');
+        const input = field.querySelector('input');
+        const name = babyNames[i] || `寶寶 ${i + 1}`;
+
+        label.textContent = `${name}出生年月`;
+        input.name = `baby${i + 1}`;
+      });
+    }
+
+    // 點數明細
+      function toggleDetail(button) {
+          const container = document.getElementById('points-detail-container');
+          const isShown = container.classList.toggle('show');
+          button.textContent = isShown ? '隱藏點數明細' : '顯示點數明細';
+        }
   </script>
 </body>
 

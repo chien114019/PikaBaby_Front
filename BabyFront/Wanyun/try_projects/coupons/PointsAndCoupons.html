@@ -142,6 +142,21 @@
         flex: 1 1 100%;
       }
     }
+
+    .point-detail-item {
+      font-size: 0.9rem;
+      color: #444;
+      padding-left: 1rem;
+      border-left: 3px solid #ccc;
+    }
+
+    #points-detail-container.collapse {
+      display: none;
+    }
+
+    #points-detail-container.show {
+      display: block;
+    }
   </style>
 </head>
 
@@ -178,6 +193,16 @@
       不適用項目：部份活動、特定商品、或搭配其他優惠時可能無法使用，請以結帳頁顯示為準。<br>
     </div>
     <div class="points">累計點數：<span>5</span> 點</div>
+    <!-- 收合控制按鈕 -->
+    <button type="button" class="btn btn-outline-secondary btn-sm mt-3" onclick="toggleDetail(this)">
+      顯示點數明細
+    </button>
+
+    <!-- 收合區塊 -->
+    <div id="points-detail-container" class="mt-3 collapse">
+      <div class="point-detail-item mb-2">🧾 2025-06-01 開通會員 新客好禮贈 +100 點</div>
+      <div class="point-detail-item mb-2">🧾 2025-06-10 消費滿300 獲得 +3 點</div>
+    </div>
   </div>
 
   <!-- 我的優惠券 -->
@@ -257,6 +282,14 @@
         </div>
       </div>
     </div>
+    <script>
+  function toggleDetail(button) {
+    const container = document.getElementById('points-detail-container');
+    const isShown = container.classList.toggle('show');
+    button.textContent = isShown ? '隱藏點數明細' : '顯示點數明細';
+  }
+</script>
+
 </body>
 
 </html>

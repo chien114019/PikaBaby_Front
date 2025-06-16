@@ -1,6 +1,8 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
+
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -53,7 +55,9 @@ public class SalesOrder {
 	
 	public double getTotalAmount() {
 	    return details.stream()
-	        .mapToDouble(d -> d.getQuantity() * d.getUnitPrice())
+	        .mapToDouble(d -> d.getUnitPrice()
+	        .multiply(BigDecimal.valueOf(d.getQuantity()))
+	        .doubleValue())
 	        .sum();
 	}
     

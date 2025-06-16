@@ -33,6 +33,10 @@ public class Receivable {
     private LocalDate dueDate;
 
     private Timestamp createdAt;
+    
+    private LocalDate paidDate;
+    
+    private String note;
 
 	public Long getId() {
 		return id;
@@ -88,6 +92,22 @@ public class Receivable {
 
 	public void setCreatedAt(Timestamp createdAt) {
 		this.createdAt = createdAt;
+	}
+
+	public LocalDate getPaidDate() {
+		return paidDate;
+	}
+
+	public void setPaidDate(LocalDate paidDate) {
+		this.paidDate = paidDate;
+	}
+
+	public String getNote() {
+		return note;
+	}
+
+	public void setNote(String note) {
+		this.note = note;
 	}
     
     

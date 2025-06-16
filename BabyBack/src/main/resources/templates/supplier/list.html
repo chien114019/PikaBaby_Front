@@ -202,6 +202,10 @@
           <!-- 從此往下寫右側區域功能 -->
           <h2>供應商清單</h2>
           
+          <div class="text-end">
+          <a th:href="@{/suppliers/new}" class="btn btn-outline-primary me-2"><i class="bi bi-plus-circle me-1"></i>新增供應商</a>
+          </div>
+          
           <table class="table table-bordered">
             <thead class="text-center">
               <tr>
@@ -226,7 +230,6 @@
           </table>
         </div>
         <div class="text-end">
-        <a th:href="@{/suppliers/new}" class="btn btn-outline-primary me-2"><i class="bi bi-plus-circle me-1"></i>新增供應商</a>
           <a class="btn btn-outline-secondary" th:href="@{/}">
           <i class="bi bi-arrow-left-circle me-1"></i> 返回</a>
         </div>

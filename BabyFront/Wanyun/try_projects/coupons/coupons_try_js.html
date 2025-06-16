@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .coupon-tab-content {
+            transition: opacity 0.3s ease;
+        }
+
+        .btn.active {
+            background-color: #0d6efd;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="coupon-card">
+        <div class="coupon-h2">我的優惠券</div>
+
+        <!-- 分頁按鈕 -->
+        <div class="d-flex gap-2 mb-3">
+            <button class="btn btn-outline-primary btn-sm active" id="tab-available"
+                onclick="switchCouponTab('available')">可使用</button>
+            <button class="btn btn-outline-secondary btn-sm" id="tab-history"
+                onclick="switchCouponTab('history')">歷史明細</button>
+        </div>
+
+        <!-- 可使用優惠券 -->
+        <div id="coupon-available" class="coupon-tab-content">
+            <div class="dashed-box">
+                <div class="coupon-h2">使用規則</div>
+                <!-- 此處保留你的 SVG + 說明文字 -->
+                <p>✅ 註冊禮、生日禮、使用期限、使用限制等規則放這裡</p>
+            </div>
+        </div>
+
+        <!-- 歷史優惠券明細 -->
+        <div id="coupon-history" class="coupon-tab-content d-none">
+            <div class="dashed-box">
+                <div class="coupon-h2">使用紀錄</div>
+                <ul class="list-unstyled mt-2">
+                    <li>🎉 2025-06-01 使用「新會員註冊禮」折抵 NT$100</li>
+                    <li>🎂 2025-01-15 使用「生日禮」折抵 NT$200</li>
+                    <li>🛍 2024-12-10 使用「滿額優惠券」折抵 NT$300</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script>
+        function switchCouponTab(tab) {
+            const available = document.getElementById("coupon-available");
+            const history = document.getElementById("coupon-history");
+            const tabAvailableBtn = document.getElementById("tab-available");
+            const tabHistoryBtn = document.getElementById("tab-history");
+
+            if (tab === "available") {
+                available.classList.remove("d-none");
+                history.classList.add("d-none");
+                tabAvailableBtn.classList.add("active");
+                tabHistoryBtn.classList.remove("active");
+            } else {
+                available.classList.add("d-none");
+                history.classList.remove("d-none");
+                tabAvailableBtn.classList.remove("active");
+                tabHistoryBtn.classList.add("active");
+            }
+        }
+    </script>
+
+</body>
+
+</html>

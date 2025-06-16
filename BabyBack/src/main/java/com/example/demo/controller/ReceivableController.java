@@ -8,6 +8,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -46,5 +49,31 @@ public class ReceivableController {
         model.addAttribute("receivables", results);
         return "receivables/list"; 
     }
+    
+    @GetMapping("/edit/{id}")
+    public String editForm(@PathVariable Long id, Model model) {
+    	Receivable receivable = receivableRepository.findById(id).orElse(null);
+    	model.addAttribute("receivable", receivable);
+    	return "receivables/edit";
+    }
+    
+    @PostMapping("/edit")
+    public String update(@ModelAttribute Receivable receivableForm) {
+    	Receivable r = receivableRepository.findById(receivableForm.getId()).orElse(null);
+    	if(r != null) {
+    		r.setStatus(receivableForm.getStatus());
+    		r.setPaidDate(receivableForm.getPaidDate());
+    		r.setNote(receivableForm.getNote());
+    		receivableRepository.save(r);
+    	}
+    	return "redirect:/receivables/list";
+    }
+    
+    @GetMapping("/receivables/new")
+    public String newReceivableForm(Model model) {
+        model.addAttribute("receivable", new Receivable()); // ✅ 空表單預填用
+        return "receivables/edit";
+    }
+
 }
 

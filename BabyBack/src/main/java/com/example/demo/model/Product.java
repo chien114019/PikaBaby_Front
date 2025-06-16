@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +13,7 @@ public class Product {
     private Long id;
 
     private String name;
-    private Double price;
+    private BigDecimal price;
 //    private Long stock;
     
     //0611喬新增
@@ -51,10 +52,10 @@ public class Product {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Double getPrice() {
+	public BigDecimal getPrice() {
 		return price;
 	}
-	public void setPrice(Double price) {
+	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
 //	public Long getStock() {

@@ -205,9 +205,12 @@
 					</nav>
 					<!-- 從此往下寫右側區域功能 -->
 					<h2>出貨紀錄</h2>
-					<a class="btn btn-primary mb-3" th:href="@{/orders/new}">新增出貨單</a>
-					<a class="btn btn-outline-success mb-3" href="/orders/export">匯出
-						Excel</a>
+					
+					<div class="text-end">
+						<a class="btn btn-outline-primary mb-3" th:href="@{/orders/new}">新增出貨單</a>
+						<a class="btn btn-outline-success mb-3" href="/orders/export">匯出Excel</a>
+					</div>
+					
 					<table class="table table-bordered align-middle">
 						<thead class="text-center">
 							<tr>

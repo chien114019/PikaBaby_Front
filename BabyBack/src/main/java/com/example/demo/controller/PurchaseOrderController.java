@@ -71,7 +71,7 @@ public class PurchaseOrderController {
         model.addAttribute("orders", orderService.listAll());
         return "purchase/list";
     }
-    @GetMapping("/delete")
+    @GetMapping("/delete/{id}")
     public String delete(@PathVariable PurchaseOrder id) {
     	orderService.delete(id);
         return "redirect:/purchases";

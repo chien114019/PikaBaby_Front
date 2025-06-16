@@ -8,6 +8,7 @@ import com.example.demo.repository.SalesOrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -25,9 +26,10 @@ public class SalesOrderService {
         repository.save(order);
         
         // 計算總金額
-        double total = 0.0;
+        BigDecimal total = BigDecimal.ZERO;
         for (SalesOrderDetail d : order.getDetails()) {
-            total += d.getQuantity() * d.getUnitPrice();
+        	 BigDecimal subtotal = d.getUnitPrice().multiply(BigDecimal.valueOf(d.getQuantity()));
+        	 total = total.add(subtotal);
         }
         
         // 建立應收帳款資料

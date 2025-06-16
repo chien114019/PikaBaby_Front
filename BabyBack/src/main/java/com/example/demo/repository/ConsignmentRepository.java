@@ -10,6 +10,8 @@ import org.springframework.data.repository.query.Param;
 import com.example.demo.model.Consignment;
 import com.example.demo.model.ProductType;
 import com.example.demo.model.Customer;
+import com.example.demo.model.Withdrawal;
+
 
 public interface ConsignmentRepository extends JpaRepository<Consignment, Integer> {
 
@@ -33,6 +35,8 @@ public interface ConsignmentRepository extends JpaRepository<Consignment, Intege
 			WHERE c.customer.id = :custId AND review > 0 AND c.withdrawal IS NULL
 			""")
 	List<Consignment> getStorageByCust(@Param("custId") Long custId);
+	
+	List<Consignment> findAllByWithdrawal(Withdrawal withdrawal);
 
 //	============前台API=============
 	List<Consignment> findAllByCustomer(Customer customer);

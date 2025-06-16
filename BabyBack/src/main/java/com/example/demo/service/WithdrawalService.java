@@ -94,11 +94,22 @@ public class WithdrawalService {
 //	deleteWithdrawById
 	public Response deleteWithdrawById(String id) {
 		Response response = new Response();
-		try {
-			repository.deleteById(Integer.parseInt(id));
-			response.setSuccess(true);
-		} catch (Exception e) {
-			System.out.println(e);
+		Withdrawal withdraw = repository.findById(Integer.parseInt(id)).orElse(null);
+		if (withdraw != null) {
+			try {
+				List<Consignment> consigns = coRepository.findAllByWithdrawal(withdraw);
+				for (Consignment consign : consigns) {
+					consign.setWithdrawal(null);
+					coRepository.save(consign);
+				}
+				repository.deleteById(Integer.parseInt(id));
+				response.setSuccess(true);
+			} catch (Exception e) {
+				System.out.println(e);
+				response.setSuccess(false);
+			}
+			
+		} else {
 			response.setSuccess(false);
 		}
 		

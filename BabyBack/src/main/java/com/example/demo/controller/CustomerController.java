@@ -1,12 +1,20 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.Customer;
+import com.example.demo.model.Response;
 import com.example.demo.service.CustomerService;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin(origins = "*")
 @Controller
 @RequestMapping("/customers") // 所有路徑都會以 /customers 開頭
 public class CustomerController {
@@ -67,4 +75,29 @@ public class CustomerController {
         model.addAttribute("customer", customer);
         return "customer/detail";
     }
+    
+//    ============= 前台API =================
+//    根據id取得顧客資料
+    @GetMapping("/info/{id}")
+    public ResponseEntity<Map<String, Object>> getCustomerInfo(@PathVariable String id) {
+    	Customer cust = service.getById(Long.parseLong(id));
+    	Response response = new Response();
+    	
+    	Map<String, Object> map = new HashMap();
+    	
+    	if (cust == null) {
+    		response.setSuccess(false);
+    		response.setMesg("查無此顧客");
+			map.put("customer", new HashMap());
+			map.put("response", response);
+		}
+    	else {
+    		response.setSuccess(true);
+    		response.setMesg("查詢成功");
+    		map.put("customer", cust);
+			map.put("response", response);
+    	}
+    	return ResponseEntity.ok(map);
+    }
+
 }

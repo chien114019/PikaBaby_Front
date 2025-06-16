@@ -207,6 +207,10 @@
 
 					<!-- 會員清單頁面內容 -->
 					<h3 class="mb-3 fw-bold">會員詳細資料</h3>
+					
+					<div class="text-end">
+						<a href="#" class="btn btn-danger mb-3">刪除帳號</a>
+					</div>
 
 					<!-- 累積數據卡片列 -->
 					<div class="row mb-4 ">
@@ -241,7 +245,9 @@
 						<!-- 左半邊：基本資料 -->
 						<div class="col-12 col-md-6 mb-3 mb-md-0">
 							<div class="border-start border-4 border-warning ps-3 ">
+
 								<h5 class="fw-bold text-primary">基本資料</h5>
+								
 								<div class="mb-2">
 									<i class="bi bi-person-fill me-2"></i><span>姓名：王小明</span>
 								</div>
@@ -298,11 +304,10 @@
 					</div>
 
 					<!-- 功能連結 -->
+				
 					<div class="text-end">
-						<a href="#" class="btn btn-danger btn-sm">刪除帳號</a>
-					</div>
-
-
+						<a class="btn btn-secondary" th:href="@{/customers}"><i class="bi bi-x-circle me-1"></i>返回</a>
+					</div>>
 
 					<!-- 從此以上寫右側區域功能 -->
 				</div>

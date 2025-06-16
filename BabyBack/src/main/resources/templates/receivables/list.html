@@ -239,6 +239,8 @@
 									<th>狀態</th>
 									<th>到期日</th>
 									<th>建立時間</th>
+									<th>備註</th>>
+									<th>操作</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -248,8 +250,10 @@
 									
 									<td th:text="'$' + ${#numbers.formatDecimal(r.amount, 0, 'COMMA', 0, 'POINT')} + ' 元'">$3,600元</td>
 									<td th:text="${r.status}">未收款</td>
-									<td th:text="${r.dueDate}">到期日</td>
+									<td th:text="${r.paidDate}">到期日</td>
 									<td th:text="${#dates.format(r.createdAt, 'yyyy-MM-dd HH:mm')}">建立時間</td>
+									<td th:text="${r.note}">備註</td>>
+									<td><a class="btn btn-warning" th:href="@{'/receivables/edit/' + ${r.id}}">編輯</a></td>
 								</tr>
 							</tbody>
 						</table>

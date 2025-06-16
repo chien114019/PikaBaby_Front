@@ -202,6 +202,10 @@
           <!-- 從此往下寫右側區域功能 -->
           <h2>商品清單</h2>
           
+          <div class="text-end mb-3">
+          	<a class="btn btn-outline-primary mb-3" th:href="@{/products/new}"><i class="bi bi-plus-circle me-1"></i>新增商品</a>
+          </div>
+          
           <table class="table table-bordered">
             <thead class="text-center">
               <tr>
@@ -228,7 +232,6 @@
             </tbody>
           </table>
           <div class="text-end mb-3">
-          <a class="btn btn-outline-primary me-2" th:href="@{/products/new}"><i class="bi bi-plus-circle me-1"></i>新增商品</a>
             <a class="btn btn-outline-secondary" th:href="@{/}"><i class="bi bi-arrow-left-circle me-1"></i>返回</a>
           </div>
           <!-- 從此以上寫右側區域功能 -->

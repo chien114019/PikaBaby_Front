@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import java.math.BigDecimal;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -15,7 +17,7 @@ public class SalesOrderDetail {
     private Product product;
 
     private Long quantity;
-    private Double unitPrice;
+    private BigDecimal unitPrice;
     
     
 	public Long getId() {
@@ -42,14 +44,14 @@ public class SalesOrderDetail {
 	public void setQuantity(Long quantity) {
 		this.quantity = quantity;
 	}
-	public Double getUnitPrice() {
+	public BigDecimal getUnitPrice() {
 		return unitPrice;
 	}
-	public void setUnitPrice(Double unitPrice) {
-		this.unitPrice = unitPrice;
+	public void setUnitPrice(BigDecimal bigDecimal) {
+		this.unitPrice = bigDecimal;
 	}
-	 public double getSubTotal() {
-	        return quantity * unitPrice;
+	 public BigDecimal getSubTotal() {
+	        return unitPrice.multiply(BigDecimal.valueOf(quantity));
 	    }
 	 
    

@@ -7,3 +7,5 @@ import com.example.demo.model.Company;
 @Repository
 public interface CompanyRepository extends JpaRepository<Company, Long> {
 }
+
+

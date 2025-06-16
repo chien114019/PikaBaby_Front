@@ -2,6 +2,10 @@ package com.example.demo.model;
 
 import java.util.Date;
 
+import org.hibernate.annotations.ColumnDefault;
+
+import jakarta.persistence.Column;
+
 //import java.sql.Date;
 
 import jakarta.persistence.Entity;

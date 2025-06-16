@@ -1,22 +1,27 @@
 package com.example.demo.service;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.model.BankNo;
+import com.example.demo.model.Consignment;
 import com.example.demo.model.Customer;
 import com.example.demo.model.Response;
 import com.example.demo.model.Withdrawal;
-import com.example.demo.repository.CustomerRepository;
-import com.example.demo.repository.WithdrawalRepository;
+import com.example.demo.repository.*;
 
 @Service
 public class WithdrawalService {
+
+    private final SalesOrderDetailRepository salesOrderDetailRepository;
 
 	@Autowired
 	private WithdrawalRepository repository;
@@ -24,7 +29,17 @@ public class WithdrawalService {
 	@Autowired
 	private CustomerRepository cRepository;
 	
+	@Autowired
+	private ConsignmentRepository coRepository;
+	
+	@Autowired
+	private BankRepository bRepository;
+	
 	Customer cust;
+
+    WithdrawalService(SalesOrderDetailRepository salesOrderDetailRepository) {
+        this.salesOrderDetailRepository = salesOrderDetailRepository;
+    }
 
 //	===========前台API===========
 //	getWithdrawsByCustId
@@ -88,6 +103,64 @@ public class WithdrawalService {
 		}
 		
 		return response;	
+	}
+	
+//	getStorageByCust
+	public Map<String, Object> getStorageByCust(String custId) {
+		Map<String, Object> map = new HashMap();
+		List<Consignment> storages = coRepository.getStorageByCust(Long.parseLong(custId));
+		Integer total = 0;
+		List<String> idList = new ArrayList();
+
+		if(storages.size() > 0) {			
+			for (Consignment storage : storages) {
+				total += storage.getPrice();
+				idList.add(storage.getId().toString());
+			}			
+		}
+		
+		map.put("total", total.toString());
+		map.put("ids", idList);
+		return map;
+	}
+	
+//	createWithdraw
+	public Response createWithdraw(Map<String, Object> body) {
+		Response response = new Response();
+		String custId = body.get("custId").toString();
+		String amount = body.get("amount").toString();
+		String bankId = body.get("bankId").toString();
+		String bankAccount = body.get("bankAccount").toString();
+		
+		Customer cust = cRepository.findById(Long.parseLong(custId)).orElse(null);
+		BankNo bank = bRepository.findById(Integer.parseInt(bankId)).orElse(null);
+		
+		if(cust != null && bank != null) {
+			Withdrawal withdraw = new Withdrawal();
+			withdraw.setCustomer(cust);
+			withdraw.setAmount(Integer.parseInt(amount));
+			withdraw.setBankNo(bank);
+			withdraw.setBankAccount(bankAccount);
+			withdraw.setApplyDate(new Date());
+			withdraw.setWithdraw(0);
+			
+			Withdrawal newWithdraw = repository.save(withdraw);
+			
+			List<String> consignIds = (List<String>) body.get("ids");
+			for (String id : consignIds) {
+//				System.out.println(id.getClass());
+				Consignment target = coRepository.findById(Integer.parseInt(id)).orElse(null);
+				target.setWithdrawal(newWithdraw);
+				coRepository.save(target);
+			}
+			
+			response.setSuccess(true);
+		}
+		else {
+			response.setSuccess(false);
+			response.setMesg(cust == null? "查無此顧客":"" + bank == null? "查無此銀行":"");
+		}
+		return response;
 	}
 	
 //	===========後台API===========

@@ -2,6 +2,8 @@ package com.example.demo.model;
 
 import java.util.Date;
 
+import org.hibernate.annotations.ColumnDefault;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -35,7 +37,9 @@ public class Consignment {
     @Temporal(TemporalType.DATE)
 	private Date deliveryDate;
     
+	@ColumnDefault("0")
 	private Integer review;
+	
 	private Integer price;
 	private String produceYear;
 	

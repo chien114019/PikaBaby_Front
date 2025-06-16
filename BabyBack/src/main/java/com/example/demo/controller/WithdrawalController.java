@@ -16,27 +16,32 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.demo.model.BankNo;
 import com.example.demo.model.Consignment;
 import com.example.demo.model.Response;
 import com.example.demo.model.Withdrawal;
+import com.example.demo.repository.BankRepository;
 import com.example.demo.service.WithdrawalService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-
 
 @CrossOrigin(origins = "*")
 @Controller
 @RequestMapping("/secondhand")
 public class WithdrawalController {
-	
+
 	@Autowired
 	private WithdrawalService service;
-	
+
+	@Autowired
+	private BankRepository bRepository;
+
 //	================ 前台API =================
 	@GetMapping("/withdraw/cust/{custId}")
 	@ResponseBody
-	public List<Withdrawal> getWithdrawsByCustId(@PathVariable String custId, @RequestParam(required = false) String start, 
-			@RequestParam(required = false) String end, @RequestParam(required = false) String withdraw) {
+	public List<Withdrawal> getWithdrawsByCustId(@PathVariable String custId,
+			@RequestParam(required = false) String start, @RequestParam(required = false) String end,
+			@RequestParam(required = false) String withdraw) {
 
 		List<Withdrawal> withdrawals = new ArrayList<Withdrawal>();
 
@@ -50,7 +55,7 @@ public class WithdrawalController {
 					}
 				} else {
 					if (withdraw != null && withdraw != "") {
-						withdrawals = service.getAllByCustAndDateAfterAndWithdraw(custId, start, withdraw);					
+						withdrawals = service.getAllByCustAndDateAfterAndWithdraw(custId, start, withdraw);
 					} else {
 						withdrawals = service.getAllByCustAndDateAfter(custId, start);
 					}
@@ -73,10 +78,10 @@ public class WithdrawalController {
 		} catch (Exception e) {
 			System.out.println(e);
 		}
-		
+
 		return withdrawals;
 	}
-	
+
 	@DeleteMapping("/withdraw/delete/id/{id}")
 	@ResponseBody
 	public ResponseEntity<Response> cancelWithdrawApply(@PathVariable String id) {
@@ -86,7 +91,7 @@ public class WithdrawalController {
 		if (target != null) {
 			response = service.deleteWithdrawById(id);
 			if (response.getSuccess()) {
-				response.setMesg("取消成功");				
+				response.setMesg("取消成功");
 			} else {
 				response.setMesg("取消失敗");
 			}
@@ -95,48 +100,74 @@ public class WithdrawalController {
 			response.setMesg("查無紀錄，無法取消");
 			response.setSuccess(false);
 		}
-		
+
 		return ResponseEntity.ok(response);
 	}
-	
-	
+
+	@GetMapping("/withdraw/banks")
+	@ResponseBody
+	public List<BankNo> getBanks() {
+		return bRepository.findAll();
+	}
+
+	@GetMapping("/withdraw/total/custId/{custId}")
+	@ResponseBody
+	public ResponseEntity<Map<String, Object>> getTotal(@PathVariable String custId) {
+		Map<String, Object> storage = service.getStorageByCust(custId);
+		return ResponseEntity.ok(storage);
+	}
+
+	@PostMapping("/withdraw/create")
+	@ResponseBody
+	public ResponseEntity<Response> createWithdraw(@RequestBody Map<String, Object> body) {
+		/* { custId: "", amount: "", bankId: "", bankAccount: "", ids: [] } */ 
+		Response response = service.createWithdraw(body);
+		if (response.getSuccess()) {
+			response.setMesg("提款申請成功");
+		} else {
+			response.setMesg("提款申請成功");
+		}
+		return ResponseEntity.ok(response);
+	}
+
 //	================ 後台API =================
-	
+
 	@GetMapping("/withdrawals")
-	public String getWithdrawals(Model model, @RequestParam(required = false) String applySDate, 
-			@RequestParam(required = false) String applyEDate, @RequestParam(required = false) String withdrawSDate, 
-			@RequestParam(required = false) String withdrawEDate, @RequestParam(required = false) String withdraw, 
+	public String getWithdrawals(Model model, @RequestParam(required = false) String applySDate,
+			@RequestParam(required = false) String applyEDate, @RequestParam(required = false) String withdrawSDate,
+			@RequestParam(required = false) String withdrawEDate, @RequestParam(required = false) String withdraw,
 			@RequestParam(required = false) String custName) {
-		
+
 		List<Withdrawal> withdrawals = new ArrayList();
-		
+
 		try {
 			if (applySDate != null && applyEDate != null && applySDate != "" && applyEDate != "") {
 				if (withdrawSDate != null && withdrawEDate != null && withdrawSDate != "" && withdrawEDate != "") {
 					if (withdraw != null && withdraw != "") {
 						if (custName != null && custName != "") {
-							withdrawals = service.getAllByDatesAndWithdrawAndCustName(
-									applySDate, applyEDate, withdrawSDate, withdrawEDate, withdraw, custName);
+							withdrawals = service.getAllByDatesAndWithdrawAndCustName(applySDate, applyEDate,
+									withdrawSDate, withdrawEDate, withdraw, custName);
 						} else {
-							withdrawals = service.getAllByDatesAndWithdraw(applySDate, applyEDate, withdrawSDate, 
+							withdrawals = service.getAllByDatesAndWithdraw(applySDate, applyEDate, withdrawSDate,
 									withdrawEDate, withdraw);
 						}
 					} else {
 						if (custName != null && custName != "") {
-							withdrawals = service.getAllByDatesAndCustName(applySDate, applyEDate, withdrawSDate, 
+							withdrawals = service.getAllByDatesAndCustName(applySDate, applyEDate, withdrawSDate,
 									withdrawEDate, custName);
 						} else {
 							withdrawals = service.getAllByDates(applySDate, applyEDate, withdrawSDate, withdrawEDate);
-						}					
+						}
 					}
 				} else {
 					if (withdraw != null && withdraw != "") {
 						if (custName != null && custName != "") {
-							withdrawals = service.getAllByApplyDateAndWithdrawAndCustName(applySDate, applyEDate, withdraw, custName);
+							withdrawals = service.getAllByApplyDateAndWithdrawAndCustName(applySDate, applyEDate,
+									withdraw, custName);
 						} else {
 							withdrawals = service.getAllByApplyDateAndWithdraw(applySDate, applyEDate, withdraw);
 						}
-						
+
 					} else {
 						if (custName != null && custName != "") {
 							withdrawals = service.getAllByApplyDateAndCustName(applySDate, applyEDate, custName);
@@ -149,14 +180,17 @@ public class WithdrawalController {
 				if (withdrawSDate != null && withdrawEDate != null && withdrawSDate != "" && withdrawEDate != "") {
 					if (withdraw != null && withdraw != "") {
 						if (custName != null && custName != "") {
-							withdrawals = service.getAllByWithdrawDatesAndWithdrawAndCustName(withdrawSDate, withdrawEDate, withdraw, custName);
+							withdrawals = service.getAllByWithdrawDatesAndWithdrawAndCustName(withdrawSDate,
+									withdrawEDate, withdraw, custName);
 						} else {
-							withdrawals = service.getAllByWithdrawDatesAndWithdraw(withdrawSDate, withdrawEDate, withdraw);
+							withdrawals = service.getAllByWithdrawDatesAndWithdraw(withdrawSDate, withdrawEDate,
+									withdraw);
 						}
-						
+
 					} else {
 						if (custName != null && custName != "") {
-							withdrawals = service.getAllByWithdrawDatesAndCustName(withdrawSDate, withdrawEDate, custName);
+							withdrawals = service.getAllByWithdrawDatesAndCustName(withdrawSDate, withdrawEDate,
+									custName);
 						} else {
 							withdrawals = service.getAllByWithdrawDates(withdrawSDate, withdrawEDate);
 						}
@@ -180,8 +214,7 @@ public class WithdrawalController {
 		} catch (Exception e) {
 			System.out.println(e);
 		}
-		
-		
+
 		model.addAttribute("applySDate", applySDate);
 		model.addAttribute("applyEDate", applyEDate);
 		model.addAttribute("withdrawSDate", withdrawSDate);
@@ -191,18 +224,18 @@ public class WithdrawalController {
 		model.addAttribute("withdrawals", withdrawals);
 		return "secondhand/withdrawals";
 	}
-	
+
 	@GetMapping("/withdraw/{id}")
 	public ResponseEntity<Withdrawal> getWithdrawById(@PathVariable String id) {
 		return ResponseEntity.ok(service.getById(id));
 	}
-	
+
 	@PostMapping("/withdraw/edit/{id}")
 	public ResponseEntity<Response> editWithdraw(@RequestBody Map<String, String> body, @PathVariable String id) {
 		Response response;
 		String withdraw = body.get("withdraw");
 		String withdrawDate = body.get("withdrawDate");
-		
+
 		try {
 			response = service.editWithdraw(id, withdraw, withdrawDate);
 		} catch (Exception e) {
@@ -211,10 +244,8 @@ public class WithdrawalController {
 			response.setSuccess(false);
 			response.setMesg("日期錯誤");
 		}
-		
+
 		return ResponseEntity.ok(response);
 	}
-	
-	
 
 }

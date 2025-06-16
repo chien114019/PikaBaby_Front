@@ -30,6 +30,7 @@ public class PurchaseOrderController {
     @Autowired private SupplierService supplierService;
     @Autowired private ProductService productService;
     @Autowired private PurchaseOrderService orderService;
+    
 
     @GetMapping("/new")
     public String createForm(Model model) {
@@ -72,8 +73,8 @@ public class PurchaseOrderController {
         return "purchase/list";
     }
     @GetMapping("/delete/{id}")
-    public String delete(@PathVariable PurchaseOrder id) {
-    	orderService.delete(id);
+    public String delete(@PathVariable Long id) {
+    	  orderService.deleteById(id);
         return "redirect:/purchases";
     }
 }

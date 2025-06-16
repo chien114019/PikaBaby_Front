@@ -205,11 +205,7 @@
 					</nav>
 					<!-- 從此往下寫右側區域功能 -->
 					<h2>新增進貨單</h2>
-					
-					<div class="text-end mb-3">
-						<button type="button" class="btn btn-secondary" onclick="addRow()">新增商品</button>
-					</div>
-						
+
 					<form th:action="@{/purchases/save}" method="post">
 						<div class="row g-3">
 							<!-- 左欄 -->
@@ -244,6 +240,11 @@
 						<hr>
 
 						<h5>商品明細</h5>
+						
+						<div class="text-end mb-3">
+							<button type="button" class="btn btn-secondary" onclick="addRow()">新增商品</button>
+						</div>
+						
 						<table class="table table-bordered text-center align-middle" id="detailsTable">
 							<thead>
 								<tr>

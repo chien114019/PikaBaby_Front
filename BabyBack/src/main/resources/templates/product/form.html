@@ -203,11 +203,11 @@
 						</ol>
 					</nav>
 					<!-- 從此往下寫右側區域功能 -->
-					<div class="card w-75 mx-auto bg-white m-5 shadow rounded-4"
-						style="padding: 4rem;">
+					<div class="card w-75 mx-auto bg-white m-5 shadow rounded-4" style="padding: 4rem;">
 						<h2 class="text-center">新增商品</h2>
-						<form th:action="@{/products/save}" enctype="multipart/form-data"
-							th:object="${product}" method="post">
+						
+						<form th:action="@{/products/save}" enctype="multipart/form-data" th:object="${product}" method="post">
+						
 							<input type="hidden" th:field="*{id}" />
 
 							<div class="mb-3">
@@ -241,6 +241,17 @@
 								<label class="fw-bold">商品名稱</label> <input type="text"
 									th:field="*{name}" class="form-control mt-2" required />
 							</div>
+							
+							<div class="mb-3">
+							    <label class="fw-bold">供應商</label>
+							    <select name="supplierId" class="form-select mt-2" required>
+							        <option th:each="s : ${suppliers}" 
+							                th:value="${s.id}" 
+							                th:text="${s.name}">
+							        </option>
+							    </select>
+							</div>
+							
 							<div class="mb-3">
 								<label class="fw-bold">販售價</label> <input type="number"
 									th:field="*{price}" class="form-control mt-2" required />

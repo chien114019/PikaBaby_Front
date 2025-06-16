@@ -16,24 +16,27 @@
 		    <thead>
 		        <tr>
 		            <th>進貨單編號</th>
-		            <th>應付日期</th>
+		            <th>供應廠商</th>
+		            <th>應付截止日期</th>
+		            <th>付款日期</th>
 		            <th>金額</th>
 		            <th>狀態</th>
+		            <th>備註</th>
 		            <th>操作</th>
 		        </tr>
 		    </thead>
 		    <tbody>
 		        <tr th:each="item : ${payables}">
 		            <td th:text="${item.purchaseOrder != null ? item.purchaseOrder.id : '—'}">1</td>
-		            <td th:text="${#dates.format(item.payableDate, 'yyyy-MM-dd')}">2025-06-16</td>
+		            <td th:text="${item.supplier != null ? item.supplier.name : '無供應商'}">廠商</td>
+		            <td th:text="${#dates.format(item.purchaseOrder?.dueDate, 'yyyy-MM-dd') ?: '—'}">2025-06-16</td>
+		            <td th:text="${#dates.format(item.endDate, 'yyyy-MM-dd')}">2025-06-16</td>
 		            <td th:text="${item.amount != null ? item.amount : '0'}">10000</td>
 		            <td th:text="${item.status}">未付款</td>
+		            <td th:text="${item.note}">備註</td>
 		            <td>
-		                <a th:if="${item.status == '未付款'}"
-		                   th:href="@{'/payables/pay/' + ${item.id}}"
-		                   class="btn btn-sm btn-success">付款</a>
-		                <span th:if="${item.status == '已付款'}" class="text-muted">已付款</span>
-		            </td>
+		            	<a th:href="@{'/payables/edit/' + ${item.id}}" class="btn btn-sm btn-warning">編輯</a>
+		            </td> 
 		        </tr>
 		    </tbody>
 		</table>

@@ -19,6 +19,11 @@ public class Product {
     //0611喬新增
     @OneToMany(mappedBy = "product")
     private List<PurchaseOrderDetail> purchaseDetails;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "supplier_id")
+    private Supplier supplier;
+
 
     // 加上一個 getter：計算目前庫存
     @Transient
@@ -34,7 +39,7 @@ public class Product {
 
     
     //0614喬新增 圖片關聯欄位
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "product")
     private List<ProductImage> images = new ArrayList<>();
     
     
@@ -79,5 +84,20 @@ public class Product {
 	    public void setImages(List<ProductImage> images) {
 	        this.images = images;
 	    }
+		public List<PurchaseOrderDetail> getPurchaseDetails() {
+			return purchaseDetails;
+		}
+		
+		public void setPurchaseDetails(List<PurchaseOrderDetail> purchaseDetails) {
+			this.purchaseDetails = purchaseDetails;
+		}
+		
+		public Supplier getSupplier() {
+			return supplier;
+		}
+		
+		public void setSupplier(Supplier supplier) {
+			this.supplier = supplier;
+		}
 
 }

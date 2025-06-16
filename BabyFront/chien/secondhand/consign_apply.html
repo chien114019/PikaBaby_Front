@@ -250,22 +250,22 @@
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label class="form-label">會員姓名</label>
-                                <input type="text" class="form-control" readonly />
+                                <input id="custName" type="text" class="form-control" readonly />
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">聯絡電話</label>
-                                <input type="tel" class="form-control" readonly />
+                                <input id="custTel" type="tel" class="form-control" readonly />
                             </div>
                         </div>
 
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label class="form-label">電子信箱</label>
-                                <input type="email" class="form-control" readonly />
+                                <input id="custEmail" type="email" class="form-control" readonly />
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">會員住址</label>
-                                <input type="text" class="form-control" readonly />
+                                <input id="custAddress" type="text" class="form-control" readonly />
                             </div>
                         </div>
                         <!-- <div class="form-check">
@@ -296,16 +296,16 @@
                         <div class="form-check mb-3 flex-row py-3">
                             <div class="w-100 my-2">
                                 <input type="checkbox" class="form-check-input" id="AnnounceMsg" />
-                                <label class="form-check-label fs-6" for="AnnounceMsg">同意全權授予廠商進行託售商品及估價</label>
+                                <label class="form-check-label fs-6" for="AnnounceMsg">我同意全權授予廠商進行商品處理、轉售及估價</label>
                             </div>
-                            <div class="w-100 my-2">
+                            <!-- <div class="w-100 my-2">
                                 <input type="checkbox" class="form-check-input" id="subscribeMsg" checked />
                                 <label class="form-check-label fs-6" for="subscribeMsg">我想接收商品上架訊息及店鋪優惠訊息</label>
-                            </div>
+                            </div> -->
                         </div>
                     </section>
 
-                    <button type="submit" class="btn btn-primary">送出申請</button>
+                    <button id="sendBtn" type="submit" class="btn btn-primary">送出申請</button>
                 </form>
             </div>
         </section>
@@ -346,6 +346,25 @@
     <script src="../js/navbar.js"></script>
 
     <script>
+        let custId = 2
+        window.onload = function () {
+            let root = "http://localhost:8080/customers/info"
+            $.ajax({
+                method: "GET",
+                url: `${root}/${custId}`,
+                success: function (data) {
+                    console.log(data);
+                    $("#custName").val(data.customer.name);
+                    $("#custTel").val(data.customer.phone);
+                    $("#custEmail").val(data.customer.email);
+                    $("#custAddress").val(data.customer.address);
+                },
+                error: function (resp) {
+                    console.log(resp);
+                }
+            })
+        }
+
         // main js
         $("#minusBtn").on("click", function () {
             let qty = parseInt($("#quantity").val())
@@ -390,11 +409,11 @@
         let prevDate = "";
 
         $("#deliverDate").attr("min", dateStr)
-        $("#deliverDate").on("change", function() {
-            if($("#delivery").prop("value") == 1) {
+        $("#deliverDate").on("change", function () {
+            if ($("#delivery").prop("value") == 1) {
                 const selectedDate = new Date($(this).prop("value"));
                 const day = selectedDate.getDay(); // 0=Sunday, 1=Monday, ..., 6=Saturday
-        
+
                 if (day !== 2 && day !== 4) {
                     alert("到府取貨只能選星期二或星期四！");
                     $(this).prop("value", prevDate); // 清空輸入
@@ -406,12 +425,95 @@
         })
 
         // 商品敘述字數檢查
-        $("#condition").on("blur", function() {
-            if($(this).prop("value").length > 100) {
+        $("#condition").on("blur", function () {
+            if ($(this).prop("value").length > 100) {
                 alert("商品概述字數限100字以內");
             }
         })
 
+        $("#sendBtn").on("click", function (e) {
+            let root = "http://localhost:8080/secondhand/consign/create"
+            e.preventDefault()
+
+            let isValid = true;
+            $("input").each(function () {
+                if ($(this).val() == null || $(this).val() == "") {
+                    alert("請確實填寫所有欄位及上傳照片");
+                    isValid = false;
+                    return false;
+                }
+            });
+            // console.log($("input")[0]);
+
+            if (isValid == true) {
+                if (!$("#AnnounceMsg").prop("checked")) {
+                    alert("請同意將二手商品授權 PikaBaby 全權處理");
+                    return;
+                }
+
+                /*
+                * RequestBody:
+                * {
+                *   consign: {
+                * 		custId: "", // 從 session 取得
+                * 		pName: "",
+                * 		pType: "",
+                * 		quantity: "",
+                * 		pic1: "",
+                * 		pic2: "",
+                * 		pic3: ""
+                * 		year: "",
+                * 		condition: "",
+                * 		delivery: "",
+                * 		deliverDate: "",
+                *       produceYear: ""
+                *   },
+                *   photos: {
+                *       pic1, pic2, pic3
+                *   }
+                * }
+            */
+
+                const formData = new FormData();
+
+                const consign = {
+                    custId: custId,
+                    productName: $("#productName").val(),
+                    pType: $("#type").val(),
+                    quantity: $("#quantity").val(),
+                    produceYear: $("#year").val(),
+                    pCondition: $("#condition").val(),
+                    delivery: $("#delivery").val(),
+                    deliveryDate: $("#deliverDate").val()
+                };
+
+                formData.append("consign", new Blob([JSON.stringify(consign)], { type: "application/json" }))
+
+                const pic1 = document.getElementById("picInput_1").files[0];
+                const pic2 = document.getElementById("picInput_2").files[0];
+                const pic3 = document.getElementById("picInput_3").files[0];
+
+                formData.append("photos", pic1);
+                formData.append("photos", pic2);
+                formData.append("photos", pic3);
+
+                $.ajax({
+                    method: "POST",
+                    url: `${root}`,
+                    processData: false,  // <--- 不要轉換 data
+                    contentType: false,  // <--- 讓瀏覽器自動幫你加 multipart/form-data
+                    data: formData,
+                    success: function (resp) {
+                        alert(`商品 ${consign.productName} 託售申請成功`);
+                        window.location.reload();
+                    },
+                    error: function () {
+                        alert("系統錯誤，託售申請失敗");
+                    }
+                })
+            }
+
+        })
 
 
     </script>

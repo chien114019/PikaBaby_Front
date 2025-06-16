@@ -3,11 +3,15 @@ package com.example.demo.service;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.example.demo.dto.ConsignDTO;
 import com.example.demo.model.Consignment;
 import com.example.demo.model.Customer;
 import com.example.demo.model.ProductType;
@@ -185,6 +189,47 @@ public class ConsignmentService {
 			response.setSuccess(false);
 		}
 		
+		return response;
+	}
+	
+//	createConsignment
+	public Response createConsigment(ConsignDTO consign, MultipartFile[] files) {
+		Response response = new Response();
+		cust = cRepository.findById(Long.parseLong(consign.getCustId())).orElse(null);
+		pType = ptRepository.findById(Integer.parseInt(consign.getpType())).orElse(null);
+		
+		System.out.println(consign.getProductName());
+		if (cust != null && pType != null) {
+			try {
+				response.setSuccess(true);
+				Consignment newConsign = new Consignment();
+				newConsign.setCustomer(cust);
+				newConsign.setProductType(pType);
+				newConsign.setProductName(consign.getProductName());
+				newConsign.setQuantity(consign.getQuantity());
+				newConsign.setProduceYear(consign.getProduceYear());
+				newConsign.setpCondition(consign.getpCondition());
+				newConsign.setDelivery(consign.getDelivery());
+				newConsign.setDeliveryDate(consign.getDeliveryDate());
+				newConsign.setApplyDate(new Date());
+				
+				newConsign.setPic1(files[0].getBytes());
+				newConsign.setPic2(files[1].getBytes());
+				newConsign.setPic3(files[2].getBytes());
+				
+				repository.save(newConsign);
+
+				response.setSuccess(true);
+				
+			} catch (Exception e) {
+				response.setSuccess(false);
+				response.setMesg("託售申請儲存失敗");
+			}
+		}
+		else {
+			response.setSuccess(false);
+			response.setMesg((cust == null ? "查無此顧客" : "") + (pType == null ? " 查無此類別": ""));
+		}
 		return response;
 	}
 	

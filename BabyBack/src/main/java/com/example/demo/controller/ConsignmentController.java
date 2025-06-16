@@ -16,8 +16,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.example.demo.dto.ConsignDTO;
 import com.example.demo.model.Consignment;
 import com.example.demo.model.Response;
 import com.example.demo.model.Withdrawal;
@@ -35,6 +38,7 @@ public class ConsignmentController {
 
 //	--------------- 前台 API ----------------
 	
+//	根據 Customer id 取得託售申請紀錄
 	@GetMapping("/consign/cust/{custId}")
 	@ResponseBody
 	public List<Consignment> getConsignmentsByCustId(@PathVariable String custId, @RequestParam(required = false) String applyStart,
@@ -114,6 +118,7 @@ public class ConsignmentController {
 		
 	}
 	
+//	刪除指定 id 的託售紀錄
 	@DeleteMapping("/consign/delete/id/{id}")
 	@ResponseBody
 	public ResponseEntity<Response> cancelConsignmentApply(@PathVariable String id) {
@@ -136,10 +141,35 @@ public class ConsignmentController {
 		return ResponseEntity.ok(response);
 	}
 	
+//	根據顧客姓名、顧客電話找到指定顧克，新增託售記錄到該顧客
 	@PostMapping("/consign/create")
 	@ResponseBody
-	public ResponseEntity<Response> createConsignment() {
-		Response response = new Response();
+	/*
+	 * RequestBody:
+	 * {
+	 * 		custId: "", // 從 session 取得
+	 * 		pName: "",
+	 * 		pType: "",
+	 * 		quantity: "",
+	 * 		pic1: "",
+	 * 		pic2: "",
+	 * 		pic3: ""
+	 * 		year: "",
+	 * 		condition: "",
+	 * 		delivery: "",
+	 * 		deliverDate: ""
+	 * }
+	 */
+	public ResponseEntity<Response> createConsignment(@RequestPart("consign") ConsignDTO consign, 
+			@RequestPart("photos") MultipartFile[] photos) {
+		Response response;
+		response = service.createConsigment(consign, photos);
+		if (response.getSuccess()) {
+			response.setMesg("託售申請成功");
+		}
+		else {
+			response.setMesg("託售申請失敗");
+		}
 		return ResponseEntity.ok(response);
 	}
 	

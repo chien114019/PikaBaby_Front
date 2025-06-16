@@ -1,164 +1,186 @@
  /* memberInfo cards */
-  body {
+ /* body {
       font-family: Arial, sans-serif;
       background-color: #fffaf4;
       padding: 2rem;
-    }
-    .card {
+    } */
+ .card {
       background-color: #fceccc;
       padding: 1.5rem;
       margin-bottom: 2rem;
       border-radius: 12px;
       box-shadow: 0 0 5px rgba(0,0,0,0.05);
       position: relative;
-    }
-    .card h2 {
-      font-size: 1.1rem;
-      color: #5e3b1f;
-      margin-bottom: 1rem;
-    }
-    .card p {
-      margin: 0.2rem 0;
-      font-size: 0.95rem;
-    }
-    .membercards-btn {
-      background-color: #ddd;
-      border: none;
-      padding: 0.3rem 0.8rem;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 0.85rem;
-      margin-top: 1rem;
-    }
-    .btn-primary {
-      background-color: #e2b980;
-      color: #5e3b1f;
-    }
-    .btn-danger {
-      background-color: #ffb3a7;
-      color: #812e2e;
-    }
-    .credit-card {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 0.95rem;
-    }
-    .note {
-      font-size: 0.8rem;
-      color: #666;
-      margin-top: 0.5rem;
-    }
-    /* basicInfo */
-    .info-modal-title-custom {
-      color: #6b4c3b;
-      /* 咖啡色字體 */
-      font-size: 24px;
-      /* 字體大小 */
-      letter-spacing: 1px;
-      /* 字距 */
-      font-family: 'Noto Sans TC', sans-serif;
-      /* 或你喜歡的字體 */
-    }
-
-    .info-modal-content {
-      border-radius: 12px;
-      padding: 2rem;
-      background-color: #fffefe;
-    }
-
-    
-
-    .info-form-label {
-      color: #6b4c3b;
-      font-weight: 600;
-    }
-
-    .info-form-control,
-    .info-form-select {
-      background-color: #fffdf8;
-      color: #4a3b2c;
-      border-color: #d6c1a5;
-    }
-   
-
-    .info-form-control {
-      background-color: #fffdf8;
-      color: #4a3b2c;
-      border-color: #d6c1a5;
-    }
-
-    .info-form-control:disabled {
-      background-color: #f8f9fa;
-      opacity: 1;
-    }
-
-    .info-form-check-label {
-      margin-left: 0.5rem;
-       color: #5b4332;
-    }
-
-    .info-btn-save {
-      background-color: #b08558;
-      color: #fff;
-      border: none;
-    }
-
-    .info-btn-save:hover {
-      background-color: #926a3e;
-    }
-
-    .info-btn-cancel {
-      background-color: #e8e1da;
-      color: #4a3b2c;
-      border: none;
-    }
-
-    .info-btn-cancel:hover {
-      background-color: #d4c7be;
+      /* 移除圓角和陰影邊框 */
+   border: none;
+   border-radius: 12px;
+   width: 100%;
+  
     }
 
 
-    .info-text-muted {
-      color: #b08f6a !important;
-    }
 
-    /* address */
+ .card h2 {
+   font-size: 1.1rem;
+   color: #5e3b1f;
+   margin-bottom: 1rem;
+ }
 
-    .address-modal-content {
-      border-radius: 12px;
-      padding: 2rem;
-    }
-    .address-title {
-      color: #f4a557;
-      font-weight: bold;
-    }
-    .btn-address {
-      background-color: #f4a557;
-      border: none;
-    }
-    .btn-address:hover {
-      background-color: #111415;
-    }
+ .card p {
+   margin: 0.2rem 0;
+   font-size: 0.95rem;
+ }
 
-    /* creditcard */
+ .membercards-btn {
+   background-color: #ddd;
+   border: none;
+   padding: 0.3rem 0.8rem;
+   border-radius: 6px;
+   cursor: pointer;
+   font-size: 0.85rem;
+   margin-top: 1rem;
+ }
 
-     .credit-title {
-      color: #65482c;
-      font-weight: bold;
-    }
-      .credit-text {
-      color: #504030;
-      
-    }
-    .credit-modal-content {
-      border-radius: 12px;
-      padding: 2rem;
-    }
-    .credit-form-control::placeholder {
-      color: #ccc;
-    }
-    .credit-btn-disabled {
-      pointer-events: none;
-      opacity: 0.5;
-    }
+ .btn-primary {
+   background-color: #e2b980;
+   color: #5e3b1f;
+ }
+
+ .btn-danger {
+   background-color: #ffb3a7;
+   color: #812e2e;
+ }
+
+ .credit-card {
+   display: flex;
+   align-items: center;
+   gap: 0.5rem;
+   font-size: 0.95rem;
+ }
+
+ .note {
+   font-size: 0.8rem;
+   color: #666;
+   margin-top: 0.5rem;
+ }
+
+ /* basicInfo */
+ .info-modal-title-custom {
+   color: #6b4c3b;
+   /* 咖啡色字體 */
+   font-size: 24px;
+   /* 字體大小 */
+   letter-spacing: 1px;
+   /* 字距 */
+   font-family: 'Noto Sans TC', sans-serif;
+   /* 或你喜歡的字體 */
+ }
+
+ .info-modal-content {
+   border-radius: 12px;
+   padding: 2rem;
+   background-color: #fffefe;
+ }
+
+
+
+ .info-form-label {
+   color: #6b4c3b;
+   font-weight: 600;
+ }
+
+ .info-form-control,
+ .info-form-select {
+   background-color: #fffdf8;
+   color: #4a3b2c;
+   border-color: #d6c1a5;
+ }
+
+
+ .info-form-control {
+   background-color: #fffdf8;
+   color: #4a3b2c;
+   border-color: #d6c1a5;
+ }
+
+ .info-form-control:disabled {
+   background-color: #f8f9fa;
+   opacity: 1;
+ }
+
+ .info-form-check-label {
+   margin-left: 0.5rem;
+   color: #5b4332;
+ }
+
+ .info-btn-save {
+   background-color: #b08558;
+   color: #fff;
+   border: none;
+ }
+
+ .info-btn-save:hover {
+   background-color: #926a3e;
+ }
+
+ .info-btn-cancel {
+   background-color: #e8e1da;
+   color: #4a3b2c;
+   border: none;
+ }
+
+ .info-btn-cancel:hover {
+   background-color: #d4c7be;
+ }
+
+
+ .info-text-muted {
+   color: #b08f6a !important;
+ }
+
+ /* address */
+
+ .address-modal-content {
+   border-radius: 12px;
+   padding: 2rem;
+ }
+
+ .address-title {
+   color: #f4a557;
+   font-weight: bold;
+ }
+
+ .btn-address {
+   background-color: #f4a557;
+   border: none;
+ }
+
+ .btn-address:hover {
+   background-color: #111415;
+ }
+
+ /* creditcard */
+
+ .credit-title {
+   color: #65482c;
+   font-weight: bold;
+ }
+
+ .credit-text {
+   color: #504030;
+
+ }
+
+ .credit-modal-content {
+   border-radius: 12px;
+   padding: 2rem;
+ }
+
+ .credit-form-control::placeholder {
+   color: #ccc;
+ }
+
+ .credit-btn-disabled {
+   pointer-events: none;
+   opacity: 0.5;
+ }

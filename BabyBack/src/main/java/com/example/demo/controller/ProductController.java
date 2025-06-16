@@ -2,8 +2,10 @@ package com.example.demo.controller;
 
 import com.example.demo.model.Product;
 import com.example.demo.model.ProductImage;
+import com.example.demo.model.Supplier;
 import com.example.demo.repository.ProductImageRepository;
 import com.example.demo.service.ProductService;
+import com.example.demo.service.SupplierService;
 
 import java.io.IOException;
 import java.net.URLConnection;
@@ -14,12 +16,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/products")
 public class ProductController {
     @Autowired
     private ProductService service;
+    
+    @Autowired
+    private SupplierService supplierService;
 
     //0611喬新增
     @GetMapping
@@ -38,12 +44,19 @@ public class ProductController {
     @GetMapping("/new")
     public String createForm(Model model) {
         model.addAttribute("product", new Product());
+        model.addAttribute("suppliers", supplierService.listAll());
         return "product/form";
     }
 
     @PostMapping("/save")
     public String save(@ModelAttribute Product product,
+    				   @RequestParam("supplierId") Supplier supplierId,
                        @RequestParam("imageFiles") MultipartFile[] imageFiles) { //接收 <input type="file" name="images" multiple> 的所有上傳圖
+    	if(supplierId != null) {
+    		Supplier supplier=supplierService.getById(supplierId);
+    		product.setSupplier(supplierId);
+    	}
+    	
         try {
             service.save(product, imageFiles);
         } catch (IOException e) { //若使用者上傳壞圖或檔案轉換錯誤，會被捕捉並避免 crash
@@ -57,14 +70,20 @@ public class ProductController {
     public String editForm(@PathVariable Long id, Model model) {
     	 Product product = service.getById(id);
         model.addAttribute("product", product);
+        model.addAttribute("suppliers", supplierService.listAll());
         model.addAttribute("images", product.getImages()); // 讓 HTML 可顯示圖片
         return "product/form";
     }
 
     @GetMapping("/delete/{id}")
-    public String delete(@PathVariable Long id) {
-        service.delete(id);
-        return "redirect:/products";
+    public String delete(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+    	 try {
+    	        service.delete(id);
+    	        redirectAttributes.addFlashAttribute("message", "刪除成功");
+    	    } catch (IllegalStateException e) {
+    	        redirectAttributes.addFlashAttribute("error", e.getMessage());
+    	    }
+    	    return "redirect:/products";
     }
     
     

@@ -36,6 +36,7 @@ public class PurchaseOrderService {
         payable.setPayableDate(new Date());
         payable.setAmount(totalAmount);
         payable.setStatus("未付款");
+        payable.setSupplier(order.getSupplier());
 
         accountsPayableRepo.save(payable);
     }
@@ -47,5 +48,21 @@ public class PurchaseOrderService {
     public List<PurchaseOrder> listAll() {
         return purchaseOrderRepo.findAll();
     }
+    
+    public void deleteById(Long id) {
+        // 先找出進貨單
+        PurchaseOrder order = purchaseOrderRepo.findById(id).orElse(null);
+        if (order != null) {
+            // 刪除對應的應付帳款（若有）
+            AccountsPayable payable = accountsPayableRepo.findByPurchaseOrder(order);
+            if (payable != null) {
+                accountsPayableRepo.delete(payable);
+            }
+
+            // 刪除進貨單
+            purchaseOrderRepo.delete(order);
+        }
+    }
+
     
 }

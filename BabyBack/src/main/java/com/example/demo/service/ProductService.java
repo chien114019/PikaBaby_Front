@@ -20,6 +20,9 @@ public class ProductService {
     @Autowired
     private ProductRepository repository;
     
+    @Autowired
+    private SupplierService supplierService;
+   
     //0611喬新增
     @Autowired
     private PurchaseOrderDetailRepository purchaseDetailRepository; 
@@ -43,26 +46,36 @@ public class ProductService {
         repository.save(product);
     }
 
-    public void delete(Long id) {
-        repository.deleteById(id);
+    public  void delete(Long id) {
+    	Product product = repository.findById(id).orElseThrow();
+        // 若商品仍被用在進貨單明細中，就不允許刪除
+        if (product.getPurchaseDetails() != null && !product.getPurchaseDetails().isEmpty()) {
+            throw new IllegalStateException("該商品已被使用，無法刪除。");
     }
+        repository.delete(product);    
+    }
+    
     public List<Product> getAllProducts() {
         return repository.findAll();
     }
     public List<Product> searchByName(String keyword) {
         return repository.findByNameContainingIgnoreCase(keyword);
     }
- // 修正後：計算「進貨 - 出貨」作為目前庫存
+    
+    
     public List<Product> getAllProductsWithStock() {
-        List<Product> products = repository.findAll();
+        List<Product> products = repository.findAllWithSupplier(); // ← 重點！
+
         for (Product p : products) {
             Long totalIn = purchaseDetailRepository.sumQuantityByProductId(p.getId());
             Long totalOut = salesOrderDetailRepository.sumQuantityByProductId(p.getId());
             Long stock = (totalIn != null ? totalIn : 0L) - (totalOut != null ? totalOut : 0L);
             p.setStock(stock); // 將計算結果暫存進 product.stock 提供畫面顯示
         }
+
         return products;
     }
+
     public Long getCurrentStock(Long productId) {
         Long totalIn = purchaseDetailRepository.sumQuantityByProductId(productId);
         Long totalOut = salesOrderDetailRepository.sumQuantityByProductId(productId);
@@ -72,9 +85,14 @@ public class ProductService {
     //0614喬新增商品上團圖片邏輯
  // 新增商品 + 多張圖片
     public void save(Product product, MultipartFile[] imageFiles) throws IOException {
+    	// 【關鍵補上】若 product.supplier 僅包含 id，要補上完整的 supplier 實體
+        if (product.getSupplier() != null && product.getSupplier().getId() != null) {
+            product.setSupplier(supplierService.getById(product.getSupplier().getId()));
+        }
+        
         // 儲存商品基本資料
         Product savedProduct = repository.save(product);
-
+        
         List<ProductImage> imageList = new ArrayList<>();
 
         if (imageFiles != null) {

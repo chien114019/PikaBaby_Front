@@ -210,6 +210,7 @@
             <thead class="text-center">
               <tr>
                 <th>ID</th>
+                <th>廠商</th>
                 <th>名稱</th>
                 <th>價格</th>
                 <th>庫存</th>
@@ -219,6 +220,7 @@
             <tbody>
               <tr th:each="p : ${products}" >
                 <td th:text="${p.id}" class="text-center">1</td>
+                <td th:text="${p.supplier}">廠商</td>
                 <td th:text="${p.name}">Apple</td>
                 <!-- <td th:text="${p.price}">100</td> -->
                 <!-- 0, 'COMMA'：代表小數點前每三位加逗號;0, 'POINT'：代表保留0位小數，用小數點分隔;'$' + ...：前面手動加上 $ 符號 -->

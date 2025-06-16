@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>編輯應付帳款</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+<h2>編輯應付帳款</h2>
+
+<form method="post" th:action="@{/payables/edit}" th:object="${payable}">
+    <input type="hidden" th:field="*{id}"/>
+
+    <p><strong>進貨單編號：</strong><span th:text="*{purchaseOrder.id}"></span></p>
+    <p><strong>供應商：</strong><span th:text="*{purchaseOrder.supplier.name}"></span></p>
+    <p><strong>金額：</strong><span th:text="*{amount} + ' 元'"></span></p>
+
+    <label>狀態：</label>
+    <select th:field="*{status}">
+        <option value="未付款">未付款</option>
+        <option value="已付款">已付款</option>
+    </select><br/>
+
+    <label>實際付款日：</label>
+   <input type="date" th:field="*{endDate}" />
+
+    <label>備註：</label>
+    <input type="text" th:field="*{note}"/><br/>
+
+    <button type="submit">更新</button>
+</form>
+	<div class="text-end">
+		<a class="btn btn-secondary" a th:href="@{/payables/list}">返回</a>
+	</div>
+</body>
+</html>

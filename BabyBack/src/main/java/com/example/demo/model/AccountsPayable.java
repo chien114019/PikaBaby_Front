@@ -3,12 +3,16 @@ package com.example.demo.model;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
 @Entity
 public class AccountsPayable {
@@ -19,11 +23,24 @@ public class AccountsPayable {
     @ManyToOne
     @JoinColumn(name = "purchase_order_id", nullable = false)
     private PurchaseOrder purchaseOrder;
-
+    
+    @ManyToOne
+    @JoinColumn(name = "supplier_id")
+    private Supplier supplier;
+    
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Temporal(TemporalType.DATE)
     private Date payableDate;
+    
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Temporal(TemporalType.DATE)
+    private Date EndDate;
+    
     private BigDecimal amount;
 
     private String status = "未付款";
+    
+    private String note;
 
 	public Long getId() {
 		return id;
@@ -63,6 +80,30 @@ public class AccountsPayable {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public Supplier getSupplier() {
+		return supplier;
+	}
+
+	public void setSupplier(Supplier supplier) {
+		this.supplier = supplier;
+	}
+
+	public String getNote() {
+		return note;
+	}
+
+	public void setNote(String note) {
+		this.note = note;
+	}
+
+	public Date getEndDate() {
+		return EndDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		EndDate = endDate;
 	}
 
     

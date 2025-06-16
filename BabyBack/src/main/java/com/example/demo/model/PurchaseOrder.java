@@ -1,6 +1,8 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
+
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -8,7 +10,7 @@ import java.util.List;
 public class PurchaseOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @ManyToOne
     private Supplier supplier;
@@ -18,12 +20,22 @@ public class PurchaseOrder {
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PurchaseOrderDetail> details;
+    
+    @Transient
+    public Date getDueDate() {
+        if (orderDate == null) return null;
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(orderDate);
+        cal.add(Calendar.DATE, 30);
+        return cal.getTime();
+    }
 
-	public Integer getId() {
+
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

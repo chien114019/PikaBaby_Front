@@ -21,7 +21,7 @@ public class Consignment {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Integer id;
 	
     @Temporal(TemporalType.DATE)
 	private Date applyDate;
@@ -43,10 +43,10 @@ public class Consignment {
 	private Integer price;
 	private String produceYear;
 	
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	public Date getApplyDate() {

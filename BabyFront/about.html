@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About - PikaBaby</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="css/nav.css">
+    <style>
+        /* 統一內容寬度控制 */
+        .content-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Hero 區域樣式 */
+        .hero-section {
+            height: 60vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 300;
+            margin-bottom: 1rem;
+            letter-spacing: 0.2em;
+            color: black;
+        }
+
+        .hero-subtitle {
+            font-size: 1rem;
+            font-weight: 300;
+            letter-spacing: 0.1em;
+            color: black;
+        }
+
+        /* 圖片畫廊樣式 */
+        .image-gallery {
+            margin: 60px auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            aspect-ratio: 1;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* 品牌介紹區域 */
+        .about-content {
+            text-align: center;
+            margin: 80px auto;
+        }
+
+        .about-title {
+            font-size: 2rem;
+            font-weight: 300;
+            letter-spacing: 0.2em;
+            margin-bottom: 40px;
+
+        }
+
+        .about-line {
+            width: 40px;
+            height: 2px;
+            background-color: #333;
+            margin: 15px auto;
+        }
+
+        .about-text {
+            line-height: 2;
+            color: #666;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+
+        /* 信件區域樣式 */
+        .letter-section {
+            width: 100%;
+            background-color: #f9f5f2;
+            padding: 80px 0;
+        }
+
+        .letter-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 60px;
+            background-color: white;
+            letter-spacing: 1px;
+            line-height: 1.7;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .letter-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 40px;
+            text-align: center;
+            letter-spacing: 0.1em;
+        }
+
+        .letter-text {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .letter-text br {
+            margin-bottom: 10px;
+            content: "";
+            display: block;
+        }
+
+        .signature {
+            text-align: right;
+            margin-top: 60px;
+            padding-right: 40px;
+        }
+
+        .signature img {
+            max-width: 150px;
+            margin-top: 10px;
+        }
+
+        /* 響應式設計 */
+        @media (max-width: 768px) {
+            body {
+                padding-top: 100px;
+            }
+
+            .hero-section {
+                margin-top: -100px;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .image-gallery {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .letter-content {
+                padding: 30px;
+            }
+
+            .signature {
+                padding-right: 20px;
+            }
+
+            .footer-container {
+                flex-direction: column;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <!-- 置頂的促銷訊息 -->
+        <div class="top-banner">
+            每週五六日🔥新人代理寄賣免運
+            <font color="red">25 日 23 時 14 分 35 秒</font>
+            <div style="display: inline-block; background-color: black; color: white">
+                Ispian love you
+            </div>
+        </div>
+        <!-- LOGO -->
+        <div class="nav-logo-row">
+            <img src="../images/pikababy.png" alt="PikaBaby" class="nav-logo" />
+        </div>
+    </header>
+    <!-- 導覽列 -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <!-- <div class="collapse navbar-collapse justify-content-center d-flex" id="navbarSupportedContent"> -->
+            <div class="collapse navbar-collapse justify-content-around d-flex" id="navbarSupportedContent">
+                <!-- LOGO -->
+                <img src="../images/logo-pikababy.png" alt="PikaBaby"
+                    style="height: 80px; width: 0px; transition: 3s; display: none;" />
+                <ul class="navbar-nav ml-auto nav-links gap-5 me-0">
+                    <li class="nav-item d-flex align-items-center">
+                        <a href="../index.html">首頁</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown1" role="button" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            年齡區間(0-3M)
+                        </a>
+                        <div class="dropdown-menu p-3 justify-content-center" aria-labelledby="navbarDropdown1">
+                            <a class="dropdown-item" href="../Products/product.html?category=feeding">奶瓶/奶嘴</a>
+                            <a class="dropdown-item" href="../Products/product.html?category=clothes">圍兜/揹巾</a>
+                            <a class="dropdown-item" href="../Products/product.html?category=clothes">嬰兒服裝</a>
+                            <a class="dropdown-item" href="../Products/product.html?category=care">清潔用品</a>
+                            <a class="dropdown-item" href="../Products/product.html?category=stroller">嬰兒推車</a>
+                            <a class="dropdown-item" href="../Products/product.html?category=furniture">嬰兒床</a>
+                            <a class="dropdown-item" href="../Products/product.html?category=feeding">哺乳用品</a>
+                            <a class="dropdown-item" href="../Products/product.html?category=care">嬰兒用品</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown2" role="button" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            年齡區間(3-6M)
+                        </a>
+                        <div class="dropdown-menu p-3 justify-content-center" aria-labelledby="navbarDropdown2">
+                            <a class="dropdown-item" href="../Products/product.html?category=clothes">嬰兒服裝</a>
+                            <a class="dropdown-item" href="../Products/product.html?category=toys">玩具</a>
+                            <a class="dropdown-item" href="../Products/product.html?category=stroller">嬰兒推車</a>
+                            <a class="dropdown-item" href="../Products/product.html?category=furniture">嬰兒床</a>
+                            <a class="dropdown-item" href="../Products/product.html?category=car-seat">汽座</a>
+                            <a class="dropdown-item" href="../Products/product.html?category=care">嬰兒用品</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown3" role="button" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            年齡區間(6-12M)
+                        </a>
+                        <div class="dropdown-menu p-3 justify-content-center" aria-labelledby="navbarDropdown3">
+                            <a class="dropdown-item" href="../Products/product.html?category=walking">學步用品</a>
+                            <a class="dropdown-item" href="../Products/product.html?category=dining">餐具用品</a>
+                            <a class="dropdown-item" href="../Products/product.html?category=clothes">幼兒服裝</a>
+                            <a class="dropdown-item" href="../Products/product.html?category=toys">玩具</a>
+                            <a class="dropdown-item" href="../Products/product.html?category=stroller">嬰兒推車</a>
+                            <a class="dropdown-item" href="../Products/product.html?category=car-seat">汽座</a>
+                            <a class="dropdown-item" href="../Products/product.html?category=care">嬰兒用品</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown4" role="button" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            年齡區間(2-3y)
+                        </a>
+                        <div class="dropdown-menu p-3 justify-content-center" aria-labelledby="navbarDropdown4">
+                            <a class="dropdown-item" href="../Products/product.html?category=education">幼教用品</a>
+                            <a class="dropdown-item" href="../Products/product.html?category=clothes">兒童服裝</a>
+                            <a class="dropdown-item" href="../Products/product.html?category=toys">玩具</a>
+                            <a class="dropdown-item" href="../Products/product.html?category=car-seat">汽座</a>
+                            <a class="dropdown-item" href="../Products/product.html?category=stroller">兒童推車</a>
+                            <a class="dropdown-item" href="../Products/product.html?category=furniture">餐椅</a>
+                            <a class="dropdown-item" href="../Products/product.html?category=appliance">電器用品</a>
+                            <a class="dropdown-item" href="../Products/product.html?category=care">嬰兒用品</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown5" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            二手託售
+                        </a>
+                        <div class="dropdown-menu p-3 justify-content-center gap-5" aria-labelledby="navbarDropdown5">
+                            <a class="dropdown-item" href="../Secondhand/consign.html">託售服務</a>
+                            <a class="dropdown-item" href="../Secondhand/consign_apply.html">二手託售申請</a>
+                            <a class="dropdown-item" href="../Secondhand/consign_search.html">託售紀錄查詢</a>
+                            <a class="dropdown-item" href="../Secondhand/withdraw_apply.html">託售提款申請</a>
+                            <a class="dropdown-item" href="../Secondhand/withdraw_search.html">提款紀錄查詢</a>
+                        </div>
+                    </li>
+                    <li class="nav-item d-flex align-items-center">
+                        <a href="../about.html">關於我們</a>
+                    </li>
+                    <ul class="d-flex gap-3">
+                        <!-- <li class="nav-item d-flex align-items-center">
+                            <a class="fs-5" href="../Shopping/shoppingcart.html">🛒</a>
+                        </li> -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdown5" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                🛒
+                            </a>
+                            <div class="dropdown-menu p-3 justify-content-center gap-5"
+                                aria-labelledby="navbarDropdown5">
+                                <a class="dropdown-item" href="../Shopping/shoppingcart.html">購物車</a>
+                                <a class="dropdown-item" href="../Shopping/order.html">訂單查詢</a>
+                            </div>
+                        </li>
+                        <li class="nav-item d-flex align-items-center">
+                            <a class="fs-5" href="../Member/login.html">👤</a>
+                        </li>
+                    </ul>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero 區域 -->
+    <section class="hero-section">
+        <img src="../images/about-hero.jpg" alt="Hero Image" class="hero-image">
+        <div class="hero-overlay">
+            <h1 class="hero-title">PikaBaby</h1>
+            <p class="hero-subtitle">SINCE 2025</p>
+        </div>
+    </section>
+
+    <div class="content-container">
+        <!-- 圖片畫廊 -->
+        <div class="image-gallery">
+            <div class="gallery-item">
+                <img src="../images/about1.jpg" alt="About Image 1">
+            </div>
+            <div class="gallery-item">
+                <img src="../images/about2.jpg" alt="About Image 2">
+            </div>
+            <div class="gallery-item">
+                <img src="../images/about3.jpg" alt="About Image 3">
+            </div>
+        </div>
+
+        <!-- 品牌介紹 -->
+        <div class="about-content">
+            <h2 class="about-title" style=" border-bottom: 2px solid #f0ebe5;">品牌簡介</h2>
+            <div class="about-text">
+                孩子成長每一階段，父母都想給予最好的
+                <br><br>
+                作為大人的我們，也深刻知道
+                <br><br>好用、安全、溫馨陪伴的育兒用品<br><br>不一定非得昂貴或全新才值得信賴
+                <br><br>
+                Pika Baby 皮卡兒 就是這樣誕生的
+            </div>
+        </div>
+        <div class="about-content">
+            <h2 class="about-title" style=" border-bottom: 2px solid #f0ebe5;">特色經營</h2>
+            <div class="about-text">
+                少子化的來臨，讓每位家庭在開銷上，總是如履薄冰<br><br>而物價飛漲的現今社會，如何有效率地分配所得<br><br>並為家中孩子們添購用品，更是新手爸媽需要面對的課題<br><br>我們除了提供全新的用品，讓家長們可以選擇外<br><br>也有獨特的二手賣場，讓家庭的資源能夠彼此流通，不過度消耗<br><br>確保獲得品質受到保障的相關用品，讓育兒這條路能夠更加順暢
+
+
+            </div>
+        </div>
+    </div>
+
+    <!-- 信件區域 -->
+    <section class="letter-section">
+        <div class="content-container">
+            <div class="letter-content">
+                <h2 class="letter-title">給親愛的您</h2>
+                <div class="letter-text">
+                    這裡是一個讓爸媽安心挑選用品的地方 <br>
+                    不論是精選新品 <br>
+                    還是由其他家庭溫暖傳承而來的二手寶貝 <br>
+                    每一樣，都經過我們細心挑選與把關 <br>
+                    只為了讓你買得安心、用得放心 <br>
+                    <br>這不只是一個購物網站 <br>
+                    更是一個「分享與陪伴」的空間 <br>
+                    讓用過的愛，能夠延續 <br>
+                    讓育兒的路上，有人懂你，也有人陪你 <br>
+                    <br>親愛的爸媽 <br>
+                    歡迎你來到 Pika Baby <br>
+                    這裡有我們一點一滴為孩子準備的溫柔心意 <br>
+                    也有為你們生活著想的體貼設計 <br>
+                    一起，讓育兒變得更輕鬆、更有愛 :) <br>
+                </div>
+                <div class="signature">
+                    董事長
+                    <img src="../images/boss.png">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 頁尾 -->
+    <footer>
+        <div class="footer-container align-items-center">
+            <div class="footer-section" style="flex: 0;">
+                <img src="../images/logo-pikababy.png" alt="PikaBaby" class="footer-logo" />
+            </div>
+            <div class="footer-section w-100">
+                <p class="footer-title">PikaBaby</p>
+                <div class="footer-line"></div>
+                <p class="mb-1">服務我們</p>
+                <p class="mb-1">品牌特色</p>
+            </div>
+            <div class="footer-section w-100">
+                <h3>品牌服務</h3>
+                <div class="footer-line"></div>
+                <p class="mb-1">Baby Store</p>
+                <p class="mb-1">二手商城</p>
+            </div>
+            <div class="footer-section w-100">
+                <h3>聯絡我們</h3>
+                <div class="footer-line"></div>
+                <p class="mb-1">聯絡電話：(04) 2326-5860</p>
+                <p class="mb-1">聯絡地址：台中市南屯區公益路二段51號18樓</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 奶瓶 -->
+    <div class="floating-bottle"></div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/navbar.js"></script>
+
+    <script>
+        // 篩選功能
+        function filterProducts(category) {
+            // 更新 URL 參數
+            const url = new URL(window.location.href);
+            url.searchParams.set('category', category);
+            window.history.pushState({}, '', url);
+
+            // 如果當前頁面不是商品頁面，則跳轉到商品頁面
+            if (!window.location.pathname.includes('product.html')) {
+                window.location.href = `product.html?category=${category}`;
+            }
+        }
+
+        // 頁面載入時檢查 URL 參數
+        document.addEventListener('DOMContentLoaded', function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const categoryParam = urlParams.get('category');
+            if (categoryParam && window.location.pathname.includes('product.html')) {
+                filterProducts(categoryParam);
+            }
+        });
+    </script>
+</body>
+
+</html>

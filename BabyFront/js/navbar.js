@@ -29,12 +29,12 @@ document.addEventListener("scroll", function () {
     if (window.scrollY > $("header").height() - 10) {
         console.log(`${$("header").height()}`)
         $(".navbar").css("height", "fit-content");
-        $(".navbar img").css("display", "inline-block");
-        $(".navbar img").css("width", "90px");
+        $(".navbar img#logo").css("display", "inline-block");
+        $(".navbar img#logo").css("width", "90px");
     }
     else {
         $(".navbar").css("height", "60px");
-        $(".navbar img").css("display", "none");
-        $(".navbar img").css("width", "0px");
+        $(".navbar img#logo").css("display", "none");
+        $(".navbar img#logo").css("width", "0px");
     }
 });

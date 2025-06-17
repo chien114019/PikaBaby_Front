@@ -610,17 +610,18 @@
         <img src="../images/logo-pikababy.png" alt="PikaBaby"
             style="height: 80px; width: 0px; transition: 3s; display: none;" />
     </header>
+
     <!-- 導覽列 -->
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid">
             <!-- <div class="collapse navbar-collapse justify-content-center d-flex" id="navbarSupportedContent"> -->
             <div class="collapse navbar-collapse justify-content-around d-flex" id="navbarSupportedContent">
                 <!-- LOGO -->
-                <img src="../images/logo-pikababy.png" alt="PikaBaby"
+                <img id="logo" src="../images/logo-pikababy.png" alt="PikaBaby"
                     style="height: 80px; width: 0px; transition: 3s; display: none;" />
                 <ul class="navbar-nav ml-auto nav-links gap-5 me-0">
-                    <li class="nav-item d-flex align-items-center">
-                        <a href="../index.html">首頁</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="../index.html">首頁</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" id="navbarDropdown1" role="button" data-toggle="dropdown"
@@ -696,33 +697,31 @@
                             <a class="dropdown-item" href="../Secondhand/withdraw_search.html">提款紀錄查詢</a>
                         </div>
                     </li>
-                    <li class="nav-item d-flex align-items-center">
-                        <a href="../about.html">關於我們</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="../about.html">關於我們</a>
                     </li>
                     <ul class="d-flex gap-3">
-                        <!-- <li class="nav-item d-flex align-items-center">
-                            <a class="fs-5" href="../Shopping/shoppingcart.html">🛒</a>
-                        </li> -->
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" id="navbarDropdown5" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                🛒
+                                <img src="../images/cart.png" style="width: 30px;">
                             </a>
                             <div class="dropdown-menu p-3 justify-content-center gap-5"
                                 aria-labelledby="navbarDropdown5">
-                                <a class="dropdown-item" href="../Shopping/shoppingcart.html">購物車</a>
-                                <a class="dropdown-item" href="../Shopping/order.html">訂單查詢</a>
+                                <a class="dropdown-item" href="shoppingcart.html">購物車</a>
+                                <a class="dropdown-item" href="#">訂單查詢</a>
                             </div>
                         </li>
-                        <li class="nav-item d-flex align-items-center">
-                            <a class="fs-5" href="../Member/login.html">👤</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="../Member/login.html">
+                                <img src="../images/user.png" style="width: 30px;">
+                            </a>
                         </li>
                     </ul>
                 </ul>
             </div>
         </div>
     </nav>
-
     <!-- 身份選擇介面 -->
     <main style="margin-top: 24px;">
         <div class="identity-selection" id="identitySelection">

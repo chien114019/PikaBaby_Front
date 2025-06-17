@@ -1,100 +1,13 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>商品詳情 - PikaBaby</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/nav.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-        }
-
-        /* 導航欄樣式 */
-        .nav-bar {
-            display: flex;
-            padding: 15px 30px;
-            background-color: #fff;
-            border-bottom: 1px solid #eee;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 20px;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: #333;
-        }
-
-        /* 熱銷推薦下拉選單 */
-        .recommendation-dropdown {
-            position: relative;
-            display: inline-block;
-        }
-
-        .dropdown-button {
-            padding: 8px 15px;
-            background: #fff;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .dropdown-button:hover {
-            background-color: #f5f5f5;
-        }
-
-        .dropdown-button::after {
-            content: "▼";
-            font-size: 12px;
-        }
-
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            right: 0;
-            background-color: #fff;
-            min-width: 160px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            border-radius: 4px;
-            z-index: 1;
-        }
-
-        .recommendation-dropdown:hover .dropdown-content {
-            display: block;
-        }
-
-        .dropdown-content a {
-            color: #333;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-            transition: background-color 0.3s;
-        }
-
-        .dropdown-content a:hover {
-            background-color: #f5f5f5;
-        }
-
-        .dropdown-content a.active {
-            background-color: #FFE135;
-            color: #000;
-        }
-
         /* 主要內容區域 */
         .product-container {
             max-width: 1200px;
@@ -228,48 +141,203 @@
         }
     </style>
 </head>
+
 <body>
-    <!-- 導航欄 -->
-    <div class="nav-bar">
-        <div class="nav-links">
-            <a href="product.html">商品區/ </a>
-            <a href="#">玩具用品/</a>
-            <a href="#">商品頁</a>
+    <header>
+        <!-- 置頂的促銷訊息 -->
+        <div class="top-banner">
+            每週五六日🔥新人代理寄賣免運
+            <font color="red">25 日 23 時 14 分 35 秒</font>
+            <div style="display: inline-block; background-color: black; color: white">
+                Ispian love you
+            </div>
         </div>
-    </div>
+        <!-- LOGO -->
+        <div class="nav-logo-row">
+            <img src="../images/pikababy.png" alt="PikaBaby" class="nav-logo" />
+        </div>
+    </header>
 
-    <!-- 主要內容 -->
-    <div class="product-container">
-        <!-- 左側商品圖片 -->
-        <div class="product-image-section">
-            <img src="../images/product5.png" alt="商品圖片" class="product-image">
+    <!-- 導覽列 -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <!-- <div class="collapse navbar-collapse justify-content-center d-flex" id="navbarSupportedContent"> -->
+            <div class="collapse navbar-collapse justify-content-around d-flex" id="navbarSupportedContent">
+                <!-- LOGO -->
+                <img id="logo" src="../images/logo-pikababy.png" alt="PikaBaby"
+                    style="height: 80px; width: 0px; transition: 3s; display: none;" />
+                <ul class="navbar-nav ml-auto nav-links gap-5 me-0">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="../index.html">首頁</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown1" role="button" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            年齡區間(0-3M)
+                        </a>
+                        <div class="dropdown-menu p-3 justify-content-center" aria-labelledby="navbarDropdown1">
+                            <a class="dropdown-item" href="product.html?category=feeding">奶瓶/奶嘴</a>
+                            <a class="dropdown-item" href="product.html?category=clothes">圍兜/揹巾</a>
+                            <a class="dropdown-item" href="product.html?category=clothes">嬰兒服裝</a>
+                            <a class="dropdown-item" href="product.html?category=care">清潔用品</a>
+                            <a class="dropdown-item" href="product.html?category=stroller">嬰兒推車</a>
+                            <a class="dropdown-item" href="product.html?category=furniture">嬰兒床</a>
+                            <a class="dropdown-item" href="product.html?category=feeding">哺乳用品</a>
+                            <a class="dropdown-item" href="product.html?category=care">嬰兒用品</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown2" role="button" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            年齡區間(3-6M)
+                        </a>
+                        <div class="dropdown-menu p-3 justify-content-center" aria-labelledby="navbarDropdown2">
+                            <a class="dropdown-item" href="product.html?category=clothes">嬰兒服裝</a>
+                            <a class="dropdown-item" href="product.html?category=toys">玩具</a>
+                            <a class="dropdown-item" href="product.html?category=stroller">嬰兒推車</a>
+                            <a class="dropdown-item" href="product.html?category=furniture">嬰兒床</a>
+                            <a class="dropdown-item" href="product.html?category=car-seat">汽座</a>
+                            <a class="dropdown-item" href="product.html?category=care">嬰兒用品</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown3" role="button" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            年齡區間(6-12M)
+                        </a>
+                        <div class="dropdown-menu p-3 justify-content-center" aria-labelledby="navbarDropdown3">
+                            <a class="dropdown-item" href="product.html?category=walking">學步用品</a>
+                            <a class="dropdown-item" href="product.html?category=dining">餐具用品</a>
+                            <a class="dropdown-item" href="product.html?category=clothes">幼兒服裝</a>
+                            <a class="dropdown-item" href="product.html?category=toys">玩具</a>
+                            <a class="dropdown-item" href="product.html?category=stroller">嬰兒推車</a>
+                            <a class="dropdown-item" href="product.html?category=car-seat">汽座</a>
+                            <a class="dropdown-item" href="product.html?category=care">嬰兒用品</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown4" role="button" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            年齡區間(2-3y)
+                        </a>
+                        <div class="dropdown-menu p-3 justify-content-center" aria-labelledby="navbarDropdown4">
+                            <a class="dropdown-item" href="product.html?category=education">幼教用品</a>
+                            <a class="dropdown-item" href="product.html?category=clothes">兒童服裝</a>
+                            <a class="dropdown-item" href="product.html?category=toys">玩具</a>
+                            <a class="dropdown-item" href="product.html?category=car-seat">汽座</a>
+                            <a class="dropdown-item" href="product.html?category=stroller">兒童推車</a>
+                            <a class="dropdown-item" href="product.html?category=furniture">餐椅</a>
+                            <a class="dropdown-item" href="product.html?category=appliance">電器用品</a>
+                            <a class="dropdown-item" href="product.html?category=care">嬰兒用品</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown5" role="button" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            二手託售
+                        </a>
+                        <div class="dropdown-menu p-3 justify-content-center gap-5" aria-labelledby="navbarDropdown5">
+                            <a class="dropdown-item" href="../Secondhand/consign.html">託售服務</a>
+                            <a class="dropdown-item" href="../Secondhand/consign_apply.html">二手託售申請</a>
+                            <a class="dropdown-item" href="../Secondhand/consign_search.html">託售紀錄查詢</a>
+                            <a class="dropdown-item" href="../Secondhand/withdraw_apply.html">託售提款申請</a>
+                            <a class="dropdown-item" href="../Secondhand/withdraw_search.html">提款紀錄查詢</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="../about.html">關於我們</a>
+                    </li>
+                    <ul class="d-flex gap-3">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdown5" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img src="../images/cart.png" style="width: 30px;">
+                            </a>
+                            <div class="dropdown-menu p-3 justify-content-center gap-5"
+                                aria-labelledby="navbarDropdown5">
+                                <a class="dropdown-item" href="../Shopping/shoppingcart.html">購物車</a>
+                                <a class="dropdown-item" href="../Shopping/order.html">訂單查詢</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="../Member/login.html">
+                                <img src="../images/user.png" style="width: 30px;">
+                            </a>
+                        </li>
+                    </ul>
+                </ul>
+            </div>
         </div>
+    </nav>
 
-        <!-- 右側商品信息 -->
-        <div class="product-info">
-            <h1 class="product-title">商品名稱：<span style="font-size: 26px;">Chicco 彩虹投射夜燈</span></h1>
-            <div class="product-details">
-                <p class="age-suggestion">建議年齡：1-3歲</p>
+    <main>
+        <!-- 主要內容 -->
+        <div class="product-container">
+            <!-- 左側商品圖片 -->
+            <div class="product-image-section">
+                <img src="../images/product5.png" alt="商品圖片" class="product-image">
             </div>
-            <div class="price-section">
-                <div class="current-price">NT$ 780</div>
+
+            <!-- 右側商品信息 -->
+            <div class="product-info">
+                <h1 class="product-title">商品名稱：<span style="font-size: 26px;">Chicco 彩虹投射夜燈</span></h1>
+                <div class="product-details">
+                    <p class="age-suggestion">建議年齡：1-3歲</p>
+                </div>
+                <div class="price-section">
+                    <div class="current-price">NT$ 780</div>
+                </div>
+                <div class="product-description">
+                    ●可愛小狐狸造型，輕鬆融入任何風格的兒童房，增添童趣與溫馨感<br>
+                    ●柔和彩虹光線投射，營造舒適睡眠氛圍，讓寶寶在星光點點中甜美入夢<br>
+                    ●內建多首舒緩旋律與自然音效，幫助寶寶放鬆心情，享受寧靜的夜晚<br>
+                </div>
+                <div style="margin: 20px 0; display: flex; align-items: center; gap: 12px;">
+                    <span>數量：</span>
+                    <button type="button" onclick="changeQuantity(-1)" style="width:32px;height:32px;">-</button>
+                    <span id="quantity-display" style="min-width:32px;display:inline-block;text-align:center;">1</span>
+                    <button type="button" onclick="changeQuantity(1)" style="width:32px;height:32px;">+</button>
+                </div>
+                <!-- 加入購物車按鈕 -->
+                <button class="add-to-cart"
+                    onclick="addToCart('Chicco 彩虹投射夜燈', quantity * 780, '../static/images/product5.png')">加入購物車</button>
+                <button onclick="window.location.href='product.html' " class="btn btn-warning btn-lg"
+                    style="width: 100%; margin-top: 10px;">繼續購物</button>
             </div>
-            <div class="product-description">
-                ●可愛小狐狸造型，輕鬆融入任何風格的兒童房，增添童趣與溫馨感<br>
-                ●柔和彩虹光線投射，營造舒適睡眠氛圍，讓寶寶在星光點點中甜美入夢<br>
-                ●內建多首舒緩旋律與自然音效，幫助寶寶放鬆心情，享受寧靜的夜晚<br>
-            </div>
-            <div style="margin: 20px 0; display: flex; align-items: center; gap: 12px;">
-                <span>數量：</span>
-                <button type="button" onclick="changeQuantity(-1)" style="width:32px;height:32px;">-</button>
-                <span id="quantity-display" style="min-width:32px;display:inline-block;text-align:center;">1</span>
-                <button type="button" onclick="changeQuantity(1)" style="width:32px;height:32px;">+</button>
-            </div>
-            <!-- 加入購物車按鈕 -->
-            <button class="add-to-cart" onclick="addToCart('Chicco 彩虹投射夜燈', quantity * 780, '../static/images/product5.png')">加入購物車</button>
-            <button onclick="window.location.href='product.html' " class="btn btn-warning btn-lg" style="width: 100%; margin-top: 10px;">繼續購物</button>
         </div>
-    </div>
+    </main>
+
+    <!-- 頁尾 -->
+    <footer>
+        <div class="footer-container align-items-center">
+            <div class="footer-section" style="flex: 0;">
+                <img src="../images/logo-pikababy.png" alt="PikaBaby" class="footer-logo" />
+            </div>
+            <div class="footer-section w-100">
+                <p class="footer-title">PikaBaby</p>
+                <div class="footer-line"></div>
+                <p class="mb-1">服務我們</p>
+                <p class="mb-1">品牌特色</p>
+            </div>
+            <div class="footer-section w-100">
+                <h3>品牌服務</h3>
+                <div class="footer-line"></div>
+                <p class="mb-1">Baby Store</p>
+                <p class="mb-1">二手商城</p>
+            </div>
+            <div class="footer-section w-100">
+                <h3>聯絡我們</h3>
+                <div class="footer-line"></div>
+                <p class="mb-1">聯絡電話：(04) 2326-5860</p>
+                <p class="mb-1">聯絡地址：台中市南屯區公益路二段51號18樓</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/navbar.js"></script>
+
     <script>
         function addToCart(productName, price, imageUrl) {
             const quantity = 1; // 單品詳情頁預設數量為1
@@ -288,7 +356,8 @@
                 cartCount.textContent = totalCount;
             }
         }
-    </script><script>
+    </script>
+    <script>
         let quantity = 1;
         function changeQuantity(delta) {
             quantity = Math.max(1, quantity + delta);
@@ -310,6 +379,7 @@
                 cartCount.textContent = totalCount;
             }
         }
-    </script> 
+    </script>
 </body>
-</html> 
+
+</html>

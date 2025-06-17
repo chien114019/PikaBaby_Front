@@ -52,14 +52,12 @@ public class ProductController {
     public String save(@ModelAttribute Product product,
     				   @RequestParam("supplierId") Long supplierId,
                        @RequestParam("imageFiles") MultipartFile[] imageFiles) { //接收 <input type="file" name="images" multiple> 的所有上傳圖
-    	if(supplierId != null) {
-    		Supplier supplier = supplierService.getById(supplierId); // 這裡回傳 Supplier 物件
-    		product.setSupplier(supplier); // 將查到的物件設定回 Product
-
-    	}
+    	 Supplier supplier = supplierService.getById(supplierId);
+    	 product.setSupplier(supplier);
     	
         try {
             service.save(product, imageFiles);
+            service.save(product);
         } catch (IOException e) { //若使用者上傳壞圖或檔案轉換錯誤，會被捕捉並避免 crash
             e.printStackTrace(); // 也可以記 log
             return "error"; // 或回傳錯誤頁
@@ -116,4 +114,12 @@ public class ProductController {
         imageRepository.deleteById(id);
         return ResponseEntity.ok("deleted");
     }
+    
+    @GetMapping("/view/{id}")
+    public String viewDetail(@PathVariable Long id, Model model) {
+        Product product = service.getById(id);
+        model.addAttribute("product", product);
+        return "product/view";
+    }
+
 }

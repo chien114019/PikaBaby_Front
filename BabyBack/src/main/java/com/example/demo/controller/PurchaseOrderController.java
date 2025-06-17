@@ -54,6 +54,12 @@ public class PurchaseOrderController {
         List<PurchaseOrderDetail> detailList = new ArrayList<>();
         for (int i = 0; i < productIds.length; i++) {
             Product product = productService.getById(productIds[i]);
+            
+            if(product.getSupplier()==null) {
+            	product.setSupplier(supplier);
+            	productService.save(product);
+            }
+            
             PurchaseOrderDetail detail = new PurchaseOrderDetail();
             detail.setOrder(order);
             detail.setProduct(product);

@@ -223,17 +223,19 @@
 								<th>ID</th>
 								<th>廠商</th>
 								<th>名稱</th>
-								<th>價格</th>
 								<th>目前庫存</th>
+								<th>操作</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr th:each="p : ${products}">
 								<td th:text="${p.id}" class="text-center"></td>
-								<td th:text="${p.supplier != null ? p.supplier.name : '無供應商'}"></td>
-								<td th:text="${p.name}"></td>
-								<td th:text="${p.price}"></td>
+								<td th:text="${p.name}" class="text-center"></td>
+								<td th:text="${p.price}" class="text-center"></td>
 								<td th:text="${p.stock}" class="text-center"></td>
+								<td class="text-center">
+									<a class="btn btn-sm btn-info " th:href="@{'/products/view/' + ${p.id}}">查看</a>
+								</td>
 							</tr>
 						</tbody>
 					</table>

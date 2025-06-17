@@ -33,6 +33,8 @@ public class StockController {
         model.addAttribute("keyword", keyword);
         return "stock/list";
     }
+    
+    
 
     
 }

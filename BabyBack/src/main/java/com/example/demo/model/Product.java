@@ -14,6 +14,8 @@ public class Product {
 
     private String name;
     private BigDecimal price;
+    private String specification;
+    private String color;
 //    private Long stock;
     
     //0611喬新增
@@ -99,5 +101,21 @@ public class Product {
 		public void setSupplier(Supplier supplier) {
 			this.supplier = supplier;
 		}
+		public String getSpecification() {
+			return specification;
+		}
+		public void setSpecification(String specification) {
+			this.specification = specification;
+		}
+		public String getColor() {
+			return color;
+		}
+		public void setColor(String color) {
+			this.color = color;
+		}
+		
+		
+		
+		
 
 }

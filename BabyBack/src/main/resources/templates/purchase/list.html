@@ -208,15 +208,17 @@
 					
 					<div class="text-end">
 						<a class="btn btn-outline-primary mb-3" th:href="@{/purchases/new}">新增進貨單</a>
+						<a class="btn btn-outline-success mb-3" href="/orders/export">匯出Excel</a>
 					</div>
 					
 					<table class="table table-bordered">
 						<thead class="text=center">
 							<tr>
 								<th>ID</th>
-								<th>供應商</th>
 								<th>日期</th>
+								<th>供應商</th>
 								<th>明細</th>
+								<th>總額</th>
 								<th>操作</th>
 								
 							</tr>
@@ -224,8 +226,8 @@
 						<tbody>
 							<tr th:each="order : ${orders}">
 								<td th:text="${order.id}"></td>
-								<td th:text="${order.supplier.name}"></td>
 								<td th:text="${#dates.format(order.orderDate, 'yyyy-MM-dd')}"></td>
+								<td th:text="${order.supplier.name}"></td>
 								<td>
 									<ul>
 										<li th:each="d : ${order.details}"
@@ -235,8 +237,10 @@
 									</ul>
 									
 								</td>
+								<td>總額</td>
 								
 								<td>
+								 	<a class="btn btn-warning btn-sm" th:href="@{'/purchases/edit/' + ${order.id}}">編輯</a>
 									<a class="btn btn-danger" th:href="@{'/purchases/delete/' + ${order.id}}"
    										onclick="return confirm('確定要刪除這筆進貨單嗎？')">刪除</a>
 								</td>

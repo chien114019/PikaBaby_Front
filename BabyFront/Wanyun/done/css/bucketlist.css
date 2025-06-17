@@ -1,0 +1,124 @@
+/* body {
+      font-family: "Microsoft JhengHei", sans-serif;
+      background-color: #f7f7f7;
+      padding: 20px;
+    } */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 6px rgba(120, 97, 97, 0.1);
+    }
+    th, td {
+      text-align: left;
+      padding: 12px;
+      border-bottom: 1px solid #eee;
+       vertical-align: middle;
+    }
+    th {
+      background-color: #f0f0f0;
+    }
+    img.bucketimg{
+      width: 80px;
+      border-radius: 8px;
+    }
+    .item-info {
+      text-align: left;
+    }
+    .item-title {
+      font-weight: bold;
+      color: #78a0cb;
+      margin-bottom: 4px;
+    }
+    .sub-info {
+      font-size: 14px;
+      color: #555;
+    }
+    .qty-control {
+      display: flex;
+      justify-content: start;
+      align-items: center;
+      gap: 5px;
+    }
+    .qty-btn-left {
+      width: 30px;
+      height: 30px;
+      border: none;
+      background-color: #a3bac0;
+      color: #f8fbfb;
+      font-size: 18px;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+  
+    .qty-btn-right {
+      width: 30px;
+      height: 30px;
+      border: none;
+      background-color: #f4d565;
+      color: #f3eeee;
+      font-size: 18px;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+    .qty-number {
+  width: 30px;
+  height: 30px;
+  line-height: 30px;                /* 垂直置中內容 */
+  text-align: center;              /* 水平置中內容 */
+   
+  background-color: #e3f2f2;
+  color: #0b1010;
+  font-size: 18px;
+  /* font-weight: bold; */
+  border-radius: 50%;
+  display: inline-block;           /* 確保可以套寬高 */
+}
+.action-icons{
+   display: flex;
+      justify-content: start;
+      align-items: center;
+      gap: 5px;
+      
+}
+   .icon-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 0;
+  color: #868181;
+  display: flex;
+  align-items: center;
+}
+.icon-btn:hover {
+  
+  color: #030303;
+}
+    .btn-add {
+  background-color: #fcdc3bea;
+  border: none;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-weight: bold;
+  color: #333;
+}
+.btn-add:hover {
+  background-color: #eac037;
+}
+.btn-buy-all {
+  background-color: #FCDC3B;
+  border: none;
+  padding: 10px 30px;
+  border-radius: 25px;
+  font-weight: bold;
+  font-size: 1rem;
+  color: #333;
+}
+.btn-buy-all:hover {
+  background-color: #f1cc0e;
+  
+}

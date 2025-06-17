@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+  <meta charset="UTF-8">
+  <title>我的點數與優惠券</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #fffaf4;
+      padding: 2rem;
+    }
+
+    .coupon-h2 {
+      font-size: 1.1rem;
+      color: #5e3b1f;
+      margin-bottom: 1rem;
+    }
+
+    .coupon-card {
+      background-color: #fceccc;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
+    }
+
+    .dashed-box {
+      border: 2px dashed #aaa;
+      padding: 1rem;
+      border-radius: 8px;
+      background-color: #fffdf7;
+      font-size: 0.9rem;
+      color: #555;
+    }
+
+    .points {
+      text-align: right;
+      font-weight: bold;
+      color: #804d3d;
+      margin-top: 0.8rem;
+      font-size: 1rem;
+    }
+
+    .points span {
+      font-size: 1.3rem;
+    }
+
+    .coupon-section {
+      display: flex;
+      gap: 2rem;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      /* 若螢幕小會換行 */
+    }
+
+    .coupon-block {
+      flex: 1 1 45%;
+      min-width: 300px;
+    }
+
+    .status-tag-available {
+      display: inline-block;
+      background-color: #f0ded0;
+      /* 根據圖片推估的淺米色 */
+      color: #7a6b68;
+      /* 根據圖片推估的深灰字色 */
+      padding: 8px 20px;
+      border-radius: 999px;
+      font-weight: bold;
+      font-size: 1.2rem;
+      font-family: "Noto Sans TC", sans-serif;
+      margin-bottom: 1rem;
+    }
+
+    .status-tag-used {
+      display: inline-block;
+      background-color: #958071ce;
+      /* 根據圖片推估的淺米色 */
+      color: #554744;
+      /* 根據圖片推估的深灰字色 */
+      padding: 8px 20px;
+      border-radius: 999px;
+      font-weight: bold;
+      font-size: 1.2rem;
+      font-family: "Noto Sans TC", sans-serif;
+      margin-bottom: 1rem;
+    }
+
+    .coupon-container {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+
+    .coupon {
+      background-color: #fdf5f0;
+      border: 1px solid #e0cfc2;
+      border-radius: 10px;
+      padding: 1rem;
+      width: 230px;
+      box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
+      position: relative;
+    }
+
+    .coupon::before,
+    .coupon::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 12px;
+      height: 24px;
+      background-color: #fffaf4;
+      border: 1px solid #e0cfc2;
+      border-radius: 50%;
+    }
+
+    .coupon::before {
+      left: -6px;
+    }
+
+    .coupon::after {
+      right: -6px;
+    }
+
+    .coupon h4 {
+      font-size: 1rem;
+      color: #5e3b1f;
+      margin-bottom: 0.5rem;
+    }
+
+    .coupon p {
+      font-size: 0.85rem;
+      color: #555;
+    }
+
+    @media (max-width: 768px) {
+      .coupon-block {
+        flex: 1 1 100%;
+      }
+    }
+
+    .point-detail-item {
+      font-size: 0.9rem;
+      color: #444;
+      padding-left: 1rem;
+      border-left: 3px solid #ccc;
+    }
+
+    #points-detail-container.collapse {
+      display: none;
+    }
+
+    #points-detail-container.show {
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- 我的點數 -->
+  <div class="coupon-card">
+    <div class="coupon-h2">我的點數</div>
+    <div class="dashed-box">
+      <div class="coupon-h2">點數使用規範</div>
+      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="24" fill="#000000" viewBox="0 0 256 256">
+        <path
+          d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm45.66-93.66a8,8,0,0,1,0,11.32l-32,32a8,8,0,0,1-11.32-11.32L148.69,136H88a8,8,0,0,1,0-16h60.69l-18.35-18.34a8,8,0,0,1,11.32-11.32Z">
+        </path>
+      </svg>
+      點數累積方式：每消費滿 NT$100 即可獲得 1 點，不含運費與折扣金額。<br>
+      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="24" fill="#000000" viewBox="0 0 256 256">
+        <path
+          d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm45.66-93.66a8,8,0,0,1,0,11.32l-32,32a8,8,0,0,1-11.32-11.32L148.69,136H88a8,8,0,0,1,0-16h60.69l-18.35-18.34a8,8,0,0,1,11.32-11.32Z">
+        </path>
+      </svg>
+      點數折抵規則：1 點折抵 NT$1，可於下次結帳時使用。<br>
+      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="24" fill="#000000" viewBox="0 0 256 256">
+        <path
+          d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm45.66-93.66a8,8,0,0,1,0,11.32l-32,32a8,8,0,0,1-11.32-11.32L148.69,136H88a8,8,0,0,1,0-16h60.69l-18.35-18.34a8,8,0,0,1,11.32-11.32Z">
+        </path>
+      </svg>
+      點數有效期限：依實際發放規則為準，逾期將自動失效不另行通知。<br>
+      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="24" fill="#000000" viewBox="0 0 256 256">
+        <path
+          d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm45.66-93.66a8,8,0,0,1,0,11.32l-32,32a8,8,0,0,1-11.32-11.32L148.69,136H88a8,8,0,0,1,0-16h60.69l-18.35-18.34a8,8,0,0,1,11.32-11.32Z">
+        </path>
+      </svg>
+      不適用項目：部份活動、特定商品、或搭配其他優惠時可能無法使用，請以結帳頁顯示為準。<br>
+    </div>
+    <div class="points">累計點數：<span>5</span> 點</div>
+    <!-- 收合控制按鈕 -->
+    <button type="button" class="btn btn-outline-secondary btn-sm mt-3" onclick="toggleDetail(this)">
+      顯示點數明細
+    </button>
+
+    <!-- 收合區塊 -->
+    <div id="points-detail-container" class="mt-3 collapse">
+      <div class="point-detail-item mb-2">🧾 2025-06-01 開通會員 新客好禮贈 +100 點</div>
+      <div class="point-detail-item mb-2">🧾 2025-06-10 消費滿300 獲得 +3 點</div>
+    </div>
+  </div>
+
+  <!-- 我的優惠券 -->
+  <div class="coupon-card">
+    <div class="coupon-h2">我的優惠券</div>
+    <div class="dashed-box">
+      <div class="coupon-h2">使用規則</div>
+      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="20" fill="#000000" viewBox="0 0 256 256">
+        <path
+          d="M216,72H180.92c.39-.33.79-.65,1.17-1A29.53,29.53,0,0,0,192,49.57,32.62,32.62,0,0,0,158.44,16,29.53,29.53,0,0,0,137,25.91a54.94,54.94,0,0,0-9,14.48,54.94,54.94,0,0,0-9-14.48A29.53,29.53,0,0,0,97.56,16,32.62,32.62,0,0,0,64,49.57,29.53,29.53,0,0,0,73.91,71c.38.33.78.65,1.17,1H40A16,16,0,0,0,24,88v32a16,16,0,0,0,16,16v64a16,16,0,0,0,16,16H200a16,16,0,0,0,16-16V136a16,16,0,0,0,16-16V88A16,16,0,0,0,216,72ZM149,36.51a13.69,13.69,0,0,1,10-4.5h.49A16.62,16.62,0,0,1,176,49.08a13.69,13.69,0,0,1-4.5,10c-9.49,8.4-25.24,11.36-35,12.4C137.7,60.89,141,45.5,149,36.51Zm-64.09.36A16.63,16.63,0,0,1,96.59,32h.49a13.69,13.69,0,0,1,10,4.5c8.39,9.48,11.35,25.2,12.39,34.92-9.72-1-25.44-4-34.92-12.39a13.69,13.69,0,0,1-4.5-10A16.6,16.6,0,0,1,84.87,36.87ZM40,88h80v32H40Zm16,48h64v64H56Zm144,64H136V136h64Zm16-80H136V88h80v32Z">
+        </path>
+      </svg>
+      註冊禮：新會員首次註冊即可獲得專屬優惠券，可於符合條件的商品結帳使用。<br>
+      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="20" fill="#000000" viewBox="0 0 256 256">
+        <path
+          d="M216,72H180.92c.39-.33.79-.65,1.17-1A29.53,29.53,0,0,0,192,49.57,32.62,32.62,0,0,0,158.44,16,29.53,29.53,0,0,0,137,25.91a54.94,54.94,0,0,0-9,14.48,54.94,54.94,0,0,0-9-14.48A29.53,29.53,0,0,0,97.56,16,32.62,32.62,0,0,0,64,49.57,29.53,29.53,0,0,0,73.91,71c.38.33.78.65,1.17,1H40A16,16,0,0,0,24,88v32a16,16,0,0,0,16,16v64a16,16,0,0,0,16,16H200a16,16,0,0,0,16-16V136a16,16,0,0,0,16-16V88A16,16,0,0,0,216,72ZM149,36.51a13.69,13.69,0,0,1,10-4.5h.49A16.62,16.62,0,0,1,176,49.08a13.69,13.69,0,0,1-4.5,10c-9.49,8.4-25.24,11.36-35,12.4C137.7,60.89,141,45.5,149,36.51Zm-64.09.36A16.63,16.63,0,0,1,96.59,32h.49a13.69,13.69,0,0,1,10,4.5c8.39,9.48,11.35,25.2,12.39,34.92-9.72-1-25.44-4-34.92-12.39a13.69,13.69,0,0,1-4.5-10A16.6,16.6,0,0,1,84.87,36.87ZM40,88h80v32H40Zm16,48h64v64H56Zm144,64H136V136h64Zm16-80H136V88h80v32Z">
+        </path>
+      </svg>
+      生日禮：生日當月將自動發送生日專屬優惠券至帳戶，限當月內使用。<br><br><br>
+
+      <div class="coupon-h2">使用限制</div><br>
+      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="20" fill="#000000" viewBox="0 0 256 256">
+        <path
+          d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216ZM140,80v96a8,8,0,0,1-16,0V95l-11.56,7.71a8,8,0,1,1-8.88-13.32l24-16A8,8,0,0,1,140,80Z">
+        </path>
+      </svg>
+      使用優惠券折抵之訂單，如遇商品缺貨欲取消訂單者，優惠券將會返還。<br>
+      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="20" fill="#000000" viewBox="0 0 256 256">
+        <path
+          d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm25.56-92.74L120,168h32a8,8,0,0,1,0,16H104a8,8,0,0,1-6.4-12.8l43.17-57.56a16,16,0,1,0-27.86-15,8,8,0,0,1-15.09-5.34,32,32,0,1,1,55.74,29.93Z">
+        </path>
+      </svg>
+      使用優惠券折抵之訂單，如遇退貨、取消整筆或部份商品，優惠券將會失效無法返還。<br>
+      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="20" fill="#000000" viewBox="0 0 256 256">
+        <path
+          d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm32-64a36,36,0,0,1-61.71,25.19A8,8,0,1,1,109.71,166,20,20,0,1,0,124,132a8,8,0,0,1-6.55-12.59L136.63,92H104a8,8,0,0,1,0-16h48a8,8,0,0,1,6.55,12.59l-21,30A36.07,36.07,0,0,1,160,152Z">
+        </path>
+      </svg>
+      優惠券有效期限：請依優惠券上標示期限為準。<br>
+      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="20" fill="#000000" viewBox="0 0 256 256">
+        <path
+          d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm32-72h-8V80a8,8,0,0,0-14.31-4.91l-56,72A8,8,0,0,0,88,160h48v16a8,8,0,0,0,16,0V160h8a8,8,0,0,0,0-16Zm-24,0H104.36L136,103.32Z">
+        </path>
+      </svg>
+      部份商品及優惠無法與優惠券並行使用，本站保有最終解釋權及修改之權利。
+    </div>
+  </div>
+
+  <!-- 可使用優惠券 -->
+  <div class="coupon-section d-flex gap-4">
+    <!-- 可使用區 -->
+    <div class="coupon-block">
+      <div class="status-tag-available">可使用</div>
+      <br><br><br>
+      <div class="coupon-container">
+        <div class="coupon">
+          <h4>新會員註冊回饋 100 點</h4>
+          <p>2025-05-21 ~ 2025-06-20 </p>
+          <p>限購滿 $300 使用，限 Carter’s / upsimples 類別</p>
+        </div>
+        <div class="coupon">
+          <h4>新客限定：滿額送 $200 折扣</h4>
+          <p>2025-05-21 ~ 2025-06-20 </p>
+          <p>滿 $2000 可使用，限 Carter’s 商品</p>
+        </div>
+      </div>
+    </div>
+    <!-- 已兌換區 -->
+    <div class="coupon-block">
+      <div class="status-tag-used">已兌換</div>
+      <br><br><br>
+      <div class="coupon-container">
+        <div class="coupon">
+          <h4>生日禮金300元</h4>
+          <p>2025-05-21 ~ 2025-06-20 </p>
+          <p>限購滿 $300 使用，限 Carter’s / upsimples 類別</p>
+        </div>
+      </div>
+    </div>
+    <script>
+  function toggleDetail(button) {
+    const container = document.getElementById('points-detail-container');
+    const isShown = container.classList.toggle('show');
+    button.textContent = isShown ? '隱藏點數明細' : '顯示點數明細';
+  }
+</script>
+
+</body>
+
+</html>

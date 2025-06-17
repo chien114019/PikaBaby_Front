@@ -1,0 +1,27 @@
+ .pwd-form-control::placeholder {
+   color: #b4b2b2;
+ }
+
+ .pwd-btn-outline-dark {
+   border-radius: 30px;
+   width: 100px;
+ }
+
+ .pwd-btn-disabled {
+   background-color: #eee;
+   color: #aaa;
+   border-radius: 30px;
+   width: 100px;
+ }
+
+ .custom-underline {
+  display: inline-block;
+  border-bottom: 2px solid #dc3546d8;
+  color: #dc3546cc;
+  transition: all 0.3s ease;
+}
+
+.custom-underline:hover {
+  color: #e7a5ab; 
+  border-bottom-color: #e7a5ab;
+}

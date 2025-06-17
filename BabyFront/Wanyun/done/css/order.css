@@ -1,0 +1,50 @@
+/* OrderCard_2 */
+
+ .bg-warning-subtle {
+      background-color: #fff5dc;
+      /* 淡黃色 */
+    }
+
+    .order-card h2 {
+      font-size: 24px;
+      margin-bottom: 0.5rem;
+    }
+
+    .order-card p.description {
+      color: #888;
+      font-size: 14px;
+      margin-bottom: 2rem;
+    }
+
+    .order-header {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 1rem;
+      font-weight: 600;
+      font-size: 15px;
+    }
+
+    .progress-bar {
+      height: 6px;
+      background-color: #ccc;
+      border-radius: 3px;
+      margin-top: 1rem;
+    }
+
+    .pagination {
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    .pagination .page-number {
+      background-color: #f8dd57;
+      color: #ffffff;
+      display: inline-block;
+      width: 36px;
+      height: 30px;
+      line-height: 36px;
+      border-radius: 40%;
+      font-size: 16px;
+      font-weight: 600;
+    }

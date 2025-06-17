@@ -2,6 +2,10 @@ package com.example.demo.model;
 
 import java.util.Date;
 
+import org.hibernate.annotations.ColumnDefault;
+
+import jakarta.persistence.Column;
+
 //import java.sql.Date;
 
 import jakarta.persistence.Entity;
@@ -21,7 +25,7 @@ public class Withdrawal {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Integer id;
 	
 	private Integer amount;
 	
@@ -33,10 +37,10 @@ public class Withdrawal {
 	private Date withdrawDate;
 	private String bankAccount;
 	
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}	
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}	
 	public Integer getAmount() {

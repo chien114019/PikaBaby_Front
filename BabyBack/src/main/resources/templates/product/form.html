@@ -242,15 +242,7 @@
 									th:field="*{name}" class="form-control mt-2" required />
 							</div>
 							
-							<div class="mb-3">
-							    <label class="fw-bold">供應商</label>
-							    <select name="supplierId" class="form-select mt-2" required>
-							        <option th:each="s : ${suppliers}" 
-							                th:value="${s.id}" 
-							                th:text="${s.name}">
-							        </option>
-							    </select>
-							</div>
+							
 							
 							<div class="mb-3">
 								<label class="fw-bold">販售價</label> <input type="number"

@@ -212,6 +212,7 @@ public class ConsignmentService {
 				newConsign.setDelivery(consign.getDelivery());
 				newConsign.setDeliveryDate(consign.getDeliveryDate());
 				newConsign.setApplyDate(new Date());
+				newConsign.setReview(0);
 				
 				newConsign.setPic1(files[0].getBytes());
 				newConsign.setPic2(files[1].getBytes());

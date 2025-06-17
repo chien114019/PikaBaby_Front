@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>商品詳情 - PikaBaby</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -219,8 +220,6 @@
             margin-top: 30px;
         }
 
-       
-
         /* 商品描述 */
         .product-description {
             margin-top: 20px;
@@ -233,79 +232,85 @@
     <!-- 導航欄 -->
     <div class="nav-bar">
         <div class="nav-links">
-            <a href="../index.html">商品區/ </a>
+            <a href="product.html">商品區/ </a>
             <a href="#">玩具用品/</a>
             <a href="#">商品頁</a>
         </div>
-       
     </div>
 
     <!-- 主要內容 -->
     <div class="product-container">
         <!-- 左側商品圖片 -->
         <div class="product-image-section">
-            <img src="../images/product1.jpg" alt="商品圖片" class="product-image">
+            <img src="../static/images/product44.jpg" alt="商品圖片" class="product-image">
         </div>
 
         <!-- 右側商品信息 -->
         <div class="product-info">
-            <h1 class="product-title">商品名稱：<span style="font-size: 26px;">munchkin 洗澡玩具組</span></h1>
-            
+            <h1 class="product-title">商品名稱：<span style="font-size: 26px;">NUNA荷蘭-CUDL Clik多功能揹帶</span></h1>
+            <div class="product-details">
+                <p class="age-suggestion">建議年齡：</p>
+            </div>
             <div class="price-section">
-                <div class="original-price">原價：NT$ 250</div>
-                <div class="current-price">NT$ 188</div>
+                <div class="original-price">原價：NT$ 8300</div>
+                <div class="current-price">NT$ 8000</div>
             </div>
-
             <div class="product-description">
-                ●可扭開清潔，防止黴菌孳生<br>
-                ●小手輕鬆擠壓噴水，還可漂浮在水上<br>
-                ●可愛潛水員、鯊魚造型，洗澡也可發揮想像力。<br>
-                ●有助於發展寶寶手指和動作的協調能力。<br>
+                ●獲得IHDI(國際髖關節發育不良協會) 認可，寶寶乘坐時能維持正確姿勢<br>
+                ●揹負在胸前面向父母或是面向外，可使用至18個月；後揹模式可使用至36個月<br>
+                ●獨特4邊磁吸式安全扣具，操作更簡易，方便父母穿戴<br>
             </div>
-
-            <div class="payment-methods">
-                <h3>商品折扣碼</h3>
-                <div class="payment-icons">
-                    <input type="text" placeholder="請輸入折扣碼">
-                </div>
+            <div style="margin: 20px 0; display: flex; align-items: center; gap: 12px;">
+                <span>數量：</span>
+                <button type="button" onclick="changeQuantity(-1)" style="width:32px;height:32px;">-</button>
+                <span id="quantity-display" style="min-width:32px;display:inline-block;text-align:center;">1</span>
+                <button type="button" onclick="changeQuantity(1)" style="width:32px;height:32px;">+</button>
             </div>
-
-            <!-- 加購選擇 -->
-            <div class="accessories">
-                <div class="accessory-item">
-                    <div class="accessory-header">
-                        <img src="../images/book.jpg" alt="加購選擇" class="accessory-image">
-                        <div class="accessory-info">
-                            <div class="accessory-title">唱歌學ㄅㄆㄇ</div>
-                            <div class="accessory-price">NT$ 250</div>
-                            <div>優惠價格：NT$ 100</div>
-                        </div>
-                    </div>
-                    <select class="size-selector">
-                        <option value="size1">兒歌版</option>
-                        <option value="size2">流行歌</option>
-                    </select>
-                </div>
-
-                <div class="accessory-item">
-                    <div class="accessory-header">
-                        <img src="../images/pen.jpg" alt="加購選擇" class="accessory-image">
-                        <div class="accessory-info">
-                            <div class="accessory-title">色鉛筆創意畫-Cars世界大賽</div>
-                            <div class="accessory-price">NT$ 119</div>
-                            <div>優惠價格：NT$ 89</div>
-                        </div>
-                    </div>
-                    <select class="size-selector">
-                        <option value="size1">紅色組</option>
-                        <option value="size2">藍色組</option>
-                    </select>
-                </div>
-            </div>
-
             <!-- 加入購物車按鈕 -->
-            <button class="add-to-cart">加入購物車</button>
+            <button class="add-to-cart" onclick="addToCart('NUNA荷蘭-CUDL Clik多功能揹帶', quantity * 8000, '../static/images/product44.jpg')">加入購物車</button>
+            <button onclick="window.location.href='product.html' " class="btn btn-warning btn-lg" style="width: 100%; margin-top: 10px;">繼續購物</button>
         </div>
     </div>
+    <script>
+        function addToCart(productName, price, imageUrl) {
+            const quantity = 1; // 單品詳情頁預設數量為1
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const idx = cart.findIndex(item => item.name === productName);
+            if (idx > -1) {
+                cart[idx].quantity += quantity;
+            } else {
+                cart.push({ name: productName, price: price, quantity: quantity, image: imageUrl });
+            }
+            localStorage.setItem('cart', JSON.stringify(cart));
+            alert(`已將 ${productName} 加入購物車，數量：${quantity}，價格：${price}`);
+            const cartCount = document.getElementById('cart-count');
+            if (cartCount) {
+                let totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+                cartCount.textContent = totalCount;
+            }
+        }
+    </script><script>
+        let quantity = 1;
+        function changeQuantity(delta) {
+            quantity = Math.max(1, quantity + delta);
+            document.getElementById('quantity-display').textContent = quantity;
+        }
+        function addToCart(productName, price, imageUrl) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const idx = cart.findIndex(item => item.name === productName);
+            if (idx > -1) {
+                cart[idx].quantity += quantity;
+            } else {
+                cart.push({ name: productName, price: price, quantity: quantity, image: imageUrl });
+            }
+            localStorage.setItem('cart', JSON.stringify(cart));
+            alert(`已將 ${productName} 加入購物車，數量：${quantity}，價格：${price}`);
+            const cartCount = document.getElementById('cart-count');
+            if (cartCount) {
+                let totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+                cartCount.textContent = totalCount;
+            }
+        }
+    </script> 
 </body>
 </html> 

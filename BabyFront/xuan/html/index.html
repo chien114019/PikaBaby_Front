@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PikaBaby</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <style>
+      body {
+        overflow-x: hidden;
+      }
+      .navbar, .navbar-nav, .nav-links {
+        display: flex;
+        align-items: center;
+      }
+      header, footer {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      
+      /* header {
+        top: 0;
+        position: sticky;
+        z-index: 1000;
+      } */
+      
+      /* 促銷訊息 */
+      .top-banner {
+        background-color: #f0ebe5;
+        padding: 5px 0;
+        text-align: center;
+        position: relative;
+        width: 100%;
+        top: 0;
+      }
+      
+      .nav-logo-row {
+        width: 100%;
+        padding: 20px 0 10px 0;
+        background: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        /* z-index: 1000; */
+      }
+      
+      .nav-logo {
+        width: 100px;
+        height: auto;
+      }
+      
+      .navbar {
+        background-color: white;
+        padding: 0;
+        position: sticky;
+        width: 100%;
+        /* 固定在LOGO下方 */
+        z-index: 1000;
+        box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
+        height: 60px;
+        /* height: fit-content; */
+        top: 0;
+      }
+      
+      nav .nav-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0 20px;
+        position: relative;
+      }
+      
+      nav .dropdown-toggle::after {
+        display: none;
+      }
+      
+      .nav-links {
+        display: flex;
+        gap: 60px;
+        justify-content: center;
+        margin-right: 100px;
+      }
+      
+      .nav-links a {
+        text-decoration: none;
+        color: #000;
+        font-size: 16px;
+        font-weight: 500;
+      }
+      
+      .nav-links a:hover {
+        color: #666;
+      }
+      
+      /* 使用者區塊 */
+      .user-actions {
+        position: absolute;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        display: flex;
+        gap: 20px;
+        font-size: 20px;
+      }
+      
+      /* 下拉選單 */
+      .dropdown {
+        position: relative;
+        display: inline-block;
+      }
+      
+      /* 下拉選單內容 */
+      .dropdown-menu {
+        display: none;
+        position: absolute;
+        background-color: white;
+        width: 100vw;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        border-radius: 4px;
+        padding: 8px 0;
+        /* top: 196px; */
+        /* left: -100px; */
+        /* transform: translateX(-50%); */
+        z-index: 1050;
+      }
+      
+      .dropdown-item {
+        width: 10%;
+        text-align: center;
+      }
+      .dropdown-item.active, .dropdown-item:active {
+        color: var(--bs-dropdown-link-active-color);
+        text-decoration: none;
+        background-color: #f5f5f5;;
+      }
+      
+      body {
+        min-height: 200vh;
+        /*模擬長度，讓頁面能滾動*/
+        display: flex;
+        flex-direction: column;
+        position: relative;
+      }
+      
+      /* Footer */
+      footer {
+        background-color: #f0ebe5;
+        padding: 30px 0;
+        width: 100%;
+        position: relative;
+        margin-top: auto;
+      }
+      
+      .footer-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        align-items: flex-start;
+        padding: 0 20px;
+      }
+      
+      .footer-logo {
+        width: 100px;
+        margin-right: 40px;
+        align-self: flex-start;
+      }
+      
+      .footer-section {
+        flex: 1;
+        padding: 0 30px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .footer-title,
+      .footer-section h3 {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        text-align: center;
+      }
+      
+      .footer-line {
+        height: 2px;
+        background: #222;
+        width: 60%;
+        min-width: 80px;
+        max-width: 180px;
+        margin: 0 auto 16px auto;
+      }
+      
+      .footer-section:first-child {
+        align-items: flex-start;
+        padding-left: 0;
+      }
+      
+      .footer-section:first-child .footer-title,
+      .footer-section:first-child .footer-line {
+        text-align: left;
+        margin-left: 0;
+        margin-right: auto;
+      }
+      
+      .footer-section:last-child {
+        flex: 1.5;
+      }
+      
+      /* 奶瓶 */
+      .floating-bottle {
+        position: fixed;
+        right: 10px;
+        width: 60px;
+        height: 60px;
+        background-image: url("../images/bottle.png");
+        background-size: contain;
+        background-repeat: no-repeat;
+        z-index: 1002;
+        /* 設比 top-banner(1001) / nav(1000) 還高，保證永遠在最上層 */
+        top: 0;
+        transition: top 0.1s ease-out;
+        cursor: pointer;
+      }
+      
+      .floating-bottle:hover {
+        transform: scale(1.1);
+      }
+      
+      @media (min-width: 992px) {
+        .navbar-expand-lg .navbar-nav .dropdown-menu {
+          /* position: fixed; */
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <!-- 置頂的促銷訊息 -->
+      <div class="top-banner">
+        每週五六日🔥新人代理寄賣免運
+        <font color="red">25 日 23 時 14 分 35 秒</font>
+        <div style="display: inline-block; background-color: black; color: white">
+            Ispian love you
+        </div>
+      </div>
+
+      <!-- LOGO -->
+      <div class="nav-logo-row">
+        <img src="../images/pikababy.png" alt="PikaBaby" class="nav-logo" />
+      </div>
+    </header>
+
+    <!-- 導覽列 -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+      <div class="container-fluid">
+        <div class="collapse navbar-collapse justify-content-around d-flex" id="navbarSupportedContent">
+          <!-- LOGO -->
+          <img src="../images/logo-pikababy.png" alt="PikaBaby" style="height: 80px; width: 0px; transition: 3s; display: none;" />
+          <ul class="navbar-nav ml-auto nav-links gap-5 me-0">
+            <li class="nav-item d-flex align-items-center">
+              <a href="index.html">首頁</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="/products/age-0-3" id="navbarDropdown1" role="button"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                年齡區間(0-3M)
+              </a>
+              <div class="dropdown-menu p-3 justify-content-center" aria-labelledby="navbarDropdown1">
+                <a class="dropdown-item" href="product.html?category=feeding">奶瓶/奶嘴</a>
+                <a class="dropdown-item" href="product.html?category=clothes">圍兜/揹巾</a>
+                <a class="dropdown-item" href="product.html?category=clothes">嬰兒服裝</a>
+                <a class="dropdown-item" href="product.html?category=care">清潔用品</a>
+                <a class="dropdown-item" href="product.html?category=stroller">嬰兒推車</a>
+                <a class="dropdown-item" href="product.html?category=furniture">嬰兒床</a>
+                <a class="dropdown-item" href="product.html?category=feeding">哺乳用品</a>
+                <a class="dropdown-item" href="product.html?category=care">嬰兒用品</a>
+              </div>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="/products/age-3-6" id="navbarDropdown2" role="button"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                年齡區間(3-6M)
+              </a>
+              <div class="dropdown-menu p-3 justify-content-center" aria-labelledby="navbarDropdown2">
+                <a class="dropdown-item" href="product.html?category=clothes">嬰兒服裝</a>
+                <a class="dropdown-item" href="product.html?category=toys">玩具</a>
+                <a class="dropdown-item" href="product.html?category=stroller">嬰兒推車</a>
+                <a class="dropdown-item" href="product.html?category=furniture">嬰兒床</a>
+                <a class="dropdown-item" href="product.html?category=car-seat">汽座</a>
+                <a class="dropdown-item" href="product.html?category=care">嬰兒用品</a>
+              </div>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="/products/age-6-12" id="navbarDropdown3" role="button"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                年齡區間(6-12M)
+              </a>
+              <div class="dropdown-menu p-3 justify-content-center" aria-labelledby="navbarDropdown3">
+                <a class="dropdown-item" href="product.html?category=walking">學步用品</a>
+                <a class="dropdown-item" href="product.html?category=dining">餐具用品</a>
+                <a class="dropdown-item" href="product.html?category=clothes">幼兒服裝</a>
+                <a class="dropdown-item" href="product.html?category=toys">玩具</a>
+                <a class="dropdown-item" href="product.html?category=stroller">嬰兒推車</a>
+                <a class="dropdown-item" href="product.html?category=car-seat">汽座</a>
+                <a class="dropdown-item" href="product.html?category=care">嬰兒用品</a>
+              </div>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="/products/age-2-3" id="navbarDropdown4" role="button"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                年齡區間(2-3y)
+              </a>
+              <div class="dropdown-menu p-3 justify-content-center" aria-labelledby="navbarDropdown4">
+                <a class="dropdown-item" href="product.html?category=education">幼教用品</a>
+                <a class="dropdown-item" href="product.html?category=clothes">兒童服裝</a>
+                <a class="dropdown-item" href="product.html?category=toys">玩具</a>
+                <a class="dropdown-item" href="product.html?category=car-seat">汽座</a>
+                <a class="dropdown-item" href="product.html?category=stroller">兒童推車</a>
+                <a class="dropdown-item" href="product.html?category=furniture">餐椅</a>
+                <a class="dropdown-item" href="product.html?category=appliance">電器用品</a>
+                <a class="dropdown-item" href="product.html?category=care">嬰兒用品</a>
+              </div>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="/secondhand/consign" id="navbarDropdown5"
+                role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                二手託售
+              </a>
+              <div class="dropdown-menu p-3 justify-content-center gap-5" aria-labelledby="navbarDropdown5">
+                <a class="dropdown-item" href="consign_apply.html">二手託售申請</a>
+                <a class="dropdown-item" href="consign_search.html">託售紀錄查詢</a>
+                <a class="dropdown-item" href="withdraw_apply.html">託售提款申請</a>
+                <a class="dropdown-item" href="withdraw_search.html">提款紀錄查詢</a>
+              </div>
+            </li>
+            <li class="nav-item d-flex align-items-center">
+              <a href="about.html">關於我們</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="/secondhand/consign" id="navbarDropdown5"
+                role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                🛒
+              </a>
+              <div class="dropdown-menu p-3 justify-content-center gap-5" aria-labelledby="navbarDropdown5">
+             
+                <a class="dropdown-item" href="shoppingcart.html">購物車</a>
+                <a class="dropdown-item" href="order.html">訂單查詢</a>
+              </div>
+         
+              <li class="nav-item d-flex align-items-center">
+                <a class="fs-5" href="member.html">👤</a>
+              </li>
+            </ul>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- 主要內容區 -->
+    <main style="margin-top: 120px;">
+      <!-- 輪播圖區域 -->
+      <div class="carousel" style="max-width: 1200px; margin: 0 auto 40px; position: relative;">
+        <div class="carousel-container" style="position: relative; overflow: hidden; border-radius: 10px;">
+          <div class="carousel-slides" style="display: flex; transition: transform 0.5s ease;">
+            <div class="carousel-slide" style="min-width: 100%;">
+              <img src="../images/banner1.jpg" alt="年中樂購季" style="width: 100%; height: 600px; object-fit: cover;">
+            </div>
+            <div class="carousel-slide" style="min-width: 100%;">
+              <img src="../images/banner2.jpg" alt="嬰兒床特惠" style="width: 100%; height: 600px; object-fit: cover;">
+            </div>
+            <div class="carousel-slide" style="min-width: 100%;">
+              <img src="../images/banner3.jpg" alt="玩具促銷" style="width: 100%; height: 600px; object-fit: cover;">
+            </div>
+          </div>
+          <button onclick="moveSlide(-1)" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.7); border: none; padding: 10px; border-radius: 50%; cursor: pointer;">❮</button>
+          <button onclick="moveSlide(1)" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.7); border: none; padding: 10px; border-radius: 50%; cursor: pointer;">❯</button>
+          <div class="carousel-dots" style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); display: flex; gap: 10px;">
+            <span class="dot active" onclick="currentSlide(0)" style="height: 10px; width: 10px; background-color: #fff; border-radius: 50%; cursor: pointer;"></span>
+            <span class="dot" onclick="currentSlide(1)" style="height: 10px; width: 10px; background-color: #fff; border-radius: 50%; cursor: pointer;"></span>
+            <span class="dot" onclick="currentSlide(2)" style="height: 10px; width: 10px; background-color: #fff; border-radius: 50%; cursor: pointer;"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 商品分類區 -->
+      <div class="categories" style="max-width: 1200px; margin: 0 auto 60px;">
+        <div class="category-buttons" style="display: flex; justify-content: center; gap: 20px; margin-bottom: 30px;">
+          <a href="product.html?category=car-seat" style="text-decoration: none; padding: 10px 20px; border: 1px solid #ddd; background: none; border-radius: 5px; color: #333;">汽車座墊</a>
+          <a href="product.html?category=toys" style="text-decoration: none; padding: 10px 20px; border: 1px solid #ddd; background: none; border-radius: 5px; color: #333;">絨毛玩具</a>
+          <a href="product.html?category=care" style="text-decoration: none; padding: 10px 20px; border: 1px solid #ddd; background: none; border-radius: 5px; color: #333;">衛生用品</a>
+          <a href="product.html?category=stroller" style="text-decoration: none; padding: 10px 20px; border: 1px solid #ddd; background: none; border-radius: 5px; color: #333;">嬰兒推車</a>
+          <a href="product.html?category=care" style="text-decoration: none; padding: 10px 20px; border: 1px solid #ddd; background: none; border-radius: 5px; color: #333;">沐浴用具</a>
+          <a href="product.html?category=furniture" style="text-decoration: none; padding: 10px 20px; border: 1px solid #ddd; background: none; border-radius: 5px; color: #333;">餐椅推薦</a>
+        </div>
+
+        <!-- 商品展示區 -->
+        <div class="products" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; padding: 0 20px;">
+          <a href="product.html?category=feeding" style="text-decoration: none; color: inherit;">
+            <div class="product-card" style="text-align: center;">
+              <img src="../images/pd1.jpg" alt="各式哺乳吸乳器" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 10px;">
+              <h3 style="margin-bottom: 10px;">哺乳用品系列</h3>
+              <div style="padding: 8px 20px; background-color: #f0ebe5; border-radius: 5px;">查看更多</div>
+            </div>
+          </a>
+          <a href="product.html?category=education" style="text-decoration: none; color: inherit;">
+            <div class="product-card" style="text-align: center;">
+              <img src="../images/pd2.jpg" alt="知識就是你的力量" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 10px;">
+              <h3 style="margin-bottom: 10px;">教育系列</h3>
+              <div style="padding: 8px 20px; background-color: #f0ebe5; border-radius: 5px;">查看更多</div>
+            </div>
+          </a>
+          <a href="product.html?category=furniture" style="text-decoration: none; color: inherit;">
+            <div class="product-card" style="text-align: center;">
+              <img src="../images/pd3.jpg" alt="嬰兒床選購" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 10px;">
+              <h3 style="margin-bottom: 10px;">嬰兒床選購</h3>
+              <div style="padding: 8px 20px; background-color: #f0ebe5; border-radius: 5px;">查看更多</div>
+            </div>
+          </a>
+          <a href="product.html?category=toys" style="text-decoration: none; color: inherit;">
+            <div class="product-card" style="text-align: center;">
+              <img src="../images/pd4.jpg" alt="孩子們的夢想玩具" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 10px;">
+              <h3 style="margin-bottom: 10px;">玩具系列</h3>
+              <div style="padding: 8px 20px; background-color: #f0ebe5; border-radius: 5px;">查看更多</div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- 主題推薦 -->
+      <div class="theme-section" style="max-width: 1200px; margin: 0 auto 60px;">
+        <h2 style="text-align: center; margin-bottom: 30px; font-size: 24px;">主題推薦</h2>
+        <div class="theme-container" style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 20px; padding: 0 20px;">
+          <div class="theme-main" style="grid-row: span 2;">
+            <img src="../images/theme1.jpg" alt="主題特色" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;">
+          </div>
+          <div class="theme-item">
+            <img src="../images/theme2.jpg" alt="主題2" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;">
+          </div>
+          <div class="theme-item">
+            <img src="../images/theme3.jpg" alt="主題3" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;">
+          </div>
+          <div class="theme-item">
+            <img src="../images/theme4.jpg" alt="主題4" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;">
+          </div>
+          <div class="theme-item">
+            <img src="../images/theme5.jpg" alt="主題5" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;">
+          </div>
+        </div>
+      </div>
+
+      <!-- 每月商品銷售排行榜 -->
+      <div class="rankings" style="max-width: 1200px; margin: 0 auto 60px;">
+        <h2 style="text-align: center; margin-bottom: 30px; font-size: 24px;">每月商品銷售排行榜</h2>
+        <div id="monthly-rankings" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; padding: 0 20px;">
+          <!-- 排行榜項目將從資料庫動態渲染 -->
+        </div>
+      </div>
+
+      <!-- 二手商品排行榜 -->
+      <div class="rankings" style="max-width: 1200px; margin: 0 auto 60px;">
+        <h2 style="text-align: center; margin-bottom: 30px; font-size: 24px;">二手商品排行榜</h2>
+        <div id="secondhand-rankings" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; padding: 0 20px;">
+          <!-- 排行榜項目將從資料庫動態渲染 -->
+        </div>
+      </div>
+
+      <!-- 品牌影片 -->
+      <div class="video-section" style="max-width: 1200px; margin: 0 auto 60px;">
+        <h2 style="text-align: center; margin-bottom: 30px; font-size: 24px;">影片</h2>
+        <div style="position: relative; padding-bottom: 56.25%; height: 0;">
+          <iframe src="https://www.youtube.com/embed/gwbDGNQ2dro?si=mW_dYBLoGYM2_cTz" frameborder="0" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" allowfullscreen></iframe>
+        </div>
+      </div>
+    </main>
+
+    <!-- 頁尾 -->
+    <footer>
+      <div class="footer-container">
+        <img src="../images/pikababy.png" alt="PikaBaby" class="footer-logo" />
+        <div class="footer-section">
+          <p class="footer-title">PikaBaby</p>
+          <div class="footer-line"></div>
+          <p>服務我們</p>
+          <p>品牌特色</p>
+        </div>
+        <div class="footer-section">
+          <h3>品牌服務</h3>
+          <div class="footer-line"></div>
+          <p>Baby Store</p>
+          <p>二手商城</p>
+        </div>
+        <div class="footer-section">
+          <h3>聯絡我們</h3>
+          <div class="footer-line"></div>
+          <p>聯絡電話：(04) 2326-5860</p>
+          <p>聯絡地址：台中市南屯區公益路二段51號18樓</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- 奶瓶 -->
+    <div class="floating-bottle"></div>
+
+    <script>
+      // 奶瓶動畫優化：用 requestAnimationFrame 節流 scroll 事件
+      let bottleScrollScheduled = false;
+      window.addEventListener("scroll", function () {
+        if (!bottleScrollScheduled) {
+          bottleScrollScheduled = true;
+          requestAnimationFrame(() => {
+            const bottle = document.querySelector(".floating-bottle");
+            if (!bottle) return;
+            const scrollY = window.scrollY;
+            const viewportHeight = window.innerHeight;
+            const docHeight = document.documentElement.scrollHeight;
+            const bottleHeight = bottle.offsetHeight;
+            const maxScrollY = docHeight - viewportHeight;
+            if (maxScrollY <= 0) {
+              bottle.style.top = "0px";
+            } else {
+              const scrollRatio = scrollY / maxScrollY;
+              const maxScreenY = viewportHeight - bottleHeight;
+              const bottleScreenY = scrollRatio * maxScreenY;
+              bottle.style.top = bottleScreenY + "px";
+            }
+            bottleScrollScheduled = false;
+          });
+        }
+      });
+
+      // 輪播圖功能
+      let currentSlideIndex = 0;
+      const slides = document.querySelectorAll('.carousel-slide');
+      const dots = document.querySelectorAll('.dot');
+
+      function moveSlide(direction) {
+        currentSlideIndex = (currentSlideIndex + direction + slides.length) % slides.length;
+        updateSlidePosition();
+      }
+
+      function currentSlide(index) {
+        currentSlideIndex = index;
+        updateSlidePosition();
+      }
+
+      function updateSlidePosition() {
+        const slidesContainer = document.querySelector('.carousel-slides');
+        slidesContainer.style.transform = `translateX(-${currentSlideIndex * 100}%)`;
+        dots.forEach((dot, index) => {
+          dot.style.backgroundColor = index === currentSlideIndex ? '#666' : '#fff';
+        });
+      }
+
+      // 自動輪播
+      setInterval(() => moveSlide(1), 5000);
+
+      // --- 排行榜動態渲染 ---
+      document.addEventListener('DOMContentLoaded', function() {
+        // 渲染排行榜
+        function renderRanking(selector, data) {
+          const container = document.querySelector(selector);
+          if (!container) return;
+          container.innerHTML = '';
+          data.slice(0, 3).forEach((item, idx) => {
+            const div = document.createElement('div');
+            div.className = 'ranking-item';
+            div.style = 'text-align:center;display:inline-block;width:32%;vertical-align:top;margin:0 1%';
+            div.innerHTML = `
+              <div style="font-size:20px;font-weight:bold;color:#e6b800;">No.${idx+1}</div>
+              <img src="${item.image}" alt="${item.name}" style="width:120px;height:120px;object-fit:cover;border-radius:8px;margin-bottom:8px;">
+              <div style="font-weight:bold;">${item.name}</div>
+              <div style="color:#e44d26;">售價：${item.price}元</div>
+              <div style="color:#888;">銷量：${item.sold}</div>
+            `;
+            container.appendChild(div);
+          });
+        }
+
+        // 取得每月排行榜
+        fetch('/api/rankings/monthly')
+          .then(res => res.json())
+          .then(data => renderRanking('#monthly-rankings', data))
+          .catch(() => {
+            document.querySelector('#monthly-rankings').innerHTML = '<div style="text-align:center;color:#888;">暫無資料</div>';
+          });
+
+        // 取得二手排行榜
+        fetch('/api/rankings/secondhand')
+          .then(res => res.json())
+          .then(data => renderRanking('#secondhand-rankings', data))
+          .catch(() => {
+            document.querySelector('#secondhand-rankings').innerHTML = '<div style="text-align:center;color:#888;">暫無資料</div>';
+          });
+      });
+    </script>
+    <!-- 奶瓶 -->
+    <div class="floating-bottle"></div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // 移動奶瓶，這一段js都是ChatGPT，可以移動但待修
+        document.addEventListener("scroll", function () {
+            const bottle = document.querySelector(".floating-bottle");
+            const scrollY = window.scrollY; // 目前已經捲動的距離
+            const viewportHeight = window.innerHeight; // 視窗高度
+            const docHeight = document.documentElement.scrollHeight; // 文件總高度
+            const bottleHeight = bottle.offsetHeight; // 奶瓶實際高度 (60px)
+
+            // 1) 算出「最大可捲動距離」(從最頂到最底，scrollY 可到的最大值)
+            const maxScrollY = docHeight - viewportHeight;
+            if (maxScrollY <= 0) {
+                // 如果文件高度不夠，就讓奶瓶直接出現在視窗最上（top=0）
+                bottle.style.top = "0px";
+                return;
+            }
+
+            // 2) 算「捲動比例」(0 ~ 1)
+            const scrollRatio = scrollY / maxScrollY;
+            //    → scrollY=0 時為 0；scrollY=maxScrollY 時為 1
+
+            // 3) 要讓奶瓶在視窗內「從最上方(0px)」移動到「最下方(viewportHeight－bottleHeight)」
+            const maxScreenY = viewportHeight - bottleHeight;
+            const bottleScreenY = scrollRatio * maxScreenY;
+            //    → 當 scrollRatio=0 時 bottleScreenY = 0
+            //    → 當 scrollRatio=1 時 bottleScreenY = viewportHeight - bottleHeight
+
+            // 4) 由於 .floating-bottle 用的是 position: fixed，
+            //    只要把它的 top 設成 bottleScreenY，就能確保
+            //    － scrollY=0 → top=0 → 擺在視窗最上方
+            //    － scrollY=maxScrollY → top=viewportHeight-bottleHeight → 擺在視窗最下方
+            bottle.style.top = bottleScreenY + "px";
+
+            if (window.scrollY > $("header").height()) {
+                console.log(`${$("header").height()}`)
+                $(".navbar").css("height", "fit-content");
+                $(".navbar img").css("display", "inline-block");
+                $(".navbar img").css("width", "90px");
+            }
+            else {
+                $(".navbar").css("height", "60px");
+                $(".navbar img").css("display", "none");
+                $(".navbar img").css("width", "0px");
+            }
+        });
+
+        const $dropdown = $(".dropdown");
+        const $dropdownMenu = $(".dropdown-menu");
+        const showClass = "show";
+        $(window).on("load resize", function () {
+            if (this.matchMedia("(min-width: 768px)").matches) {
+                $dropdown.hover(
+                    function (e) {
+                        const $this = $(this);
+                        // let menuPosY = parseInt($this.css("top") + $this.css("height"));
+                        $this.addClass(showClass);
+                        $this.find($dropdownMenu).addClass(showClass);
+                        $this.find($dropdownMenu).addClass("d-flex");
+                        $this.find($dropdownMenu).css("left", `-${$this.position().left}px`);
+                    },
+                    function () {
+                        const $this = $(this);
+                        $this.removeClass(showClass);
+                        $this.find($dropdownMenu).removeClass(showClass);
+                        $this.find($dropdownMenu).removeClass("d-flex");
+
+                    }
+                );
+            } else {
+                $dropdown.off("mouseenter mouseleave");
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+          document.querySelectorAll('.product-card').forEach(card => {
+            card.addEventListener('click', function(e) {
+              // 避免點擊按鈕、input等時觸發跳轉
+              if (
+                e.target.closest('button') ||
+                e.target.closest('input') ||
+                e.target.classList.contains('wishlist-btn')
+              ) {
+                return;
+              }
+              const link = card.querySelector('.product-link');
+              if (link && link.href) {
+                window.location.href = link.href;
+              }
+            });
+          });
+        });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>測試商品 - PikaBaby</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: #f8f9fa;
+            padding-top: 20px;
+        }
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: transform 0.2s;
+        }
+        .product-card:hover {
+            transform: translateY(-2px);
+        }
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        .product-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .product-price {
+            color: #e6b800;
+            font-size: 1.1em;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .quantity-input {
+            width: 60px;
+            text-align: center;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 5px;
+        }
+        .btn-add-cart {
+            background: #e6b800;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-add-cart:hover {
+            background: #d4a800;
+        }
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #28a745;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 6px;
+            z-index: 1000;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="text-center mb-4">測試商品</h1>
+                <p class="text-center mb-4">這些是測試商品，可以用來測試購物車和結帳功能</p>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-4">
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/300x200?text=嬰兒奶瓶" alt="嬰兒奶瓶" class="product-image">
+                    <div class="product-title">嬰兒奶瓶</div>
+                    <div class="product-price">NT$ 299</div>
+                    <div class="quantity-control">
+                        <button onclick="changeQuantity('qty1', -1)" class="btn btn-sm btn-outline-secondary">-</button>
+                        <input type="number" id="qty1" class="quantity-input" value="1" min="1">
+                        <button onclick="changeQuantity('qty1', 1)" class="btn btn-sm btn-outline-secondary">+</button>
+                    </div>
+                    <button class="btn-add-cart" onclick="addToCart('嬰兒奶瓶', 299, 'https://via.placeholder.com/300x200?text=嬰兒奶瓶')">
+                        加入購物車
+                    </button>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/300x200?text=嬰兒推車" alt="嬰兒推車" class="product-image">
+                    <div class="product-title">嬰兒推車</div>
+                    <div class="product-price">NT$ 2500</div>
+                    <div class="quantity-control">
+                        <button onclick="changeQuantity('qty2', -1)" class="btn btn-sm btn-outline-secondary">-</button>
+                        <input type="number" id="qty2" class="quantity-input" value="1" min="1">
+                        <button onclick="changeQuantity('qty2', 1)" class="btn btn-sm btn-outline-secondary">+</button>
+                    </div>
+                    <button class="btn-add-cart" onclick="addToCart('嬰兒推車', 2500, 'https://via.placeholder.com/300x200?text=嬰兒推車')">
+                        加入購物車
+                    </button>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/300x200?text=嬰兒玩具" alt="嬰兒玩具" class="product-image">
+                    <div class="product-title">嬰兒玩具</div>
+                    <div class="product-price">NT$ 150</div>
+                    <div class="quantity-control">
+                        <button onclick="changeQuantity('qty3', -1)" class="btn btn-sm btn-outline-secondary">-</button>
+                        <input type="number" id="qty3" class="quantity-input" value="1" min="1">
+                        <button onclick="changeQuantity('qty3', 1)" class="btn btn-sm btn-outline-secondary">+</button>
+                    </div>
+                    <button class="btn-add-cart" onclick="addToCart('嬰兒玩具', 150, 'https://via.placeholder.com/300x200?text=嬰兒玩具')">
+                        加入購物車
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mt-4">
+            <div class="col-12 text-center">
+                <a href="shoppingcart.html" class="btn btn-warning btn-lg">查看購物車</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="notification" id="notification"></div>
+    
+    <script>
+        function changeQuantity(inputId, delta) {
+            const input = document.getElementById(inputId);
+            const newValue = Math.max(1, parseInt(input.value) + delta);
+            input.value = newValue;
+        }
+        
+        function addToCart(productName, price, imageUrl) {
+            const quantity = parseInt(document.getElementById('qty' + productName.match(/\d+/)[0]).value);
+            
+            // 嘗試使用後端API
+            fetch('http://localhost:8080/api/cart/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name: productName,
+                    price: price,
+                    quantity: quantity,
+                    image: imageUrl
+                })
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('API request failed');
+                }
+            })
+            .then(data => {
+                showNotification(`已將 ${quantity} 件 ${productName} 加入購物車！`);
+            })
+            .catch(error => {
+                console.log('後端API失敗，使用localStorage:', error);
+                // 使用localStorage作為備用
+                addToLocalStorage(productName, price, quantity, imageUrl);
+            });
+        }
+        
+        function addToLocalStorage(productName, price, quantity, imageUrl) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            
+            // 檢查商品是否已存在
+            const existingItem = cart.find(item => item.name === productName);
+            if (existingItem) {
+                existingItem.quantity += quantity;
+            } else {
+                cart.push({
+                    name: productName,
+                    price: price,
+                    quantity: quantity,
+                    image: imageUrl
+                });
+            }
+            
+            localStorage.setItem('cart', JSON.stringify(cart));
+            showNotification(`已將 ${quantity} 件 ${productName} 加入購物車！`);
+        }
+        
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.style.display = 'block';
+            
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+    </script>
+</body>
+</html> 

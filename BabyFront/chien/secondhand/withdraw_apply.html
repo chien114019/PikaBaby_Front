@@ -14,6 +14,7 @@
     <style>
         body {
             height: fit-content;
+            min-height: auto;
         }
 
         footer {
@@ -59,7 +60,8 @@
             <!-- <div class="collapse navbar-collapse justify-content-center d-flex" id="navbarSupportedContent"> -->
             <div class="collapse navbar-collapse justify-content-around d-flex" id="navbarSupportedContent">
                 <!-- LOGO -->
-                <img src="../images/logo-pikababy.png" alt="PikaBaby" style="height: 80px; width: 0px; transition: 3s; display: none;" />
+                <img src="../images/logo-pikababy.png" alt="PikaBaby"
+                    style="height: 80px; width: 0px; transition: 3s; display: none;" />
                 <ul class="navbar-nav ml-auto nav-links gap-5 me-0">
                     <li class="nav-item d-flex align-items-center">
                         <a href="#">首頁</a>
@@ -180,7 +182,7 @@
                         <div class="p-3 d-flex align-items-center justify-content-around">
                             <div id="h2" class="d-flex justify-content-start gap-5 align-items-center">
                                 <h4 class="border-0 mb-0">累計總金額：</h4>
-                                <p id="totalAmount" class="mb-0 fs-5">10000</p>
+                                <p id="totalAmount" class="mb-0 fs-5"></p>
                             </div>
                             <div id="h3">
                                 <button type="button" class="btn btn-primary text-white" id="applyBtn">申請提款</button>
@@ -195,22 +197,22 @@
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label class="form-label">會員姓名</label>
-                                <input type="text" class="form-control" readonly/>
+                                <input id="custName" type="text" class="form-control" readonly />
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">聯絡電話</label>
-                                <input type="tel" class="form-control" readonly/>
+                                <input id="custTel" type="tel" class="form-control" readonly />
                             </div>
                         </div>
 
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label class="form-label">電子信箱</label>
-                                <input type="email" class="form-control" readonly/>
+                                <input id="custEmail" type="email" class="form-control" readonly />
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">會員住址</label>
-                                <input type="text" class="form-control" readonly/>
+                                <input id="custAddress" type="text" class="form-control" readonly />
                             </div>
                         </div>
                     </section>
@@ -221,19 +223,19 @@
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label class="form-label">提款銀行</label>
-                                <select id="type" class="form-select"> <!-- 從 db 撈資料 -->
+                                <select id="bank" class="form-select"> <!-- 從 db 撈資料 -->
                                     <option value="0">請選擇銀行</option>
-                                    <option value="1">004 臺灣銀行</option>
+                                    <!-- <option value="1">004 臺灣銀行</option>
                                     <option value="2">005 臺灣土地銀行</option>
                                     <option value="3">006 合作金庫銀行</option>
                                     <option value="4">007 第一銀行</option>
                                     <option value="5">008 華南銀行</option>
-                                    <option value="6">009 彰化銀行</option>
+                                    <option value="6">009 彰化銀行</option> -->
                                 </select>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">提款帳戶</label>
-                                <input type="text" class="form-control" />
+                                <input id="bankAccount" type="text" class="form-control" />
                             </div>
                         </div>
                         <div class="form-check">
@@ -252,7 +254,7 @@
                         </div> -->
                     </section>
 
-                    <button type="submit" class="btn btn-primary">送出申請</button>
+                    <button id="sendBtn" type="submit" class="btn btn-primary">送出申請</button>
                 </form>
             </div>
         </section>
@@ -297,6 +299,95 @@
             $("aside>div").css("display", "block");
             $("form.slide-down").css("max-height", "485px");
         })
+
+        let host = "http://localhost:8080"
+        let custId = 4
+        const consign = {
+            amount: 0,
+            ids: []
+        }
+
+        window.onload = function () {
+            $.ajax({
+                method: "GET",
+                url: `${host}/secondhand/withdraw/total/custId/${custId}`,
+                success: function (data) {
+                    $("#totalAmount").text(data.total);
+                    consign.amount = data.total;
+                    (data.ids).forEach(element => {
+                        consign.ids.push(element);
+                    });
+                    console.log(consign);
+                },
+                error: function () {
+                    console.log("Error");
+                }
+            })
+
+            $.ajax({
+                method: "GET",
+                url: `${host}/customers/info/${custId}`,
+                success: function (data) {
+                    // console.log(dat  a);
+                    $("#custName").val(data.customer.name);
+                    $("#custTel").val(data.customer.phone);
+                    $("#custEmail").val(data.customer.email);
+                    $("#custAddress").val(data.customer.address);
+                },
+                error: function (resp) {
+                    console.log(resp);
+                }
+            })
+
+            $.ajax({
+                method: "GET",
+                url: `${host}/secondhand/withdraw/banks`,
+                success: function (data) {
+                    data.forEach(element => {
+                        console.log(element)
+                        // <option value="1">004 臺灣銀行</option>
+                        $("#bank").append(`<option value="${element.id}">${element.bCode} ${element.bName}</option>`)
+                    });
+                },
+                error: function (resp) {
+                    console.log(resp);
+                }
+            })
+        }
+
+        $("#sendBtn").on("click", function (e) {
+            e.preventDefault();
+            /*
+                {
+                    custId: "",
+                    amount: "",
+                    bankId: "",
+                    bankAccount: "",
+                    ids: []
+                }
+            */
+
+            $.ajax({
+                method: "POST",
+                url: `${host}/secondhand/withdraw/create`,
+                contentType: "application/json",
+                data: JSON.stringify({
+                    custId: custId,
+                    amount: consign.amount,
+                    bankId: $("#bank").val(),
+                    bankAccount: $("#bankAccount").val(),
+                    ids: consign.ids
+                }),
+                success: function (resp) {
+                    alert(resp.mesg);
+                    window.location.reload();
+                },
+                error: function () {
+                    alert("系統錯誤，申請失敗");
+                }
+            })
+        });
+
     </script>
 </body>
 

@@ -50,11 +50,12 @@ public class ProductController {
 
     @PostMapping("/save")
     public String save(@ModelAttribute Product product,
-    				   @RequestParam("supplierId") Supplier supplierId,
+    				   @RequestParam("supplierId") Long supplierId,
                        @RequestParam("imageFiles") MultipartFile[] imageFiles) { //接收 <input type="file" name="images" multiple> 的所有上傳圖
     	if(supplierId != null) {
-    		Supplier supplier=supplierService.getById(supplierId);
-    		product.setSupplier(supplierId);
+    		Supplier supplier = supplierService.getById(supplierId); // 這裡回傳 Supplier 物件
+    		product.setSupplier(supplier); // 將查到的物件設定回 Product
+
     	}
     	
         try {

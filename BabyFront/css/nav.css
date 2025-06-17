@@ -80,6 +80,10 @@ nav .dropdown-toggle::after {
     color: #666;
 }
 
+.nav-link:focus {
+    color: #000;
+}
+
 /* 使用者區塊 */
 .user-actions {
     position: absolute;
@@ -193,6 +197,11 @@ footer {
 
 .footer-section:last-child {
     flex: 1.5;
+}
+
+footer a {
+    text-decoration: none;
+    color: #000;
 }
 
 /* 奶瓶 */

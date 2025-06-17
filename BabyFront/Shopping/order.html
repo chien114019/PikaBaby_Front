@@ -876,40 +876,8 @@
     <div class="floating-bottle"></div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/navbar.js"></script>
     <script>
-        // 移動奶瓶，這一段js都是ChatGPT，可以移動但待修
-        document.addEventListener("scroll", function () {
-            const bottle = document.querySelector(".floating-bottle");
-            const scrollY = window.scrollY; // 目前已經捲動的距離
-            const viewportHeight = window.innerHeight; // 視窗高度
-            const docHeight = document.documentElement.scrollHeight; // 文件總高度
-            const bottleHeight = bottle.offsetHeight; // 奶瓶實際高度 (60px)
-
-            // 1) 算出「最大可捲動距離」(從最頂到最底，scrollY 可到的最大值)
-            const maxScrollY = docHeight - viewportHeight;
-            if (maxScrollY <= 0) {
-                // 如果文件高度不夠，就讓奶瓶直接出現在視窗最上（top=0）
-                bottle.style.top = "0px";
-                return;
-            }
-
-            // 2) 算「捲動比例」(0 ~ 1)
-            const scrollRatio = scrollY / maxScrollY;
-            //    → scrollY=0 時為 0；scrollY=maxScrollY 時為 1
-
-            // 3) 要讓奶瓶在視窗內「從最上方(0px)」移動到「最下方(viewportHeight－bottleHeight)」
-            const maxScreenY = viewportHeight - bottleHeight;
-            const bottleScreenY = scrollRatio * maxScreenY;
-            //    → 當 scrollRatio=0 時 bottleScreenY = 0
-            //    → 當 scrollRatio=1 時 bottleScreenY = viewportHeight - bottleHeight
-
-            // 4) 由於 .floating-bottle 用的是 position: fixed，
-            //    只要把它的 top 設成 bottleScreenY，就能確保
-            //    － scrollY=0 → top=0 → 擺在視窗最上方
-            //    － scrollY=maxScrollY → top=viewportHeight-bottleHeight → 擺在視窗最下方
-            bottle.style.top = bottleScreenY + "px";
-        });
-
         // 顯示會員區域
         function showMemberSection(event) {
             event.preventDefault();

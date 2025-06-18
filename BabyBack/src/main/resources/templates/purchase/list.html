@@ -231,8 +231,8 @@
 								<td>
 									<ul>
 										<li th:each="d : ${order.details}"
-											th:text="${d.product.name + ' x ' + d.quantity + '（單價 $' + d.unitPrice + '）' }">
-											<!--    -->
+											th:text="${d.product.name + ' x ' + d.quantity}">
+											<!--   + '（單價 $' + d.unitPrice + '）'   -->
 										</li>
 									</ul>
 									

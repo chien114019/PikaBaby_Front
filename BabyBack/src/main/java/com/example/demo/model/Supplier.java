@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import java.util.List;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -9,9 +11,16 @@ public class Supplier {
     private Long id;
 
     private String name;
+    
     private String phone;
+    
     private String email;
+    
     private String address;
+    
+    @OneToMany(mappedBy = "supplier")
+    private List<SupplierProduct> supplierProducts;
+
     
 	public Long getId() {
 		return id;
@@ -43,6 +52,14 @@ public class Supplier {
 	public void setAddress(String address) {
 		this.address = address;
 	}
+	public List<SupplierProduct> getSupplierProducts() {
+		return supplierProducts;
+	}
+	public void setSupplierProducts(List<SupplierProduct> supplierProducts) {
+		this.supplierProducts = supplierProducts;
+	}
+	
+	
 
    
 }

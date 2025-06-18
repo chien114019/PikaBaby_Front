@@ -50,18 +50,11 @@ public class ProductController {
 
     @PostMapping("/save")
     public String save(@ModelAttribute Product product,
-    				   @RequestParam("supplierId") Long supplierId,
-                       @RequestParam("imageFiles") MultipartFile[] imageFiles) { //接收 <input type="file" name="images" multiple> 的所有上傳圖
+    				   @RequestParam("supplierId") Long supplierId ) throws IOException { //接收 <input type="file" name="images" multiple> 的所有上傳圖
     	 Supplier supplier = supplierService.getById(supplierId);
     	 product.setSupplier(supplier);
     	
-        try {
-            service.save(product, imageFiles);
-            service.save(product);
-        } catch (IOException e) { //若使用者上傳壞圖或檔案轉換錯誤，會被捕捉並避免 crash
-            e.printStackTrace(); // 也可以記 log
-            return "error"; // 或回傳錯誤頁
-        }
+        service.save(product);
         return "redirect:/products";
     }
 

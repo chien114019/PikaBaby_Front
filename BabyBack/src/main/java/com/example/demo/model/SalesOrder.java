@@ -20,6 +20,10 @@ public class SalesOrder {
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SalesOrderDetail> details;
+    
+    private String paymentMethod;
+    private Integer status;		// 訂單狀態(-1:已取消、0: 已成立、1: 已完成)
+    private Integer payStatus;	// 付款狀態(0: 已付款、1: 退款中、2: 已退款)
 
 	public Long getId() {
 		return id;
@@ -53,6 +57,30 @@ public class SalesOrder {
 		this.details = details;
 	}	
 	
+	public String getPaymentMethod() {
+		return paymentMethod;
+	}
+
+	public void setPaymentMethod(String paymentMethod) {
+		this.paymentMethod = paymentMethod;
+	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+
+	public Integer getPayStatus() {
+		return payStatus;
+	}
+
+	public void setPayStatus(Integer payStatus) {
+		this.payStatus = payStatus;
+	}
+
 	public double getTotalAmount() {
 	    return details.stream()
 	        .mapToDouble(d -> d.getUnitPrice()
@@ -61,4 +89,5 @@ public class SalesOrder {
 	        .sum();
 	}
     
+	
 }

@@ -1,15 +1,22 @@
 package com.example.demo.service;
 
-import com.example.demo.model.Receivable;
-import com.example.demo.model.SalesOrder;
-import com.example.demo.model.SalesOrderDetail;
-import com.example.demo.repository.ReceivableRepository;
-import com.example.demo.repository.SalesOrderRepository;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
-import java.util.List;
+import com.example.demo.model.Customer;
+import com.example.demo.model.Receivable;
+import com.example.demo.model.Response;
+import com.example.demo.model.SalesOrder;
+import com.example.demo.model.SalesOrderDetail;
+import com.example.demo.repository.CustomerRepository;
+import com.example.demo.repository.ReceivableRepository;
+import com.example.demo.repository.SalesOrderRepository;
 
 @Service
 public class SalesOrderService {
@@ -20,6 +27,8 @@ public class SalesOrderService {
     @Autowired
     private ReceivableRepository receivableRepository;
 
+    @Autowired
+    private CustomerRepository cRepository;
 
     public void save(SalesOrder order) {
     	
@@ -46,4 +55,70 @@ public class SalesOrderService {
     public List<SalesOrder> listAll() {
         return repository.findAll();
     }
+    
+    public Map<String, Object> getOrdersByCustId(String custId) {
+    	/*
+    	 * {
+    	 * 		orders: [
+    	 * 			{
+    	 * 				id: "",
+    	 * 				date: "",
+    	 * 				status: "",
+    	 * 				payStatus: "",
+    	 * 				total: ""
+    	 * 			}.....	
+    	 * 		],
+    	 * 		response: {
+    	 * 			success: "",
+    	 * 			mesg: ""
+    	 * 		}
+    	 * }
+    	 */
+    	
+    	Map<String, Object> returnMap = new HashMap<String, Object>();
+    	List<Map<String, Object>> orderList = new ArrayList();
+    	Response response = new Response();
+
+    	Customer cust = cRepository.findById(Long.parseLong(custId)).orElse(null);
+    	
+    	if (cust != null) {
+    		List<SalesOrder> orders = repository.findAllByCustomer(cust);
+    		for (SalesOrder order : orders) {
+				Map<String, Object> map = new HashMap();
+				map.put("id", order.getId());
+				map.put("date", order.getOrderDate());
+				map.put("status", order.getStatus());
+				map.put("payStatus", order.getPayStatus());
+				map.put("total", order.getTotalAmount());
+				orderList.add(map);
+			}
+    		
+    		response.setSuccess(true);
+    		response.setMesg("查詢成功");
+    		
+		} else {    		
+    		response.setSuccess(false);
+    		response.setMesg("查無此顧客");
+		}
+		
+    	returnMap.put("orders", orderList);
+		returnMap.put("response", response);
+    	return returnMap;
+	}
+    
+    public Response cancelOrderById(String id) {
+		Response response = new Response();
+    	SalesOrder target = repository.findById(Long.parseLong(id)).orElse(null);
+		if (target != null) {
+			target.setStatus(-1);
+			target.setPayStatus(1);
+			repository.save(target);
+			response.setSuccess(true);
+			response.setMesg("取消成功");
+		} else {
+			response.setSuccess(false);
+			response.setMesg("查無此訂單");
+		}
+    	return response;
+	}
 }

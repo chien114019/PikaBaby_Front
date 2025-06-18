@@ -17,6 +17,8 @@ public class PurchaseOrderDetail {
     private Product product;
 
     private Long quantity;
+    
+    
     private BigDecimal unitPrice;
     
     

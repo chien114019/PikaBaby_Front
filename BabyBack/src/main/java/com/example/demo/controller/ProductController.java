@@ -3,8 +3,10 @@ package com.example.demo.controller;
 import com.example.demo.model.Product;
 import com.example.demo.model.ProductImage;
 import com.example.demo.model.Supplier;
+import com.example.demo.model.SupplierProduct;
 import com.example.demo.repository.ProductImageRepository;
 import com.example.demo.service.ProductService;
+import com.example.demo.service.SupplierProductService;
 import com.example.demo.service.SupplierService;
 
 import java.io.IOException;
@@ -26,6 +28,10 @@ public class ProductController {
     
     @Autowired
     private SupplierService supplierService;
+    
+    @Autowired
+    private SupplierProductService supplierProductService;
+
 
     //0611喬新增
     @GetMapping
@@ -45,6 +51,7 @@ public class ProductController {
     public String createForm(Model model) {
         model.addAttribute("product", new Product());
         model.addAttribute("suppliers", supplierService.listAll());
+        model.addAttribute("supplierProducts", supplierProductService.listAll());
         return "product/form";
     }
 

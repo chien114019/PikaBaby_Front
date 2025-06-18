@@ -13,7 +13,14 @@
 </head>
 
 <body>
-
+	<!-- 登入成功提示 -->
+	<div id="loginAlert"
+		class="alert alert-success text-center position-fixed top-0 start-50 translate-middle-x mt-3 shadow"
+		th:if="${session.user != null}" role="alert"
+		style="z-index: 9999; width: 300px;">
+		歡迎 <strong th:text="${session.user.realname}">使用者</strong> 登入系統！
+	</div>
+	
 	<!-- 主內容區 -->
 	<main class="px-4 py-4">
 		<img src="/logo-pikababy.png" alt="pika baby logo"
@@ -26,8 +33,8 @@
 				<!-- 事務性管理 -->
 				<div class="block task vertical">
 					<div class="block-title">事務性管理</div>
-					<a th:href="@{/auth}" class="btn btn-outline-dark">登入/權限管理</a> <a
-						th:href="@{/customers}" class="btn btn-outline-dark">會員帳號管理</a>
+					<a th:href="@{/employee/list}" class="btn btn-outline-dark">登入/權限管理</a>
+					<a th:href="@{/customers}" class="btn btn-outline-dark">會員帳號管理</a>
 					<!--                         <a th:href="@{/company}" class="btn btn-outline-dark">公司資料維護</a> 
 -->
 				</div>
@@ -46,7 +53,7 @@
 					<div class="block-title">財務管理</div>
 					<a th:href="@{/receivables/list}" class="btn btn-outline-dark">應收帳款管理</a>
 					<a th:href="@{/payables/list}" class="btn btn-outline-dark">應付帳款管理</a>
-					
+
 					<!--  
 						<a th:href="@{/payments/list}" class="btn btn-outline-dark">總帳務</a>
 						<a th:href="@{/payments/list}" class="btn btn-outline-dark">收款沖帳</a>                      
@@ -70,11 +77,12 @@
 					<!--                         <a th:href="@{/products}" class="btn btn-outline-dark">商品進貨管理</a>
                         <a th:href="@{/purchases}" class="btn btn-outline-dark">採購單管理</a> 
 -->
-					<a th:href="@{/suppliers}" class="btn btn-outline-dark">廠商建檔</a> 
-					<a th:href="@{/products}" class="btn btn-outline-dark">商品建檔</a> 
-					<a th:href="@{/purchases}" class="btn btn-outline-dark">進貨單</a> 
-					<a th:href="@{/stock}" class="btn btn-outline-dark">商品上架</a>
-					<a th:href="@{/stock}" class="btn btn-outline-dark">庫存查詢</a>
+					<a th:href="@{/suppliers}" class="btn btn-outline-dark">廠商建檔</a> <a
+						th:href="@{/products}" class="btn btn-outline-dark">商品建檔</a> <a
+						th:href="@{/supplier-products}" class="btn btn-outline-dark">商品價格建檔</a>
+					<a th:href="@{/purchases}" class="btn btn-outline-dark">進貨單</a> <a
+						th:href="@{/stock}" class="btn btn-outline-dark">商品上架</a> <a
+						th:href="@{/stock}" class="btn btn-outline-dark">庫存查詢</a>
 
 				</div>
 
@@ -136,5 +144,25 @@
 
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+		<script>
+  // 自動在 3 秒後淡出 alert
+  setTimeout(() => {
+    const alertBox = document.getElementById('loginAlert');
+    if (alertBox) {
+      alertBox.style.transition = 'opacity 0.5s';
+      alertBox.style.opacity = '0';
+      setTimeout(() => alertBox.remove(), 500); // 等動畫結束再移除
+    }
+  }, 3000);
+
+  // 點任何地方也會立刻關掉提示
+  document.addEventListener('click', () => {
+    const alertBox = document.getElementById('loginAlert');
+    if (alertBox) {
+      alertBox.remove();
+    }
+  });
+</script>
+		
 </body>
 </html>

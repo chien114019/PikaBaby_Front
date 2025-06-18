@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.model.Product;
 import com.example.demo.model.ProductImage;
+import com.example.demo.model.PurchaseOrderDetail;
 import com.example.demo.repository.ProductImageRepository;
 import com.example.demo.repository.ProductRepository;
 import com.example.demo.repository.PurchaseOrderDetailRepository;
@@ -111,6 +112,16 @@ public class ProductService {
         // 批次儲存圖片
         imageRepository.saveAll(imageList);
     }
+    
+    public long calculateStock(Long productId) {
+        // 根據所有進貨單明細加總
+        List<PurchaseOrderDetail> details = purchaseDetailRepository.findByProductId(productId);
+
+        return details.stream()
+            .mapToLong(PurchaseOrderDetail::getQuantity)
+            .sum(); // 這裡只考慮進貨，若未來加出貨，再減去出貨量
+    }
+
 
     
 }

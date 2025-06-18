@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh-Hant">
+
+<head>
+<meta charset="UTF-8">
+<title>員工權限管理</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+</head>
+
+<body style="background-color: #f8f9fa;">
+	<div class="container mt-5">
+		<h2 class="mb-4 text-center">員工權限管理</h2>
+
+		<table class="table table-bordered table-hover bg-white">
+			<thead class="table-secondary text-center">
+				<tr>
+					<th>ID</th>
+					<th>帳號</th>
+					<th>姓名</th>
+					<th>角色</th>
+					<!-- <th>狀態</th> -->
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody class="text-center" th:each="emp : ${employees}">
+				<!-- Thymeleaf 的迴圈語法:${employees} 是從後端傳進來的員工清單（List<UserAccount>）emp 是迴圈中的每一筆員工資料。這段意思是：「對每一筆 employees 中的員工 emp，都重複產生一列 <tr>。」 -->
+				<tr>
+					<td th:text="${emp.id}">1</td>
+					<td th:text="${emp.username}">admin</td>
+					<td th:text="${emp.realname} ?: '（未填）'">王小明</td>
+					<!-- ?: 是 Thymeleaf 的「空值處理運算子」，意思是：如果 realname 是 null，就顯示「（未填）」 -->
+
+					<!-- 根據角色名稱 emp.role，顯示不同顏色的 badge -->
+					<td><span th:switch="${emp.role}"> <!-- th:switch 是 Thymeleaf 的「條件判斷」語法（類似 Java 的 switch） -->
+							<span th:case="'ADMIN'" class="badge bg-danger">[[${emp.role}]]</span>
+							<!-- th:case 是各種判斷值（字串需加引號 '...'） --> <span th:case="'SALES'"
+							class="badge bg-warning text-dark">[[${emp.role}]]</span> <!-- [[${emp.role}]] 是 Thymeleaf 的 inline 語法，作用同 th:text，但可以在 span 中嵌套使用 -->
+							<span th:case="'VIEWER'" class="badge bg-info text-dark">[[${emp.role}]]</span>
+							<span th:case="*" class="badge bg-secondary">[[${emp.role}]]</span>
+					</span></td>
+
+                 
+
+					<!-- <td><span th:if="${emp.enabled}" class="text-success">啟用</span> -->
+					<!-- th:if：只有在 emp.enabled 為 true 時才顯示這段 HTML -->
+					<!-- <span th:unless="${emp.enabled}" class="text-muted">停用</span></td> -->
+					<!-- th:unless：等同於 th:if="!..."，只有在條件為 false 時顯示 -->
+
+
+					<td class="d-flex justify-content-center gap-2">
+						<button class="btn btn-sm btn-outline-primary">變更角色</button>
+						
+						<!--切換該帳號啟用or停用  -->
+						<form th:action="@{/employee/toggle}" method="post"
+							th:object="${emp}">
+							<input type="hidden" name="id" th:value="${emp.id}" /> <!-- type="hidden"隱藏該欄位 -->
+							<button type="submit"
+								th:classappend="${emp.enabled} ? 'btn btn-sm btn-outline-danger' : 'btn btn-sm btn-outline-success'"
+								th:text="${emp.enabled} ? '停用' : '啟用'">啟用/停用</button>
+						</form>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

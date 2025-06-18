@@ -3,7 +3,9 @@ package com.example.demo.controller;
 import com.example.demo.model.Product;
 import com.example.demo.service.ProductService;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,19 +22,27 @@ public class StockController {
     @GetMapping("/stock")
     public String showStock(@RequestParam(required = false) String keyword, Model model) {
         List<Product> products;
+
         if (keyword != null && !keyword.isBlank()) {
             products = productService.searchByName(keyword);
         } else {
-        	
-        	//0611喬新增
-        	products = productService.getAllProductsWithStock();
-        	
-            //products = productService.getAllProducts();
+            products = productService.getAllProducts();
         }
+
+        // 將每個產品的動態庫存算出來
+        Map<Long, Long> stockMap = new HashMap<>();
+        for (Product p : products) {
+            long stock = productService.calculateStock(p.getId());
+            stockMap.put(p.getId(), stock);
+        }
+
         model.addAttribute("products", products);
+        model.addAttribute("stockMap", stockMap); // 將庫存 map 傳到前端
         model.addAttribute("keyword", keyword);
+
         return "stock/list";
     }
+
     
     
 

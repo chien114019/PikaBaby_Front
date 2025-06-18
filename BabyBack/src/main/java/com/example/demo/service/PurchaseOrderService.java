@@ -1,8 +1,10 @@
 package com.example.demo.service;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,15 +16,20 @@ import com.example.demo.repository.PurchaseOrderRepository;
 
 @Service
 public class PurchaseOrderService {
-    
+
     @Autowired
     private PurchaseOrderRepository purchaseOrderRepo;
-    
+
     @Autowired
     private AccountsPayableRepository accountsPayableRepo;
 
     public void save(PurchaseOrder order) {
-        // 儲存進貨單
+        // 自動產生單號
+        if (order.getOrderNumber() == null || order.getOrderNumber().isEmpty()) {
+            order.setOrderNumber(generateOrderNumber());
+        }
+
+        // 儲存進貨單（先儲存才會有 order.id）
         purchaseOrderRepo.save(order);
 
         // 計算總金額
@@ -48,21 +55,27 @@ public class PurchaseOrderService {
     public List<PurchaseOrder> listAll() {
         return purchaseOrderRepo.findAll();
     }
-    
+
     public void deleteById(Long id) {
-        // 先找出進貨單
         PurchaseOrder order = purchaseOrderRepo.findById(id).orElse(null);
         if (order != null) {
-            // 刪除對應的應付帳款（若有）
             AccountsPayable payable = accountsPayableRepo.findByPurchaseOrder(order);
             if (payable != null) {
                 accountsPayableRepo.delete(payable);
             }
-
-            // 刪除進貨單
             purchaseOrderRepo.delete(order);
         }
     }
 
+    public String generateOrderNumber() {
+        String prefix = "PO"; // PO = Purchase Order
+        String datePart = new SimpleDateFormat("yyyyMMdd").format(new Date());
+        String randomPart = String.format("%03d", new Random().nextInt(1000));
+        return prefix + datePart + randomPart;
+    }
     
+    public PurchaseOrder getById(Long id) {
+        return purchaseOrderRepo.findById(id).orElse(null);
+    }
+
 }

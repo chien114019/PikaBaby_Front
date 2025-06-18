@@ -3,14 +3,28 @@ package com.example.demo.controller;
 import com.example.demo.model.*;
 import com.example.demo.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
+
+
+
+@CrossOrigin(origins = "*")
 @Controller
 @RequestMapping("/orders")
 public class SalesOrderController {
@@ -97,5 +111,23 @@ public class SalesOrderController {
         return "redirect:/orders";
     }
 
+//   ========== 前台API============
+    @GetMapping("/search/cust/{custId}")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> getOrdersByCustId(@PathVariable String custId) {
+    	return ResponseEntity.ok(orderService.getOrdersByCustId(custId));
+    }
+    
+    @PutMapping("/cancel/{id}")
+    @ResponseBody
+    public ResponseEntity<Response> cancelOrderById(@PathVariable String id) {
+    	Response response = orderService.cancelOrderById(id);
+    	if (response.getSuccess()) {
+			response.setMesg("訂單編號 " + id + " " + response.getMesg());
+		} else {
+			response.setMesg("訂單編號 " + id + " " + response.getMesg() + "，取消失敗");
+		}
+        return ResponseEntity.ok(response);
+    }
 
 }

@@ -1,5 +1,8 @@
 package com.example.demo.controller;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -19,8 +22,10 @@ import com.example.demo.model.Product;
 import com.example.demo.model.PurchaseOrder;
 import com.example.demo.model.PurchaseOrderDetail;
 import com.example.demo.model.Supplier;
+import com.example.demo.repository.PurchaseOrderRepository;
 import com.example.demo.service.ProductService;
 import com.example.demo.service.PurchaseOrderService;
+import com.example.demo.service.SupplierProductService;
 import com.example.demo.service.SupplierService;
 
 @Controller
@@ -30,48 +35,55 @@ public class PurchaseOrderController {
     @Autowired private SupplierService supplierService;
     @Autowired private ProductService productService;
     @Autowired private PurchaseOrderService orderService;
+    @Autowired private SupplierProductService supplierProductService;
+    @Autowired private PurchaseOrderRepository purchaseOrderRepository;
+
     
 
     @GetMapping("/new")
     public String createForm(Model model) {
+    	 PurchaseOrder order = new PurchaseOrder();
+    	    
+    	    // 產生自動單號，例如 PO202406180001
+    	    String generatedOrderNumber = orderService.generateOrderNumber();
+    	    order.setOrderNumber(generatedOrderNumber);
+
+    	model.addAttribute("order", order);
         model.addAttribute("suppliers", supplierService.listAll());
         model.addAttribute("products", productService.listAll());
+        model.addAttribute("supplierProducts", supplierProductService.listAll());
         return "purchase/form";
     }
+    
 
     @PostMapping("/save")
-    public String saveOrder(@RequestParam Long supplierId,
-                            @RequestParam("productIds") Long[] productIds,
-                            @RequestParam("quantities") Long[] quantities,
-                            @RequestParam("unitPrice") Long[] unitPrice,
-                            @RequestParam("orderDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date orderDate) {
+    public String saveOrder(
+            @RequestParam("supplierProductIds") Long[] supplierProductIds,
+            @RequestParam("quantities") Long[] quantities,
+            @RequestParam("unitPrice") BigDecimal[] unitPrice,
+            @RequestParam("orderDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date orderDate) {
 
-        Supplier supplier = supplierService.getById(supplierId);
         PurchaseOrder order = new PurchaseOrder();
-        order.setSupplier(supplier);
         order.setOrderDate(orderDate);
 
         List<PurchaseOrderDetail> detailList = new ArrayList<>();
-        for (int i = 0; i < productIds.length; i++) {
-            Product product = productService.getById(productIds[i]);
-            
-            if(product.getSupplier()==null) {
-            	product.setSupplier(supplier);
-            	productService.save(product);
-            }
-            
+        for (int i = 0; i < supplierProductIds.length; i++) {
+            var sp = supplierProductService.getById(supplierProductIds[i]);
+
             PurchaseOrderDetail detail = new PurchaseOrderDetail();
             detail.setOrder(order);
-            detail.setProduct(product);
+            detail.setProduct(sp.getProduct());
             detail.setQuantity(quantities[i]);
-            detail.setUnitPrice(product.getPrice());
+            detail.setUnitPrice(sp.getPrice()); // 改抓 supplierProduct 的價格
             detailList.add(detail);
         }
 
+        order.setSupplier(detailList.get(0).getProduct().getSupplier()); // 取第一項商品的供應商
         order.setDetails(detailList);
         orderService.save(order);
         return "redirect:/purchases";
     }
+
 
     @GetMapping
     public String list(Model model) {
@@ -83,5 +95,20 @@ public class PurchaseOrderController {
     	  orderService.deleteById(id);
         return "redirect:/purchases";
     }
+    
+    @GetMapping("/edit/{id}")
+    public String editForm(@PathVariable Long id, Model model) {
+        PurchaseOrder order = orderService.getById(id);
+        if (order == null) {
+            return "redirect:/purchases";  // 如果找不到就返回清單
+        }
+
+        model.addAttribute("order", order);
+        model.addAttribute("suppliers", supplierService.listAll());
+        model.addAttribute("products", productService.listAll());
+        model.addAttribute("supplierProducts", supplierProductService.listAll());
+        return "purchase/form";  // 共用新增用的 form
+    }
+
 }
 

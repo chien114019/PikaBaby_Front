@@ -206,7 +206,7 @@
 					<!-- 從此往下寫右側區域功能 -->
 					<h2>新增進貨單</h2>
 
-					<form th:action="@{/purchases/save}" method="post">
+					<form th:action="@{/purchases/save}" th:object="${order}" method="post">
 						<div class="row g-3">
 							<!-- 左欄 -->
 							<div class="col-md-6">
@@ -215,25 +215,16 @@
 										class="form-control w-75">
 								</div>
 
-								<div class="mb-3">
-									<label class="form-label">供應商</label> <select name="supplierId"
-										class="form-select w-75" required>
-										<option th:each="s : ${suppliers}" th:value="${s.id}"
-											th:text="${s.name}"></option>
-									</select>
-								</div>
+								
 							</div>
 
 							<!-- 右欄 -->
 							<div class="col-md-6">
 								<div class="mb-3">
-									<label class="form-label" >進貨單號：</label> <input type="text"
-										class="form-control w-75" placeholder="系統自動產生進貨流水單號">
+									<label class="form-label" >進貨單號：</label> 
+									<input type="text" name="orderNumber" th:field="*{orderNumber}" class="form-control w-75" readonly>
 								</div>
-								<div class="mb-3">
-									<label class="form-label">備註：</label> <input type="text"
-										class="form-control w-75">
-								</div>
+								
 							</div>
 						</div>
 
@@ -249,7 +240,8 @@
 							<thead>
 								<tr>
 									<th>序號</th>
-									<th>商品</th>
+									<th>商品/廠商</th>
+									<th>規格</th>
 									<th>數量</th>
 									<th>金額</th>
 									<th>操作</th>
@@ -258,16 +250,31 @@
 							<tbody id="detailRows">
 								<tr>
 								  <td></td>
+								
+								  <!-- 商品 + 廠商選擇 -->
 								  <td>
-								    <select name="supplierProductIds" class="form-select" required>
+								    <select name="supplierProductIds" class="form-select" required onchange="updateDetails(this)">
+								      <option value="">請選擇商品與廠商</option>
 								      <option th:each="sp : ${supplierProducts}"
 								              th:value="${sp.id}"
-								              th:text="${sp.product.name + ' - $' + sp.price}">
+								              th:data-spec="${sp.product.specification}"
+								              th:data-price="${sp.price}"
+								              th:data-supplier="${sp.supplier.name}"
+								              th:text="${sp.product.name + ' / ' + sp.supplier.name}">
 								      </option>
 								    </select>
 								  </td>
+								
+								  <!-- 規格欄 -->
+								  <td><input type="text" name="spec" class="form-control" readonly></td>
+								
+								  <!-- 數量 -->
 								  <td><input type="number" name="quantities" class="form-control" min="1" required></td>
+								
+								  <!-- 單價 -->
 								  <td><input type="number" name="unitPrice" class="form-control" readonly></td>
+								
+								  <!-- 操作 -->
 								  <td><button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">刪除</button></td>
 								</tr>
 							</tbody>
@@ -293,16 +300,26 @@
 	document.addEventListener('change', function (e) {
 		  if (e.target.name === 'supplierProductIds') {
 		    const selectedOption = e.target.selectedOptions[0];
-		    const priceText = selectedOption.textContent;
-		    const match = priceText.match(/\$(\d+)/);
-		    if (match) {
-		      const price = match[1];
-		      const unitPriceInput = e.target.closest('tr').querySelector('input[name="unitPrice"]');
+		    const price = selectedOption.getAttribute('data-price');
+		    const unitPriceInput = e.target.closest('tr').querySelector('input[name="unitPrice"]');
+		    if (price) {
 		      unitPriceInput.value = price;
 		    }
 		  }
 		});
 	
+
+	function updateDetails(selectElement) {
+	  const selected = selectElement.selectedOptions[0];
+	  const row = selectElement.closest('tr');
+
+	  const spec = selected.getAttribute('data-spec');
+	  const price = selected.getAttribute('data-price');
+
+	  row.querySelector('input[name="spec"]').value = spec || '';
+	  row.querySelector('input[name="unitPrice"]').value = price || '';
+	}
+
     function addRow() {
       const row = document.querySelector('#detailRows tr');
       const newRow = row.cloneNode(true);

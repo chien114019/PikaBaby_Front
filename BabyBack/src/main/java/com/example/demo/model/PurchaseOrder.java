@@ -2,6 +2,7 @@ package com.example.demo.model;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -21,6 +22,9 @@ public class PurchaseOrder {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PurchaseOrderDetail> details;
     
+    @Column(name = "order_number", unique = true)
+    private String orderNumber;
+    
     @Transient
     public Date getDueDate() {
         if (orderDate == null) return null;
@@ -29,6 +33,13 @@ public class PurchaseOrder {
         cal.add(Calendar.DATE, 30);
         return cal.getTime();
     }
+    
+    @Transient
+	public BigDecimal getTotalAmount() {
+	    return details.stream()
+	        .map(d -> d.getUnitPrice().multiply(BigDecimal.valueOf(d.getQuantity())))
+	        .reduce(BigDecimal.ZERO, BigDecimal::add);
+	}
 
 
 	public Long getId() {
@@ -62,6 +73,19 @@ public class PurchaseOrder {
 	public void setDetails(List<PurchaseOrderDetail> details) {
 		this.details = details;
 	}
+
+
+	public String getOrderNumber() {
+		return orderNumber;
+	}
+
+
+	public void setOrderNumber(String orderNumber) {
+		this.orderNumber = orderNumber;
+	}
+	
+
+	
 
     
 }

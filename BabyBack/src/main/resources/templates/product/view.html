@@ -11,13 +11,29 @@
 
     <div class="card p-4">
         <h4 th:text="${product.name}">商品名稱</h4>
-        <p><strong>供應商：</strong>
-            <span th:text="${product.supplier != null ? product.supplier.name : '無'}">供應商名稱</span>
-        </p>
         <p><strong>規格：</strong> <span th:text="${product.specification}">規格</span></p>
         <p><strong>顏色：</strong> <span th:text="${product.color}">顏色</span></p>
-        <p><strong>進貨價：</strong> <span th:text="${product.price}">價格</span></p>
-        <p><strong>庫存：</strong> <span th:text="${product.stock}">庫存</span></p>
+
+
+        <hr>
+        <h5>供應商與價格</h5>
+        <table class="table table-sm table-bordered mt-2">
+            <thead class="table-light">
+                <tr>
+                    <th>供應商名稱</th>
+                    <th>價格</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="sp : ${product.supplierProducts}">
+                    <td th:text="${sp.supplier.name}">供應商名稱</td>
+                    <td th:text="${sp.price}">價格</td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(product.supplierProducts)}">
+                    <td colspan="2" class="text-muted text-center">尚無供應商價格資料</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 
     <div class="mt-3">

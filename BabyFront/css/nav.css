@@ -132,28 +132,15 @@ nav .dropdown-toggle::after {
 
 /* user下拉選單 */
 /* User dropdown 單獨客製化 */
-#dropdownForUser {
-    width: 150px !important;
-    right: 0 !important;
-    left: -4vw !important;
-    white-space: nowrap;
-    word-break: keep-all;
-    text-align: center;
-    padding: 8px 0;
-
-
-}
-
 #dropdownForUser.show {
-    width: 150px !important;
-    right: 0 !important;
-    left: -4vw !important;
+    width: 0px !important;
+    right: 0;
+    left: -20px !important;
     white-space: nowrap;
     word-break: keep-all;
     text-align: center;
-    padding: 8px 0;
+    padding: 0;
     display: block !important;
-    flex-direction: column !important;
 }
 
 

@@ -3,7 +3,8 @@ body {
     overflow-x: hidden;
 }
 
-header, footer {
+header,
+footer {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -120,11 +121,54 @@ nav .dropdown-toggle::after {
     width: 10%;
     text-align: center;
 }
-.dropdown-item.active, .dropdown-item:active {
+
+.dropdown-item.active,
+.dropdown-item:active {
     color: var(--bs-dropdown-link-active-color);
     text-decoration: none;
-    background-color: #f5f5f5;;
+    background-color: #f5f5f5;
+    ;
 }
+
+/* user下拉選單 */
+/* User dropdown 單獨客製化 */
+#dropdownForUser {
+    width: 150px !important;
+    right: 0 !important;
+    left: -4vw !important;
+    white-space: nowrap;
+    word-break: keep-all;
+    text-align: center;
+    padding: 8px 0;
+
+
+}
+
+#dropdownForUser.show {
+    width: 150px !important;
+    right: 0 !important;
+    left: -4vw !important;
+    white-space: nowrap;
+    word-break: keep-all;
+    text-align: center;
+    padding: 8px 0;
+    display: block !important;
+    flex-direction: column !important;
+}
+
+
+
+.user-dropdown .dropdown-item {
+    display: block !important;
+    /* ⬅️ 關鍵，讓每一個 a 占滿一行 */
+    width: 100% !important;
+    padding: 8px 12px;
+    text-align: center;
+    white-space: normal;
+    font-size: 14px;
+}
+
+
 
 body {
     min-height: 200vh;

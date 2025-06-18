@@ -18,7 +18,7 @@
 	<div class="container-fluid">
 		<div class="row">
 
-			<!-- Sidebar 0617版-->
+	<!-- Sidebar 0618版新增商品上架 但尚未加上連結-->
 			<nav class="col-md-3 col-lg-2 px-3 sidebar">
 				<div class="position-sticky">
 					<a href="http://localhost:8080/"> <img src="/logo-pikababy.png"
@@ -27,7 +27,7 @@
 					</a>
 					<!-- <h2 class="text-center mb-4">功能選單</h2> -->
 					<div class="accordion" id="sidebarMenu">
-						<script>
+										<script>
               //直接將 HTML 字串寫進頁面中
               document.write(`
                 <div class="accordion-item">
@@ -111,6 +111,7 @@
                       <li><a href="/suppliers" class="text-secondary">廠商建檔</a></li>
                       <li><a href="/products" class="text-secondary">商品建檔</a></li>
                         <li><a href="/purchases" class="text-secondary">進貨單</a></li>
+                        <li><a href="" class="text-secondary">商品上架</a></li>
                         <li><a href="/stock" class="text-secondary">庫存查詢</a></li>
                         </ul>
                     </div>
@@ -152,7 +153,7 @@
                   </div>
                 </div>
               `);
-              document.write(`
+               document.write(`
                 <div class="accordion-item">
                   <h5 class="accordion-header" id="heading8">
                     <button class="accordion-button collapsed bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapse8" aria-expanded="false" aria-controls="collapse8">
@@ -219,24 +220,29 @@
 								<strong>客戶：</strong><span th:text="*{customer.name}"></span>
 							</div>
 							<div class="mb-3">
+							
 								<strong>金額：</strong><span th:text="*{amount} + ' 元'"></span>
+								<!-- <strong>金額：</strong><span th:text="'$' + ${#numbers.formatDecimal(*{amount}, 0, 'COMMA', 0, 'POINT')} + ' 元'"></span> -->
 							</div>
-                             <div class="mb-3">
-							<label>狀態：</label>
-							 <select th:field="*{status}">
+							
+                             <div class="mb-3 d-flex align-items-center">
+							<label class="fw-bold me-2 mb-0" style="white-space: nowrap;">狀態：</label>
+							 <select th:field="*{status}" class="form-select w-25 text-center">
 								<option value="未收款">未收款</option>
 								<option value="已收款">已收款</option>
 							</select><br /> 
 							</div>
-							<div class="mb-3">
-							<label>實際收款日：</label>
+							
+							<div class="mb-3 d-flex align-items-center">
+							<label class="fw-bold">實際收款日：</label>
 							 <input type="date"
-								th:field="*{paidDate}" /><br /> 
+								th:field="*{paidDate}" class="form-control w-25" /><br /> 
 							</div>
+							
 							<div class="mb-3">	
-								<label>備註：</label> 
+								<label class="fw-bold">備註：</label> 
 								<input
-								type="text" th:field="*{note}" /><br />
+								type="text" th:field="*{note}" class="form-control mt-2 w-75"/><br />
 								</div>
 
 							<div class="text-center mt-5">

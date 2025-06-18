@@ -56,11 +56,7 @@ public class ProductController {
     }
 
     @PostMapping("/save")
-    public String save(@ModelAttribute Product product,
-    				   @RequestParam("supplierId") Long supplierId ) throws IOException { //接收 <input type="file" name="images" multiple> 的所有上傳圖
-    	 Supplier supplier = supplierService.getById(supplierId);
-    	 product.setSupplier(supplier);
-    	
+    public String save(@ModelAttribute Product product){
         service.save(product);
         return "redirect:/products";
     }

@@ -21,33 +21,16 @@ public class Product {
     private String color;
     
     private String note;
-
-    //0611喬新增
-    @OneToMany(mappedBy = "product")
-    private List<PurchaseOrderDetail> purchaseDetails;
     
     @OneToMany(mappedBy = "product")
     private List<SupplierProduct> supplierProducts;
     
     @OneToMany(mappedBy = "product")
     private List<ProductImage> images = new ArrayList<>();
-    
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "supplier_id")
-    private Supplier supplier;
-    
+   
     @Transient
     private Long stock;
-
-    // 加上一個 getter：計算目前庫存
-    @Transient
-    public long getCurrentStock() {
-        if (purchaseDetails == null) return 0;
-        return purchaseDetails.stream()
-                .mapToLong(PurchaseOrderDetail::getQuantity)
-                .sum();
-    }
-
+   
 	public Long getId() {
 		return id;
 	}
@@ -97,17 +80,6 @@ public class Product {
 		this.color = color;
 	}
 
-
-	public List<PurchaseOrderDetail> getPurchaseDetails() {
-		return purchaseDetails;
-	}
-
-
-	public void setPurchaseDetails(List<PurchaseOrderDetail> purchaseDetails) {
-		this.purchaseDetails = purchaseDetails;
-	}
-
-
 	public List<SupplierProduct> getSupplierProducts() {
 		return supplierProducts;
 	}
@@ -127,17 +99,6 @@ public class Product {
 		this.images = images;
 	}
 
-
-	public Supplier getSupplier() {
-		return supplier;
-	}
-
-
-	public void setSupplier(Supplier supplier) {
-		this.supplier = supplier;
-	}
-
-
 	public Long getStock() {
 		return stock;
 	}
@@ -154,6 +115,8 @@ public class Product {
 	public void setNote(String note) {
 		this.note = note;
 	}
+	
+	
 	
 	
 }

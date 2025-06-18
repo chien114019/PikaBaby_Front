@@ -6,17 +6,18 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import com.example.demo.model.Product;
 import com.example.demo.model.PurchaseOrderDetail;
 
 public interface PurchaseOrderDetailRepository extends JpaRepository<PurchaseOrderDetail, Long> {
-//	@Query("SELECT SUM(p.quantity) FROM PurchaseOrderDetail p WHERE p.product.id = :productId")
-//	Long findTotalPurchasedQuantityByProductId(@Param("productId") Long productId);
-	
-	//0611喬新增
-	@Query("SELECT SUM(p.quantity) FROM PurchaseOrderDetail p WHERE p.product.id = :productId")
-	Long sumQuantityByProductId(@Param("productId") Long productId);
+	List<PurchaseOrderDetail> findBySupplierProduct_Product(Product product);
 
-	List<PurchaseOrderDetail> findByProductId(Long productId);
-	
+	List<PurchaseOrderDetail> findBySupplierProduct_Product_Id(Long productId);
+
+	@Query("SELECT SUM(d.quantity) FROM PurchaseOrderDetail d WHERE d.supplierProduct.product.id = :productId")
+	Long sumQuantityBySupplierProduct_Product_Id(@Param("productId") Long productId);
+
+
+
 
 }

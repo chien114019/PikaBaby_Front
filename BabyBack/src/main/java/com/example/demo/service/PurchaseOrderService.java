@@ -8,6 +8,7 @@ import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.model.AccountsPayable;
 import com.example.demo.model.PurchaseOrder;
@@ -56,16 +57,25 @@ public class PurchaseOrderService {
         return purchaseOrderRepo.findAll();
     }
 
+    @Transactional
     public void deleteById(Long id) {
         PurchaseOrder order = purchaseOrderRepo.findById(id).orElse(null);
         if (order != null) {
+            // 先刪除應付帳款
             AccountsPayable payable = accountsPayableRepo.findByPurchaseOrder(order);
             if (payable != null) {
                 accountsPayableRepo.delete(payable);
             }
+
+            // 先清空明細才能刪主表
+            order.getDetails().clear();
+            purchaseOrderRepo.save(order);
+
+            // 再刪主表
             purchaseOrderRepo.delete(order);
         }
     }
+
 
     public String generateOrderNumber() {
         String prefix = "PO"; // PO = Purchase Order

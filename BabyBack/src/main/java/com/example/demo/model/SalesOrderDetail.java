@@ -14,7 +14,14 @@ public class SalesOrderDetail {
     private SalesOrder order;
 
     @ManyToOne
+    @JoinColumn(name = "product_id")
     private Product product;
+    
+    @ManyToOne
+    @JoinColumn(name = "supplier_product_id")
+    private SupplierProduct supplierProduct;
+
+
 
     private Long quantity;
     private BigDecimal unitPrice;
@@ -52,7 +59,15 @@ public class SalesOrderDetail {
 	}
 	 public BigDecimal getSubTotal() {
 	        return unitPrice.multiply(BigDecimal.valueOf(quantity));
-	    }
+	}
+	public SupplierProduct getSupplierProduct() {
+		return supplierProduct;
+	}
+	public void setSupplierProduct(SupplierProduct supplierProduct) {
+		this.supplierProduct = supplierProduct;
+	}
+	
+	
 	 
    
 }

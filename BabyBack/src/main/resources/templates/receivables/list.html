@@ -18,7 +18,7 @@
 	<div class="container-fluid">
 		<div class="row">
 
-			<!-- Sidebar -->
+			<!-- Sidebar 0617版-->
 			<nav class="col-md-3 col-lg-2 px-3 sidebar">
 				<div class="position-sticky">
 					<a href="http://localhost:8080/"> <img src="/logo-pikababy.png"
@@ -74,7 +74,7 @@
                     <div class="accordion-body">
                       <ul class="list-unstyled">
                         <li><a href="/receivables/list" class="text-secondary">應收帳款管理</a></li>
-                        <li><a href="/payments/list" class="text-secondary">應付帳款管理</a></li>
+                        <li><a href="/payables/list" class="text-secondary">應付帳款管理</a></li>
                        
                       </ul>
                     </div>
@@ -183,12 +183,12 @@
 					<i class="bi bi-person-circle fs-4 me-2"></i> Hi! 總經理 小智
 				</a>
 				<ul class="dropdown-menu text-small" aria-labelledby="userDropdown">
-					<li><a class="dropdown-item" href="#">個人資料設定</a></li>
+					<!-- <li><a class="dropdown-item" href="#">個人資料設定</a></li> -->
 					<!-- <li><a class="dropdown-item" href="#"></a></li> -->
-					<li>
-						<hr class="dropdown-divider">
-					</li>
-					<li><a class="dropdown-item text-danger" href="#">登出</a></li>
+					<!-- <li> -->
+						<!-- <hr class="dropdown-divider"> -->
+					<!-- </li> -->
+					<li><a class="dropdown-item text-danger text-center" href="#">登出</a></li>
 				</ul>
 			</div>
 
@@ -239,7 +239,7 @@
 									<th>狀態</th>
 									<th>到期日</th>
 									<th>建立時間</th>
-									<th>備註</th>>
+									<th>備註</th>
 									<th>操作</th>
 								</tr>
 							</thead>
@@ -252,7 +252,7 @@
 									<td th:text="${r.status}">未收款</td>
 									<td th:text="${r.paidDate}">到期日</td>
 									<td th:text="${#dates.format(r.createdAt, 'yyyy-MM-dd HH:mm')}">建立時間</td>
-									<td th:text="${r.note}">備註</td>>
+									<td th:text="${r.note}">備註</td>
 									<td><a class="btn btn-warning" th:href="@{'/receivables/edit/' + ${r.id}}">編輯</a></td>
 								</tr>
 							</tbody>

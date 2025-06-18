@@ -16,6 +16,12 @@ import java.util.Map;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
+
 
 
 @CrossOrigin(origins = "*")
@@ -112,5 +118,16 @@ public class SalesOrderController {
     	return ResponseEntity.ok(orderService.getOrdersByCustId(custId));
     }
     
+    @PutMapping("/cancel/{id}")
+    @ResponseBody
+    public ResponseEntity<Response> cancelOrderById(@PathVariable String id) {
+    	Response response = orderService.cancelOrderById(id);
+    	if (response.getSuccess()) {
+			response.setMesg("訂單編號 " + id + " " + response.getMesg());
+		} else {
+			response.setMesg("訂單編號 " + id + " " + response.getMesg() + "，取消失敗");
+		}
+        return ResponseEntity.ok(response);
+    }
 
 }

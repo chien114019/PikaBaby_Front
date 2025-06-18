@@ -105,4 +105,20 @@ public class SalesOrderService {
 		returnMap.put("response", response);
     	return returnMap;
 	}
+    
+    public Response cancelOrderById(String id) {
+		Response response = new Response();
+    	SalesOrder target = repository.findById(Long.parseLong(id)).orElse(null);
+		if (target != null) {
+			target.setStatus(-1);
+			target.setPayStatus(1);
+			repository.save(target);
+			response.setSuccess(true);
+			response.setMesg("取消成功");
+		} else {
+			response.setSuccess(false);
+			response.setMesg("查無此訂單");
+		}
+    	return response;
+	}
 }

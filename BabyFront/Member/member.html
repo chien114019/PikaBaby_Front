@@ -17,6 +17,7 @@
         body {
             padding: 0;
         }
+
         .btn:disabled {
             border: 0;
         }
@@ -150,6 +151,25 @@
             </div>
         </div>
     </nav>
+
+    <!-- Order Cancel Modal -->
+    <div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="cancelModalLabel">訂單取消</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    是否確定取消申請？
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">返回</button>
+                    <button id="confirmBtn" type="button" class="btn btn-primary" data-bs-dismiss="modal">我要取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- 主內容區塊 -->
     <div>
@@ -972,7 +992,7 @@
                         let id = $("<td>").text(element.id);
                         let date = $("<td>").text(element.date);
                         let cancelIcon = $("<i class='bi bi-x-circle-fill'>");
-                        let cancelBtn = $("<button class='btn'>");
+                        let cancelBtn = $("<button class='btn' data-bs-toggle='modal' data-bs-target='#cancelModal'>");
                         cancelBtn.attr("onclick", `cancelOrder(${element.id})`)
                         let cancel = $("<td>");
 
@@ -980,7 +1000,8 @@
                         switch (element.status) {
                             case -1:
                                 status.text("已取消")
-                                cancelIcon.addClass("text-danger");
+                                cancelIcon.addClass("text-secondary-emphasis");
+                                cancelBtn.attr("disabled", "disabled");
                                 break;
                             case 0:
                                 status.text("已成立")
@@ -1002,7 +1023,7 @@
                                 payStatus.text("已付款");
                                 break;
                             case 1:
-                                payStatus.text("退款中");
+                                payStatus.text("待退款");
                                 break;
                             case 2:
                                 payStatus.text("已退款");
@@ -1026,6 +1047,22 @@
                 alert("系統查詢錯誤");
             }
         })
+
+        function cancelOrder(id) {
+            $("#confirmBtn").on("click", function() {
+                $.ajax({
+                    method: "PUT",
+                    url: `${host}/orders/cancel/${id}`,
+                    success: function (resp) {
+                        alert(resp.mesg);
+                        window.location.reload();
+                    },
+                    error: function () {
+                        alert("系統錯誤，取消失敗");
+                    }
+                })
+            })
+        }
     </script>
 </body>
 

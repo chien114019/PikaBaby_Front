@@ -22,8 +22,8 @@ public class SalesOrder {
     private List<SalesOrderDetail> details;
     
     private String paymentMethod;
-    private Integer status;
-    private Integer payStatus;
+    private Integer status;		// 訂單狀態(-1:已取消、0: 已成立、1: 已完成)
+    private Integer payStatus;	// 付款狀態(0: 已付款、1: 退款中、2: 已退款)
 
 	public Long getId() {
 		return id;

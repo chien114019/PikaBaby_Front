@@ -10,12 +10,15 @@ import com.example.demo.service.SupplierProductService;
 import com.example.demo.service.SupplierService;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -159,19 +162,35 @@ public class ProductController {
     
     @GetMapping("/publish")
     public String publishList(Model model) {
-        model.addAttribute("products", service.listAll());
+        List<Product> products = service.listAll();
+        Map<Long, Integer> stockMap = new HashMap<>();
+
+        for (Product p : products) {
+            int stock = (int) service.calculateStock(p.getId());
+            stockMap.put(p.getId(), stock);
+        }
+
+        model.addAttribute("products", products);
+        model.addAttribute("stockMap", stockMap);
         return "product/publish";
     }
 
+
     @PostMapping("/publish/update")
     public String updatePublishStatus(@RequestParam("productIds") List<Long> productIds,
+    								  @RequestParam("prices") List<BigDecimal> prices,
                                       @RequestParam(value = "publishedIds", required = false) List<Long> publishedIds) {
-        for (Long id : productIds) {
-            Product p = service.getById(id);
-            p.setPublished(publishedIds != null && publishedIds.contains(id));
-            service.save(p);
-        }
-        return "redirect:/products/publish";
+    	for (int i = 0; i < productIds.size(); i++) {
+    	    Long id = productIds.get(i);
+    	    BigDecimal price = prices.get(i);
+
+    	    Product p = service.getById(id);
+    	    p.setPrice(price);
+    	    p.setPublished(publishedIds != null && publishedIds.contains(id));
+    	    service.save(p);
+    	}
+
+        return "redirect:/product/publish";
     }
     
     @GetMapping("/published")

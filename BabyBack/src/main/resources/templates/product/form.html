@@ -209,7 +209,16 @@
 						<form th:action="@{/products/save}" enctype="multipart/form-data" th:object="${product}" method="post">
 						
 							<input type="hidden" th:field="*{id}" />
-
+							
+							
+							<div class="mb-3">
+							  <label class="fw-bold">商品圖片</label>
+							  <input type="file" name="image" class="form-control mt-2" accept="image/*" />
+							  <label class="fw-bold">商品圖片預覽</label><br>
+  							  <img th:src="@{${product.imageUrl}}" class="img-thumbnail mt-2" style="max-width: 200px;" />
+							</div>
+							
+							
 							<div class="mb-3">
 								<label class="fw-bold">商品名稱</label> <input type="text"
 									th:field="*{name}" class="form-control mt-2" required />

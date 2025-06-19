@@ -35,7 +35,7 @@ public class ProductService {
     private SupplierProductRepository supplierProductRepository;
 
     public List<Product> listAll() {
-        return repository.findAll();
+    	return repository.findByDeletedFalse();
     }
 
     public Product getById(Long id) {
@@ -47,9 +47,13 @@ public class ProductService {
     }
 
     public void delete(Long id) {
-        Product product = repository.findById(id).orElseThrow();
-        repository.delete(product);
+        Product product = repository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("商品不存在"));
+        
+        product.setDeleted(true);
+        repository.save(product);
     }
+
 
     public List<Product> getAllProducts() {
         return repository.findAll();
@@ -102,5 +106,21 @@ public class ProductService {
 
         imageRepository.saveAll(imageList);
     }
+    
+    public List<Product> findPublishedProducts() {
+        return repository.findByPublishedTrue();
+    }
+    
+    public List<Product> findActive() {
+        return repository.findByDeletedFalse();
+    }
+
+    public List<Product> findAll() {
+        return repository.findAll(); // 不過濾
+    }
+
+    
+    
+
 }
 

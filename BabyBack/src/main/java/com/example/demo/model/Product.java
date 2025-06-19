@@ -22,6 +22,17 @@ public class Product {
     
     private String note;
     
+    private String imageUrl;
+    
+    private String description;
+    
+    @Column(nullable = false)
+    private Boolean deleted = false;
+    
+    @Column(name = "is_published")
+    private Boolean published;
+
+    
     @OneToMany(mappedBy = "product")
     private List<SupplierProduct> supplierProducts;
     
@@ -115,6 +126,53 @@ public class Product {
 	public void setNote(String note) {
 		this.note = note;
 	}
+
+
+	public Boolean isPublished() {
+		return published;
+	}
+
+
+	public void setPublished(Boolean published) {
+		this.published = published;
+	}
+
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+
+
+	public String getDescription() {
+		return description;
+	}
+
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+
+	public Boolean getDeleted() {
+		return deleted;
+	}
+
+
+	public void setDeleted(Boolean deleted) {
+		this.deleted = deleted;
+	}
+
+
+	public Boolean getPublished() {
+		return published;
+	}
+	
+	
 	
 	
 	

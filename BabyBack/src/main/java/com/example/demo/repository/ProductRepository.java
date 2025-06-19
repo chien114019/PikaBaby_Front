@@ -14,6 +14,10 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 	@Query("SELECT sp FROM SupplierProduct sp JOIN FETCH sp.supplier JOIN FETCH sp.product")
 	List<SupplierProduct> findAllWithDetails();
 
+	List<Product> findByPublishedTrue();
+
+	List<Product> findByDeletedFalse();
+	
 	
 
 }

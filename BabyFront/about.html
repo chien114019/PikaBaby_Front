@@ -294,7 +294,7 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#">關於我們</a>
                     </li>
-                    <ul class="d-flex gap-3">
+                    <div class="d-flex gap-3">
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="Shopping/shoppingcart.html">
                                 <img src="images/cart.png" style="width: 30px;">
@@ -306,11 +306,17 @@
                             </div> -->
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="Member/login.html">
-                                <img src="images/user.png" style="width: 30px;">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdown5" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img src="images/user.png" style="width: 30px;" alt="會員圖示">
                             </a>
+                            <div class="dropdown-menu p-3 justify-content-center gap-5" id="dropdownForUser"
+                                aria-labelledby="navbarDropdown5">
+                                <a class="dropdown-item" href="/Member/member.html">會員中心</a>
+                                <a class="dropdown-item text-danger" href="#" onclick="logout()">登出</a>
+                            </div>
                         </li>
-                    </ul>
+                    </div>
                 </ul>
             </div>
         </div>

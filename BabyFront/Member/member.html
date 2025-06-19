@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <title>會員專區</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="../css/nav.css">
     <link rel="stylesheet" href="../css/bucketlist.css">
     <link rel="stylesheet" href="../css/changePasswd.css">
@@ -15,6 +16,10 @@
     <style>
         body {
             padding: 0;
+        }
+
+        .btn:disabled {
+            border: 0;
         }
     </style>
 </head>
@@ -110,8 +115,8 @@
                         </div>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdown5" role="button"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown5" role="button" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
                             二手託售
                         </a>
                         <div class="dropdown-menu p-3 justify-content-center gap-5" aria-labelledby="navbarDropdown5">
@@ -125,7 +130,7 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="../about.html">關於我們</a>
                     </li>
-                    <ul class="d-flex gap-3">
+                    <div class="d-flex gap-3">
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="../Shopping/shoppingcart.html">
                                 <img src="../images/cart.png" style="width: 30px;">
@@ -137,16 +142,41 @@
                             </div> -->
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#">
-                                <img src="../images/user.png" style="width: 30px;">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdown5" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img src="../images/user.png" style="width: 30px;" alt="會員圖示">
                             </a>
+                            <div class="dropdown-menu p-3 justify-content-center gap-5" id="dropdownForUser"
+                                aria-labelledby="navbarDropdown5">
+                                <a class="dropdown-item" href="/member.html">會員中心</a>
+                                <a class="dropdown-item text-danger" href="#" onclick="logout()">登出</a>
+                            </div>
                         </li>
-                    </ul>
+                    </div>
                 </ul>
             </div>
         </div>
     </nav>
-    
+
+    <!-- Order Cancel Modal -->
+    <div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="cancelModalLabel">訂單取消</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    是否確定取消申請？
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">返回</button>
+                    <button id="confirmBtn" type="button" class="btn btn-primary" data-bs-dismiss="modal">我要取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- 主內容區塊 -->
     <div>
         <div class="container">
@@ -154,14 +184,7 @@
 
                 <!-- 主要內容 -->
                 <div class="col-md-8 p-5 text-start mx-auto">
-                    <!-- <div class="col-md-8 p-5 text-center mx-auto">
-            <h2>PikaBaby 會員中心</h2>
-          </div>
-          <h3>歡迎回來，皮卡！</h3> -->
-
                     <div class="text-center mb-4">
-                        <!-- <h3 class="fw-bold"> PikaBaby 會員中心</h3> -->
-
                         <h5 class="text-start text-muted mt-2">歡迎回來，皮卡！</h5>
                     </div>
                     <br>
@@ -174,43 +197,30 @@
                             <button class="btn nav-button" onclick="switchTab(event, 'wishlist')"> 我的收藏</button>
                             <button class="btn nav-button" onclick="switchTab(event, 'discount')"> 折扣專區</button>
                             <button class="btn nav-button" onclick="switchTab(event, 'password')"> 帳號管理</button>
-                            <!-- <button class="btn nav-button active" onclick="switchTab(event, 'order')">🧾 交易紀錄</button>
-              <button class="btn nav-button" onclick="switchTab(event, 'profile')">🧍 會員資料</button>
-              <button class="btn nav-button" onclick="switchTab(event, 'wishlist')">❤️ 我的收藏</button>
-              <button class="btn nav-button" onclick="switchTab(event, 'discount')">🎁 折扣專區</button>
-              <button class="btn nav-button" onclick="switchTab(event, 'password')">🔑 帳號管理</button> -->
                         </div>
                     </div>
                     <br><br>
                     <!-- 各區塊內容 -->
                     <div id="order" class="tab-content active">
                         <div class="row">
-                            <!-- 側邊欄
-            <div class="sidebar">
-              <div class="timeline-line"></div>
-              <div class="menu-item">訂單資訊</div>
-              <div class="menu-item">託售紀錄</div>
-            </div> -->
-                            <!-- <ul class="nav nav-tabs mt-3">
-        <li class="nav-item"><a class="nav-link active" href="#">訂單資訊</a></li>
-        <li class="nav-item"><a class="nav-link" href="#">會員資料</a></li>
-        <li class="nav-item"><a class="nav-link" href="#">我的收藏</a></li>
-        <li class="nav-item"><a class="nav-link" href="#">折扣回饋</a></li>
-        <li class="nav-item"><a class="nav-link" href="#">更換密碼</a></li>
-      </ul> -->
-
                             <!-- 訂單資訊 -->
                             <div class="order-card bg-warning-subtle p-4 mt-3 rounded">
                                 <h2>訂單資訊</h2>
                                 <p class="description">訂單成立後，請等待5至10分鐘更新，方可查詢訂單資料</p>
 
-                                <div class="order-header">
-                                    <div>訂單編號</div>
-                                    <div>日期</div>
-                                    <div>訂單狀態</div>
-                                    <div>付款狀態</div>
-                                    <div>金額總計</div>
-                                </div>
+                                <table>
+                                    <thead>
+                                        <tr class="order-header">
+                                            <th>訂單編號</th>
+                                            <th>日期</th>
+                                            <th>訂單狀態</th>
+                                            <th>付款狀態</th>
+                                            <th>金額總計</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="orderTable"></tbody>
+                                </table>
 
                                 <div class="progress-bar"></div>
 
@@ -219,8 +229,6 @@
                                 </div>
                             </div>
                         </div>
-
-
                     </div>
                     <div id="profile" class="tab-content">
                         <!-- 會員資訊 -->
@@ -326,19 +334,6 @@
                                                 </div>
                                                 <small class="text-muted info-text-muted">第一手掌握產品、優惠以及會員福利的最新消息。</small>
                                             </div>
-
-
-                                            <!-- <div class="form-check mt-2">
-              <input class="form-check-input" type="checkbox" id="subscribe2">
-              <label class="form-check-label" for="subscribe2">訂閱</label>
-            </div>
-            <small class="text-muted">第一手掌握產品、優惠以及會員福利的最新消息。</small>
-          </div> -->
-
-                                            <!-- <div class="d-flex justify-content-end gap-3">
-            <button type="button" class="btn btn-outline-dark px-4" data-bs-dismiss="modal">取消</button>
-            <button type="submit" class="btn btn-dark px-4">儲存</button>
-          </div> -->
                                             <div class="d-flex justify-content-end gap-3">
                                                 <button type="button" class="btn info-btn-cancel px-4"
                                                     data-bs-dismiss="modal">取消</button>
@@ -778,6 +773,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../js/navbar.js"></script>
     <script>
+        // 目前顧客ID
+        const custId = 3
+        const host = "http://localhost:8080"
 
         // 切換頁面
         function switchTab(event, tabId) {
@@ -986,6 +984,90 @@
             const container = document.getElementById('points-detail-container');
             const isShown = container.classList.toggle('show');
             button.textContent = isShown ? '隱藏點數明細' : '顯示點數明細';
+        }
+
+        $.ajax({
+            method: "GET",
+            url: `${host}/orders/search/cust/${custId}`,
+            success: function (data) {
+                console.log(data);
+                if (data.response.success) {
+                    (data.orders).forEach(element => {
+                        console.log(element);
+                        let row = $("<tr>");
+                        let id = $("<td>").text(element.id);
+                        let date = $("<td>").text(element.date);
+                        let cancelIcon = $("<i class='bi bi-x-circle-fill'>");
+                        let cancelBtn = $("<button class='btn' data-bs-toggle='modal' data-bs-target='#cancelModal'>");
+                        cancelBtn.attr("onclick", `cancelOrder(${element.id})`)
+                        let cancel = $("<td>");
+
+                        let status = $("<td>");
+                        switch (element.status) {
+                            case -1:
+                                status.text("已取消")
+                                cancelIcon.addClass("text-secondary-emphasis");
+                                cancelBtn.attr("disabled", "disabled");
+                                break;
+                            case 0:
+                                status.text("已成立")
+                                cancelIcon.addClass("text-danger");
+                                break;
+                            case 1:
+                                status.text("已完成")
+                                cancelIcon.addClass("text-secondary-emphasis");
+                                cancelBtn.attr("disabled", "disabled");
+                                break;
+
+                            default:
+                                break;
+                        }
+
+                        let payStatus = $("<td>");
+                        switch (element.payStatus) {
+                            case 0:
+                                payStatus.text("已付款");
+                                break;
+                            case 1:
+                                payStatus.text("待退款");
+                                break;
+                            case 2:
+                                payStatus.text("已退款");
+                                break;
+                            default:
+                                break;
+                        }
+
+                        let total = $("<td>").text(element.total);
+                        cancelBtn.append(cancelIcon);
+                        cancel.append(cancelBtn);
+                        row.append(id, date, status, payStatus, total, cancel);
+                        $("#orderTable").append(row);
+                    });
+                }
+                else {
+                    alert(data.response.mesg);
+                }
+            },
+            error: function () {
+                alert("系統查詢錯誤");
+            }
+        })
+
+        function cancelOrder(id) {
+            $("#confirmBtn").on("click", function () {
+                $.ajax({
+                    method: "PUT",
+                    url: `${host}/orders/cancel/${id}`,
+                    success: function (resp) {
+                        alert(resp.mesg);
+                        window.location.reload();
+                    },
+                    error: function () {
+                        alert("系統錯誤，取消失敗");
+                    }
+                })
+            })
         }
     </script>
 </body>

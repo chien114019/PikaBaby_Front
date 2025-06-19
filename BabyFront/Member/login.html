@@ -177,7 +177,7 @@
         <div class="mb-3">
           <a href="#" class="text-decoration-none">忘記密碼？</a>
         </div>
-        <button type="submit" class="btn btn-dark btn-login">登入</button>
+        <button type="submit" class="btn btn-dark btn-login" onclick="login()">登入</button>
       </form>
     </div>
 
@@ -196,6 +196,33 @@
     </div>
   </div>
   <br><br><br>
+
+  <script>
+function login() {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  fetch("/customers/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      email: email,
+      password: password
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    alert(data.mesg);
+    if (data.success) {
+      // 可跳轉頁面，例如：
+      window.location.href = "/Member/member.html";
+    }
+  });
+}
+</script>
+
 </body>
 
 </html>

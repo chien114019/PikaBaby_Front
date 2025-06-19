@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import com.example.demo.model.SalesOrder;
+import com.example.demo.model.Customer;
+
 
 public interface SalesOrderRepository extends JpaRepository<SalesOrder, Long> {
 	
@@ -19,5 +21,5 @@ public interface SalesOrderRepository extends JpaRepository<SalesOrder, Long> {
 		""", nativeQuery = true)
 		List<Object[]> getMonthlySalesRaw();
 
-
+	List<SalesOrder> findAllByCustomer(Customer customer);
 }

@@ -3,14 +3,31 @@ package com.example.demo.model;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "user_account")
 public class UserAccount {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String username;
-    private String password;
-    private String role; // 例：ADMIN / SALES / VIEWER
+    private String username; //登入用的帳號
+    private String password; //加密密碼
+    private String role; // 權限類別（決定可以看到什麼功能）例：ADMIN / SALES / VIEWER
+    private String realname; //畫面上顯示的真實姓名或暱稱
+    private Boolean enabled; //帳號是否啟用,true 表示啟用
+
+    public String getRealname() {
+		return realname;
+	}
+	public void setRealname(String realname) {
+		this.realname = realname;
+	}
+	public Boolean getEnabled() {
+		return enabled;
+	}
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
+	}
+	
     
 	public Long getId() {
 		return id;

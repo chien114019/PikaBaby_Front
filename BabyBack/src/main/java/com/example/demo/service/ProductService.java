@@ -38,7 +38,7 @@ public class ProductService {
     	return repository.findByDeletedFalse();
     }
 
-    public Product getById(Long id) {
+    public Product getById(Integer id) {
         return repository.findById(id).orElse(null);
     }
 
@@ -46,7 +46,7 @@ public class ProductService {
         repository.save(product);
     }
 
-    public void delete(Long id) {
+    public void delete(Integer id) {
         Product product = repository.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("商品不存在"));
         
@@ -67,7 +67,7 @@ public class ProductService {
     	List<Product> products = repository.findAll();
 
         for (Product p : products) {
-            Long totalIn = purchaseDetailRepository.sumQuantityBySupplierProduct_Product_Id(p.getId());
+            Integer totalIn = purchaseDetailRepository.sumQuantityBySupplierProduct_Product_Id(p.getId());
             Long totalOut = salesOrderDetailRepository.sumQuantityBySupplierProductProductId(p.getId());
             Long stock = (totalIn != null ? totalIn : 0L) - (totalOut != null ? totalOut : 0L);
             p.setStock(stock);
@@ -76,14 +76,14 @@ public class ProductService {
         return products;
     }
 
-    public Long getCurrentStock(Long productId) {
-        Long totalIn = purchaseDetailRepository.sumQuantityBySupplierProduct_Product_Id(productId);
+    public Long getCurrentStock(Integer productId) {
+        Integer totalIn = purchaseDetailRepository.sumQuantityBySupplierProduct_Product_Id(productId);
         Long totalOut = salesOrderDetailRepository.sumQuantityBySupplierProductProductId(productId);
         return (totalIn != null ? totalIn : 0L) - (totalOut != null ? totalOut : 0L);
     }
     
-    public long calculateStock(Long productId) {
-        Long totalIn = purchaseDetailRepository.sumQuantityBySupplierProduct_Product_Id(productId);
+    public long calculateStock(Integer integer) {
+    	Integer totalIn = purchaseDetailRepository.sumQuantityBySupplierProduct_Product_Id(integer);
         return totalIn != null ? totalIn : 0L;
     }
 

@@ -17,7 +17,7 @@ import jakarta.persistence.OneToMany;
 @Entity
 public class SupplierProduct {
     @Id @GeneratedValue
-    private Long id;
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "supplier_id")
@@ -40,11 +40,11 @@ public class SupplierProduct {
     
     private Date endDate;
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

@@ -100,7 +100,7 @@ public class ProductController {
 
 
     @GetMapping("/edit/{id}")
-    public String editForm(@PathVariable Long id, Model model) {
+    public String editForm(@PathVariable Integer id, Model model) {
     	 Product product = service.getById(id);
         model.addAttribute("product", product);
         model.addAttribute("suppliers", supplierService.listAll());
@@ -109,7 +109,7 @@ public class ProductController {
     }
 
     @GetMapping("/delete/{id}")
-    public String delete(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+    public String delete(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
     	 try {
     	        service.delete(id);
     	        redirectAttributes.addFlashAttribute("message", "刪除成功");
@@ -120,7 +120,7 @@ public class ProductController {
     }
     
     @PostMapping("/restore/{id}")
-    public String restoreProduct(@PathVariable Long id) {
+    public String restoreProduct(@PathVariable Integer id) {
         Product product = service.getById(id);
         product.setDeleted(false);
         service.save(product);
@@ -129,7 +129,7 @@ public class ProductController {
 
     @GetMapping("/images/{id}")
     @ResponseBody
-    public ResponseEntity<byte[]> serveImage(@PathVariable Long id) {
+    public ResponseEntity<byte[]> serveImage(@PathVariable Integer id) {
         ProductImage image = imageRepository.findById(id).orElse(null);
         if (image == null || image.getImageData() == null) {
             return ResponseEntity.notFound().build();
@@ -143,7 +143,7 @@ public class ProductController {
     
     @DeleteMapping("/images/{id}")
     @ResponseBody
-    public ResponseEntity<String> deleteImage(@PathVariable Long id) {
+    public ResponseEntity<String> deleteImage(@PathVariable Integer id) {
         ProductImage image = imageRepository.findById(id).orElse(null);
         if (image == null) {
             return ResponseEntity.notFound().build();
@@ -154,7 +154,7 @@ public class ProductController {
     }
     
     @GetMapping("/view/{id}")
-    public String viewDetail(@PathVariable Long id, Model model) {
+    public String viewDetail(@PathVariable Integer id, Model model) {
         Product product = service.getById(id);
         model.addAttribute("product", product);
         return "product/view";
@@ -163,7 +163,7 @@ public class ProductController {
     @GetMapping("/publish")
     public String publishList(Model model) {
         List<Product> products = service.listAll();
-        Map<Long, Integer> stockMap = new HashMap<>();
+        Map<Integer, Integer> stockMap = new HashMap<>();
 
         for (Product p : products) {
             int stock = (int) service.calculateStock(p.getId());
@@ -177,11 +177,11 @@ public class ProductController {
 
 
     @PostMapping("/publish/update")
-    public String updatePublishStatus(@RequestParam("productIds") List<Long> productIds,
+    public String updatePublishStatus(@RequestParam("productIds") List<Integer> productIds,
     								  @RequestParam("prices") List<BigDecimal> prices,
-                                      @RequestParam(value = "publishedIds", required = false) List<Long> publishedIds) {
+                                      @RequestParam(value = "publishedIds", required = false) List<Integer> publishedIds) {
     	for (int i = 0; i < productIds.size(); i++) {
-    	    Long id = productIds.get(i);
+    	    Integer id = productIds.get(i);
     	    BigDecimal price = prices.get(i);
 
     	    Product p = service.getById(id);

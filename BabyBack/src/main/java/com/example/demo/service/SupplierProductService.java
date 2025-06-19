@@ -22,15 +22,15 @@ public class SupplierProductService {
         return repository.findAll();
     }
 
-    public SupplierProduct getById(Long id) {
-        return repository.findById(id).orElse(null);
+    public SupplierProduct getById(Integer supplierProductIds) {
+        return repository.findById(supplierProductIds).orElse(null);
     }
 
-    public void delete(Long id) {
+    public void delete(Integer id) {
         repository.deleteById(id);
     }
     
-    public List<SupplierProduct> findBySupplierId(Long supplierId) {
+    public List<SupplierProduct> findBySupplierId(Integer supplierId) {
         return repository.findBySupplierId(supplierId);
     }
     

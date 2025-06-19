@@ -9,7 +9,7 @@ import com.example.demo.model.SalesOrder;
 import com.example.demo.model.Customer;
 
 
-public interface SalesOrderRepository extends JpaRepository<SalesOrder, Long> {
+public interface SalesOrderRepository extends JpaRepository<SalesOrder, Integer> {
 	
 	@Query(value = """
 		    SELECT DATE_FORMAT(o.order_date, '%Y-%m') AS month,

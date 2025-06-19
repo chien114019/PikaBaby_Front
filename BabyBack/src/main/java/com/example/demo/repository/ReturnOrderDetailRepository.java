@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.example.demo.model.ReturnOrderDetail;
 
-public interface ReturnOrderDetailRepository extends JpaRepository<ReturnOrderDetail, Long> {
+public interface ReturnOrderDetailRepository extends JpaRepository<ReturnOrderDetail, Integer> {
 	@Query("SELECT d.product.name, COUNT(d.id) " +
 		       "FROM ReturnOrderDetail d " +
 		       "GROUP BY d.product.name " +

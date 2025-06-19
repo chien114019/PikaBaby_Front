@@ -54,7 +54,7 @@ public class ReturnOrderController {
 
     // 顯示建立退貨單頁面
     @GetMapping("/create")
-    public String showReturnForm(@RequestParam(required = false) Long orderId, Model model) {
+    public String showReturnForm(@RequestParam(required = false) Integer orderId, Model model) {
         List<SalesOrder> orders = salesOrderRepository.findAll();
         model.addAttribute("orders", orders);
 
@@ -69,8 +69,8 @@ public class ReturnOrderController {
     // 處理退貨單提交
     @PostMapping("/create")
     public String processReturn(
-            @RequestParam Long orderId,
-            @RequestParam List<Long> productId,
+            @RequestParam Integer orderId,
+            @RequestParam List<Integer> productId,
             @RequestParam List<Integer> qty,
             @RequestParam List<Double> unitPrice,
             @RequestParam(required = false) String reason
@@ -114,7 +114,7 @@ public class ReturnOrderController {
         @RequestParam(required = false) String customerName,
         @RequestParam(required = false) String startDate,
         @RequestParam(required = false) String endDate,
-        @RequestParam(required = false) Long orderId,
+        @RequestParam(required = false) Integer orderId,
         Model model) {
 
         List<ReturnOrder> returnOrders = returnOrderRepository.findAll(); // 可改為客製查詢
@@ -146,7 +146,7 @@ public class ReturnOrderController {
 
     
     @GetMapping("/view/{id}")
-    public String viewReturnOrder(@PathVariable Long id, Model model) {
+    public String viewReturnOrder(@PathVariable Integer id, Model model) {
         ReturnOrder returnOrder = returnOrderRepository.findById(id).orElse(null);
         model.addAttribute("returnOrder", returnOrder);
         return "returns/view";
@@ -158,7 +158,7 @@ public class ReturnOrderController {
         @RequestParam(required = false) String customerName,
         @RequestParam(required = false) String startDate,
         @RequestParam(required = false) String endDate,
-        @RequestParam(required = false) Long orderId
+        @RequestParam(required = false) Integer orderId
     ) throws IOException {
 
         List<ReturnOrder> returnOrders = returnOrderRepository.findAll();
@@ -216,7 +216,7 @@ public class ReturnOrderController {
     }
     
     @PostMapping("/delete/{id}")
-    public String deleteReturnOrder(@PathVariable Long id, HttpSession session) {
+    public String deleteReturnOrder(@PathVariable Integer id, HttpSession session) {
         // 權限驗證（假設 session 中有角色屬性）
         String role = (String) session.getAttribute("role");
         if (!"ADMIN".equals(role)) {
@@ -254,7 +254,7 @@ public class ReturnOrderController {
     }
     
     @GetMapping("/pdf/{id}")
-    public void exportReturnPdf(@PathVariable Long id, HttpServletResponse response) throws IOException {
+    public void exportReturnPdf(@PathVariable Integer id, HttpServletResponse response) throws IOException {
         ReturnOrder ro = returnOrderRepository.findById(id).orElse(null);
         if (ro == null) return;
 

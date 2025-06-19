@@ -18,7 +18,7 @@ public class CustomerService {
         return repository.findAll();
     }
 
-    public Customer getById(Long id) {
+    public Customer getById(Integer id) {
         return repository.findById(id).orElse(null);
     }
 
@@ -26,7 +26,7 @@ public class CustomerService {
         repository.save(customer);
     }
 
-    public void delete(Long id) {
+    public void delete(Integer id) {
         repository.deleteById(id);
     }
     

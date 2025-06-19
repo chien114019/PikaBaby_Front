@@ -58,7 +58,7 @@ public class PurchaseOrderService {
     }
 
     @Transactional
-    public void deleteById(Long id) {
+    public void deleteById(Integer id) {
         PurchaseOrder order = purchaseOrderRepo.findById(id).orElse(null);
         if (order != null) {
             // 先刪除應付帳款
@@ -84,7 +84,7 @@ public class PurchaseOrderService {
         return prefix + datePart + randomPart;
     }
     
-    public PurchaseOrder getById(Long id) {
+    public PurchaseOrder getById(Integer id) {
         return purchaseOrderRepo.findById(id).orElse(null);
     }
 

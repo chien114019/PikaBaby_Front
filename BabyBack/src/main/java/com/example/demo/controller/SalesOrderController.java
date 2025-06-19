@@ -49,8 +49,8 @@ public class SalesOrderController {
     }
 
     @PostMapping("/save")
-    public String saveOrder(@RequestParam Long customerId,
-                            @RequestParam("productIds") Long[] productIds,
+    public String saveOrder(@RequestParam Integer customerId,
+                            @RequestParam("productIds") Integer[] productIds,
                             @RequestParam("quantities") Long[] quantities,
                             Model model) {
 

@@ -16,7 +16,7 @@ import jakarta.persistence.Table;
 @Table(name = "receivable")
 public class Receivable {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "order_id")
@@ -38,11 +38,11 @@ public class Receivable {
     
     private String note;
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

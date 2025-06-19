@@ -47,7 +47,7 @@ public class PurchaseOrderController {
     // 儲存進貨單
     @PostMapping("/save")
     public String saveOrder(
-            @RequestParam("supplierProductIds") Long[] supplierProductIds,
+            @RequestParam("supplierProductIds") Integer[] supplierProductIds,
             @RequestParam("quantities") Long[] quantities,
             @RequestParam("unitPrice") BigDecimal[] unitPrice,
             @RequestParam("orderDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date orderDate) {
@@ -101,14 +101,14 @@ public class PurchaseOrderController {
 
     // 刪除進貨單
     @GetMapping("/delete/{id}")
-    public String delete(@PathVariable Long id) {
+    public String delete(@PathVariable Integer id) {
         orderService.deleteById(id);
         return "redirect:/purchases";
     }
 
     // 顯示編輯畫面
     @GetMapping("/edit/{id}")
-    public String editForm(@PathVariable Long id, Model model) {
+    public String editForm(@PathVariable Integer id, Model model) {
         PurchaseOrder order = orderService.getById(id);
         if (order == null) {
             return "redirect:/purchases";

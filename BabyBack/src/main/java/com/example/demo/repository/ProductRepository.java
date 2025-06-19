@@ -4,11 +4,12 @@ import com.example.demo.model.Product;
 import com.example.demo.model.SupplierProduct;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-public interface ProductRepository extends JpaRepository<Product, Long> {
+public interface ProductRepository extends JpaRepository<Product, Integer> {
 	List<Product> findByNameContainingIgnoreCase(String name);
 	
 	@Query("SELECT sp FROM SupplierProduct sp JOIN FETCH sp.supplier JOIN FETCH sp.product")
@@ -17,6 +18,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 	List<Product> findByPublishedTrue();
 
 	List<Product> findByDeletedFalse();
+
+	Optional<Product> findById(Integer id);
 	
 	
 

@@ -79,7 +79,7 @@ public class SalesOrderService {
     	List<Map<String, Object>> orderList = new ArrayList();
     	Response response = new Response();
 
-    	Customer cust = cRepository.findById(Long.parseLong(custId)).orElse(null);
+    	Customer cust = cRepository.findById((int) Long.parseLong(custId)).orElse(null);
     	
     	if (cust != null) {
     		List<SalesOrder> orders = repository.findAllByCustomer(cust);
@@ -108,7 +108,7 @@ public class SalesOrderService {
     
     public Response cancelOrderById(String id) {
 		Response response = new Response();
-    	SalesOrder target = repository.findById(Long.parseLong(id)).orElse(null);
+    	SalesOrder target = repository.findById((int) Long.parseLong(id)).orElse(null);
 		if (target != null) {
 			target.setStatus(-1);
 			target.setPayStatus(1);

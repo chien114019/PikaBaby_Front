@@ -4,7 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.example.demo.model.ProductImage;
 import java.util.List;
 
-public interface ProductImageRepository extends JpaRepository<ProductImage, Long> {
+public interface ProductImageRepository extends JpaRepository<ProductImage, Integer> {
 
 	// 不用自己寫，JpaRepository 的現成方法
 	//productImageRepository.saveAll(list);

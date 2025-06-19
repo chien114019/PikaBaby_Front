@@ -8,7 +8,7 @@ import jakarta.persistence.*;
 public class PurchaseOrderDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "purchase_order_id")
@@ -24,10 +24,10 @@ public class PurchaseOrderDetail {
     private BigDecimal unitPrice;
     
     
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	public PurchaseOrder getOrder() {

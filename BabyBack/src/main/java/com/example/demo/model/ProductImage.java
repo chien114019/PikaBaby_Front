@@ -8,7 +8,7 @@ public class ProductImage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @Column(name = "image_path")
     private String imagePath; // 儲存圖片路徑
@@ -23,11 +23,11 @@ public class ProductImage {
     private byte[] imageData; //imageData是真的存圖片內容的欄位，會對應資料表的 image_data 欄位
 
     // Getter & Setter
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

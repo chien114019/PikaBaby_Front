@@ -39,7 +39,7 @@ public class ConsignmentController {
 //	--------------- 前台 API ----------------
 	
 //	根據 Customer id 取得託售申請紀錄
-	@GetMapping("/consign/cust/{custId}")
+	@GetMapping("/front/consign/cust/{custId}")
 	@ResponseBody
 	public List<Consignment> getConsignmentsByCustId(@PathVariable String custId, @RequestParam(required = false) String applyStart,
 			@RequestParam(required = false) String applyEnd, @RequestParam(required = false) String type, 
@@ -119,7 +119,7 @@ public class ConsignmentController {
 	}
 	
 //	刪除指定 id 的託售紀錄
-	@DeleteMapping("/consign/delete/id/{id}")
+	@DeleteMapping("/front/consign/delete/id/{id}")
 	@ResponseBody
 	public ResponseEntity<Response> cancelConsignmentApply(@PathVariable String id) {
 		Response response;
@@ -142,7 +142,7 @@ public class ConsignmentController {
 	}
 	
 //	根據顧客姓名、顧客電話找到指定顧克，新增託售記錄到該顧客
-	@PostMapping("/consign/create")
+	@PostMapping("/front/consign/create")
 	@ResponseBody
 	/*
 	 * RequestBody:

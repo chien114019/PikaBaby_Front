@@ -50,9 +50,12 @@ public class SecurityConfig {
     // 自訂安全規則
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http .authorizeHttpRequests(auth -> auth
+        http 
+        	.csrf().disable()
+        	.authorizeHttpRequests(auth -> auth
         	    .anyRequest().permitAll()
-        	) //完全放行
+//        	    .requestMatchers("secondhand/front/**", "orders/front/**", "/css/**", "/js/**", "/logo-pikababy.png").permitAll()
+        	    ) //完全放行
         
 //            .authorizeHttpRequests(auth -> auth
 //                .requestMatchers("/login", "/css/**", "/js/**", "/logo-pikababy.png").permitAll() // 登入畫面、靜態資源不需驗證
@@ -66,7 +69,7 @@ public class SecurityConfig {
             
             .formLogin(login -> login
                 .loginPage("/login") // 自訂登入畫面
-                .defaultSuccessUrl("/index", true) // 登入成功導向index
+                .defaultSuccessUrl("/", true) // 登入成功導向index
                 .permitAll()
             )
             .logout(logout -> logout

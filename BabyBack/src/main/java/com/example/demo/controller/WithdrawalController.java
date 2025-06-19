@@ -37,7 +37,7 @@ public class WithdrawalController {
 	private BankRepository bRepository;
 
 //	================ 前台API =================
-	@GetMapping("/withdraw/cust/{custId}")
+	@GetMapping("/front/withdraw/cust/{custId}")
 	@ResponseBody
 	public List<Withdrawal> getWithdrawsByCustId(@PathVariable String custId,
 			@RequestParam(required = false) String start, @RequestParam(required = false) String end,
@@ -82,7 +82,7 @@ public class WithdrawalController {
 		return withdrawals;
 	}
 
-	@DeleteMapping("/withdraw/delete/id/{id}")
+	@DeleteMapping("/front/withdraw/delete/id/{id}")
 	@ResponseBody
 	public ResponseEntity<Response> cancelWithdrawApply(@PathVariable String id) {
 		Response response;
@@ -104,20 +104,20 @@ public class WithdrawalController {
 		return ResponseEntity.ok(response);
 	}
 
-	@GetMapping("/withdraw/banks")
+	@GetMapping("/front/withdraw/banks")
 	@ResponseBody
 	public List<BankNo> getBanks() {
 		return bRepository.findAll();
 	}
 
-	@GetMapping("/withdraw/total/custId/{custId}")
+	@GetMapping("/front/withdraw/total/custId/{custId}")
 	@ResponseBody
 	public ResponseEntity<Map<String, Object>> getTotal(@PathVariable String custId) {
 		Map<String, Object> storage = service.getStorageByCust(custId);
 		return ResponseEntity.ok(storage);
 	}
 
-	@PostMapping("/withdraw/create")
+	@PostMapping("/front/withdraw/create")
 	@ResponseBody
 	public ResponseEntity<Response> createWithdraw(@RequestBody Map<String, Object> body) {
 		/* { custId: "", amount: "", bankId: "", bankAccount: "", ids: [] } */ 

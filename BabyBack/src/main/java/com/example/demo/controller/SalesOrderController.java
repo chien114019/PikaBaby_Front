@@ -112,13 +112,13 @@ public class SalesOrderController {
     }
 
 //   ========== 前台API============
-    @GetMapping("/search/cust/{custId}")
+    @GetMapping("/front/search/cust/{custId}")
     @ResponseBody
     public ResponseEntity<Map<String, Object>> getOrdersByCustId(@PathVariable String custId) {
     	return ResponseEntity.ok(orderService.getOrdersByCustId(custId));
     }
     
-    @PutMapping("/cancel/{id}")
+    @PutMapping("/front/cancel/{id}")
     @ResponseBody
     public ResponseEntity<Response> cancelOrderById(@PathVariable String id) {
     	Response response = orderService.cancelOrderById(id);

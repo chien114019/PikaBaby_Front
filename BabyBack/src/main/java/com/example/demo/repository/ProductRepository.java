@@ -21,6 +21,12 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
 	Optional<Product> findById(Integer id);
 	
-	
+//	List<Product> findAllByPublishedAndAge1(Boolean published, Boolean age1);
+//
+//	List<Product> findAllByPublishedAndAge2(Boolean published, Boolean age1);
+//
+//	List<Product> findAllByPublishedAndAge3(Boolean published, Boolean age1);
+//
+//	List<Product> findAllByPublishedAndAge4(Boolean published, Boolean age1);
 
 }

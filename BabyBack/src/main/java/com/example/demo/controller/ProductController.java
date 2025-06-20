@@ -28,6 +28,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @Controller
 @RequestMapping("/products")
@@ -126,33 +129,7 @@ public class ProductController {
         service.save(product);
         return "redirect:/products?showDeleted=true";
     }
-
-    @GetMapping("/images/{id}")
-    @ResponseBody
-    public ResponseEntity<byte[]> serveImage(@PathVariable Integer id) {
-        ProductImage image = imageRepository.findById(id).orElse(null);
-        if (image == null || image.getImageData() == null) {
-            return ResponseEntity.notFound().build();
-        }
-
-        String contentType = URLConnection.guessContentTypeFromName(image.getImagePath());
-        return ResponseEntity.ok()
-            .header("Content-Type", contentType != null ? contentType : "application/octet-stream")
-            .body(image.getImageData());
-    }
-    
-    @DeleteMapping("/images/{id}")
-    @ResponseBody
-    public ResponseEntity<String> deleteImage(@PathVariable Integer id) {
-        ProductImage image = imageRepository.findById(id).orElse(null);
-        if (image == null) {
-            return ResponseEntity.notFound().build();
-        }
-
-        imageRepository.deleteById(id);
-        return ResponseEntity.ok("deleted");
-    }
-    
+  
     @GetMapping("/view/{id}")
     public String viewDetail(@PathVariable Integer id, Model model) {
         Product product = service.getById(id);
@@ -193,7 +170,35 @@ public class ProductController {
         return "redirect:/product/publish";
     }
     
-    @GetMapping("/published")
+//    ============= 前台API ==============
+    
+    @GetMapping("/front/images/{id}")
+    @ResponseBody
+    public ResponseEntity<byte[]> serveImage(@PathVariable Integer id) {
+        ProductImage image = imageRepository.findById(id).orElse(null);
+        if (image == null || image.getImageData() == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        String contentType = URLConnection.guessContentTypeFromName(image.getImagePath());
+        return ResponseEntity.ok()
+            .header("Content-Type", contentType != null ? contentType : "application/octet-stream")
+            .body(image.getImageData());
+    }
+    
+    @DeleteMapping("/front/images/{id}")
+    @ResponseBody
+    public ResponseEntity<String> deleteImage(@PathVariable Integer id) {
+        ProductImage image = imageRepository.findById(id).orElse(null);
+        if (image == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        imageRepository.deleteById(id);
+        return ResponseEntity.ok("deleted");
+    }
+    
+    @GetMapping("/front/published")
     @ResponseBody
     public List<ProductDto> getPublishedProducts() {
         return productRepository.findByPublishedTrue()

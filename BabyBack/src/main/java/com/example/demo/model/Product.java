@@ -31,6 +31,8 @@ public class Product {
     
     @Column(name = "is_published")
     private Boolean published;
+    
+    private Integer ageRecommand;	// 1: 0-3M, 2: 3-6M, 3: 6-12M, 4: 2-3y
 
     
     @OneToMany(mappedBy = "product")
@@ -38,6 +40,10 @@ public class Product {
     
     @OneToMany(mappedBy = "product")
     private List<ProductImage> images = new ArrayList<>();
+    
+	@ManyToOne
+	@JoinColumn(name = "type")
+	private ProductType productType;
    
     @Transient
     private Long stock;
@@ -170,6 +176,26 @@ public class Product {
 
 	public Boolean getPublished() {
 		return published;
+	}
+
+
+	public Integer getAgeRecommand() {
+		return ageRecommand;
+	}
+
+
+	public void setAgeRecommand(Integer ageRecommand) {
+		this.ageRecommand = ageRecommand;
+	}
+
+
+	public ProductType getProductType() {
+		return productType;
+	}
+
+
+	public void setProductType(ProductType productType) {
+		this.productType = productType;
 	}
 	
 	

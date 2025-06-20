@@ -356,8 +356,8 @@
                         </div>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdown5" role="button"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown5" role="button" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
                             二手託售
                         </a>
                         <div class="dropdown-menu p-3 justify-content-center gap-5" aria-labelledby="navbarDropdown5">
@@ -631,14 +631,14 @@
                 alert('購物車是空的！');
                 return;
             }
-            
+
             // 渲染訂單項目
             renderOrderItems(cart);
-            
+
             // 切換顯示
             document.getElementById('cartContent').style.display = 'none';
             document.getElementById('checkoutForm').style.display = 'block';
-            
+
             // 更新會員點數顯示
             const pointsInput = document.getElementById('points');
             const availablePoints = document.getElementById('availablePoints');
@@ -646,7 +646,7 @@
                 pointsInput.max = availablePoints.textContent;
                 pointsInput.value = '0'; // 重置點數輸入
             }
-            
+
             // 更新總金額
             updateTotal();
         }
@@ -719,7 +719,7 @@
             const form = event.target;
             const formData = new FormData(form);
             const cart = JSON.parse(localStorage.getItem('cart')) || [];
-            
+
             try {
                 // 檢查購物車是否為空
                 if (cart.length === 0) {
@@ -750,7 +750,7 @@
                 };
 
                 // 發送請求到後端
-                const response = await fetch('http://localhost:8080/api/orders', {
+                const response = await fetch('http://localhost:8080/orders/api/cart', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -764,16 +764,16 @@
                 }
 
                 const result = await response.json();
-                
+
                 // 清空購物車
                 localStorage.setItem('cart', JSON.stringify([]));
-                
+
                 // 顯示成功訊息
                 alert('訂單已成功建立！訂單編號：' + result.orderId);
-                
+
                 // 重定向到訂單確認頁面
                 window.location.href = 'order-confirmation.html?orderId=' + result.orderId;
-                
+
             } catch (error) {
                 console.error('Error:', error);
                 alert(error.message || '訂單建立失敗，請稍後再試');
@@ -800,12 +800,12 @@
                     alert('無法加入商品：缺少商品ID');
                     return;
                 }
-                cart.push({ 
+                cart.push({
                     id: productId,
-                    name: productName, 
-                    price: price, 
-                    quantity: 1, 
-                    image: imageUrl 
+                    name: productName,
+                    price: price,
+                    quantity: 1,
+                    image: imageUrl
                 });
             }
             localStorage.setItem('cart', JSON.stringify(cart));

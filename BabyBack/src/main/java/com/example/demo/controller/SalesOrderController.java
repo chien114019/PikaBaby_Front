@@ -2,12 +2,14 @@ package com.example.demo.controller;
 
 import com.example.demo.model.*;
 import com.example.demo.service.*;
+import com.example.demo.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -32,6 +34,8 @@ public class SalesOrderController {
     @Autowired private CustomerService customerService;
     @Autowired private ProductService productService;
     @Autowired private SalesOrderService orderService;
+    @Autowired private CustomerRepository customerRepository;
+    @Autowired private ProductRepository productRepository;
     
     @GetMapping
     public String listOrders(Model model) {
@@ -130,4 +134,76 @@ public class SalesOrderController {
         return ResponseEntity.ok(response);
     }
 
+    // ========== 結帳 ============
+    @PostMapping("/api/cart")
+    @ResponseBody
+    public ResponseEntity<?> createOrderApi(@RequestBody Map<String, Object> orderData) {
+        try {
+            // 1. 創建客戶資料
+            Customer customer = new Customer();
+            customer.setName((String) orderData.get("name"));
+            customer.setPhone((String) orderData.get("phone"));
+            customer.setEmail((String) orderData.get("email"));
+            customer.setAddress((String) orderData.get("address"));
+            customerRepository.save(customer);
+
+            // 2. 創建訂單
+            SalesOrder order = new SalesOrder();
+            order.setCustomer(customer);
+            order.setOrderDate(new Date());
+            order.setStatus(0);  // 設置訂單狀態為已成立
+            order.setPayStatus(0);  // 設置支付狀態為未付款
+            
+            // 3. 處理訂單明細
+            ArrayList<Map<String, Object>> items = (ArrayList<Map<String, Object>>) orderData.get("items");
+            ArrayList<SalesOrderDetail> details = new ArrayList<>();
+            
+            for (Map<String, Object> item : items) {
+                SalesOrderDetail detail = new SalesOrderDetail();
+                Product product = productService.getById(Integer.parseInt(item.get("productId").toString()));
+                if (product == null) {
+                    throw new RuntimeException("Product not found");
+                }
+                
+                detail.setProduct(product);
+                detail.setQuantity(Long.parseLong(item.get("quantity").toString()));
+                detail.setUnitPrice(BigDecimal.valueOf(Double.parseDouble(item.get("price").toString())));
+                detail.setOrder(order);
+                details.add(detail);
+            }
+            
+            order.setDetails(details);
+            
+            // 4. 保存訂單
+            orderService.save(order);
+            
+            // 5. 返回成功響應
+            Map<String, Object> response = new HashMap<>();
+            response.put("orderId", order.getId());
+            response.put("message", "Order created successfully");
+            
+            return ResponseEntity.ok(response);
+            
+        } catch (Exception e) {
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("message", "Failed to create order: " + e.getMessage());
+            return ResponseEntity.badRequest().body(errorResponse);
+        }
+    }
+
+    @GetMapping("/api/{id}")
+    @ResponseBody
+    public ResponseEntity<?> getOrderApi(@PathVariable String id) {
+        try {
+            Map<String, Object> orderData = orderService.getOrdersByCustId(id);
+            if (orderData == null || orderData.isEmpty()) {
+                return ResponseEntity.notFound().build();
+            }
+            return ResponseEntity.ok(orderData);
+        } catch (Exception e) {
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("message", "Failed to get order: " + e.getMessage());
+            return ResponseEntity.badRequest().body(errorResponse);
+        }
+    }
 }

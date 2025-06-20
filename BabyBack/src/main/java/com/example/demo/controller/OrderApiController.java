@@ -58,7 +58,7 @@ public class OrderApiController {
             for (Map<String, Object> item : items) {
                 SalesOrderDetail detail = new SalesOrderDetail();
                 // 這裡假設前端傳來的商品資料中有商品ID，如果沒有的話需要用商品名稱查詢
-                Product product = productRepository.findById(Long.parseLong(item.get("productId").toString()))
+                Product product = productRepository.findById((int) Long.parseLong(item.get("productId").toString()))
                     .orElseThrow(() -> new RuntimeException("Product not found"));
                 
                 detail.setProduct(product);
@@ -88,7 +88,7 @@ public class OrderApiController {
     }
 
     @GetMapping("/orders/{id}")
-    public ResponseEntity<?> getOrder(@PathVariable Long id) {
+    public ResponseEntity<?> getOrder(@PathVariable Integer id) {
         try {
             SalesOrder order = salesOrderService.getById(id);
             if (order == null) {

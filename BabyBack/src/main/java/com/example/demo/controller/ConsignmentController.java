@@ -234,7 +234,8 @@ public class ConsignmentController {
 		String review = body.get("review");
 		String price = body.get("price");
 		
-		Response response = service.editConsignment(id, review, price);		
+		Response response = service.editConsignment(id, review, price);
+	
 		return ResponseEntity.ok(response);
 	}
 	

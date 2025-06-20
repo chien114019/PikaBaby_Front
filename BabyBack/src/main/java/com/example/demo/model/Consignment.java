@@ -43,6 +43,9 @@ public class Consignment {
 	private Integer price;
 	private String produceYear;
 	
+	@Temporal(TemporalType.DATE)
+	private Date pointDate;
+	
 	public Integer getId() {
 		return id;
 	}
@@ -121,9 +124,17 @@ public class Consignment {
 	public void setProduceYear(String produceYear) {
 		this.produceYear = produceYear;
 	}
+	public Date getPointDate() {
+		return pointDate;
+	}
+	public void setPointDate(Date pointDate) {
+		this.pointDate = pointDate;
+	}
+
 	
 //	------------------------------------
-	
+
+
 
 	@ManyToOne
 	@JoinColumn(name = "custId")

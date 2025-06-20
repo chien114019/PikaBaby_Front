@@ -12,7 +12,6 @@ import com.example.demo.model.ProductType;
 import com.example.demo.model.Customer;
 import com.example.demo.model.Withdrawal;
 
-
 public interface ConsignmentRepository extends JpaRepository<Consignment, Integer> {
 
 //	============後台API=============
@@ -28,14 +27,26 @@ public interface ConsignmentRepository extends JpaRepository<Consignment, Intege
 
 	List<Consignment> findAllByReview(Integer review);
 
+	List<Consignment> findAllByCustomerAndPointDateIsNullAndReview(Customer cust, Integer review);
+
+	@Query("""
+			SELECT c
+			FROM Consignment c
+			WHERE ABS(DATEDIFF(pointDate, CURDATE())) = (
+			    SELECT MIN(ABS(DATEDIFF(pointDate, CURDATE())))
+			    FROM Consignment c
+			)
+						""")
+	List<Consignment> findAllByNearestPointDate();
+
 	List<Consignment> findAllByDelivery(Integer delivery);
-	
+
 	@Query("""
 			SELECT c FROM Consignment c
 			WHERE c.customer.id = :custId AND review > 0 AND c.withdrawal IS NULL
 			""")
 	List<Consignment> getStorageByCust(@Param("custId") Long custId);
-	
+
 	List<Consignment> findAllByWithdrawal(Withdrawal withdrawal);
 
 //	============前台API=============

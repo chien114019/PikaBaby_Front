@@ -10,7 +10,7 @@ import java.util.List;
 public class SalesOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @ManyToOne
     private Customer customer;
@@ -27,11 +27,11 @@ public class SalesOrder {
     @Column(columnDefinition = "integer default 0")
     private Integer payStatus = 0;  // 0:未付款, 1:已付款
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

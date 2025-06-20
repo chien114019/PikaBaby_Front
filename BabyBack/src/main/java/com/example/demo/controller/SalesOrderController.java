@@ -135,6 +135,7 @@ public class SalesOrderController {
     }
 
     // ========== 結帳 ============
+    @CrossOrigin(origins = "*")
     @PostMapping("/api/cart")
     @ResponseBody
     public ResponseEntity<?> createOrderApi(@RequestBody Map<String, Object> orderData) {

@@ -129,8 +129,8 @@
                             </a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" id="userDropdown" role="button" data-bs-toggle="dropdown"
-                                aria-expanded="false">
+                            <a class="nav-link dropdown-toggle" id="userDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
                                 <img src="../images/user.png" style="width: 30px;" alt="會員圖示">
                             </a>
                             <div class="dropdown-menu p-3" aria-labelledby="userDropdown">
@@ -223,11 +223,11 @@
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     <script src="../js/navbar.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // 從 URL 獲取訂單 ID
             const urlParams = new URLSearchParams(window.location.search);
             const orderId = urlParams.get('orderId');
-            
+
             if (!orderId) {
                 alert('找不到訂單資訊');
                 window.location.href = 'shoppingcart.html';
@@ -235,7 +235,7 @@
             }
 
             // 從後端獲取訂單詳細資訊
-            fetch(`http://localhost:8080/api/orders/${orderId}`, {
+            fetch(`http://localhost:8080/orders/api/cart/${orderId}`, {
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
@@ -312,4 +312,4 @@
     </script>
 </body>
 
-</html> 
+</html>

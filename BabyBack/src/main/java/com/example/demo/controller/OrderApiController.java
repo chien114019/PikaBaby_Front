@@ -48,6 +48,8 @@ public class OrderApiController {
             SalesOrder order = new SalesOrder();
             order.setCustomer(customer);
             order.setOrderDate(new Date());
+            order.setStatus(0);  // 設置訂單狀態為已成立
+            order.setPayStatus(0);  // 設置支付狀態為未付款
             
             // 3. 處理訂單明細
             ArrayList<Map<String, Object>> items = (ArrayList<Map<String, Object>>) orderData.get("items");

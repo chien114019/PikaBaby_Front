@@ -32,8 +32,10 @@ public class Product {
     @Column(name = "is_published")
     private Boolean published;
     
-    private Integer ageRecommand;	// 1: 0-3M, 2: 3-6M, 3: 6-12M, 4: 2-3y
-
+    private boolean age1;	// 0-3M
+    private boolean age2;	// 3-6M
+    private boolean age3;	// 6-12M
+    private boolean age4;	// 2-3Y
     
     @OneToMany(mappedBy = "product")
     private List<SupplierProduct> supplierProducts;
@@ -179,13 +181,43 @@ public class Product {
 	}
 
 
-	public Integer getAgeRecommand() {
-		return ageRecommand;
+	public boolean isAge1() {
+		return age1;
 	}
 
 
-	public void setAgeRecommand(Integer ageRecommand) {
-		this.ageRecommand = ageRecommand;
+	public void setAge1(boolean age1) {
+		this.age1 = age1;
+	}
+
+
+	public boolean isAge2() {
+		return age2;
+	}
+
+
+	public void setAge2(boolean age2) {
+		this.age2 = age2;
+	}
+
+
+	public boolean isAge3() {
+		return age3;
+	}
+
+
+	public void setAge3(boolean age3) {
+		this.age3 = age3;
+	}
+
+
+	public boolean isAge4() {
+		return age4;
+	}
+
+
+	public void setAge4(boolean age4) {
+		this.age4 = age4;
 	}
 
 

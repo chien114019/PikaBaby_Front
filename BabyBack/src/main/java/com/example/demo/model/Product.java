@@ -32,17 +32,17 @@ public class Product {
     @Column(name = "is_published")
     private Boolean published;
     
-    @Column(nullable = true)
-    private boolean age1;	// 0-3M
+//    @Column(nullable = true)
+    private Boolean age1 = false;	// 0-3M
     
-    @Column(nullable = true)
-    private boolean age2;	// 3-6M
+//    @Column(nullable = true)
+    private Boolean age2;	// 3-6M
     
-    @Column(nullable = true)
-    private boolean age3;	// 6-12M
+//    @Column(nullable = true)
+    private Boolean age3;	// 6-12M
     
-    @Column(nullable = true)
-    private boolean age4;	// 2-3Y
+//    @Column(nullable = true)
+    private Boolean age4;	// 2-3Y
     
     @OneToMany(mappedBy = "product")
     private List<SupplierProduct> supplierProducts;

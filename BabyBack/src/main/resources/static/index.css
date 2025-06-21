@@ -16,11 +16,14 @@
      display: grid;
      grid-template-areas:
      /* 設定 網格的版面結構 */
-         "task info eis inventory finance"
-         "pos sale report inventory finance"
+       /* "task pos info sale eis report finance inventory "
+         "task pos info sale eis report finance inventory " */
+     
+        "task info eis finance inventory "
+         "pos sale report finance inventory " 
         /*  "finance finance finance finance" */;
-     gap: 20px;
-     padding: 40px;
+     gap: 15px;
+     padding: 20px;
  }
 
  .block {

@@ -222,16 +222,14 @@
 							<tr>
 								<th>ID</th>
 								<th>廠商</th>
-								<th>名稱</th>
 								<th>目前庫存</th>
-								<th>操作</th>
+								<th>詳細資訊</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr th:each="p : ${products}">
 								<td th:text="${p.id}" class="text-center"></td>
 								<td th:text="${p.name}" class="text-center"></td>
-								<td th:text="${p.price}" class="text-center"></td>
 								<td th:text="${stockMap[p.id]}" class="text-center"></td>
 								<td class="text-center">
 									<a class="btn btn-sm btn-info " th:href="@{'/products/view/' + ${p.id}}">查看</a>

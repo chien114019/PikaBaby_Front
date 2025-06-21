@@ -18,6 +18,13 @@ public interface PurchaseOrderDetailRepository extends JpaRepository<PurchaseOrd
 	Integer sumQuantityBySupplierProduct_Product_Id(@Param("productId") Integer productId);
 
 
+	@Query("""
+		    SELECT DISTINCT pod.supplierProduct.product 
+		    FROM PurchaseOrderDetail pod
+		""")
+		List<Product> findDistinctProductsInPurchaseHistory();
+
+
 
 
 

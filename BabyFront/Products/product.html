@@ -1239,6 +1239,11 @@ document.addEventListener("DOMContentLoaded", function () {
                             <h5 class="card-title">${p.name}</h5>
                             <p class="card-text">${p.description || "無描述"}</p>
                             <p class="card-text text-danger fw-bold">$${p.price}</p>
+                            <p class="card-text">
+                                ${p.stock > 0 
+                                    ? `<span class="text-success">庫存：${p.stock}</span>` 
+                                    : `<span class="text-danger">售完</span>`}
+                            </p>
                         </div>
                     </div>
                 `;
@@ -1249,8 +1254,10 @@ document.addEventListener("DOMContentLoaded", function () {
             console.error("載入失敗:", err);
         });
 });
-<div id="product-list" class="d-flex flex-wrap"></div>
 </script>
+
+<div id="product-list" class="d-flex flex-wrap"></div>
+
 
 <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 

@@ -405,8 +405,14 @@
 									</div>
 								</div>
 							</div>
-
-
+							
+							<div class="mb-3">
+							  <label class="fw-bold">適用年齡區間</label>
+							  <select class="form-select mt-2" th:field="*{ageRanges}" multiple size="4">
+							    <option th:each="age : ${allAgeRanges}" th:value="${age}" th:text="${age}"></option>
+							  </select>
+							</div>
+							
 							<div class="mb-3">
 								<label class="fw-bold">商品名稱</label> <input type="text"
 									th:field="*{name}" class="form-control mt-2" required />
@@ -414,7 +420,7 @@
 
 							<div class="mb-3">
 								<label class="fw-bold">規格</label> <input type="text"
-									th:field="*{Specification}" class="form-control mt-2" required />
+									th:field="*{specification}" class="form-control mt-2" required />
 							</div>
 
 							<div class="mb-3">
@@ -424,7 +430,7 @@
 
 							<div class="mb-3">
 								<label class="fw-bold">說明</label> <textarea rows="8"
-									th:field="*{note}" class="form-control mt-2" /></textarea>
+									th:field="*{note}" class="form-control mt-2" ></textarea>
 								<!-- textarea 是 HTML 中用來處理多行文字輸入的標準方式;rows="4" 可以自訂高度（4 行文字高） -->	
 							</div>
 

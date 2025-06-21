@@ -52,7 +52,7 @@ public class SalesOrderDetail {
 		this.quantity = quantity;
 	}
 	public BigDecimal getUnitPrice() {
-		return unitPrice;
+		return unitPrice != null ? unitPrice : BigDecimal.ZERO;
 	}
 	public void setUnitPrice(BigDecimal bigDecimal) {
 		this.unitPrice = bigDecimal;

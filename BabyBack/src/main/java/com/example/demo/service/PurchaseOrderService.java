@@ -35,6 +35,7 @@ public class PurchaseOrderService {
 
         // 計算總金額
         BigDecimal totalAmount = order.getDetails().stream()
+        	.filter(d -> d.getUnitPrice() != null && d.getQuantity() != null)
             .map(d -> d.getUnitPrice().multiply(BigDecimal.valueOf(d.getQuantity())))
             .reduce(BigDecimal.ZERO, BigDecimal::add);
 

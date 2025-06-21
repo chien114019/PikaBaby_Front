@@ -106,17 +106,42 @@ public class CustomerController {
 
 //    ============= 前台會員API =================
 // 註冊   
+//	@PostMapping("/register")
+//	@ResponseBody
+//
+//	public ResponseEntity<String> register(@RequestBody Customer customer) {
+//		try {
+//			service.register(customer);
+//			return ResponseEntity.ok("註冊成功！");
+//		} catch (Exception e) {
+//			return ResponseEntity.badRequest().body("註冊失敗：" + e.getMessage());
+//		}
+//	}
+	
 	@PostMapping("/register")
 	@ResponseBody
-
-	public ResponseEntity<String> register(@RequestBody Customer customer) {
-		try {
-			service.register(customer);
-			return ResponseEntity.ok("註冊成功！");
-		} catch (Exception e) {
-			return ResponseEntity.badRequest().body("註冊失敗：" + e.getMessage());
-		}
+	public ResponseEntity<Map<String, String>> register(@RequestBody Customer customer) {
+	    Map<String, String> response = new HashMap<>();
+	    try {
+	        service.register(customer);
+	        response.put("message", "註冊成功！");
+	        return ResponseEntity.ok(response);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        response.put("message", "註冊失敗：" + e.getMessage());
+	        return ResponseEntity.badRequest().body(response);
+	    }
 	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
 //	登入API
 	@PostMapping("/login")
 	@ResponseBody
@@ -150,6 +175,7 @@ public class CustomerController {
 
 	}
 
+//	登出
 	@PostMapping("/logout")
 	@ResponseBody
 	public ResponseEntity<Map<String, Object>> logout(HttpSession session) {

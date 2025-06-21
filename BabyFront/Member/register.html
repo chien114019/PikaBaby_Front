@@ -178,6 +178,87 @@
                 submitBtn.classList.remove('disabled-btn');
             }
         }
+        // 確認所有欄位都填寫了才啟用按鈕
+        function checkFormComplete() {
+            const lastname = document.getElementById('lastname').value.trim();
+            const firstname = document.getElementById('firstname').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+
+            const submitBtn = document.getElementById('submitBtn');
+
+            if (lastname && firstname && email && password.length >= 6) {
+                submitBtn.disabled = false;
+            } else {
+                submitBtn.disabled = true;
+            }
+        }
+
+
+        // 監聽表單輸入
+        document.querySelectorAll('#signupForm input').forEach(input => {
+            input.addEventListener('input', checkFormComplete);
+        });
+
+        // 表單送出
+        document.getElementById('signupForm').addEventListener('submit', function (e) {
+            e.preventDefault(); // 防止表單預設提交
+
+            // const memberData = {
+            //   name: document.getElementById('lastname').value + document.getElementById('firstname').value,
+            //   email: document.getElementById('email').value.trim(),
+            //   password: document.getElementById('password').value
+            // };
+
+            // 註冊fetch
+
+            const lastname = document.getElementById('lastname').value.trim();
+            const firstname = document.getElementById('firstname').value.trim();
+            const fullName = lastname + firstname;
+            console.log("⚠️ lastname =", lastname);
+            console.log("⚠️ firstname =", firstname);
+            console.log("⚠️ fullName =", fullName);
+            const memberData = {
+                name: fullName,
+                email: document.getElementById('email').value.trim(),
+                password: document.getElementById('password').value
+            };
+            sessionStorage.setItem("memberName", fullName);
+
+            fetch('http://localhost:8080/customers/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(memberData)
+            })
+                .then(res => {
+                    if (!res.ok) {
+                        return res.json().then(err => {
+                            // ❗ 拿到錯誤訊息中的 message
+                            throw new Error(err.message || '註冊失敗');
+                        });
+                    }
+                    return res.json();
+                })
+                .then(data => {
+                    alert(data.message); // ✅ 成功訊息
+                    sessionStorage.setItem("memberName", memberData.name);// 傳使用這名字
+                    console.log("✅ 成功設置 sessionStorage:", sessionStorage.getItem("memberName"));
+                    window.location.href = 'member.html';
+                })
+                .catch(error => {
+                    alert(error.message); // ✅ 錯誤訊息
+                    console.error(error);
+                });
+
+        });
+
+
+
+
+
+
     </script>
 
 </body>

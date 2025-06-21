@@ -185,7 +185,7 @@
                 <!-- 主要內容 -->
                 <div class="col-md-8 p-5 text-start mx-auto">
                     <div class="text-center mb-4">
-                        <h5 class="text-start text-muted mt-2">歡迎回來，皮卡！</h5>
+                        <h5 id="welcomeText" class="text-start text-muted mt-2">歡迎回來，皮卡！</h5>
                     </div>
                     <br>
 
@@ -230,141 +230,137 @@
                             </div>
                         </div>
                     </div>
-                    <div id="profile" class="tab-content">
+                    <div id="profile" class="tab-content member-section">
                         <!-- 會員資訊 -->
-                        <div class="col-md-8 offset-md-2">
-                            <div class="card p-4 mx-auto" style="width: 100%">
-                                <h2>會員資訊</h2>
-                                <p>會員名稱: 某小姐</p>
-                                <p>Email: pika.baby111@gmail.com</p>
-                                <p>手機: 0987654321</p>
-                                <p>生日: 1999-01-14</p>
-                                <p>註冊日期: 2021-12-31</p>
-                                <p>寶寶出生年月：</p>
-                                <p><svg xmlns="http://www.w3.org/2000/svg" width="32" height="24" fill="#000000"
-                                        viewBox="0 0 256 256">
-                                        <path
-                                            d="M232,104a56.06,56.06,0,0,0-56-56H136a24,24,0,0,1,24-24,8,8,0,0,0,0-16,40,40,0,0,0-40,40H80a56.06,56.06,0,0,0-56,56,16,16,0,0,0,8,13.83V128c0,35.53,33.12,62.12,59.74,83.49C103.66,221.07,120,234.18,120,240a8,8,0,0,0,16,0c0-5.82,16.34-18.93,28.26-28.51C190.88,190.12,224,163.53,224,128V117.83A16,16,0,0,0,232,104ZM80,64h96a40.06,40.06,0,0,1,40,40H40A40,40,0,0,1,80,64Zm74.25,135c-10.62,8.52-20,16-26.25,23.37-6.25-7.32-15.63-14.85-26.25-23.37C77.8,179.79,48,155.86,48,128v-8H208v8C208,155.86,178.2,179.79,154.25,199Z">
-                                        </path>
-                                    </svg>2025/6</p>
-                                <div class="d-flex justify-content-end">
-                                    <button class="btn membercards-btn  btn-primary btn-edit" data-bs-toggle="modal"
-                                        data-bs-target="#editModal">編輯</button>
-                                </div>
 
+                        <div class="card">
+                            <h3>會員資訊</h3>
+                            <p><strong>會員名稱：</strong> 某小姐</p>
+                            <p><strong>Email：</strong> pika.baby111@gmail.com</p>
+                            <p><strong>手機：</strong> 0987654321</p>
+                            <p><strong>生日：</strong> 1999-01-14</p>
+                            <p><strong>註冊日期：</strong> 2021-12-31</p>
+                            <p><strong>寶寶出生年月：</strong> 2025/6</p>
+                            <div class="text-end mt-3">
+                                <button class="btn btn-outline-primary" data-bs-toggle="modal"
+                                    data-bs-target="#editModal">編輯資料</button>
                             </div>
-                            <!-- 彈出視窗 Modal -->
-                            <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel"
-                                aria-hidden="true">
-                                <div class="modal-dialog modal-lg modal-dialog-centered">
-                                    <div class="modal-content info-modal-content">
-                                        <h4 class="fw-bold text-center mb-4 modal-title-custom info-modal-title-custom">
-                                            個人資料編輯</h4>
-                                        <form>
-                                            <div class="row mb-3">
-                                                <div class="col-md-6">
-                                                    <label class="form-label info-form-label">姓氏</label>
-                                                    <input type="text" class="form-control info-form-control"
-                                                        value="皮卡">
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <label class="form-label info-form-label">名字</label>
-                                                    <input type="text" class="form-control info-form-control"
-                                                        value="寶貝">
-                                                </div>
+                        </div>
+                        <!-- 彈出視窗 Modal -->
+                        <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog modal-lg modal-dialog-centered">
+                                <div class="modal-content info-modal-content">
+                                    <h4 class="fw-bold text-center mb-4 modal-title-custom info-modal-title-custom">
+                                        個人資料編輯</h4>
+                                    <form>
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <label class="form-label info-form-label">姓氏</label>
+                                                <input type="text" class="form-control info-form-control" value="皮卡">
                                             </div>
-
-                                            <div class="row mb-3">
-                                                <div class="col-md-6">
-                                                    <label class="form-label info-form-label">生日</label>
-                                                    <input type="text" class="form-control info-form-control"
-                                                        value="1997 / 01 / 18" disabled>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <label class="form-label info-form-label">性別</label>
-                                                    <select class="form-select info-form-select">
-                                                        <option selected>女性</option>
-                                                        <option>男性</option>
-                                                        <option>其他</option>
-                                                    </select>
-                                                </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label info-form-label">名字</label>
+                                                <input type="text" class="form-control info-form-control" value="寶貝">
                                             </div>
+                                        </div>
 
-                                            <div class="mb-3">
-                                                <label class="form-label info-form-label">手機號碼</label>
-                                                <div class="d-flex gap-2 align-items-center">
-                                                    <select class="form-select info-form-select"
-                                                        style="max-width: 100px;">
-                                                        <option>+886</option>
-                                                    </select>
-                                                    <input type="text" class="form-control info-form-control"
-                                                        placeholder="912 345 678">
-                                                </div>
-                                                <div class="mb-4">
-                                                    <label class="form-label info-form-label">Email</label>
-                                                    <input type="email" class="form-control info-form-control"
-                                                        value="wanyun0118@gmail.com" disabled>
-                                                </div>
-                                                <div>
-                                                    <div id="baby-container">
-                                                        <!-- 初始寶寶欄位 -->
-                                                        <div class="mb-4 baby-field">
-                                                            <label class="form-label info-form-label">寶寶出生年月</label>
-                                                            <div class="d-flex gap-2">
-                                                                <input type="month"
-                                                                    class="form-control info-form-control"
-                                                                    name="baby1" />
-                                                                <button type="button"
-                                                                    class="btn membercards-btn btn-danger btn-delete"
-                                                                    onclick="removeBabyField(this)">X</button>
-                                                            </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <label class="form-label info-form-label">生日</label>
+                                                <input type="text" class="form-control info-form-control"
+                                                    value="1997 / 01 / 18" disabled>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label info-form-label">性別</label>
+                                                <select class="form-select info-form-select">
+                                                    <option selected>女性</option>
+                                                    <option>男性</option>
+                                                    <option>其他</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label class="form-label info-form-label">手機號碼</label>
+                                            <div class="d-flex gap-2 align-items-center">
+                                                <select class="form-select info-form-select" style="max-width: 100px;">
+                                                    <option>+886</option>
+                                                </select>
+                                                <input type="text" class="form-control info-form-control"
+                                                    placeholder="912 345 678">
+                                            </div>
+                                            <div class="mb-4">
+                                                <label class="form-label info-form-label">Email</label>
+                                                <input type="email" class="form-control info-form-control"
+                                                    value="wanyun0118@gmail.com" disabled>
+                                            </div>
+                                            <div>
+                                                <div id="baby-container">
+                                                    <!-- 初始寶寶欄位 -->
+                                                    <div class="mb-4 baby-field">
+                                                        <label class="form-label info-form-label">寶寶出生年月</label>
+                                                        <div class="d-flex gap-2">
+                                                            <input type="month" class="form-control info-form-control"
+                                                                name="baby1" />
+                                                            <button type="button"
+                                                                class="btn membercards-btn btn-danger btn-delete"
+                                                                onclick="removeBabyField(this)">X</button>
                                                         </div>
+                                                    </div>
 
-                                                    </div><button type="button" class="btn btn-outline-warning btn-sm"
-                                                        onclick="addBabyField()">新增寶寶生日</button>
-                                                </div>
-                                                <br>
-
-                                                <div class="form-check info-form-check mt-2">
-                                                    <input class="form-check-input info-form-check-input"
-                                                        type="checkbox" id="subscribe1" checked>
-                                                    <label class="form-check-label info-form-check-label"
-                                                        for="subscribe1">訂閱</label>
-
-                                                </div>
-                                                <small class="text-muted info-text-muted">第一手掌握產品、優惠以及會員福利的最新消息。</small>
+                                                </div><button type="button" class="btn btn-outline-warning btn-sm"
+                                                    onclick="addBabyField()">新增寶寶生日</button>
                                             </div>
-                                            <div class="d-flex justify-content-end gap-3">
-                                                <button type="button" class="btn info-btn-cancel px-4"
-                                                    data-bs-dismiss="modal">取消</button>
-                                                <button type="submit" class="btn info-btn-save px-4">儲存</button>
+                                            <br>
+
+                                            <div class="form-check info-form-check mt-2">
+                                                <input class="form-check-input info-form-check-input" type="checkbox"
+                                                    id="subscribe1" checked>
+                                                <label class="form-check-label info-form-check-label"
+                                                    for="subscribe1">訂閱</label>
+
                                             </div>
-                                        </form>
-                                    </div>
+                                            <small class="text-muted info-text-muted">第一手掌握產品、優惠以及會員福利的最新消息。</small>
+                                        </div>
+
+
+                                        <!-- <div class="form-check mt-2">
+              <input class="form-check-input" type="checkbox" id="subscribe2">
+              <label class="form-check-label" for="subscribe2">訂閱</label>
+            </div>
+            <small class="text-muted">第一手掌握產品、優惠以及會員福利的最新消息。</small>
+          </div> -->
+
+                                        <!-- <div class="d-flex justify-content-end gap-3">
+            <button type="button" class="btn btn-outline-dark px-4" data-bs-dismiss="modal">取消</button>
+            <button type="submit" class="btn btn-dark px-4">儲存</button>
+          </div> -->
+                                        <div class="d-flex justify-content-end gap-3">
+                                            <button type="button" class="btn info-btn-cancel px-4"
+                                                data-bs-dismiss="modal">取消</button>
+                                            <button type="submit" class="btn info-btn-save px-4">儲存</button>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
+
+
+
                         <!-- 常用地址 -->
-                        <div class="col-md-8 offset-md-2">
-                            <div class="card p-4 mx-auto" style="width: 100%; ">
-                                <h2>常用地址</h2>
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <span>406 台中市北屯區松竹三路 18 號</span>
-                                    <div>
-                                        <button class="btn membercards-btn btn-primary btn-edit" data-bs-toggle="modal"
-                                            data-bs-target="#addressModal">編輯</button>
-                                        <button class="btn membercards-btn btn-danger btn-delete">刪除</button>
-                                    </div>
-
-                                </div>
-
-                                <div class="d-flex justify-content-end gap-2">
-
-                                    <button class="btn membercards-btn btn-primary btn-edit" data-bs-toggle="modal"
-                                        data-bs-target="#address_addModal">新增</button>
-                                </div>
+                        <div class="card">
+                            <h3>常用地址</h3>
+                            <p><strong>地址：</strong> 406 台中市北屯區松竹三路 18 號</p>
+                            <div class="text-end d-flex gap-2 justify-content-end">
+                                <button class="btn btn-outline-primary" data-bs-toggle="modal"
+                                    data-bs-target="#addressModal">編輯</button>
+                                <button class="btn btn-outline-danger">刪除</button>
+                                <button class="btn btn-outline-primary" data-bs-toggle="modal"
+                                    data-bs-target="#address_addModal">新增</button>
                             </div>
                         </div>
+
                         <!-- 編輯地址彈出視窗 Modal -->
                         <div class="modal fade" id="addressModal" tabindex="-1" aria-labelledby="addressModalLabel"
                             aria-hidden="true">
@@ -491,171 +487,102 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- 常用信用卡 -->
-                        <div class="col-md-8 offset-md-2">
-                            <div class="card p-4 mx-auto" style="width: 100%; ">
-                                <h2>常用信用卡</h2>
-                                <div class="credit-card d-flex align-items-center justify-content-between">
-                                    <span>💳 國泰世華銀行 (•••• 8860)</span>
-                                    <div>
-                                        <button class="btn membercards-btn btn-primary btn-edit">預設</button>
-                                        <button class="btn membercards-btn btn-danger btn-delete">刪除</button>
-                                    </div>
 
-                                </div>
-                                <div class="d-flex justify-content-end">
-                                    <button class="btn membercards-btn btn-primary btn-edit" data-bs-toggle="modal"
-                                        data-bs-target="#cardModal">新增</button>
-                                </div>
-                                <!-- 信用卡彈出視窗 -->
-                                <div class="modal fade" id="cardModal" tabindex="-1" aria-labelledby="cardModalLabel"
-                                    aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered">
-                                        <div class="modal-content credit-modal-content">
-                                            <h4 class="credit-title text-center">輸入卡號</h4>
-                                            <form id="cardForm">
-                                                <div class="mb-3">
-                                                    <label class="form-label credit-text">信用卡 / 簽帳金融卡卡號</label>
-                                                    <input type="text" id="cardNumber"
-                                                        class="form-control credit-form-control"
-                                                        placeholder="0000 0000 0000 0000" maxlength="19" required>
-                                                </div>
-                                                <div class="row mb-3">
-                                                    <div class="col">
-                                                        <label class="form-label credit-text">有效月年</label>
-                                                        <input type="text" id="expiry"
-                                                            class="form-control credit-form-control" placeholder="MM/YY"
-                                                            maxlength="5" required>
-                                                    </div>
-                                                    <div class="col">
-                                                        <label class="form-label credit-text">背面末三碼</label>
-                                                        <input type="text" id="cvv"
-                                                            class="form-control credit-form-control" placeholder="000"
-                                                            maxlength="3" required>
-                                                    </div>
-                                                </div>
-                                                <div class="d-flex justify-content-between">
-                                                    <button type="button" class="btn btn-outline-secondary"
-                                                        data-bs-dismiss="modal">取消</button>
-                                                    <button type="submit" id="nextBtn"
-                                                        class="btn btn-dark btn-disabled credit-btn-disabled">下一步</button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="note">最多可登錄 3 張信用卡。</div>
+
+                        <!-- 常用信用卡 -->
+                        <div class="card">
+                            <h3>常用信用卡</h3>
+                            <p><strong>💳 國泰世華銀行</strong>（•••• 8860）</p>
+                            <div class="text-end d-flex gap-2 justify-content-end">
+                                <button class="btn btn-outline-primary">預設</button>
+                                <button class="btn btn-outline-danger">刪除</button>
+                                <button class="btn btn-outline-primary" data-bs-toggle="modal"
+                                    data-bs-target="#cardModal">新增</button>
                             </div>
+                            <small class="text-muted">最多可登錄 3 張信用卡。</small>
+                        </div>
+                        <!-- 信用卡彈出視窗 -->
+                        <div class="modal fade" id="cardModal" tabindex="-1" aria-labelledby="cardModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content credit-modal-content">
+                                    <h4 class="credit-title text-center">輸入卡號</h4>
+                                    <form id="cardForm">
+                                        <div class="mb-3">
+                                            <label class="form-label credit-text">信用卡 / 簽帳金融卡卡號</label>
+                                            <input type="text" id="cardNumber" class="form-control credit-form-control"
+                                                placeholder="0000 0000 0000 0000" maxlength="19" required>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col">
+                                                <label class="form-label credit-text">有效月年</label>
+                                                <input type="text" id="expiry" class="form-control credit-form-control"
+                                                    placeholder="MM/YY" maxlength="5" required>
+                                            </div>
+                                            <div class="col">
+                                                <label class="form-label credit-text">背面末三碼</label>
+                                                <input type="text" id="cvv" class="form-control credit-form-control"
+                                                    placeholder="000" maxlength="3" required>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                data-bs-dismiss="modal">取消</button>
+                                            <button type="submit" id="nextBtn"
+                                                class="btn btn-dark btn-disabled credit-btn-disabled">下一步</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="note">最多可登錄 3 張信用卡。</div>
                         </div>
                     </div>
+
                     <div id="wishlist" class="tab-content">
                         <!-- 我的收藏 -->
                         <br><br>
-                        <div class="d-flex justify-content-center">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>項目</th>
-                                        <th>單價</th>
-                                        <th>數量</th>
-                                        <th>小計</th>
-                                        <th>操作</th>
-                                        <th>加入購物車</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <!-- 商品 1 -->
-                                    <tr>
-                                        <td class="item-info">
-                                            <img src="../images/nepkin.jpg" alt="汽車肚圍" class="bucketimg">
-                                            <div class="item-title">Pikababy汽車鋪棉肚圍</div>
-                                        </td>
-                                        <td>$312</td>
-                                        <td>
-                                            <div class="qty-control">
-                                                <button class="btn qty-btn-left"
-                                                    onclick="updateQty(this, -1)">-</button>
-                                                <span class="qty-number">1</span>
-                                                <button class="btn qty-btn-right"
-                                                    onclick="updateQty(this, 1)">+</button>
-                                            </div>
-                                        </td>
-                                        <td>$312</td>
-                                        <td>
-                                            <div class="action-icons">
-                                                <button class="icon-btn">✎</button>
-                                                <button class="icon-btn">✖</button>
-
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <button class="btn-add">＋</button>
-                                        </td>
-                                    </tr>
-                                    <!-- 商品 2 -->
-                                    <tr>
-                                        <td class="item-info">
-                                            <img src="../images/pineapple6.jpg" alt="包屁衣" class="bucketimg">
-                                            <div class="item-title">Pikababy野餐系鳳梨包屁衣</div>
-                                            <div class="sub-info">顏色：鮮黃｜產品規格：12M</div>
-                                        </td>
-                                        <td>$693</td>
-                                        <td>
-                                            <div class="qty-control">
-                                                <button class="btn  qty-btn-left"
-                                                    onclick="updateQty(this, -1)">-</button>
-                                                <span class="qty-number">1</span>
-                                                <button class="btn qty-btn-right"
-                                                    onclick="updateQty(this, 1)">+</button>
-                                            </div>
-                                        </td>
-                                        <td>$693</td>
-                                        <td>
-                                            <div class="action-icons">
-                                                <button class="icon-btn">✎</button>
-                                                <button class="icon-btn">✖</button>
-
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <button class="btn-add">＋</button>
-                                        </td>
-                                    </tr>
-                                    <!-- 商品 3 -->
-                                    <tr>
-                                        <td class="item-info">
-                                            <img src="../images/pineapple6.jpg" alt="包屁衣" class="bucketimg">
-                                            <div class="item-title">Pikababy野餐系鳳梨包屁衣</div>
-                                            <div class="sub-info">顏色：鮮黃｜產品規格：6M</div>
-                                        </td>
-                                        <td>$693</td>
-                                        <td>
-                                            <div class="qty-control">
-                                                <button class="btn qty-btn-left"
-                                                    onclick="updateQty(this, -1)">-</button>
-                                                <span class="qty-number">1</span>
-                                                <button class="btn qty-btn-right"
-                                                    onclick="updateQty(this, 1)">+</button>
-                                            </div>
-                                        </td>
-                                        <td>$693</td>
-                                        <td>
-                                            <div class="action-icons">
-                                                <button class="icon-btn">✎</button>
-                                                <button class="icon-btn">✖</button>
-
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <button class="btn-add">＋</button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
+                        <!-- 我的收藏（簡化版） -->
+                        <!-- <div class="d-flex justify-content-center"> -->
+                        <div class="favorite-card">
+                            <img src="../images/pineapple6.jpg" class="product-img">
+                            <div class="product-info">
+                                <div class="product-title">Pikababy 野餐系鳳梨包屁衣</div>
+                                <div class="product-sub">顏色：鮮黃｜產品規格：12M</div>
+                                <div class="product-price">$693</div>
+                                <div class="btn-group">
+                                    <button class="btn-cart">加入購物車</button>
+                                    <button class="btn-remove">移除</button>
+                                </div>
+                            </div>
                         </div>
 
+                        <!-- 商品 2 -->
+                        <div class="favorite-card">
+                            <img src="../images/pineapple6.jpg" class="product-img">
+                            <div class="product-info">
+                                <div class="product-title">Pikababy 野餐系鳳梨包屁衣</div>
+                                <div class="product-sub">顏色：鮮黃｜產品規格：12M</div>
+                                <div class="product-price">$693</div>
+                                <div class="btn-group">
+                                    <button class="btn-cart">加入購物車</button>
+                                    <button class="btn-remove">移除</button>
+                                </div>
+                            </div>
+                        </div>
 
+                        <!-- 商品 3 -->
+                        <div class="favorite-card">
+                            <img src="../images/pineapple6.jpg" class="product-img">
+                            <div class="product-info">
+                                <div class="product-title">Pikababy 野餐系鳳梨包屁衣</div>
+                                <div class="product-sub">顏色：鮮黃｜產品規格：12M</div>
+                                <div class="product-price">$693</div>
+                                <div class="btn-group">
+                                    <button class="btn-cart">加入購物車</button>
+                                    <button class="btn-remove">移除</button>
+                                </div>
+                            </div>
+                        </div>
                         <div class="text-end mt-4">
                             <button class="btn-buy-all">全部加入購物車</button>
                         </div>
@@ -728,9 +655,14 @@
                         </div>
                     </div>
                 </div>
+
             </div>
+
         </div>
     </div>
+
+
+
     <!-- 頁尾 -->
     <footer>
         <div class="footer-container align-items-center">
@@ -772,6 +704,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../js/navbar.js"></script>
+    <script src="../js/logout.js"></script>
     <script>
         // 目前顧客ID
         const custId = 3
@@ -986,6 +919,7 @@
             button.textContent = isShown ? '隱藏點數明細' : '顯示點數明細';
         }
 
+//取消訂單
         $.ajax({
             method: "GET",
             url: `${host}/orders/search/cust/${custId}`,
@@ -1069,6 +1003,24 @@
                 })
             })
         }
+// 歡迎文字
+      window.addEventListener('DOMContentLoaded', () => {
+         console.log("✅ DOM 已載入");
+    const name = sessionStorage.getItem("memberName");
+    console.log("取得的名字：", name);
+    const welcomeText = document.getElementById("welcomeText");
+    console.log("🔍 welcomeText 取得結果：", welcomeText);
+
+    if (name && welcomeText) {
+        welcomeText.textContent = `歡迎回來，${name}！`;
+        sessionStorage.removeItem("memberName");
+    }
+});
+
+
+
+
+
     </script>
 </body>
 

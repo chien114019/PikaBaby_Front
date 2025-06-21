@@ -165,7 +165,7 @@
 
       <div class="text-center my-3">or</div>
 
-      <form>
+      <form onsubmit="login(event)">
         <div class="mb-3">
           <label for="email" class="form-label">Email</label>
           <input type="email" class="form-control" id="email">
@@ -198,11 +198,13 @@
   <br><br><br>
 
   <script>
-function login() {
+function login(event) {
+  event.preventDefault(); //  阻止表單預設刷新
+
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
 
-  fetch("/customers/login", {
+  fetch("http://localhost:8080/customers/login", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -212,13 +214,23 @@ function login() {
       password: password
     })
   })
-  .then(res => res.json())
+  .then(res => {
+    if (!res.ok) {
+      throw new Error(`伺服器錯誤：${res.status}`);
+    }
+    return res.json(); // 若回傳非 JSON，這裡會錯
+  })
   .then(data => {
+    console.log("回傳資料：", data);
     alert(data.mesg);
     if (data.success) {
-      // 可跳轉頁面，例如：
-      window.location.href = "/Member/member.html";
+      sessionStorage.setItem("memberName", memberData.name);
+      window.location.href = "member.html";
     }
+  })
+  .catch(err => {
+    console.error("登入錯誤：", err.message);
+    alert("登入失敗，請稍後再試！");
   });
 }
 </script>

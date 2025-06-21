@@ -19,7 +19,7 @@ public class ProductImage {
     
     //0614新增
     @Lob   //表示這是一個「大欄位資料」，讓 JPA 知道這是 byte[] 二進位資料
-    @Column(name = "image_data")
+    @Column(name = "image_data", columnDefinition = "LONGBLOB")
     private byte[] imageData; //imageData是真的存圖片內容的欄位，會對應資料表的 image_data 欄位
 
     // Getter & Setter

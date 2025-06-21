@@ -76,30 +76,40 @@ public class ProductController {
         return "product/form";
     }
 
+    //原本
+//    @PostMapping("/save")
+//    public String save(@ModelAttribute Product product,
+//                       @RequestParam("image") MultipartFile imageFile) throws IOException {
+//
+//        if (imageFile != null && !imageFile.isEmpty()) {
+//            String fileName = UUID.randomUUID() + "_" + imageFile.getOriginalFilename();
+//            Path uploadPath = Paths.get("src/main/resources/static/uploads/");
+//            
+//            // 建立資料夾（如果不存在）
+//            if (!Files.exists(uploadPath)) {
+//                Files.createDirectories(uploadPath);
+//            }
+//
+//            // 儲存圖片
+//            Path filePath = uploadPath.resolve(fileName);
+//            Files.copy(imageFile.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+//
+//            // 儲存圖片路徑到產品
+//            product.setImageUrl("/static/" + fileName);
+//        }
+//
+//        service.save(product);
+//        return "redirect:/products";
+//    }
+    
+    //0621更改存多圖片
     @PostMapping("/save")
     public String save(@ModelAttribute Product product,
-                       @RequestParam("image") MultipartFile imageFile) throws IOException {
-
-        if (imageFile != null && !imageFile.isEmpty()) {
-            String fileName = UUID.randomUUID() + "_" + imageFile.getOriginalFilename();
-            Path uploadPath = Paths.get("src/main/resources/static/uploads/");
-            
-            // 建立資料夾（如果不存在）
-            if (!Files.exists(uploadPath)) {
-                Files.createDirectories(uploadPath);
-            }
-
-            // 儲存圖片
-            Path filePath = uploadPath.resolve(fileName);
-            Files.copy(imageFile.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-
-            // 儲存圖片路徑到產品
-            product.setImageUrl("/static/" + fileName);
-        }
-
-        service.save(product);
+                       @RequestParam("imageFiles") MultipartFile[] imageFiles) throws IOException {
+        service.save(product, imageFiles);  // 呼叫 Service 處理商品+圖片儲存
         return "redirect:/products";
     }
+
 
 
     @GetMapping("/edit/{id}")

@@ -87,6 +87,7 @@ public class ProductService {
         return totalIn != null ? totalIn : 0L;
     }
 
+    //自動累加圖片而不是覆蓋
     public void save(Product product, MultipartFile[] imageFiles) throws IOException {
         Product savedProduct = repository.save(product);
 
@@ -104,7 +105,7 @@ public class ProductService {
             }
         }
 
-        imageRepository.saveAll(imageList);
+        imageRepository.saveAll(imageList);//累加，不會覆蓋
     }
     
     public List<Product> findPublishedProducts() {

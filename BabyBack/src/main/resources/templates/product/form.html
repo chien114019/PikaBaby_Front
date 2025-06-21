@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>新增商品</title>
+<title th:text="${product.id != null ? '編輯商品' : '新增商品'}">新增商品</title>
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
 	rel="stylesheet">
@@ -358,8 +358,8 @@
 					<nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
 						<ol class="breadcrumb">
 							<li class="breadcrumb-item">主頁面</li>
-							<li class="breadcrumb-item">事務性管理</li>
-							<li class="breadcrumb-item active" aria-current="page">登入/權限管理</li>
+							<li class="breadcrumb-item">進貨與庫存管理</li>
+							<li class="breadcrumb-item active" aria-current="page">商品建檔</li>
 						</ol>
 					</nav>
 					<!-- 從此往下寫右側區域功能 -->
@@ -378,12 +378,14 @@
 								<input type="file"
 									name="imageFiles" class="form-control mt-2" accept="image/*"
 									multiple onchange="previewImages(this.files)">
-								<div id="new-image-preview" class="d-flex flex-wrap mt-2"></div>
+								
 								<!-- 原本 -->
 								<!-- <input type="file" name="image" class="form-control mt-2" accept="image/*" /> -->
 
 								<!-- 改為支援多圖 -->
-									<label class="fw-bold">商品圖片預覽</label><br>
+									<label class="fw-bold mt-2">商品圖片預覽</label><br>
+									<div id="new-image-preview" class="d-flex flex-wrap mt-2"></div>
+									
 								<!-- 原本 -->
 								<!-- <img th:src="@{${product.imageUrl}}" class="img-thumbnail mt-2"
 									style="max-width: 200px;" /> -->
@@ -462,21 +464,42 @@ function deleteImage(btn) {
 }
 
 function previewImages(files) {
-    const previewArea = document.getElementById('new-image-preview');
-    previewArea.innerHTML = ''; // 先清空舊的預覽
-    for (const file of files) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            const img = document.createElement('img');
-            img.src = e.target.result;
-            img.className = 'img-thumbnail me-2 mb-2';
-            img.style.maxWidth = '150px';
-            img.style.maxHeight = '150px';
-            previewArea.appendChild(img);
-        };
-        reader.readAsDataURL(file);
-    }
-}
+	  const previewArea = document.getElementById('new-image-preview');
+	  previewArea.innerHTML = ''; // 清空舊預覽
+
+	  for (let i = 0; i < files.length; i++) {
+	    const file = files[i];
+
+	    const reader = new FileReader();
+	    reader.onload = function (e) {
+	      // 圖片容器
+	      const wrapper = document.createElement('div');
+	      wrapper.className = 'position-relative me-2 mb-2';
+	      wrapper.style.display = 'inline-block';
+
+	      // 預覽圖片
+	      const img = document.createElement('img');
+	      img.src = e.target.result;
+	      img.className = 'img-thumbnail';
+	      img.style.maxWidth = '150px';
+	      img.style.maxHeight = '150px';
+
+	      // 刪除按鈕
+	      const removeBtn = document.createElement('button');
+	      removeBtn.type = 'button';
+	      removeBtn.className = 'btn-close position-absolute top-0 end-0 bg-light';
+	      removeBtn.addEventListener('click', () => wrapper.remove());
+
+	      // 加到畫面
+	      wrapper.appendChild(img);
+	      wrapper.appendChild(removeBtn);
+	      previewArea.appendChild(wrapper);
+	    };
+
+	    reader.readAsDataURL(file);
+	  }
+	}
+
 </script>
 
 

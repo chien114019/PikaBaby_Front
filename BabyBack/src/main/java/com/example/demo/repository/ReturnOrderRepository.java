@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.example.demo.model.ReturnOrder;
 
-public interface ReturnOrderRepository extends JpaRepository<ReturnOrder, Long> {
+public interface ReturnOrderRepository extends JpaRepository<ReturnOrder, Integer> {
 	@Query("SELECT FUNCTION('DATE_FORMAT', r.returnDate, '%Y-%m'), SUM(d.total) " +
 		       "FROM ReturnOrder r JOIN r.details d " +
 		       "GROUP BY FUNCTION('DATE_FORMAT', r.returnDate, '%Y-%m') " +

@@ -30,7 +30,7 @@ public class StockController {
         }
 
         // 將每個產品的動態庫存算出來
-        Map<Long, Long> stockMap = new HashMap<>();
+        Map<Integer, Long> stockMap = new HashMap<>();
         for (Product p : products) {
             long stock = productService.calculateStock(p.getId());
             stockMap.put(p.getId(), stock);

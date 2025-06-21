@@ -1,8 +1,6 @@
 package com.example.demo.controller;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -10,19 +8,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
-
-import com.example.demo.model.Product;
 import com.example.demo.model.PurchaseOrder;
 import com.example.demo.model.PurchaseOrderDetail;
-import com.example.demo.model.Supplier;
-import com.example.demo.repository.PurchaseOrderRepository;
+import com.example.demo.model.SupplierProduct;
 import com.example.demo.service.ProductService;
 import com.example.demo.service.PurchaseOrderService;
 import com.example.demo.service.SupplierProductService;
@@ -36,29 +27,27 @@ public class PurchaseOrderController {
     @Autowired private ProductService productService;
     @Autowired private PurchaseOrderService orderService;
     @Autowired private SupplierProductService supplierProductService;
-    @Autowired private PurchaseOrderRepository purchaseOrderRepository;
 
-    
-
+    // 顯示新增進貨單頁面
     @GetMapping("/new")
     public String createForm(Model model) {
-    	 PurchaseOrder order = new PurchaseOrder();
-    	    
-    	    // 產生自動單號，例如 PO202406180001
-    	    String generatedOrderNumber = orderService.generateOrderNumber();
-    	    order.setOrderNumber(generatedOrderNumber);
+        PurchaseOrder order = new PurchaseOrder();
 
-    	model.addAttribute("order", order);
+        // 產生自動單號，例如 PO202406180001
+        String generatedOrderNumber = orderService.generateOrderNumber();
+        order.setOrderNumber(generatedOrderNumber);
+
+        model.addAttribute("order", order);
         model.addAttribute("suppliers", supplierService.listAll());
         model.addAttribute("products", productService.listAll());
         model.addAttribute("supplierProducts", supplierProductService.listAll());
         return "purchase/form";
     }
-    
 
+    // 儲存進貨單
     @PostMapping("/save")
     public String saveOrder(
-            @RequestParam("supplierProductIds") Long[] supplierProductIds,
+            @RequestParam("supplierProductIds") Integer[] supplierProductIds,
             @RequestParam("quantities") Long[] quantities,
             @RequestParam("unitPrice") BigDecimal[] unitPrice,
             @RequestParam("orderDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date orderDate) {
@@ -68,47 +57,67 @@ public class PurchaseOrderController {
 
         List<PurchaseOrderDetail> detailList = new ArrayList<>();
         for (int i = 0; i < supplierProductIds.length; i++) {
-            var sp = supplierProductService.getById(supplierProductIds[i]);
+            SupplierProduct sp = supplierProductService.getById(supplierProductIds[i]);
 
             PurchaseOrderDetail detail = new PurchaseOrderDetail();
             detail.setOrder(order);
-            detail.setProduct(sp.getProduct());
+            detail.setSupplierProduct(sp);
             detail.setQuantity(quantities[i]);
-            detail.setUnitPrice(sp.getPrice()); // 改抓 supplierProduct 的價格
+            detail.setUnitPrice(sp.getPrice());
             detailList.add(detail);
         }
 
-        order.setSupplier(detailList.get(0).getProduct().getSupplier()); // 取第一項商品的供應商
+        if (!detailList.isEmpty()) {
+            order.setSupplier(detailList.get(0).getSupplierProduct().getSupplier());
+        }
         order.setDetails(detailList);
+
         orderService.save(order);
         return "redirect:/purchases";
     }
 
-
+    // 顯示進貨單清單
     @GetMapping
     public String list(Model model) {
-        model.addAttribute("orders", orderService.listAll());
+        List<PurchaseOrder> orders = orderService.listAll();
+
+        // 強制初始化嵌套關聯資料，避免 lazy loading 問題
+        for (PurchaseOrder order : orders) {
+            order.getDetails().forEach(d -> {
+                if (d.getSupplierProduct() != null) {
+                    if (d.getSupplierProduct().getProduct() != null) {
+                        d.getSupplierProduct().getProduct().getName(); // 強制初始化
+                    }
+                    if (d.getSupplierProduct().getSupplier() != null) {
+                        d.getSupplierProduct().getSupplier().getName(); // 強制初始化
+                    }
+                }
+            });
+        }
+
+        model.addAttribute("orders", orders);
         return "purchase/list";
     }
+
+    // 刪除進貨單
     @GetMapping("/delete/{id}")
-    public String delete(@PathVariable Long id) {
-    	  orderService.deleteById(id);
+    public String delete(@PathVariable Integer id) {
+        orderService.deleteById(id);
         return "redirect:/purchases";
     }
-    
+
+    // 顯示編輯畫面
     @GetMapping("/edit/{id}")
-    public String editForm(@PathVariable Long id, Model model) {
+    public String editForm(@PathVariable Integer id, Model model) {
         PurchaseOrder order = orderService.getById(id);
         if (order == null) {
-            return "redirect:/purchases";  // 如果找不到就返回清單
+            return "redirect:/purchases";
         }
 
         model.addAttribute("order", order);
         model.addAttribute("suppliers", supplierService.listAll());
         model.addAttribute("products", productService.listAll());
         model.addAttribute("supplierProducts", supplierProductService.listAll());
-        return "purchase/form";  // 共用新增用的 form
+        return "purchase/form";
     }
-
 }
-

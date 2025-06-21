@@ -2,19 +2,22 @@ package com.example.demo.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class SupplierProduct {
     @Id @GeneratedValue
-    private Long id;
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "supplier_id")
@@ -23,6 +26,9 @@ public class SupplierProduct {
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
+    
+    @OneToMany(mappedBy = "supplierProduct", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PurchaseOrderDetail> purchaseOrderDetails = new ArrayList<>();
 
     private BigDecimal price;
     
@@ -34,11 +40,11 @@ public class SupplierProduct {
     
     private Date endDate;
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -66,12 +72,12 @@ public class SupplierProduct {
 		this.price = price;
 	}
 
-	public LocalDateTime getCreatedAt() {
-		return createdDate;
+	public LocalDateTime getCreatedDate() {
+	    return createdDate;
 	}
 
-	public void setCreatedAt(LocalDateTime createdAt) {
-		this.createdDate = createdDate;
+	public void setCreatedDate(LocalDateTime createdDate) {
+	    this.createdDate = createdDate;
 	}
 
 	public String getNote() {
@@ -97,8 +103,16 @@ public class SupplierProduct {
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
+
+	public List<PurchaseOrderDetail> getPurchaseOrderDetails() {
+		return purchaseOrderDetails;
+	}
+
+	public void setPurchaseOrderDetails(List<PurchaseOrderDetail> purchaseOrderDetails) {
+		this.purchaseOrderDetails = purchaseOrderDetails;
+	} 
 	
 	
-    
+	
     
 }

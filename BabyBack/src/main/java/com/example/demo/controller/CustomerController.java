@@ -52,7 +52,7 @@ public class CustomerController {
 	// 顯示編輯特定客戶的表單
 	// 路徑：/customers/edit/{id}，方法：GET
 	@GetMapping("/edit/{id}")
-	public String editForm(@PathVariable Long id, Model model) {
+	public String editForm(@PathVariable Integer id, Model model) {
 		model.addAttribute("customer", service.getById(id));// 根據 ID 查詢客戶並加入 model
 		return "customer/form";// 使用相同的表單頁面進行編輯
 	}
@@ -60,7 +60,7 @@ public class CustomerController {
 	// 刪除指定 ID 的客戶資料
 	// 路徑：/customers/delete/{id}，方法：GET
 	@GetMapping("/delete/{id}")
-	public String delete(@PathVariable Long id) {
+	public String delete(@PathVariable Integer id) {
 		service.delete(id);// 呼叫服務層刪除該客戶
 		return "redirect:/customers";// 刪除後回到清單頁面
 	}
@@ -74,7 +74,7 @@ public class CustomerController {
 
 	// 對應指定客戶ID跳出詳細資料
 	@GetMapping("/detail/{id}")
-	public String showCustomerDetail(@PathVariable Long id, Model model) {
+	public String showCustomerDetail(@PathVariable Integer id, Model model) {
 		Customer customer = service.getById(id); // 這邊用 service.getById 方法
 		model.addAttribute("customer", customer);
 		return "customer/detail";
@@ -85,7 +85,7 @@ public class CustomerController {
 	@ResponseBody
 	@GetMapping("/info/{id}")
 	public ResponseEntity<Map<String, Object>> getCustomerInfo(@PathVariable String id) {
-		Customer cust = service.getById(Long.parseLong(id));
+		Customer cust = service.getById((int) Long.parseLong(id));
 		Response response = new Response();
 
 		Map<String, Object> map = new HashMap();

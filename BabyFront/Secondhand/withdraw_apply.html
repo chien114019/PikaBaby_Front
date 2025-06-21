@@ -335,7 +335,7 @@
         window.onload = function () {
             $.ajax({
                 method: "GET",
-                url: `${host}/secondhand/withdraw/total/custId/${custId}`,
+                url: `${host}/secondhand/front/withdraw/total/custId/${custId}`,
                 success: function (data) {
                     $("#totalAmount").text(data.total);
                     consign.amount = data.total;
@@ -351,7 +351,7 @@
 
             $.ajax({
                 method: "GET",
-                url: `${host}/customers/info/${custId}`,
+                url: `${host}/front/customers/info/${custId}`,
                 success: function (data) {
                     // console.log(dat  a);
                     $("#custName").val(data.customer.name);
@@ -366,7 +366,7 @@
 
             $.ajax({
                 method: "GET",
-                url: `${host}/secondhand/withdraw/banks`,
+                url: `${host}/front/secondhand/withdraw/banks`,
                 success: function (data) {
                     data.forEach(element => {
                         console.log(element)
@@ -394,7 +394,7 @@
 
             $.ajax({
                 method: "POST",
-                url: `${host}/secondhand/withdraw/create`,
+                url: `${host}/front/secondhand/withdraw/create`,
                 contentType: "application/json",
                 data: JSON.stringify({
                     custId: custId,

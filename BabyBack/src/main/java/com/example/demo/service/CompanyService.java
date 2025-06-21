@@ -15,7 +15,7 @@ public class CompanyService implements Company2 {
 
     @Override
     public Company getCompanyInfo() {
-        return companyRepository.findById(51500025L).orElse(new Company()); // 假設 ID = 1 是唯一公司
+        return companyRepository.findById((int) 51500025).orElse(new Company()); // 假設 ID = 51500025 是唯一公司
     }
 
     @Override
@@ -32,9 +32,15 @@ public class CompanyService implements Company2 {
     }
     
     //0613喬新增
-    public Company getById(Long id) {
+    public Company getById(Integer id) {
         return companyRepository.findById(id).orElse(new Company());
     }
+
+	@Override
+	public Company getById(Long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
     
     
 }

@@ -32,7 +32,7 @@ public class AccountsPayableController {
     }
 
     @GetMapping("/pay/{id}")
-    public String pay(@PathVariable Long id) {
+    public String pay(@PathVariable Integer id) {
         AccountsPayable payable = payableRepo.findById(id).orElseThrow();
         payable.setStatus("已付款");
         payableRepo.save(payable);
@@ -40,7 +40,7 @@ public class AccountsPayableController {
     }
     
     @GetMapping("/edit/{id}")
-    public String editForm(@PathVariable Long id, Model model) {
+    public String editForm(@PathVariable Integer id, Model model) {
         AccountsPayable payable = payableRepo.findById(id).orElseThrow();
         model.addAttribute("payable", payable);
         return "payables/edit";

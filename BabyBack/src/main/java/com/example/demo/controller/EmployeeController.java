@@ -33,7 +33,7 @@ public class EmployeeController {
     
    //帳號切換啟用停用
     @PostMapping("/employee/toggle")
-    public String toggleAccountStatus(@RequestParam("id") Long id) {
+    public String toggleAccountStatus(@RequestParam("id") Integer id) {
         UserAccount emp = userAccountRepository.findById(id).orElse(null);
         if (emp != null)  {
             Boolean current = emp.getEnabled();
@@ -48,5 +48,16 @@ public class EmployeeController {
 
 
     }
+  //帳號切換員工角色權限
+    @PostMapping("/employee/role") //來自 <form method="post" action="/employee/role"> 的表單
+    public String updateRole(@RequestParam Integer id, @RequestParam String role) { //Long id：從表單中取出名為 id 的欄位值（員工的 ID）;從表單中取出名為 role 的欄位值（新角色)。在 Modal 裡面用 <input name="id"> 和 <select name="role"> 
+        UserAccount emp = userAccountRepository.findById(id).orElse(null); //透過主鍵 ID 查出這位員工資料，找不到該 ID就回傳 null
+        if (emp != null) { //如果有找到ID 
+            emp.setRole(role); //設定新角色
+            userAccountRepository.save(emp); //把修改後的員工物件存回資料庫中（JPA 會自動產生 UPDATE 語法）
+        }
+        return "redirect:/employee/list";
+    }
+
 
 }

@@ -2,12 +2,14 @@ package com.example.demo.controller;
 
 import com.example.demo.model.*;
 import com.example.demo.service.*;
+import com.example.demo.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -32,6 +34,8 @@ public class SalesOrderController {
     @Autowired private CustomerService customerService;
     @Autowired private ProductService productService;
     @Autowired private SalesOrderService orderService;
+    @Autowired private CustomerRepository customerRepository;
+    @Autowired private ProductRepository productRepository;
     
     @GetMapping
     public String listOrders(Model model) {
@@ -49,8 +53,8 @@ public class SalesOrderController {
     }
 
     @PostMapping("/save")
-    public String saveOrder(@RequestParam Long customerId,
-                            @RequestParam("productIds") Long[] productIds,
+    public String saveOrder(@RequestParam Integer customerId,
+                            @RequestParam("productIds") Integer[] productIds,
                             @RequestParam("quantities") Long[] quantities,
                             Model model) {
 
@@ -112,13 +116,13 @@ public class SalesOrderController {
     }
 
 //   ========== 前台API============
-    @GetMapping("/search/cust/{custId}")
+    @GetMapping("/front/search/cust/{custId}")
     @ResponseBody
     public ResponseEntity<Map<String, Object>> getOrdersByCustId(@PathVariable String custId) {
     	return ResponseEntity.ok(orderService.getOrdersByCustId(custId));
     }
     
-    @PutMapping("/cancel/{id}")
+    @PutMapping("/front/cancel/{id}")
     @ResponseBody
     public ResponseEntity<Response> cancelOrderById(@PathVariable String id) {
     	Response response = orderService.cancelOrderById(id);
@@ -130,4 +134,19 @@ public class SalesOrderController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/api/{id}")
+    @ResponseBody
+    public ResponseEntity<?> getOrderApi(@PathVariable String id) {
+        try {
+            Map<String, Object> orderData = orderService.getOrdersByCustId(id);
+            if (orderData == null || orderData.isEmpty()) {
+                return ResponseEntity.notFound().build();
+            }
+            return ResponseEntity.ok(orderData);
+        } catch (Exception e) {
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("message", "Failed to get order: " + e.getMessage());
+            return ResponseEntity.badRequest().body(errorResponse);
+        }
+    }
 }

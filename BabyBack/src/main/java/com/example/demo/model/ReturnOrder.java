@@ -18,7 +18,7 @@ import jakarta.persistence.Table;
 public class ReturnOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     private String returnNo;
 
@@ -33,11 +33,11 @@ public class ReturnOrder {
     @OneToMany(mappedBy = "returnOrder", cascade = CascadeType.ALL)
     private List<ReturnOrderDetail> details;
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

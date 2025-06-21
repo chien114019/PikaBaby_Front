@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 public class UserAccount {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     private String username; //登入用的帳號
     private String password; //加密密碼
@@ -29,10 +29,10 @@ public class UserAccount {
 	}
 	
     
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	public String getUsername() {

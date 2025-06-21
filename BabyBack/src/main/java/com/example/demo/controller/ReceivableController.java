@@ -51,7 +51,7 @@ public class ReceivableController {
     }
     
     @GetMapping("/edit/{id}")
-    public String editForm(@PathVariable Long id, Model model) {
+    public String editForm(@PathVariable Integer id, Model model) {
     	Receivable receivable = receivableRepository.findById(id).orElse(null);
     	model.addAttribute("receivable", receivable);
     	return "receivables/edit";

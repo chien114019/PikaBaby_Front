@@ -11,9 +11,10 @@ import java.util.List;
 public class PurchaseOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "supplier_id")
     private Supplier supplier;
 
     @Temporal(TemporalType.DATE)
@@ -35,18 +36,21 @@ public class PurchaseOrder {
     }
     
     @Transient
-	public BigDecimal getTotalAmount() {
-	    return details.stream()
-	        .map(d -> d.getUnitPrice().multiply(BigDecimal.valueOf(d.getQuantity())))
-	        .reduce(BigDecimal.ZERO, BigDecimal::add);
-	}
+    public BigDecimal getTotalAmount() {
+        return details != null
+            ? details.stream()
+                .map(d -> d.getUnitPrice().multiply(BigDecimal.valueOf(d.getQuantity())))
+                .reduce(BigDecimal.ZERO, BigDecimal::add)
+            : BigDecimal.ZERO;
+    }
 
 
-	public Long getId() {
+
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

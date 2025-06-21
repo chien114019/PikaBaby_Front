@@ -47,13 +47,13 @@ public class SupplierProductController {
     }
 
     @GetMapping("/delete/{id}")
-    public String delete(@PathVariable Long id) {
+    public String delete(@PathVariable Integer id) {
         service.delete(id);
         return "redirect:/supplier-products";
     }
     
     @GetMapping("/edit/{id}")
-    public String editForm(@PathVariable Long id, Model model) {
+    public String editForm(@PathVariable Integer id, Model model) {
         SupplierProduct sp = service.getById(id);
         model.addAttribute("supplierProduct", sp);
         model.addAttribute("suppliers", supplierService.listAll());

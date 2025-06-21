@@ -18,7 +18,7 @@ import jakarta.persistence.TemporalType;
 public class AccountsPayable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "purchase_order_id", nullable = false)
@@ -42,11 +42,11 @@ public class AccountsPayable {
     
     private String note;
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

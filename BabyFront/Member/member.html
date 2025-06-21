@@ -922,7 +922,7 @@
 //取消訂單
         $.ajax({
             method: "GET",
-            url: `${host}/orders/search/cust/${custId}`,
+            url: `${host}/orders/front/search/cust/${custId}`,
             success: function (data) {
                 console.log(data);
                 if (data.response.success) {

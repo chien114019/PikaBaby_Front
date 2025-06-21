@@ -10,7 +10,7 @@ import jakarta.persistence.*;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     private String name;
     
@@ -21,10 +21,28 @@ public class Product {
     private String color;
     
     private String note;
-
-    //0611喬新增
-    @OneToMany(mappedBy = "product")
-    private List<PurchaseOrderDetail> purchaseDetails;
+    
+    private String imageUrl;
+    
+    private String description;
+    
+    @Column(nullable = false)
+    private Boolean deleted = false;
+    
+    @Column(name = "is_published")
+    private Boolean published;
+    
+//    @Column(nullable = true)
+    private Boolean age1 = false;	// 0-3M
+    
+//    @Column(nullable = true)
+    private Boolean age2;	// 3-6M
+    
+//    @Column(nullable = true)
+    private Boolean age3;	// 6-12M
+    
+//    @Column(nullable = true)
+    private Boolean age4;	// 2-3Y
     
     @OneToMany(mappedBy = "product")
     private List<SupplierProduct> supplierProducts;
@@ -32,28 +50,19 @@ public class Product {
     @OneToMany(mappedBy = "product")
     private List<ProductImage> images = new ArrayList<>();
     
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "supplier_id")
-    private Supplier supplier;
-    
+	@ManyToOne
+	@JoinColumn(name = "type")
+	private ProductType productType;
+   
     @Transient
     private Long stock;
-
-    // 加上一個 getter：計算目前庫存
-    @Transient
-    public long getCurrentStock() {
-        if (purchaseDetails == null) return 0;
-        return purchaseDetails.stream()
-                .mapToLong(PurchaseOrderDetail::getQuantity)
-                .sum();
-    }
-
-	public Long getId() {
+   
+	public Integer getId() {
 		return id;
 	}
 
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -97,17 +106,6 @@ public class Product {
 		this.color = color;
 	}
 
-
-	public List<PurchaseOrderDetail> getPurchaseDetails() {
-		return purchaseDetails;
-	}
-
-
-	public void setPurchaseDetails(List<PurchaseOrderDetail> purchaseDetails) {
-		this.purchaseDetails = purchaseDetails;
-	}
-
-
 	public List<SupplierProduct> getSupplierProducts() {
 		return supplierProducts;
 	}
@@ -127,17 +125,6 @@ public class Product {
 		this.images = images;
 	}
 
-
-	public Supplier getSupplier() {
-		return supplier;
-	}
-
-
-	public void setSupplier(Supplier supplier) {
-		this.supplier = supplier;
-	}
-
-
 	public Long getStock() {
 		return stock;
 	}
@@ -154,6 +141,105 @@ public class Product {
 	public void setNote(String note) {
 		this.note = note;
 	}
+
+
+	public Boolean isPublished() {
+		return published;
+	}
+
+
+	public void setPublished(Boolean published) {
+		this.published = published;
+	}
+
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+
+
+	public String getDescription() {
+		return description;
+	}
+
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+
+	public Boolean getDeleted() {
+		return deleted;
+	}
+
+
+	public void setDeleted(Boolean deleted) {
+		this.deleted = deleted;
+	}
+
+
+	public Boolean getPublished() {
+		return published;
+	}
+
+
+	public boolean isAge1() {
+		return age1;
+	}
+
+
+	public void setAge1(boolean age1) {
+		this.age1 = age1;
+	}
+
+
+	public boolean isAge2() {
+		return age2;
+	}
+
+
+	public void setAge2(boolean age2) {
+		this.age2 = age2;
+	}
+
+
+	public boolean isAge3() {
+		return age3;
+	}
+
+
+	public void setAge3(boolean age3) {
+		this.age3 = age3;
+	}
+
+
+	public boolean isAge4() {
+		return age4;
+	}
+
+
+	public void setAge4(boolean age4) {
+		this.age4 = age4;
+	}
+
+
+	public ProductType getProductType() {
+		return productType;
+	}
+
+
+	public void setProductType(ProductType productType) {
+		this.productType = productType;
+	}
+	
+	
+	
+	
 	
 	
 }

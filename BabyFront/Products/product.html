@@ -1220,7 +1220,69 @@
             applyCategoryFromURL();
         });
     </script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    fetch("/published")
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("伺服器錯誤");
+            }
+            return response.json();
+        })
+        .then(data => {
+            const container = document.getElementById("product-list");
+            data.forEach(p => {
+                const card = `
+                    <div class="card m-2 p-3" style="width: 18rem;">
+                        <img src="${p.imageUrl}" class="card-img-top" alt="${p.name}">
+                        <div class="card-body">
+                            <h5 class="card-title">${p.name}</h5>
+                            <p class="card-text">${p.description || "無描述"}</p>
+                            <p class="card-text text-danger fw-bold">$${p.price}</p>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += card;
+            });
+        })
+        .catch(err => {
+            console.error("載入失敗:", err);
+        });
+});
+<div id="product-list" class="d-flex flex-wrap"></div>
+</script>
 
+<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+$(document).ready(function () {
+    $.ajax({
+        url: "/products/published",
+        method: "GET",
+        success: function (data) {
+            let html = "";
+            data.forEach(p => {
+                html += `
+                    <div class="card m-2 p-3" style="width: 18rem;">
+                        <img src="${p.imageUrl}" class="card-img-top" alt="${p.name}">
+                        <div class="card-body">
+                            <h5 class="card-title">${p.name}</h5>
+                            <p class="card-text">${p.description || "無描述"}</p>
+                            <p class="card-text text-danger fw-bold">$${p.price}</p>
+                        </div>
+                    </div>
+                `;
+            });
+            $("#product-list").html(html);
+        },
+        error: function () {
+            console.error("API 載入失敗");
+        }
+    });
+});
+
+<div id="product-list" class="d-flex flex-wrap"></div>
+</script> -->
 
 </body>
 

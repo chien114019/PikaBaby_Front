@@ -9,7 +9,7 @@ import com.example.demo.model.Receivable;
 
 //繼承自 JpaRepository
 //操作的是 Receivable 類別對應的資料表，而主鍵是 Long 型別
-public interface ReceivableRepository extends JpaRepository<Receivable, Long> {
+public interface ReceivableRepository extends JpaRepository<Receivable, Integer> {
 	
 	//0609喬新增 
 	//不論如何都要輸入關鍵字查詢

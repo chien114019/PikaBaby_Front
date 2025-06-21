@@ -17,7 +17,7 @@ public class SupplierService {
         return repository.findAll();
     }
 
-    public Supplier getById(Long id) {
+    public Supplier getById(Integer id) {
         return repository.findById(id).orElse(null);
     }
 }

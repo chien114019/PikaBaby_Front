@@ -8,24 +8,26 @@ import jakarta.persistence.*;
 public class PurchaseOrderDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @ManyToOne
+    @JoinColumn(name = "purchase_order_id")
     private PurchaseOrder order;
 
     @ManyToOne
-    private Product product;
-
+    @JoinColumn(name = "supplier_product_id")
+    private SupplierProduct supplierProduct;
+    
     private Long quantity;
     
     
     private BigDecimal unitPrice;
     
     
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	public PurchaseOrder getOrder() {
@@ -34,12 +36,7 @@ public class PurchaseOrderDetail {
 	public void setOrder(PurchaseOrder order) {
 		this.order = order;
 	}
-	public Product getProduct() {
-		return product;
-	}
-	public void setProduct(Product product) {
-		this.product = product;
-	}
+	
 	public Long getQuantity() {
 		return quantity;
 	}
@@ -52,6 +49,11 @@ public class PurchaseOrderDetail {
 	public void setUnitPrice(BigDecimal unitPrice) {
 		this.unitPrice = unitPrice;
 	}
-
+	public SupplierProduct getSupplierProduct() {
+		return supplierProduct;
+	}
+	public void setSupplierProduct(SupplierProduct supplierProduct) {
+		this.supplierProduct = supplierProduct;
+	}
    
 }

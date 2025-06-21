@@ -202,9 +202,25 @@
           <!-- 從此往下寫右側區域功能 -->
           <h2>商品清單</h2>
           
-          <div class="text-end mb-3">
-          	<a class="btn btn-outline-primary mb-3" th:href="@{/products/new}"><i class="bi bi-plus-circle me-1"></i>新增商品</a>
-          </div>
+          <form method="get" action="/products" class="mb-3 ">
+			    
+			<div class="text-end mb-3">
+					<div class="text-end">
+					   <input class="form-check-input" type="checkbox" name="showDeleted" id="showDeleted"
+					           th:checked="${showDeleted}">
+					    <label class="form-check-label" for="showDeleted">
+					      顯示已刪除商品
+					    </label>
+					    
+						<button type="submit" class="btn btn-outline-primary btn-sm mt-1">
+						    篩選
+						</button>
+				   </div>
+	          		<a class="btn btn-outline-primary mb-3" th:href="@{/products/new}"><i class="bi bi-plus-circle me-1"></i>新增商品</a>
+	          </div>
+			</form>
+          
+         
           
           <table class="table table-bordered">
             <thead class="text-center">
@@ -212,7 +228,7 @@
                 <th>ID</th>
                 <th>名稱</th>
                 <!--  <th>價格</th>-->
-                <th>說明</th>
+                <th>備註</th>
                 <th>詳細資料</th>
                 <th>操作</th>
               </tr>
@@ -230,9 +246,17 @@
                 </td>
                 <!-- <td th:text="${p.stock}" class="text-center">50</td> -->
                 <td class="text-center">
-                  <a class="btn btn-warning btn-sm" th:href="@{'/products/edit/' + ${p.id}}">編輯</a>
-                  <a class="btn btn-danger btn-sm" th:href="@{'/products/delete/' + ${p.id}}">刪除</a>
-                </td>
+				  <span th:if="${p.deleted}" class="text-danger fw-bold">已刪除</span>
+				  
+				  <!-- 還原按鈕 -->
+				  <form th:if="${p.deleted}" th:action="@{/products/restore/{id}(id=${p.id})}" method="post" class="d-inline">
+				    <button type="submit" class="btn btn-success btn-sm" onclick="return confirm('確定要還原這項商品嗎？')">還原</button>
+				  </form>
+				
+				  <!-- 編輯與刪除只給未刪除的商品 -->
+				  <a class="btn btn-warning btn-sm" th:if="${!p.deleted}" th:href="@{'/products/edit/' + ${p.id}}">編輯</a>
+				  <a class="btn btn-danger btn-sm" th:if="${!p.deleted}" th:href="@{'/products/delete/' + ${p.id}}">刪除</a>
+				</td>
               </tr>
             </tbody>
           </table>

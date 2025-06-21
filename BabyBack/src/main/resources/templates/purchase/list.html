@@ -208,11 +208,11 @@
 					
 					<div class="text-end">
 						<a class="btn btn-outline-primary mb-3" th:href="@{/purchases/new}">新增進貨單</a>
-						<a class="btn btn-outline-success mb-3" href="/orders/export">匯出Excel</a>
+						<a class="btn btn-outline-success mb-3" href="/purchases/export">匯出Excel</a>
 					</div>
 					
 					<table class="table table-bordered">
-						<thead class="text=center">
+						<thead class="text-center">
 							<tr>
 								<th>ID</th>
 								<th>日期</th>
@@ -227,11 +227,11 @@
 							<tr th:each="order : ${orders}">
 								<td th:text="${order.id}"></td>
 								<td th:text="${#dates.format(order.orderDate, 'yyyy-MM-dd')}"></td>
-								<td th:text="${order.supplier.name}"></td>
+								<td th:text="${order.supplier != null ? order.supplier.name : '（無）'}"></td>
 								<td>
 									<ul>
 										<li th:each="d : ${order.details}"
-											th:text="${d.product.name + ' x ' + d.quantity}">
+											th:text="${d.supplierProduct.product.name + ' x ' + d.quantity}">
 											<!--   + '（單價 $' + d.unitPrice + '）'   -->
 										</li>
 									</ul>

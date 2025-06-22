@@ -183,7 +183,7 @@ public class ProductController {
     	    productService.save(p);
     	}
 
-        return "redirect:/product/publish";
+        return "redirect:/products/publish";
     }
     
 //    ============= 前台API ==============

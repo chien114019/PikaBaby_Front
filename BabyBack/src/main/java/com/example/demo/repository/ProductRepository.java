@@ -8,13 +8,14 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 public interface ProductRepository extends JpaRepository<Product, Integer> {
 	List<Product> findByNameContainingIgnoreCase(String name);
 	
 	@Query("SELECT sp FROM SupplierProduct sp JOIN FETCH sp.supplier JOIN FETCH sp.product")
 	List<SupplierProduct> findAllWithDetails();
-
+	
 	List<Product> findByPublishedTrue();
 
 	List<Product> findByDeletedFalse();

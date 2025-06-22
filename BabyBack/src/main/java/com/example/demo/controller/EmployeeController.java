@@ -1,12 +1,15 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.Supplier;
 import com.example.demo.model.UserAccount;
 import com.example.demo.repository.UserAccountRepository;
+import com.example.demo.service.UserAccountService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -17,6 +20,9 @@ public class EmployeeController {
 
     @Autowired
     private UserAccountRepository userAccountRepository;
+    
+    @Autowired
+    private UserAccountService userAccountService;
 
     
 //    @GetMapping("/employee/list") // 當使用者打開 /employee/list 時，執行這個方法，從資料庫撈出員工清單，並帶到前端 Thymeleaf 頁面
@@ -78,5 +84,19 @@ public class EmployeeController {
         model.addAttribute("employee", new UserAccount());
         return "employee/form";
     }
+    
+    @PostMapping("/employee/save")
+    public String saveEmployee(@ModelAttribute("employee") UserAccount userAccount) {
+        userAccountService.save(userAccount); // Service 裡面已經會做「密碼加密」與「新增 vs 編輯」的判斷
+        return "redirect:/employee/list";
+    }
+    
+    @GetMapping("/employee/edit/{id}")
+    public String editEmployee(@PathVariable Integer id, Model model) {
+        UserAccount user = userAccountRepository.findById(id).orElse(null);
+        model.addAttribute("employee", user);
+        return "employee/form"; // 進入與新增共用的表單頁
+    }
+
 
 }

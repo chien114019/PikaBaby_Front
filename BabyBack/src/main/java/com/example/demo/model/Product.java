@@ -30,7 +30,7 @@ public class Product {
     private Boolean deleted = false;
     
     @Column(name = "is_published")
-    private Boolean published;
+    private Boolean published = false;
     
     @ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "product_age_ranges", joinColumns = @JoinColumn(name = "product_id"))
@@ -137,7 +137,7 @@ public class Product {
 	}
 
 
-	public Boolean isPublished() {
+	public Boolean getPublished() {
 		return published;
 	}
 
@@ -174,11 +174,6 @@ public class Product {
 
 	public void setDeleted(Boolean deleted) {
 		this.deleted = deleted;
-	}
-
-
-	public Boolean getPublished() {
-		return published;
 	}
 
 	public ProductType getProductType() {

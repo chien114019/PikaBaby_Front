@@ -58,7 +58,7 @@
 					<!--  
 						<a th:href="@{/payments/list}" class="btn btn-outline-dark">總帳務</a>
 						<a th:href="@{/payments/list}" class="btn btn-outline-dark">收款沖帳</a>                      
-						<a th:href="@{/accounting/receipts}" class="btn btn-outline-dark">收支登錄</a>
+						<a th:href="@{/accounhttps://pay.line.me/portal/tw/auth/loginting/receipts}" class="btn btn-outline-dark">收支登錄</a>
                         <a th:href="@{/accounting/settlement}" class="btn btn-outline-dark">收款沖帳</a>
                         <a th:href="@{/accounting/receivables}" class="btn btn-outline-dark">應收帳款管理</a>
                         <a th:href="@{/accounting/accounts}" class="btn btn-outline-dark">帳戶類別設定</a>
@@ -67,8 +67,18 @@
 
 				<!-- POS 結帳系統 -->
 				<div class="block pos vertical" sec:authorize="hasAnyRole('ADMIN', 'SALES')">
-					<div class="block-title">POS 結帳</div>
-					<a th:href="@{/pos}" class="btn btn-outline-dark">POS 前台結帳系統</a>
+					<div class="block-title">結帳</div>
+					<a href="https://pay.line.me/portal/tw/auth/login" target="_blank"
+					   class="btn btn-outline-dark p-0 d-block" style="width: 200px; height: 60px;">
+					  <img src="/linepay-logo.png" alt="Line Pay"
+					       class="w-100 h-100" style="object-fit: contain;">
+					</a>
+					<a href="https://developers.ecpay.com.tw/" target="_blank"
+					   class="btn btn-outline-dark p-0 d-block" style="width: 200px; height: 60px;">
+					  <img src="/ECPay.png" alt="ECpay綠界"
+					       class="w-100 h-100" style="object-fit: contain;">
+					</a>
+
 				</div>
 
 

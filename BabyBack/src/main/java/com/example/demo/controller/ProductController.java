@@ -112,6 +112,7 @@ public class ProductController {
     public String save(@ModelAttribute Product product,
                        @RequestParam("imageFiles") MultipartFile[] imageFiles) throws IOException {
     	productService.save(product, imageFiles);  // 呼叫 Service 處理商品+圖片儲存
+    	productRepository.save(product); 
         return "redirect:/products";
     }
 
@@ -172,7 +173,8 @@ public class ProductController {
     @PostMapping("/publish/update")
     public String updatePublishStatus(@RequestParam("productIds") List<Integer> productIds,
     								  @RequestParam("prices") List<BigDecimal> prices,
-                                      @RequestParam(value = "publishedIds", required = false) List<Integer> publishedIds) {
+                                      @RequestParam(value = "publishedIds", required = false) List<Integer> publishedIds,
+                                      RedirectAttributes redirectAttributes) {
     	for (int i = 0; i < productIds.size(); i++) {
     	    Integer id = productIds.get(i);
     	    BigDecimal price = prices.get(i);
@@ -182,7 +184,7 @@ public class ProductController {
     	    p.setPublished(publishedIds != null && publishedIds.contains(id));
     	    productService.save(p);
     	}
-
+    	redirectAttributes.addFlashAttribute("successMessage", "商品上架狀態已更新");
         return "redirect:/products/publish";
     }
     
@@ -219,7 +221,15 @@ public class ProductController {
     public List<ProductDto> getPublishedProducts() {
         return productRepository.findByPublishedTrue()
             .stream()
-            .map(p -> new ProductDto(p.getId(), p.getName(), p.getImageUrl(), p.getDescription(), p.getPrice(), p.getStock()))
+            .map(p -> new ProductDto(
+            		p.getId(), 
+            		p.getName(), 
+            	    (p.getImageUrl() != null && !p.getImageUrl().isBlank()) 
+	                    ? p.getImageUrl() 
+	                    : "/images/default.jpg", 
+            		p.getDescription(),
+            		p.getPrice(), 
+            		p.getStock()))
             .toList();
     }
 

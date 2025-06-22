@@ -14,7 +14,10 @@
   <form method="post" th:action="@{/products/publish/update}" class="mt-4">
     <div class="container">
       <!-- 提示訊息區塊 -->
-      <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+       <div th:if="${successMessage}" class="alert alert-success text-center fw-bold">
+	      <i class="bi bi-check-circle me-1"></i>
+	      <span th:text="${successMessage}"></span>
+	    </div>
       <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
 
       <div class="card shadow-sm rounded-4">
@@ -27,9 +30,9 @@
               <col style="width: 80px;">
               <col style="width: 150px;">
               <col style="width: 120px;">
+              <col style="width: 320px;">
               <col style="width: 100px;">
               <col style="width: 100px;">
-              <col style="width: 200px;">
               <col style="width: 120px;">
             </colgroup>
             <thead class="table-light">
@@ -57,7 +60,7 @@
                 <td th:text="${p.name}" class="fw-semibold"></td>
              
                <td th:text="${#strings.listJoin(p.ageRanges, ', ')}">-</td>
-                <td th:text="${p.note}" class="text-muted small"></td>
+                <td th:text="${p.description}" class="text-muted small"></td>
                    <td>
                   <input type="hidden" name="productIds" th:value="${p.id}" />
                   <input type="text" name="prices" th:value="${p.price}" class="form-control text-end" />
@@ -70,10 +73,10 @@
                     <label class="form-check-label" th:for="'checkbox-' + ${p.id}">上架</label>
                   </div>
                 </td>
+            
               </tr>
             </tbody>
           </table>
-
           <div class="text-end mt-3">
             <button type="submit" class="btn btn-success px-4">
               <i class="bi bi-save2 me-1"></i>儲存設定

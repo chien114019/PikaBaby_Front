@@ -1220,43 +1220,70 @@
             applyCategoryFromURL();
         });
     </script>
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-    fetch("/published")
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("伺服器錯誤");
-            }
-            return response.json();
-        })
-        .then(data => {
-            const container = document.getElementById("product-list");
-            data.forEach(p => {
-                const card = `
-                    <div class="card m-2 p-3" style="width: 18rem;">
-                        <img src="${p.imageUrl}" class="card-img-top" alt="${p.name}">
-                        <div class="card-body">
-                            <h5 class="card-title">${p.name}</h5>
-                            <p class="card-text">${p.description || "無描述"}</p>
-                            <p class="card-text text-danger fw-bold">$${p.price}</p>
-                            <p class="card-text">
-                                ${p.stock > 0 
-                                    ? `<span class="text-success">庫存：${p.stock}</span>` 
-                                    : `<span class="text-danger">售完</span>`}
-                            </p>
-                        </div>
-                    </div>
-                `;
-                container.innerHTML += card;
-            });
-        })
-        .catch(err => {
-            console.error("載入失敗:", err);
-        });
-});
-</script>
 
-<div id="product-list" class="d-flex flex-wrap"></div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            fetch("http://localhost:8080/products/front/published")
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("伺服器錯誤");
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const container = document.getElementById("product-list");
+                    container.innerHTML = ""; // 清空內容
+
+                    data.forEach(p => {
+                        const imgUrl = p.imageUrl ? `http://localhost:8080${p.imageUrl}` : "static/default.jpg";
+                        const detailUrl = `product.html?id=${p.id}`;
+
+                        const card = document.createElement("div");
+                        card.className = "card m-2 p-3 shadow-sm";
+                        card.style.width = "18rem";
+
+                        card.innerHTML = `
+                            <a href="${detailUrl}">
+                            <img src="${imgUrl}" class="card-img-top" alt="${p.name}"
+                                onerror="this.onerror=null;this.src='../images/default.jpg';">
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                <a href="${detailUrl}" class="text-decoration-none text-dark">${p.name}</a>
+                                </h5>
+                                <p class="card-text">${p.description || "無描述"}</p>
+                                <p class="card-text text-danger fw-bold">$${p.price}</p>
+                                <p class="card-text">
+                                    ${p.stock > 0 
+                                        ? `<span class="text-success">庫存：${p.stock}</span>` 
+                                        : `<span class="text-danger">售完</span>`}
+                                </p>
+                                <button class="btn btn-outline-primary w-100" onclick="addToCart(${p.id}, '${p.name}')">
+                                    加入購物車
+                                </button>
+                            </div>
+                        `;
+                        container.appendChild(card);
+                    });
+                })
+                .catch(err => {
+                    console.error("載入失敗:", err);
+                    document.getElementById("product-list").innerHTML = `
+                        <div class="alert alert-danger">無法載入商品，請稍後再試。</div>
+                    `;
+                });
+        });
+
+        function addToCart(productId, name) {
+            // TODO: 實際整合購物車邏輯
+            console.log(`加入購物車: ${productId} - ${name}`);
+            alert(`已將「${name}」加入購物車！`);
+        }
+  </script>
+
+    <!-- HTML 容器 -->
+    <div id="product-list" class="d-flex flex-wrap"></div>
+
 
 
 <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

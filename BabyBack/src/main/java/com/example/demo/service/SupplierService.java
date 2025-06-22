@@ -20,4 +20,19 @@ public class SupplierService {
     public Supplier getById(Integer id) {
         return repository.findById(id).orElse(null);
     }
+    
+    
+    //搜尋關鍵字
+    public List<Supplier> searchByName(String keyword) {
+        return repository.findByNameContaining(keyword);
+    }
+    
+    public void save(Supplier supplier) {
+        repository.save(supplier);
+    }
+
+    public void deleteById(Integer id) {
+        repository.deleteById(id);
+    }
+
 }

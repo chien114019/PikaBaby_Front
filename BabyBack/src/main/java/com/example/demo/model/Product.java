@@ -7,6 +7,7 @@ import java.util.List;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "product")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,190 +15,256 @@ public class Product {
 
     private String name;
     
-    private BigDecimal price;
+    // 配合資料庫使用 Double 型別
+    private Double price;
     
+    // 配合資料庫的庫存欄位
+    private Long stock;
+    
+   
+    // 如果資料庫沒有這些欄位，JPA會忽略它們
+    @Column(name = "specification")
     private String specification;
     
+    @Column(name = "color")
     private String color;
     
+    @Column(name = "note")
     private String note;
     
+    @Column(name = "image_url")
     private String imageUrl;
     
+    @Column(name = "description")
     private String description;
     
-    @Column(nullable = false)
+    @Column(name = "deleted", nullable = false)
     private Boolean deleted = false;
     
     @Column(name = "is_published")
     private Boolean published = false;
     
-    @ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
-    @CollectionTable(name = "product_age_ranges", joinColumns = @JoinColumn(name = "product_id"))
-    @Column(name = "age_range")
-    private List<String> ageRanges = new ArrayList<>();
-
+    // 年齡範圍欄位（如果資料庫有的話）
+    @Column(name = "age1")
+    private Boolean age1 = false;	// 0-3M
     
-    @OneToMany(mappedBy = "product")
-    private List<SupplierProduct> supplierProducts;
+    @Column(name = "age2")
+    private Boolean age2 = false;	// 3-6M
     
-    @OneToMany(mappedBy = "product")
+    @Column(name = "age3")
+    private Boolean age3 = false;	// 6-12M
+    
+    @Column(name = "age4")
+    private Boolean age4 = false;	// 2-3Y
+    
+    // 關聯表（如果存在的話）
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+    private List<SupplierProduct> supplierProducts = new ArrayList<>();
+    
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
     private List<ProductImage> images = new ArrayList<>();
     
-	@ManyToOne
-	@JoinColumn(name = "type")
-	private ProductType productType;
-   
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "type")
+    private ProductType productType;
+    
+    // 動態計算庫存（不存資料庫）
     @Transient
-    private Long stock;
-   
-	public Integer getId() {
-		return id;
-	}
+    private Long calculatedStock;
 
+    // Getters and Setters
+    public Integer getId() {
+        return id;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
+    public String getName() {
+        return name;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
+    public Double getPrice() {
+        return price;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setPrice(Double price) {
+        this.price = price;
+    }
 
+    public Long getStock() {
+        return stock;
+    }
 
-	public BigDecimal getPrice() {
-		return price;
-	}
+    public void setStock(Long stock) {
+        this.stock = stock;
+    }
 
+    public String getSpecification() {
+        return specification;
+    }
 
-	public void setPrice(BigDecimal price) {
-		this.price = price;
-	}
+    public void setSpecification(String specification) {
+        this.specification = specification;
+    }
 
+    public String getColor() {
+        return color;
+    }
 
-	public String getSpecification() {
-		return specification;
-	}
+    public void setColor(String color) {
+        this.color = color;
+    }
 
+    public String getNote() {
+        return note;
+    }
 
-	public void setSpecification(String specification) {
-		this.specification = specification;
-	}
+    public void setNote(String note) {
+        this.note = note;
+    }
 
+    public String getImageUrl() {
+        return imageUrl;
+    }
 
-	public String getColor() {
-		return color;
-	}
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 
+    public String getDescription() {
+        return description;
+    }
 
-	public void setColor(String color) {
-		this.color = color;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public List<SupplierProduct> getSupplierProducts() {
-		return supplierProducts;
-	}
+    public Boolean getDeleted() {
+        return deleted;
+    }
 
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
+    }
 
-	public void setSupplierProducts(List<SupplierProduct> supplierProducts) {
-		this.supplierProducts = supplierProducts;
-	}
+    public Boolean getPublished() {
+        return published;
+    }
 
+    public void setPublished(Boolean published) {
+        this.published = published;
+    }
 
-	public List<ProductImage> getImages() {
-		return images;
-	}
+    public Boolean getAge1() {
+        return age1;
+    }
 
+    public void setAge1(Boolean age1) {
+        this.age1 = age1;
+    }
 
-	public void setImages(List<ProductImage> images) {
-		this.images = images;
-	}
+    public Boolean getAge2() {
+        return age2;
+    }
 
-	public Long getStock() {
-		return stock;
-	}
+    public void setAge2(Boolean age2) {
+        this.age2 = age2;
+    }
 
+    public Boolean getAge3() {
+        return age3;
+    }
 
-	public void setStock(Long stock) {
-		this.stock = stock;
-	}
+    public void setAge3(Boolean age3) {
+        this.age3 = age3;
+    }
 
-	public String getNote() {
-		return note;
-	}
+    public Boolean getAge4() {
+        return age4;
+    }
 
-	public void setNote(String note) {
-		this.note = note;
-	}
+    public void setAge4(Boolean age4) {
+        this.age4 = age4;
+    }
 
+    public List<SupplierProduct> getSupplierProducts() {
+        return supplierProducts;
+    }
 
-	public Boolean getPublished() {
-		return published;
-	}
+    public void setSupplierProducts(List<SupplierProduct> supplierProducts) {
+        this.supplierProducts = supplierProducts;
+    }
 
+    public List<ProductImage> getImages() {
+        return images;
+    }
 
-	public void setPublished(Boolean published) {
-		this.published = published;
-	}
+    public void setImages(List<ProductImage> images) {
+        this.images = images;
+    }
 
+    public ProductType getProductType() {
+        return productType;
+    }
 
-	public String getImageUrl() {
-		return imageUrl;
-	}
+    public void setProductType(ProductType productType) {
+        this.productType = productType;
+    }
 
+    public Long getCalculatedStock() {
+        return calculatedStock;
+    }
 
-	public void setImageUrl(String imageUrl) {
-		this.imageUrl = imageUrl;
-	}
+    public void setCalculatedStock(Long calculatedStock) {
+        this.calculatedStock = calculatedStock;
+    }
 
+    // 實用方法
+    public String getPrimaryImageUrl() {
+        // 優先返回 images 集合中的第一張圖片
+        if (images != null && !images.isEmpty()) {
+            return "/products/front/images/" + images.get(0).getId();
+        }
+        // 其次返回 imageUrl 欄位
+        if (imageUrl != null && !imageUrl.trim().isEmpty()) {
+            return imageUrl;
+        }
+        // 最後返回預設圖片
+        return "/images/default.jpg";
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public List<String> getAllImageUrls() {
+        List<String> urls = new ArrayList<>();
+        if (images != null) {
+            for (ProductImage img : images) {
+                urls.add("/products/front/images/" + img.getId());
+            }
+        }
+        return urls;
+    }
 
+    // 年齡範圍列表
+    public List<String> getAgeRanges() {
+        List<String> ranges = new ArrayList<>();
+        if (Boolean.TRUE.equals(age1)) ranges.add("0-3M");
+        if (Boolean.TRUE.equals(age2)) ranges.add("3-6M");
+        if (Boolean.TRUE.equals(age3)) ranges.add("6-12M");
+        if (Boolean.TRUE.equals(age4)) ranges.add("2-3Y");
+        return ranges;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    // 價格轉換方法（為了與其他使用 BigDecimal 的代碼兼容）
+    public BigDecimal getPriceAsBigDecimal() {
+        return price != null ? BigDecimal.valueOf(price) : BigDecimal.ZERO;
+    }
 
-
-	public Boolean getDeleted() {
-		return deleted;
-	}
-
-
-	public void setDeleted(Boolean deleted) {
-		this.deleted = deleted;
-	}
-
-	public ProductType getProductType() {
-		return productType;
-	}
-
-
-	public void setProductType(ProductType productType) {
-		this.productType = productType;
-	}
-
-
-	public List<String> getAgeRanges() {
-		return ageRanges;
-	}
-
-
-	public void setAgeRanges(List<String> ageRanges) {
-		this.ageRanges = ageRanges;
-	}
-	
-	
-	
-	
-	
-	
+    public void setPriceFromBigDecimal(BigDecimal price) {
+        this.price = price != null ? price.doubleValue() : null;
+    }
 }

@@ -26,6 +26,22 @@ public class SalesOrder {
 
     @Column(columnDefinition = "integer default 0")
     private Integer payStatus = 0;  // 0:未付款, 1:已付款
+    
+    // 對應實際資料表中的前台訂單欄位
+    @Column(name = "recipient_name")
+    private String recipientName;
+    
+    @Column(name = "recipient_phone")
+    private String recipientPhone;
+    
+    @Column(name = "recipient_email")
+    private String recipientEmail;
+    
+    @Column(name = "shipping_address")
+    private String shippingAddress;
+    
+    @Column(name = "payment_method")
+    private String paymentMethod;
 
 	public Integer getId() {
 		return id;
@@ -74,13 +90,62 @@ public class SalesOrder {
 	public void setPayStatus(Integer payStatus) {
 		this.payStatus = payStatus;
 	}
+
+	public String getRecipientName() {
+		return recipientName;
+	}
+
+	public void setRecipientName(String recipientName) {
+		this.recipientName = recipientName;
+	}
+
+	public String getRecipientPhone() {
+		return recipientPhone;
+	}
+
+	public void setRecipientPhone(String recipientPhone) {
+		this.recipientPhone = recipientPhone;
+	}
+
+	public String getRecipientEmail() {
+		return recipientEmail;
+	}
+
+	public void setRecipientEmail(String recipientEmail) {
+		this.recipientEmail = recipientEmail;
+	}
+
+	public String getShippingAddress() {
+		return shippingAddress;
+	}
+
+	public void setShippingAddress(String shippingAddress) {
+		this.shippingAddress = shippingAddress;
+	}
+
+	public String getPaymentMethod() {
+		return paymentMethod;
+	}
+
+	public void setPaymentMethod(String paymentMethod) {
+		this.paymentMethod = paymentMethod;
+	}
 	
 	public double getTotalAmount() {
+	    if (details == null || details.isEmpty()) {
+	        return 0.0;
+	    }
 	    return details.stream()
-	        .mapToDouble(d -> d.getUnitPrice()
-	        .multiply(BigDecimal.valueOf(d.getQuantity()))
-	        .doubleValue())
+	        .mapToDouble(d -> {
+	            Double unitPrice = d.getUnitPrice();
+	            Long quantity = d.getQuantity();
+	            if (unitPrice == null || quantity == null) {
+	                return 0.0;
+	            }
+	            return unitPrice * quantity.doubleValue();
+	        })
 	        .sum();
 	}
     
+
 }

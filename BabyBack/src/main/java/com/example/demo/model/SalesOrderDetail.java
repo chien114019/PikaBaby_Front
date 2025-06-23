@@ -21,10 +21,10 @@ public class SalesOrderDetail {
     @JoinColumn(name = "supplier_product_id")
     private SupplierProduct supplierProduct;
 
-
-
     private Long quantity;
-    private BigDecimal unitPrice;
+    
+    // 配合資料庫使用 Double 型別
+    private Double unitPrice;
     
     
 	public Integer getId() {
@@ -51,23 +51,24 @@ public class SalesOrderDetail {
 	public void setQuantity(Long quantity) {
 		this.quantity = quantity;
 	}
-	public BigDecimal getUnitPrice() {
-		return unitPrice != null ? unitPrice : BigDecimal.ZERO;
+	
+	// 配合資料庫的 Double 型別
+	public Double getUnitPrice() {
+		return unitPrice != null ? unitPrice : 0.0;
 	}
-	public void setUnitPrice(BigDecimal bigDecimal) {
-		this.unitPrice = bigDecimal;
+	public void setUnitPrice(Double unitPrice) {
+		this.unitPrice = unitPrice;
 	}
-	 public BigDecimal getSubTotal() {
-	        return unitPrice.multiply(BigDecimal.valueOf(quantity));
+	
+	// 計算小計
+	public Double getSubTotal() {
+        return (unitPrice != null ? unitPrice : 0.0) * (quantity != null ? quantity : 0L);
 	}
+	
 	public SupplierProduct getSupplierProduct() {
 		return supplierProduct;
 	}
 	public void setSupplierProduct(SupplierProduct supplierProduct) {
 		this.supplierProduct = supplierProduct;
 	}
-	
-	
-	 
-   
 }

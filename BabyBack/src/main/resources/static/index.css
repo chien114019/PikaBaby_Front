@@ -107,3 +107,25 @@
      background-color: #e5faff;
      grid-area: pos;
  }
+ 
+ /*  logo 和標題 */
+ .header-center {
+	display: flex;
+	justify-content: center; /* 水平置中整體 */
+	align-items: center;     /* 垂直置中對齊 */
+	gap: 10px;               /* logo 和標題之間的間距 */
+	/* margin: 10px 0; */
+}
+
+.logo-img {
+	height: 160px;           /* 調整 logo圖片本身高度 */
+	object-fit: contain;
+	margin-top: -16px;  /* 調整正負值看在區塊內水平上下高度 */
+}
+
+.header-center h1 {
+	font-size: 3rem;
+	margin: 0;
+	line-height: 3;
+}
+ 

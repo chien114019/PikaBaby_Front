@@ -40,7 +40,7 @@ public class EmployeeController {
     
     //使用關鍵字查詢員工帳號
     @GetMapping("/employee/list")
-    public String listEmployees(@RequestParam(value = "keyword", required = false) String keyword, Model model) {
+    public String listEmployees(@RequestParam(value = "keyword", required = false) String keyword, Model model) { //required = false：這個參數「不是必填」
         List<UserAccount> employees;
         if (keyword != null && !keyword.isBlank()) {
             employees = userAccountRepository.findByUsernameContainingIgnoreCase(keyword);

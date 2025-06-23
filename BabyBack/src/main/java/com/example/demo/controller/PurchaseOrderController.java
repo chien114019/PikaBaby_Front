@@ -40,7 +40,7 @@ public class PurchaseOrderController {
         model.addAttribute("order", order);
         model.addAttribute("suppliers", supplierService.listAll());
         model.addAttribute("products", productService.listAll());
-        model.addAttribute("supplierProducts", supplierProductService.listAll());
+        model.addAttribute("supplierProducts", supplierProductService.findAllValidForPurchase());
         return "purchase/form";
     }
 

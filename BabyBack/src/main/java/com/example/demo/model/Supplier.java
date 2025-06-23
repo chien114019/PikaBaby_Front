@@ -18,6 +18,10 @@ public class Supplier {
     
     private String address;
     
+    @Column(name = "deleted")
+    private Boolean deleted = false;
+
+    
     @OneToMany(mappedBy = "supplier")
     private List<SupplierProduct> supplierProducts;
 
@@ -57,6 +61,12 @@ public class Supplier {
 	}
 	public void setSupplierProducts(List<SupplierProduct> supplierProducts) {
 		this.supplierProducts = supplierProducts;
+	}
+	public Boolean getDeleted() {
+		return deleted;
+	}
+	public void setDeleted(Boolean deleted) {
+		this.deleted = deleted;
 	}
 	
 	

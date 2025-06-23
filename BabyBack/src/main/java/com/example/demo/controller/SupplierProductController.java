@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.SupplierProduct;
+import com.example.demo.repository.SupplierProductRepository;
 import com.example.demo.service.SupplierProductService;
 import com.example.demo.service.ProductService;
 import com.example.demo.service.SupplierService;
@@ -24,10 +25,13 @@ public class SupplierProductController {
 
     @Autowired
     private ProductService productService;
+    
+    @Autowired
+    private SupplierProductRepository supplierProductRepository;
 
     @GetMapping
     public String list(Model model) {
-        List<SupplierProduct> list = service.findAll();
+        List<SupplierProduct> list = supplierProductRepository.findAllValid();
         model.addAttribute("supplierProducts", list);
         return "supplier-product/list";  // 你必須建立這個 HTML
     }

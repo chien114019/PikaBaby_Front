@@ -203,19 +203,21 @@
 							<li class="breadcrumb-item active" aria-current="page">進貨單</li>
 						</ol>
 					</nav>
+					
+					
 					<!-- 從此往下寫右側區域功能 -->
-					<h2>新增進貨單</h2>
+					<h2 th:text="${order.id} != null ? '編輯進貨單' : '新增進貨單'"></h2>
 
-					<form th:action="@{/purchases/save}" th:object="${order}" method="post">
+					<form th:action="@{/purchases/save}" th:object="${order}"  method="post">
+					<input type="hidden" name="id" th:value="${order.id}" />
+
 						<div class="row g-3">
 							<!-- 左欄 -->
 							<div class="col-md-6">
 								<div class="mb-3">
-									<label class="form-label">進貨日：</label> <input type="date" name="orderDate"
-										class="form-control w-75">
+									<label class="form-label">進貨日：</label> 
+									<input type="date" name="orderDate" th:value="${#dates.format(order.orderDate, 'yyyy-MM-dd')}" class="form-control w-75" />
 								</div>
-
-								
 							</div>
 
 							<!-- 右欄 -->
@@ -257,10 +259,10 @@
 								      <option value="">請選擇商品與廠商</option>
 								      <option th:each="sp : ${supplierProducts}"
 								              th:value="${sp.id}"
-								              th:data-spec="${sp.product.specification}"
+								              th:data-spec="${sp.product != null ? sp.product.specification : ''}"
 								              th:data-price="${sp.price}"
-								              th:data-supplier="${sp.supplier.name}"
-								              th:text="${sp.product.name + ' / ' + sp.supplier.name}">
+								              th:data-supplier="${sp.supplier != null ? sp.supplier.name : ''}"
+								               th:text="${(sp.product != null ? sp.product.name : '無商品') + ' / ' + (sp.supplier != null ? sp.supplier.name : '無供應商')}">
 								      </option>
 								    </select>
 								  </td>

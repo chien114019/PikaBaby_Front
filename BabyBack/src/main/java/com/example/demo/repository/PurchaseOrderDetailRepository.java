@@ -19,8 +19,7 @@ public interface PurchaseOrderDetailRepository extends JpaRepository<PurchaseOrd
 
 
 	@Query("""
-		    SELECT DISTINCT pod.supplierProduct.product 
-		    FROM PurchaseOrderDetail pod
+		    SELECT DISTINCT pod.supplierProduct.product FROM PurchaseOrderDetail pod WHERE pod.supplierProduct.product.deleted = false
 		""")
 		List<Product> findDistinctProductsInPurchaseHistory();
 

@@ -37,4 +37,9 @@ public class SupplierProductService {
     public List<SupplierProduct> findAll() {
         return repository.findAll();
     }
+    
+    public List<SupplierProduct> findAllValidForPurchase() {
+        return repository.findAllValidForPurchase();
+    }
+
 }

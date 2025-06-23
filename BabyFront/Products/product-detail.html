@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商品詳情 - PikaBaby</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/nav.css">
+    <style>
+        /* 載入狀態 */
+        .loading-container {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #FFE135;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* 主要內容區域 */
+        .product-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+        }
+
+        /* 商品圖片區域 */
+        .product-image-section {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .main-image {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: contain;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #eee;
+        }
+
+        .thumbnail-images {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+        }
+
+        .thumbnail {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            border-radius: 4px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: border-color 0.3s;
+            flex-shrink: 0;
+        }
+
+        .thumbnail:hover,
+        .thumbnail.active {
+            border-color: #FFE135;
+        }
+
+        /* 商品信息區域 */
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-title {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .price-section {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .current-price {
+            color: #e44d26;
+            font-size: 32px;
+            font-weight: bold;
+        }
+
+        .stock-info {
+            margin: 15px 0;
+            padding: 10px;
+            background: #e8f5e8;
+            border-radius: 4px;
+            border-left: 4px solid #28a745;
+        }
+
+        .stock-info.low-stock {
+            background: #fff3cd;
+            border-left-color: #ffc107;
+        }
+
+        .stock-info.out-of-stock {
+            background: #f8d7da;
+            border-left-color: #dc3545;
+        }
+
+        /* 商品規格 */
+        .product-specs {
+            margin: 25px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .spec-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .spec-item:last-child {
+            border-bottom: none;
+        }
+
+        .spec-label {
+            font-weight: bold;
+            color: #666;
+        }
+
+        .spec-value {
+            color: #333;
+        }
+
+        /* 商品描述 */
+        .product-description {
+            margin: 25px 0;
+        }
+
+        .description-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .description-content {
+            line-height: 1.8;
+            color: #666;
+            white-space: pre-wrap;
+        }
+
+        /* 數量選擇 */
+        .quantity-section {
+            margin: 25px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .quantity-label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .quantity-input-group {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .quantity-btn {
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: #f8f9fa;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .quantity-btn:hover {
+            background: #e9ecef;
+        }
+
+        .quantity-input {
+            width: 60px;
+            height: 40px;
+            text-align: center;
+            border: none;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        /* 購買按鈕 */
+        .purchase-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .add-to-cart-btn {
+            flex: 1;
+            padding: 15px;
+            background-color: #FFE135;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .add-to-cart-btn:hover {
+            background-color: #FFD700;
+            transform: translateY(-2px);
+        }
+
+        .buy-now-btn {
+            flex: 1;
+            padding: 15px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .buy-now-btn:hover {
+            background-color: #218838;
+            transform: translateY(-2px);
+        }
+
+        /* 願望清單按鈕 */
+        .wishlist-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: #ccc;
+        }
+
+        .wishlist-btn:hover {
+            color: #ff4d4d;
+            background: white;
+        }
+
+        .wishlist-btn.active {
+            color: #ff4d4d;
+        }
+
+        /* 錯誤訊息 */
+        .error-container {
+            text-align: center;
+            padding: 60px 20px;
+            color: #dc3545;
+        }
+
+        .error-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        /* 返回按鈕 */
+        .back-btn {
+            position: fixed;
+            top: 120px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid #ddd;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            z-index: 1000;
+        }
+
+        .back-btn:hover {
+            background: white;
+            transform: scale(1.1);
+        }
+
+        /* 通知訊息 */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            z-index: 9999;
+            display: none;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* 響應式設計 */
+        @media (max-width: 768px) {
+            .product-container {
+                grid-template-columns: 1fr;
+                gap: 30px;
+                margin: 20px auto;
+            }
+
+            .product-title {
+                font-size: 24px;
+            }
+
+            .current-price {
+                font-size: 28px;
+            }
+
+            .purchase-buttons {
+                flex-direction: column;
+            }
+
+            .back-btn {
+                position: relative;
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 返回按鈕 -->
+    <button class="back-btn" onclick="goBack()" title="返回商品列表">
+        ←
+    </button>
+
+    <header>
+        <!-- 置頂的促銷訊息 -->
+        <div class="top-banner">
+            每週五六日🔥新人代理寄賣免運
+            <font color="red"><span></span> 日 <span></span> 時 <span></span> 分 <span></span> 秒</font>
+            <div style="display: inline-block; background-color: black; color: white">
+                Ispian love you
+            </div>
+        </div>
+
+        <!-- LOGO -->
+        <div class="nav-logo-row">
+            <img src="../images/logo-pikababy.png" alt="PikaBaby" class="nav-logo" />
+        </div>
+    </header>
+
+    <!-- 導覽列 -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse justify-content-around d-flex" id="navbarSupportedContent">
+                <!-- LOGO -->
+                <img id="logo" src="../images/logo-pikababy.png" alt="PikaBaby"
+                    style="height: 80px; width: 0px; transition: 3s; display: none;" />
+                <ul class="navbar-nav ml-auto nav-links gap-5 me-0">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="../index.html">首頁</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown1" role="button" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            年齡區間(0-3M)
+                        </a>
+                        <div class="dropdown-menu p-3 justify-content-center" aria-labelledby="navbarDropdown1">
+                            <a class="dropdown-item" href="product.html?category=feeding">奶瓶/奶嘴</a>
+                            <a class="dropdown-item" href="product.html?category=clothes">圍兜/揹巾</a>
+                            <a class="dropdown-item" href="product.html?category=clothes">嬰兒服裝</a>
+                            <a class="dropdown-item" href="product.html?category=care">清潔用品</a>
+                            <a class="dropdown-item" href="product.html?category=stroller">嬰兒推車</a>
+                            <a class="dropdown-item" href="product.html?category=furniture">嬰兒床</a>
+                            <a class="dropdown-item" href="product.html?category=feeding">哺乳用品</a>
+                            <a class="dropdown-item" href="product.html?category=care">嬰兒用品</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown2" role="button" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            年齡區間(3-6M)
+                        </a>
+                        <div class="dropdown-menu p-3 justify-content-center" aria-labelledby="navbarDropdown2">
+                            <a class="dropdown-item" href="product.html?category=clothes">嬰兒服裝</a>
+                            <a class="dropdown-item" href="product.html?category=toys">玩具</a>
+                            <a class="dropdown-item" href="product.html?category=stroller">嬰兒推車</a>
+                            <a class="dropdown-item" href="product.html?category=furniture">嬰兒床</a>
+                            <a class="dropdown-item" href="product.html?category=car-seat">汽座</a>
+                            <a class="dropdown-item" href="product.html?category=care">嬰兒用品</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown3" role="button" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            年齡區間(6-12M)
+                        </a>
+                        <div class="dropdown-menu p-3 justify-content-center" aria-labelledby="navbarDropdown3">
+                            <a class="dropdown-item" href="product.html?category=walking">學步用品</a>
+                            <a class="dropdown-item" href="product.html?category=dining">餐具用品</a>
+                            <a class="dropdown-item" href="product.html?category=clothes">幼兒服裝</a>
+                            <a class="dropdown-item" href="product.html?category=toys">玩具</a>
+                            <a class="dropdown-item" href="product.html?category=stroller">嬰兒推車</a>
+                            <a class="dropdown-item" href="product.html?category=car-seat">汽座</a>
+                            <a class="dropdown-item" href="product.html?category=care">嬰兒用品</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown4" role="button" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            年齡區間(2-3y)
+                        </a>
+                        <div class="dropdown-menu p-3 justify-content-center" aria-labelledby="navbarDropdown4">
+                            <a class="dropdown-item" href="product.html?category=education">幼教用品</a>
+                            <a class="dropdown-item" href="product.html?category=clothes">兒童服裝</a>
+                            <a class="dropdown-item" href="product.html?category=toys">玩具</a>
+                            <a class="dropdown-item" href="product.html?category=car-seat">汽座</a>
+                            <a class="dropdown-item" href="product.html?category=stroller">兒童推車</a>
+                            <a class="dropdown-item" href="product.html?category=furniture">餐椅</a>
+                            <a class="dropdown-item" href="product.html?category=appliance">電器用品</a>
+                            <a class="dropdown-item" href="product.html?category=care">嬰兒用品</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown5" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            二手託售
+                        </a>
+                        <div class="dropdown-menu p-3 justify-content-center gap-5" aria-labelledby="navbarDropdown5">
+                            <a class="dropdown-item" href="../Secondhand/consign.html">託售服務</a>
+                            <a class="dropdown-item" href="../Secondhand/consign_apply.html">二手託售申請</a>
+                            <a class="dropdown-item" href="../Secondhand/consign_search.html">託售紀錄查詢</a>
+                            <a class="dropdown-item" href="../Secondhand/withdraw_apply.html">託售提款申請</a>
+                            <a class="dropdown-item" href="../Secondhand/withdraw_search.html">提款紀錄查詢</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="../about.html">關於我們</a>
+                    </li>
+                    <div class="d-flex gap-3">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="../Shopping/shoppingcart.html">
+                                <img src="../images/cart.png" style="width: 30px;">
+                                <span class="cart-count" style="display: none;">0</span>
+                            </a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdown5" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img src="../images/user.png" style="width: 30px;" alt="會員圖示">
+                            </a>
+                            <div class="dropdown-menu p-3 justify-content-center gap-5" id="dropdownForUser"
+                                aria-labelledby="navbarDropdown5">
+                                <a class="dropdown-item" href="../Member/member.html">會員中心</a>
+                                <a class="dropdown-item text-danger" href="#" onclick="logout()">登出</a>
+                            </div>
+                        </li>
+                    </div>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主要內容 -->
+    <main>
+        <!-- 加載中 -->
+        <div id="loading-container" class="loading-container">
+            <div class="loading-spinner"></div>
+            <p>載入商品資訊中...</p>
+        </div>
+
+        <!-- 錯誤訊息 -->
+        <div id="error-container" class="error-container" style="display: none;">
+            <div class="error-icon">😞</div>
+            <h3>載入失敗</h3>
+            <p id="error-message">無法載入商品資訊</p>
+            <button class="btn btn-primary" onclick="location.reload()">重新載入</button>
+        </div>
+
+        <!-- 商品詳情 -->
+        <div id="product-detail" class="product-container" style="display: none;">
+            <!-- 商品圖片區域 -->
+            <div class="product-image-section">
+                <div style="position: relative;">
+                    <img id="main-image" src="" alt="商品圖片" class="main-image">
+                    <button class="wishlist-btn" onclick="toggleWishlist(this)">♡</button>
+                </div>
+                <div id="thumbnail-container" class="thumbnail-images">
+                    <!-- 縮圖將由JavaScript動態生成 -->
+                </div>
+            </div>
+
+            <!-- 商品信息區域 -->
+            <div class="product-info">
+                <h1 id="product-name" class="product-title">載入中...</h1>
+                
+                <div class="price-section">
+                    <div class="current-price">NT$ <span id="product-price">0</span></div>
+                </div>
+
+                <div id="stock-section" class="stock-info">
+                    <strong>庫存狀態：</strong><span id="stock-status">確認中...</span>
+                </div>
+
+                <!-- 商品規格 -->
+                <div id="product-specs" class="product-specs">
+                    <h4>商品規格</h4>
+                    <div class="spec-item">
+                        <span class="spec-label">商品編號：</span>
+                        <span class="spec-value" id="product-id">-</span>
+                    </div>
+                    <div class="spec-item" id="spec-specification" style="display: none;">
+                        <span class="spec-label">規格：</span>
+                        <span class="spec-value" id="product-specification">-</span>
+                    </div>
+                    <div class="spec-item" id="spec-color" style="display: none;">
+                        <span class="spec-label">顏色：</span>
+                        <span class="spec-value" id="product-color">-</span>
+                    </div>
+                </div>
+
+                <!-- 數量選擇 -->
+                <div class="quantity-section">
+                    <div class="quantity-controls">
+                        <span class="quantity-label">數量：</span>
+                        <div class="quantity-input-group">
+                            <button class="quantity-btn" onclick="changeQuantity(-1)">-</button>
+                            <input type="number" id="quantity-input" class="quantity-input" value="1" min="1" max="99">
+                            <button class="quantity-btn" onclick="changeQuantity(1)">+</button>
+                        </div>
+                    </div>
+                    
+                    <div class="purchase-buttons">
+                        <button id="add-to-cart-btn" class="add-to-cart-btn" onclick="addToCart()">
+                            加入購物車
+                        </button>
+                        <button id="buy-now-btn" class="buy-now-btn" onclick="buyNow()">
+                            立即購買
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 商品描述 -->
+                <div id="description-section" class="product-description" style="display: none;">
+                    <h3 class="description-title">商品描述</h3>
+                    <div id="product-description" class="description-content"></div>
+                </div>
+
+                <!-- 商品備註 -->
+                <div id="note-section" class="product-description" style="display: none;">
+                    <h3 class="description-title">商品備註</h3>
+                    <div id="product-note" class="description-content"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 通知訊息 -->
+    <div id="notification" class="notification"></div>
+
+    <!-- JavaScript -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/navbar.js"></script>
+    
+    <script>
+        let currentProduct = null;
+        let currentQuantity = 1;
+
+        // 頁面載入時執行
+        document.addEventListener('DOMContentLoaded', function() {
+            // 從URL參數獲取商品ID
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = urlParams.get('id');
+            
+            if (!productId) {
+                showError('未指定商品ID');
+                return;
+            }
+            
+            loadProductDetail(productId);
+            updateCartCount();
+        });
+
+        // 載入商品詳情
+        async function loadProductDetail(productId) {
+            try {
+                showLoading();
+                
+                const response = await fetch(`http://localhost:8080/products/front/detail/${productId}`);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                
+                if (!data.success) {
+                    throw new Error(data.message || '載入商品失敗');
+                }
+                
+                currentProduct = data;
+                displayProductDetail(data);
+                
+            } catch (error) {
+                console.error('載入商品詳情失敗:', error);
+                showError('載入商品失敗: ' + error.message);
+            }
+        }
+
+        // 顯示商品詳情
+        function displayProductDetail(product) {
+            // 更新頁面標題
+            document.title = `${product.name} - PikaBaby`;
+            
+            // 基本資訊
+            document.getElementById('product-name').textContent = product.name;
+            document.getElementById('product-price').textContent = Math.floor(product.price);
+            document.getElementById('product-id').textContent = product.id;
+            
+            // 庫存狀態
+            updateStockDisplay(product.stock);
+            
+            // 規格資訊
+            if (product.specification) {
+                document.getElementById('product-specification').textContent = product.specification;
+                document.getElementById('spec-specification').style.display = 'flex';
+            }
+            
+            if (product.color) {
+                document.getElementById('product-color').textContent = product.color;
+                document.getElementById('spec-color').style.display = 'flex';
+            }
+            
+            // 商品描述
+            if (product.description && product.description.trim()) {
+                document.getElementById('product-description').textContent = product.description;
+                document.getElementById('description-section').style.display = 'block';
+            }
+            
+            // 商品備註
+            if (product.note && product.note.trim()) {
+                document.getElementById('product-note').textContent = product.note;
+                document.getElementById('note-section').style.display = 'block';
+            }
+            
+            // 商品圖片
+            setupProductImages(product);
+            
+            hideLoading();
+        }
+
+        // 設置商品圖片
+        function setupProductImages(product) {
+            const mainImage = document.getElementById('main-image');
+            const thumbnailContainer = document.getElementById('thumbnail-container');
+            
+            // 處理圖片URL
+            let imageUrls = product.allImageUrls || [];
+            if (imageUrls.length === 0) {
+                imageUrls = [product.primaryImageUrl || '../images/baby.jpg'];
+            }
+            
+            // 轉換相對路徑為完整URL
+            imageUrls = imageUrls.map(url => {
+                if (url.startsWith('/products/front/images/')) {
+                    return 'http://localhost:8080' + url;
+                } else if (url.startsWith('../')) {
+                    return url;
+                } else {
+                    return '../images/baby.jpg';
+                }
+            });
+            
+            // 設置主圖片
+            mainImage.src = imageUrls[0];
+            mainImage.onerror = function() {
+                this.src = '../images/baby.jpg';
+            };
+            
+            // 生成縮圖
+            if (imageUrls.length > 1) {
+                thumbnailContainer.innerHTML = '';
+                imageUrls.forEach((url, index) => {
+                    const thumbnail = document.createElement('img');
+                    thumbnail.src = url;
+                    thumbnail.className = 'thumbnail' + (index === 0 ? ' active' : '');
+                    thumbnail.onclick = () => switchMainImage(url, thumbnail);
+                    thumbnail.onerror = function() {
+                        this.src = '../images/baby.jpg';
+                    };
+                    thumbnailContainer.appendChild(thumbnail);
+                });
+            } else {
+                thumbnailContainer.style.display = 'none';
+            }
+        }
+
+        // 切換主圖片
+        function switchMainImage(newSrc, thumbnailElement) {
+            document.getElementById('main-image').src = newSrc;
+            
+            // 更新縮圖的active狀態
+            document.querySelectorAll('.thumbnail').forEach(thumb => {
+                thumb.classList.remove('active');
+            });
+            thumbnailElement.classList.add('active');
+        }
+
+        // 更新庫存顯示
+        function updateStockDisplay(stock) {
+            const stockSection = document.getElementById('stock-section');
+            const stockStatus = document.getElementById('stock-status');
+            const addToCartBtn = document.getElementById('add-to-cart-btn');
+            const buyNowBtn = document.getElementById('buy-now-btn');
+            
+            if (stock === null || stock === undefined) {
+                stockStatus.textContent = '庫存資訊不明';
+                stockSection.className = 'stock-info';
+            } else if (stock <= 0) {
+                stockStatus.textContent = '暫時缺貨';
+                stockSection.className = 'stock-info out-of-stock';
+                addToCartBtn.disabled = true;
+                buyNowBtn.disabled = true;
+                addToCartBtn.textContent = '暫時缺貨';
+            } else if (stock <= 5) {
+                stockStatus.textContent = `剩餘 ${stock} 件`;
+                stockSection.className = 'stock-info low-stock';
+                document.getElementById('quantity-input').max = stock;
+            } else {
+                stockStatus.textContent = '現貨供應';
+                stockSection.className = 'stock-info';
+                document.getElementById('quantity-input').max = Math.min(stock, 99);
+            }
+        }
+
+        // 數量控制
+        function changeQuantity(delta) {
+            const input = document.getElementById('quantity-input');
+            const newValue = parseInt(input.value) + delta;
+            const maxStock = parseInt(input.max) || 99;
+            
+            if (newValue >= 1 && newValue <= maxStock) {
+                input.value = newValue;
+                currentQuantity = newValue;
+            }
+        }
+
+        // 監聽數量輸入框變化
+        document.getElementById('quantity-input').addEventListener('input', function() {
+            const value = parseInt(this.value) || 1;
+            const maxStock = parseInt(this.max) || 99;
+            
+            if (value < 1) {
+                this.value = 1;
+            } else if (value > maxStock) {
+                this.value = maxStock;
+            }
+            
+            currentQuantity = parseInt(this.value);
+        });
+
+        // 加入購物車
+        function addToCart() {
+            if (!currentProduct) {
+                showNotification('商品資訊載入中，請稍候', 'warning');
+                return;
+            }
+            
+            try {
+                let cart = JSON.parse(localStorage.getItem('cart')) || [];
+                const quantity = parseInt(document.getElementById('quantity-input').value) || 1;
+                
+                // 檢查商品是否已在購物車中
+                const existingIndex = cart.findIndex(item => item.id === currentProduct.id);
+                
+                if (existingIndex > -1) {
+                    // 商品已存在，增加數量
+                    cart[existingIndex].quantity += quantity;
+                } else {
+                    // 新商品，加入購物車
+                    cart.push({
+                        id: currentProduct.id,
+                        name: currentProduct.name,
+                        price: currentProduct.price,
+                        quantity: quantity,
+                        image: currentProduct.primaryImageUrl || '../images/baby.jpg'
+                    });
+                }
+                
+                // 儲存到localStorage
+                localStorage.setItem('cart', JSON.stringify(cart));
+                
+                // 更新購物車數量顯示
+                updateCartCount();
+                
+                // 顯示成功訊息
+                showNotification(`已將 ${currentProduct.name} x${quantity} 加入購物車！`, 'success');
+                
+                // 重置數量為1
+                document.getElementById('quantity-input').value = 1;
+                currentQuantity = 1;
+                
+            } catch (error) {
+                console.error('加入購物車失敗:', error);
+                showNotification('加入購物車失敗，請稍後再試', 'error');
+            }
+        }
+
+        // 立即購買
+        function buyNow() {
+            if (!currentProduct) {
+                showNotification('商品資訊載入中，請稍候', 'warning');
+                return;
+            }
+            
+            // 先加入購物車
+            addToCart();
+            
+            // 延遲跳轉到購物車頁面
+            setTimeout(() => {
+                window.location.href = '../Shopping/shoppingcart.html';
+            }, 1000);
+        }
+
+        // 切換願望清單
+        function toggleWishlist(button) {
+            button.classList.toggle('active');
+            
+            if (button.classList.contains('active')) {
+                button.innerHTML = '♥';
+                showNotification('已加入願望清單', 'success');
+            } else {
+                button.innerHTML = '♡';
+                showNotification('已從願望清單移除', 'info');
+            }
+        }
+
+        // 更新購物車數量
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const cartCount = document.querySelector('.cart-count');
+            
+            if (cartCount) {
+                cartCount.textContent = count;
+                cartCount.style.display = count > 0 ? 'inline' : 'none';
+            }
+        }
+
+        // 顯示通知
+        function showNotification(message, type = 'info') {
+            const notification = document.getElementById('notification');
+            
+            // 設置背景顏色
+            const colors = {
+                success: 'rgba(40, 167, 69, 0.9)',
+                error: 'rgba(220, 53, 69, 0.9)',
+                warning: 'rgba(255, 193, 7, 0.9)',
+                info: 'rgba(23, 162, 184, 0.9)'
+            };
+            
+            notification.style.background = colors[type] || colors.info;
+            notification.textContent = message;
+            notification.style.display = 'block';
+            
+            // 3秒後自動隱藏
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+
+        // 顯示載入狀態
+        function showLoading() {
+            document.getElementById('loading-container').style.display = 'block';
+            document.getElementById('error-container').style.display = 'none';
+            document.getElementById('product-detail').style.display = 'none';
+        }
+
+        // 隱藏載入狀態
+        function hideLoading() {
+            document.getElementById('loading-container').style.display = 'none';
+            document.getElementById('product-detail').style.display = 'grid';
+        }
+
+        // 顯示錯誤
+        function showError(message) {
+            document.getElementById('loading-container').style.display = 'none';
+            document.getElementById('product-detail').style.display = 'none';
+            document.getElementById('error-container').style.display = 'block';
+            document.getElementById('error-message').textContent = message;
+        }
+
+        // 返回商品列表
+        function goBack() {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                window.location.href = 'product.html';
+            }
+        }
+
+        // 同步購物車數量（多頁面）
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'cart') {
+                updateCartCount();
+            }
+        });
+    </script>
+</body>
+
+</html> 

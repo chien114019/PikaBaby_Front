@@ -30,19 +30,13 @@ public class Product {
     private Boolean deleted = false;
     
     @Column(name = "is_published")
-    private Boolean published;
+    private Boolean published = false;
     
-//    @Column(nullable = true)
-    private Boolean age1 = false;	// 0-3M
-    
-//    @Column(nullable = true)
-    private Boolean age2;	// 3-6M
-    
-//    @Column(nullable = true)
-    private Boolean age3;	// 6-12M
-    
-//    @Column(nullable = true)
-    private Boolean age4;	// 2-3Y
+    @ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "product_age_ranges", joinColumns = @JoinColumn(name = "product_id"))
+    @Column(name = "age_range")
+    private List<String> ageRanges = new ArrayList<>();
+
     
     @OneToMany(mappedBy = "product")
     private List<SupplierProduct> supplierProducts;
@@ -143,7 +137,7 @@ public class Product {
 	}
 
 
-	public Boolean isPublished() {
+	public Boolean getPublished() {
 		return published;
 	}
 
@@ -182,52 +176,6 @@ public class Product {
 		this.deleted = deleted;
 	}
 
-
-	public Boolean getPublished() {
-		return published;
-	}
-
-
-	public boolean isAge1() {
-		return age1;
-	}
-
-
-	public void setAge1(boolean age1) {
-		this.age1 = age1;
-	}
-
-
-	public boolean isAge2() {
-		return age2;
-	}
-
-
-	public void setAge2(boolean age2) {
-		this.age2 = age2;
-	}
-
-
-	public boolean isAge3() {
-		return age3;
-	}
-
-
-	public void setAge3(boolean age3) {
-		this.age3 = age3;
-	}
-
-
-	public boolean isAge4() {
-		return age4;
-	}
-
-
-	public void setAge4(boolean age4) {
-		this.age4 = age4;
-	}
-
-
 	public ProductType getProductType() {
 		return productType;
 	}
@@ -235,6 +183,16 @@ public class Product {
 
 	public void setProductType(ProductType productType) {
 		this.productType = productType;
+	}
+
+
+	public List<String> getAgeRanges() {
+		return ageRanges;
+	}
+
+
+	public void setAgeRanges(List<String> ageRanges) {
+		this.ageRanges = ageRanges;
 	}
 	
 	

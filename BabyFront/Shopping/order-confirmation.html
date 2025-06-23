@@ -245,7 +245,7 @@
             }
 
             // 從後端獲取訂單詳細資訊
-            fetch(`http://localhost:8080/orders/api/cart/${orderId}`, {
+            fetch(`http://localhost:8080/orders/api/order/${orderId}`, {
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
@@ -260,43 +260,54 @@
                     }
                     return response.json();
                 })
-                .then(order => {
+                .then(response => {
+                    if (!response.success) {
+                        throw new Error(response.message || '獲取訂單失敗');
+                    }
+                    
+                    const order = response.order;
+                    
                     // 填充訂單資訊
                     document.getElementById('orderId').textContent = order.id;
                     document.getElementById('orderDate').textContent = new Date(order.orderDate).toLocaleString();
-                    document.getElementById('recipientName').textContent = order.name;
-                    document.getElementById('recipientPhone').textContent = order.phone;
-                    document.getElementById('shippingAddress').textContent = order.address;
-                    document.getElementById('paymentMethod').textContent = translatePaymentMethod(order.paymentMethod);
+                    document.getElementById('recipientName').textContent = order.customerName || '未提供';
+                    document.getElementById('recipientPhone').textContent = order.customerPhone || '未提供';
+                    document.getElementById('shippingAddress').textContent = order.customerAddress || '未提供';
+                    document.getElementById('paymentMethod').textContent = translatePaymentMethod(order.paymentMethod) || '未指定';
 
                     // 填充訂單項目
                     const orderItemsContainer = document.getElementById('orderItems');
                     let subtotal = 0;
 
-                    order.items.forEach(item => {
-                        const itemElement = document.createElement('div');
-                        itemElement.className = 'order-item';
-                        itemElement.innerHTML = `
-                            <div class="item-image">
-                                <img src="${item.image || 'https://via.placeholder.com/80x80?text=No+Image'}" alt="${item.name}">
-                            </div>
-                            <div class="item-details">
-                                <h6>${item.name}</h6>
-                                <p>數量：${item.quantity}</p>
-                            </div>
-                            <div class="item-price">
-                                NT$ ${item.price * item.quantity}
-                            </div>
-                        `;
-                        orderItemsContainer.appendChild(itemElement);
-                        subtotal += item.price * item.quantity;
-                    });
+                    if (order.items && order.items.length > 0) {
+                        order.items.forEach(item => {
+                            const itemElement = document.createElement('div');
+                            itemElement.className = 'order-item';
+                            itemElement.innerHTML = `
+                                <div class="item-image">
+                                    <img src="../images/baby.jpg" alt="${item.productName}" onerror="this.src='https://via.placeholder.com/80x80?text=No+Image'">
+                                </div>
+                                <div class="item-details">
+                                    <h6>${item.productName}</h6>
+                                    <p>數量：${item.quantity}</p>
+                                    <p>單價：NT$ ${item.unitPrice}</p>
+                                </div>
+                                <div class="item-price">
+                                    NT$ ${item.subTotal || (item.unitPrice * item.quantity)}
+                                </div>
+                            `;
+                            orderItemsContainer.appendChild(itemElement);
+                            subtotal += item.subTotal || (item.unitPrice * item.quantity);
+                        });
+                    } else {
+                        orderItemsContainer.innerHTML = '<p>暫無商品資訊</p>';
+                    }
 
                     // 更新金額資訊
-                    document.getElementById('subtotal').textContent = subtotal;
-                    document.getElementById('shippingFee').textContent = order.shippingFee || 0;
-                    document.getElementById('usedPoints').textContent = order.usedPoints || 0;
-                    document.getElementById('total').textContent = order.totalAmount;
+                    document.getElementById('subtotal').textContent = Math.round(subtotal);
+                    document.getElementById('shippingFee').textContent = 0; // 運費暫設為0
+                    document.getElementById('usedPoints').textContent = 0; // 點數暫設為0
+                    document.getElementById('total').textContent = Math.round(order.totalAmount || subtotal);
                 })
                 .catch(error => {
                     console.error('Error:', error);

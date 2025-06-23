@@ -10,7 +10,9 @@ public interface UserAccountRepository extends JpaRepository<UserAccount, Intege
     Optional<UserAccount> findByUsername(String username);
     
     //關鍵字查詢員工帳號
-    List<UserAccount> findByUsernameContaining(String keyword);
+    List<UserAccount> findByUsernameContainingIgnoreCase(String keyword);
+    //Containing 模糊比對（like '%keyword%'）;IgnoreCase 讓搜尋不區分大小寫
+    
     //Query Method Name Derivation（方法名稱導出查詢）
     //          方法	                            對應 SQL 範例
     //findByUsername(String s)	            WHERE username = ?

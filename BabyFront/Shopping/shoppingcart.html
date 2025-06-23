@@ -385,14 +385,14 @@
                         <!-- ✅ 未登入時：跳 login，不顯示 dropdown -->
                         <li class="nav-item" id="loginNavItem" style="display: none;">
                             <a class="nav-link" href="./Member/login.html">
-                                <img src="images/user.png" style="width: 30px;" alt="會員登入圖示">
+                                <img src="../images/user.png" style="width: 30px;" alt="會員登入圖示">
                             </a>
                         </li>
                         <!-- ✅ 已登入時：正常 dropdown -->
                         <li class="nav-item dropdown" id="memberDropdownItem" style="display: none;">
                             <a class="nav-link dropdown-toggle" id="navbarDropdown5" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img src="images/user.png" style="width: 30px;" alt="會員圖示">
+                                <img src="../images/user.png" style="width: 30px;" alt="會員圖示">
                             </a>
                             <div class="dropdown-menu p-3 justify-content-center gap-5" id="dropdownForUser"
                                 aria-labelledby="navbarDropdown5">
@@ -447,10 +447,11 @@
                         <div class="mb-2">優惠折扣：<span id="discount">0</span> 元</div>
                         <div class="mb-2">
                             <label for="points">使用會員點數折價 (1點折1元)：</label>
-                            <input type="number" id="points" min="0" value="0" onchange="updateTotal()"
+                            <input type="number" id="points" min="0" value="0" onchange="validateAndUpdatePoints()"
                                 style="width: 80px;">
-                            <span style="margin-left:8px;color:#e6b800;">剩餘點數：<span id="availablePoints">100</span>
+                            <span style="margin-left:8px;color:#e6b800;">剩餘點數：<span id="availablePoints">載入中...</span>
                                 點</span>
+                            <div id="pointsError" style="color: red; font-size: 12px; margin-top: 4px; display: none;"></div>
                         </div>
                         <div class="h5">應付總額：<span id="orderTotal">0</span> 元</div>
                     </div>
@@ -555,7 +556,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../js/navbar.js"></script>
     <script src="../js/logout.js"></script>
-    <script src="js/usernoToggle.js"></script>
+    <script src="../js/usernoToggle.js"></script>
     <script>
         let cartItems = [];
 
@@ -722,6 +723,56 @@
             document.getElementById('checkoutForm').style.display = 'none';
         }
 
+        // 客戶資訊變更時的處理函數
+        function onCustomerInfoChange() {
+            const nameInput = document.querySelector('input[name="name"]');
+            const emailInput = document.querySelector('input[name="email"]');
+            
+            const customerName = nameInput ? nameInput.value.trim() : '';
+            const customerEmail = emailInput ? emailInput.value.trim() : '';
+            
+            // 只有當姓名或email有值時才查詢
+            if (customerName || customerEmail) {
+                console.log('🔄 客戶資訊變更，重新查詢點數...');
+                loadMemberPoints(customerName, customerEmail);
+            }
+        }
+
+        // 點數輸入驗證和更新
+        function validateAndUpdatePoints() {
+            const pointsInput = document.getElementById('points');
+            const availablePointsSpan = document.getElementById('availablePoints');
+            const pointsError = document.getElementById('pointsError');
+            
+            if (!pointsInput || !availablePointsSpan) return;
+            
+            const inputPoints = parseInt(pointsInput.value) || 0;
+            const availablePoints = parseInt(availablePointsSpan.textContent) || 0;
+            
+            // 隱藏錯誤訊息
+            if (pointsError) {
+                pointsError.style.display = 'none';
+            }
+            
+            // 驗證點數
+            if (inputPoints < 0) {
+                pointsInput.value = '0';
+                if (pointsError) {
+                    pointsError.textContent = '點數不能為負數';
+                    pointsError.style.display = 'block';
+                }
+            } else if (inputPoints > availablePoints) {
+                pointsInput.value = availablePoints.toString();
+                if (pointsError) {
+                    pointsError.textContent = `最多只能使用 ${availablePoints} 點`;
+                    pointsError.style.display = 'block';
+                }
+            }
+            
+            // 更新總額
+            updateTotal();
+        }
+
         // 提交訂單
         async function submitOrder(event) {
             event.preventDefault();
@@ -735,6 +786,9 @@
                     throw new Error('購物車是空的！');
                 }
 
+                // 獲取使用的點數
+                const pointsUsed = parseInt(document.getElementById('points').value) || 0;
+                
                 // 準備訂單數據
                 const orderData = {
                     name: formData.get('name'),
@@ -742,6 +796,7 @@
                     email: formData.get('email'),
                     address: formData.get('address'),
                     paymentMethod: formData.get('paymentMethod'),
+                    pointsUsed: pointsUsed,
                     totalAmount: parseFloat(document.getElementById('orderTotal').textContent.replace(/[^0-9.-]+/g, '')),
                     items: cart.map(item => {
                         // 確保每個商品都有必要的欄位
@@ -757,8 +812,10 @@
                         };
                     })
                 };
+                
+                console.log('📝 訂單數據:', orderData);
 
-                // 發送請求到後端
+                // 發送請求到後端 - 使用原本的API路徑
                 const response = await fetch('http://localhost:8080/orders/api/cart', {
                     method: 'POST',
                     headers: {
@@ -767,9 +824,21 @@
                     body: JSON.stringify(orderData)
                 });
 
+                console.log('🔍 伺服器響應狀態:', response.status);
+                console.log('🔍 響應 Content-Type:', response.headers.get('content-type'));
+                
                 if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.message || '訂單建立失敗');
+                    // 檢查是否為JSON響應
+                    const contentType = response.headers.get('content-type');
+                    if (contentType && contentType.includes('application/json')) {
+                        const errorData = await response.json();
+                        throw new Error(errorData.message || '訂單建立失敗');
+                    } else {
+                        // 如果不是JSON，可能是HTML錯誤頁面
+                        const errorText = await response.text();
+                        console.error('伺服器回應非JSON格式:', errorText.substring(0, 200));
+                        throw new Error(`伺服器錯誤 (${response.status}): API端點可能不存在或配置錯誤`);
+                    }
                 }
 
                 const result = await response.json();
@@ -777,8 +846,20 @@
                 // 清空購物車
                 localStorage.setItem('cart', JSON.stringify([]));
 
+                // 構建成功訊息
+                let successMessage = `訂單已成功建立！\n訂單編號：${result.orderId}`;
+                if (result.pointsUsed && result.pointsUsed > 0) {
+                    successMessage += `\n使用點數：${result.pointsUsed} 點`;
+                }
+                if (result.pointsEarned && result.pointsEarned > 0) {
+                    successMessage += `\n獲得點數：${result.pointsEarned} 點`;
+                }
+                if (result.remainingPoints !== undefined) {
+                    successMessage += `\n剩餘點數：${result.remainingPoints} 點`;
+                }
+
                 // 顯示成功訊息
-                alert('訂單已成功建立！訂單編號：' + result.orderId);
+                alert(successMessage);
 
                 // 重定向到訂單確認頁面
                 window.location.href = 'order-confirmation.html?orderId=' + result.orderId;

@@ -5,6 +5,7 @@ import com.example.demo.model.Product;
 import com.example.demo.model.ProductImage;
 import com.example.demo.repository.ProductImageRepository;
 import com.example.demo.repository.ProductRepository;
+import com.example.demo.repository.PurchaseOrderDetailRepository;
 import com.example.demo.service.ProductService;
 import com.example.demo.service.SupplierProductService;
 import com.example.demo.service.SupplierService;
@@ -36,7 +37,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/products")
 public class ProductController {
     @Autowired
-    private ProductService service;
+    private ProductService productService;
     
     @Autowired
     private SupplierService supplierService;
@@ -50,6 +51,9 @@ public class ProductController {
     @Autowired
     private ProductImageRepository imageRepository;
     
+    @Autowired
+    private PurchaseOrderDetailRepository purchaseOrderDetailRepository;
+    
 
 
     //0611喬新增
@@ -58,9 +62,9 @@ public class ProductController {
     	 List<Product> products;
 
     	    if (Boolean.TRUE.equals(showDeleted)) {
-    	        products = service.findAll(); // 包含 deleted = true
+    	        products = productService.findAll(); // 包含 deleted = true
     	    } else {
-    	        products = service.findActive(); // 只取 deleted = false
+    	        products = productService.findActive(); // 只取 deleted = false
     	    }
 
     	    model.addAttribute("products", products);
@@ -73,48 +77,61 @@ public class ProductController {
         model.addAttribute("product", new Product());
         model.addAttribute("suppliers", supplierService.listAll());
         model.addAttribute("supplierProducts", supplierProductService.listAll());
+        model.addAttribute("allAgeRanges", List.of("嬰幼兒（0-3M）", "幼童（3-6M）", "兒童（6-12M）", "青少年（2-3y以上）"));
         return "product/form";
     }
 
+    //原本
+//    @PostMapping("/save")
+//    public String save(@ModelAttribute Product product,
+//                       @RequestParam("image") MultipartFile imageFile) throws IOException {
+//
+//        if (imageFile != null && !imageFile.isEmpty()) {
+//            String fileName = UUID.randomUUID() + "_" + imageFile.getOriginalFilename();
+//            Path uploadPath = Paths.get("src/main/resources/static/uploads/");
+//            
+//            // 建立資料夾（如果不存在）
+//            if (!Files.exists(uploadPath)) {
+//                Files.createDirectories(uploadPath);
+//            }
+//
+//            // 儲存圖片
+//            Path filePath = uploadPath.resolve(fileName);
+//            Files.copy(imageFile.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+//
+//            // 儲存圖片路徑到產品
+//            product.setImageUrl("/static/" + fileName);
+//        }
+//
+//        service.save(product);
+//        return "redirect:/products";
+//    }
+    
+    //0621更改存多圖片
     @PostMapping("/save")
     public String save(@ModelAttribute Product product,
-                       @RequestParam("image") MultipartFile imageFile) throws IOException {
-
-        if (imageFile != null && !imageFile.isEmpty()) {
-            String fileName = UUID.randomUUID() + "_" + imageFile.getOriginalFilename();
-            Path uploadPath = Paths.get("src/main/resources/static/uploads/");
-            
-            // 建立資料夾（如果不存在）
-            if (!Files.exists(uploadPath)) {
-                Files.createDirectories(uploadPath);
-            }
-
-            // 儲存圖片
-            Path filePath = uploadPath.resolve(fileName);
-            Files.copy(imageFile.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-
-            // 儲存圖片路徑到產品
-            product.setImageUrl("/static/" + fileName);
-        }
-
-        service.save(product);
+                       @RequestParam("imageFiles") MultipartFile[] imageFiles) throws IOException {
+    	productService.save(product, imageFiles);  // 呼叫 Service 處理商品+圖片儲存
+    	productRepository.save(product); 
         return "redirect:/products";
     }
 
 
+
     @GetMapping("/edit/{id}")
     public String editForm(@PathVariable Integer id, Model model) {
-    	 Product product = service.getById(id);
+    	 Product product = productService.getById(id);
         model.addAttribute("product", product);
         model.addAttribute("suppliers", supplierService.listAll());
         model.addAttribute("images", product.getImages()); // 讓 HTML 可顯示圖片
+        model.addAttribute("allAgeRanges", List.of("嬰幼兒（0-3M）", "幼童（3-6M）", "兒童（6-12M）", "青少年（2-3y以上）"));
         return "product/form";
     }
 
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
     	 try {
-    	        service.delete(id);
+    	        productService.delete(id);
     	        redirectAttributes.addFlashAttribute("message", "刪除成功");
     	    } catch (IllegalStateException e) {
     	        redirectAttributes.addFlashAttribute("error", e.getMessage());
@@ -124,26 +141,26 @@ public class ProductController {
     
     @PostMapping("/restore/{id}")
     public String restoreProduct(@PathVariable Integer id) {
-        Product product = service.getById(id);
+        Product product = productService.getById(id);
         product.setDeleted(false);
-        service.save(product);
+        productService.save(product);
         return "redirect:/products?showDeleted=true";
     }
   
     @GetMapping("/view/{id}")
     public String viewDetail(@PathVariable Integer id, Model model) {
-        Product product = service.getById(id);
+        Product product = productService.getById(id);
         model.addAttribute("product", product);
         return "product/view";
     }
     
     @GetMapping("/publish")
     public String publishList(Model model) {
-        List<Product> products = service.listAll();
+        List<Product> products = purchaseOrderDetailRepository.findDistinctProductsInPurchaseHistory();
         Map<Integer, Integer> stockMap = new HashMap<>();
 
         for (Product p : products) {
-            int stock = (int) service.calculateStock(p.getId());
+            int stock = (int) productService.calculateStock(p.getId());
             stockMap.put(p.getId(), stock);
         }
 
@@ -156,18 +173,19 @@ public class ProductController {
     @PostMapping("/publish/update")
     public String updatePublishStatus(@RequestParam("productIds") List<Integer> productIds,
     								  @RequestParam("prices") List<BigDecimal> prices,
-                                      @RequestParam(value = "publishedIds", required = false) List<Integer> publishedIds) {
+                                      @RequestParam(value = "publishedIds", required = false) List<Integer> publishedIds,
+                                      RedirectAttributes redirectAttributes) {
     	for (int i = 0; i < productIds.size(); i++) {
     	    Integer id = productIds.get(i);
     	    BigDecimal price = prices.get(i);
 
-    	    Product p = service.getById(id);
+    	    Product p = productService.getById(id);
     	    p.setPrice(price);
     	    p.setPublished(publishedIds != null && publishedIds.contains(id));
-    	    service.save(p);
+    	    productService.save(p);
     	}
-
-        return "redirect:/product/publish";
+    	redirectAttributes.addFlashAttribute("successMessage", "商品上架狀態已更新");
+        return "redirect:/products/publish";
     }
     
 //    ============= 前台API ==============
@@ -203,7 +221,15 @@ public class ProductController {
     public List<ProductDto> getPublishedProducts() {
         return productRepository.findByPublishedTrue()
             .stream()
-            .map(p -> new ProductDto(p.getId(), p.getName(), p.getImageUrl(), p.getDescription(), p.getPrice()))
+            .map(p -> new ProductDto(
+            		p.getId(), 
+            		p.getName(), 
+            	    (p.getImageUrl() != null && !p.getImageUrl().isBlank()) 
+	                    ? p.getImageUrl() 
+	                    : "/images/default.jpg", 
+            		p.getDescription(),
+            		p.getPrice(), 
+            		p.getStock()))
             .toList();
     }
 

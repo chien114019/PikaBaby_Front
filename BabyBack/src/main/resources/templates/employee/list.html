@@ -293,7 +293,7 @@
 							 
 							 <!-- 編輯員工資料  --> 
 							 <a th:href="@{'/employee/edit/' + ${emp.id}}"
-									class="btn btn-sm btn-warning"> 編輯 </a> 
+									class="btn btn-sm btn-warning" sec:authorize="hasRole('ADMIN')"> 編輯 </a> 
 									
 									<!--  切換該帳號啟用or停用  -->
 									<form th:action="@{/employee/toggle}" method="post"

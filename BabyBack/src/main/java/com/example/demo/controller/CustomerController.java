@@ -18,7 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = "*")
+@CrossOrigin(originPatterns = "*", allowCredentials = "true")
 @Controller
 @RequestMapping("/customers") // 所有路徑都會以 /customers 開頭
 public class CustomerController {

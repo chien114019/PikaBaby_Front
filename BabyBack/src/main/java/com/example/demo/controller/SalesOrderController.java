@@ -9,7 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 
 
-@CrossOrigin(origins = "*")
+@CrossOrigin(originPatterns = "*", allowCredentials = "true")
 @Controller
 @RequestMapping("/orders")
 public class SalesOrderController {
@@ -147,6 +147,208 @@ public class SalesOrderController {
             Map<String, String> errorResponse = new HashMap<>();
             errorResponse.put("message", "Failed to get order: " + e.getMessage());
             return ResponseEntity.badRequest().body(errorResponse);
+        }
+    }
+    
+    // 新增：根據訂單ID查詢單一訂單詳情
+    @GetMapping("/api/order/{orderId}")
+    @ResponseBody
+    public ResponseEntity<?> getOrderById(@PathVariable Integer orderId) {
+        try {
+            SalesOrder order = orderService.getById(orderId);
+            if (order == null) {
+                return ResponseEntity.badRequest().body(Map.of(
+                    "success", false,
+                    "message", "訂單不存在"
+                ));
+            }
+            
+            // 構建訂單詳情資料
+            Map<String, Object> orderData = new HashMap<>();
+            orderData.put("id", order.getId());
+            orderData.put("orderDate", order.getOrderDate());
+            orderData.put("status", order.getStatus());
+            orderData.put("payStatus", order.getPayStatus());
+            orderData.put("totalAmount", order.getTotalAmount());
+            
+                                     // 客戶資訊（優先使用直接儲存的欄位）
+            String customerName = order.getRecipientName();
+            String customerPhone = order.getRecipientPhone();
+            String customerEmail = order.getRecipientEmail();
+            String customerAddress = order.getShippingAddress();
+            String paymentMethod = order.getPaymentMethod();
+            
+            // 如果直接儲存的欄位為空，則從客戶關聯取得
+            if (customerName == null && order.getCustomer() != null) {
+                customerName = order.getCustomer().getName();
+            }
+            if (customerPhone == null && order.getCustomer() != null) {
+                customerPhone = order.getCustomer().getPhone();
+            }
+            if (customerEmail == null && order.getCustomer() != null) {
+                customerEmail = order.getCustomer().getEmail();
+            }
+            if (customerAddress == null && order.getCustomer() != null) {
+                customerAddress = order.getCustomer().getAddress();
+            }
+            
+            orderData.put("customerName", customerName != null ? customerName : "未提供");
+            orderData.put("customerPhone", customerPhone != null ? customerPhone : "未提供");
+            orderData.put("customerEmail", customerEmail != null ? customerEmail : "未提供");
+            orderData.put("customerAddress", customerAddress != null ? customerAddress : "未提供");
+            orderData.put("paymentMethod", paymentMethod != null ? paymentMethod : "未指定");
+            
+            // 訂單商品詳情
+            List<Map<String, Object>> items = new ArrayList<>();
+            if (order.getDetails() != null) {
+                for (SalesOrderDetail detail : order.getDetails()) {
+                    Map<String, Object> item = new HashMap<>();
+                    item.put("productId", detail.getProduct().getId());
+                    item.put("productName", detail.getProduct().getName());
+                    item.put("quantity", detail.getQuantity());
+                    item.put("unitPrice", detail.getUnitPrice());
+                    item.put("subTotal", detail.getSubTotal());
+                    items.add(item);
+                }
+            }
+            orderData.put("items", items);
+            
+            return ResponseEntity.ok(Map.of(
+                "success", true,
+                "order", orderData
+            ));
+            
+        } catch (Exception e) {
+            System.err.println("查詢訂單時發生錯誤: " + e.getMessage());
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body(Map.of(
+                "success", false,
+                "message", "查詢訂單失敗: " + e.getMessage()
+            ));
+        }
+    }
+    
+    // 購物車API測試端點
+    @GetMapping(value = "/api/cart/test", produces = "application/json")
+    @ResponseBody
+    public ResponseEntity<?> testCartAPI() {
+        Map<String, Object> response = new HashMap<>();
+        response.put("status", "success");
+        response.put("message", "購物車API正常運行");
+        response.put("timestamp", new Date());
+        System.out.println("=== 測試API被調用 ===");
+        return ResponseEntity.ok(response);
+    }
+    
+    // 簡單的測試端點
+    @PostMapping(value = "/api/simple-test", produces = "application/json")
+    @ResponseBody
+    public ResponseEntity<?> simpleTest(@RequestBody(required = false) String body) {
+        System.out.println("=== 簡單測試API被調用 ===");
+        System.out.println("請求體: " + body);
+        
+        Map<String, Object> response = new HashMap<>();
+        response.put("success", true);
+        response.put("message", "簡單測試成功");
+        response.put("receivedBody", body);
+        return ResponseEntity.ok(response);
+    }
+    
+    // 購物車提交訂單API（重構版 - 只負責HTTP層處理）
+    @PostMapping(value = "/api/cart", produces = "application/json")
+    @ResponseBody
+    public ResponseEntity<?> submitCartOrder(@RequestBody Map<String, Object> orderData) {
+        try {
+            System.out.println("=== 收到購物車訂單請求 ===");
+            System.out.println("訂單資料: " + orderData);
+            
+            // 呼叫Service處理業務邏輯
+            Map<String, Object> result = orderService.processCartOrder(orderData);
+            
+            System.out.println("✅ 訂單處理成功");
+            return ResponseEntity.ok(result);
+            
+        } catch (IllegalArgumentException e) {
+            // 業務邏輯錯誤（如點數不足、庫存不足等）
+            System.err.println("❌ 業務邏輯錯誤: " + e.getMessage());
+            
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("success", false);
+            errorResponse.put("message", e.getMessage());
+            
+            return ResponseEntity.badRequest().body(errorResponse);
+            
+        } catch (Exception e) {
+            // 系統錯誤
+            System.err.println("❌ 系統錯誤: " + e.getMessage());
+            e.printStackTrace();
+            
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("success", false);
+            errorResponse.put("message", "訂單創建失敗: " + e.getMessage());
+            
+            return ResponseEntity.badRequest().body(errorResponse);
+        }
+    }
+
+    // 獲取會員點數API（重構版 - 只負責HTTP層處理）
+    @GetMapping("/api/member/points/{customerId}")
+    @ResponseBody
+    public ResponseEntity<?> getMemberPoints(@PathVariable Integer customerId) {
+        try {
+            Customer customer = customerService.getCustomerWithPoints(customerId);
+            if (customer == null) {
+                return ResponseEntity.badRequest().body(Map.of(
+                    "success", false,
+                    "message", "找不到會員資料"
+                ));
+            }
+            
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", true);
+            response.put("customerId", customerId);
+            response.put("customerName", customer.getName());
+            response.put("points", customer.getPoints() != null ? customer.getPoints() : 0);
+            
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(Map.of(
+                "success", false,
+                "message", "獲取會員點數失敗: " + e.getMessage()
+            ));
+        }
+    }
+    
+    // 根據會員名稱或email獲取點數API（重構版 - 只負責HTTP層處理）
+    @GetMapping("/api/member/points/search")
+    @ResponseBody
+    public ResponseEntity<?> getMemberPointsByNameOrEmail(@RequestParam(required = false) String name, 
+                                                          @RequestParam(required = false) String email) {
+        try {
+            Customer customer = customerService.findCustomerByNameOrEmail(name, email);
+            
+            if (customer == null) {
+                return ResponseEntity.badRequest().body(Map.of(
+                    "success", false,
+                    "message", "找不到會員資料",
+                    "points", 0
+                ));
+            }
+            
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", true);
+            response.put("customerId", customer.getId());
+            response.put("customerName", customer.getName());
+            response.put("customerEmail", customer.getEmail());
+            response.put("points", customer.getPoints() != null ? customer.getPoints() : 0);
+            
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(Map.of(
+                "success", false,
+                "message", "獲取會員點數失敗: " + e.getMessage(),
+                "points", 0
+            ));
         }
     }
 }

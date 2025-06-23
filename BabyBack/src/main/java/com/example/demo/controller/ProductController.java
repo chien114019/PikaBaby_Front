@@ -17,6 +17,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -175,16 +176,33 @@ public class ProductController {
     								  @RequestParam("prices") List<BigDecimal> prices,
                                       @RequestParam(value = "publishedIds", required = false) List<Integer> publishedIds,
                                       RedirectAttributes redirectAttributes) {
+    	
+    	System.out.println("=== 商品發布狀態更新 ===");
+    	System.out.println("productIds: " + productIds);
+    	System.out.println("publishedIds: " + publishedIds);
+    	
     	for (int i = 0; i < productIds.size(); i++) {
     	    Integer id = productIds.get(i);
     	    BigDecimal price = prices.get(i);
 
     	    Product p = productService.getById(id);
-    	    p.setPrice(price);
-    	    p.setPublished(publishedIds != null && publishedIds.contains(id));
+    	    p.setPrice(price.doubleValue());
+    	    
+    	    // 根據是否在 publishedIds 中來設定發布狀態
+    	    // 這樣既能發布新商品，也能取消發布
+    	    boolean shouldPublish = publishedIds != null && publishedIds.contains(id);
+    	    p.setPublished(shouldPublish);
+    	    
+    	    System.out.println(String.format("商品 %d (%s): published = %b", 
+    	        id, p.getName(), shouldPublish));
+    	    
     	    productService.save(p);
     	}
-    	redirectAttributes.addFlashAttribute("successMessage", "商品上架狀態已更新");
+    	
+    	// 顯示發布狀態統計
+    	int publishedCount = publishedIds != null ? publishedIds.size() : 0;
+    	redirectAttributes.addFlashAttribute("successMessage", 
+    	    String.format("商品上架狀態已更新！目前共 %d 個商品已發布", publishedCount));
         return "redirect:/products/publish";
     }
     
@@ -216,21 +234,211 @@ public class ProductController {
         return ResponseEntity.ok("deleted");
     }
     
+    // 測試端點 - 檢查商品狀態
+    @GetMapping("/front/test")
+    @ResponseBody
+    public Map<String, Object> testProducts() {
+        List<Product> allProducts = productRepository.findAll();
+        List<Product> publishedProducts = productRepository.findByPublishedTrue();
+        
+        Map<String, Object> result = new HashMap<>();
+        result.put("totalProducts", allProducts.size());
+        result.put("publishedProducts", publishedProducts.size());
+        result.put("allProductsStatus", allProducts.stream()
+            .map(p -> Map.of("id", p.getId(), "name", p.getName(), "published", p.getPublished()))
+            .toList());
+        
+        return result;
+    }
+    
+    // 快速發布所有商品 - 僅用於測試
+    @PostMapping("/front/quick-publish")
+    @ResponseBody
+    public Map<String, Object> quickPublishAllProducts() {
+        try {
+            List<Product> allProducts = productRepository.findAll();
+            int publishedCount = 0;
+            
+            for (Product product : allProducts) {
+                if (product.getPrice() == null || product.getPrice() <= 0) {
+                    product.setPrice(1000.0); // 設定預設價格
+                }
+                product.setPublished(true);
+                productService.save(product);
+                publishedCount++;
+            }
+            
+            Map<String, Object> result = new HashMap<>();
+            result.put("success", true);
+            result.put("message", "成功發布 " + publishedCount + " 個商品");
+            result.put("publishedCount", publishedCount);
+            
+            return result;
+        } catch (Exception e) {
+            Map<String, Object> result = new HashMap<>();
+            result.put("success", false);
+            result.put("message", "發布商品時發生錯誤: " + e.getMessage());
+            return result;
+        }
+    }
+    
     @GetMapping("/front/published")
     @ResponseBody
     public List<ProductDto> getPublishedProducts() {
-        return productRepository.findByPublishedTrue()
-            .stream()
-            .map(p -> new ProductDto(
-            		p.getId(), 
-            		p.getName(), 
-            	    (p.getImageUrl() != null && !p.getImageUrl().isBlank()) 
-	                    ? p.getImageUrl() 
-	                    : "/images/default.jpg", 
-            		p.getDescription(),
-            		p.getPrice(), 
-            		p.getStock()))
-            .toList();
+        try {
+            List<Product> publishedProducts = productRepository.findByPublishedTrue();
+            System.out.println("找到 " + publishedProducts.size() + " 個已發布的商品");
+            
+            return publishedProducts.stream()
+                .map(p -> {
+                    // 處理圖片URL
+                    String imageUrl = p.getImageUrl();
+                    if (imageUrl == null || imageUrl.isBlank()) {
+                        // 如果沒有圖片URL，嘗試從product_image表獲取第一張圖片
+                        if (p.getImages() != null && !p.getImages().isEmpty()) {
+                            imageUrl = "/products/front/images/" + p.getImages().get(0).getId();
+                        } else {
+                            imageUrl = "/images/default.jpg";
+                        }
+                    }
+                    
+                    // 獲取ProductType資訊
+                    String productTypeName = p.getProductType() != null ? p.getProductType().getTypeName() : null;
+                    Integer productTypeId = p.getProductType() != null ? p.getProductType().getId() : null;
+                    
+                    return new ProductDto(
+                        p.getId(), 
+                        p.getName(), 
+                        imageUrl,
+                        imageUrl,  // primaryImageUrl 與 imageUrl 相同
+                        p.getDescription(),
+                        p.getPriceAsBigDecimal(), 
+                        p.getStock(),
+                        productTypeName,
+                        productTypeId
+                    );
+                })
+                .toList();
+        } catch (Exception e) {
+            System.err.println("獲取已發布商品時發生錯誤: " + e.getMessage());
+            e.printStackTrace();
+            throw new RuntimeException("無法獲取商品列表", e);
+        }
+    }
+    
+    // 新增：獲取所有有效商品（包括未發布的）
+    @GetMapping("/front/all")
+    @ResponseBody
+    public List<ProductDto> getAllActiveProducts() {
+        try {
+            // 獲取所有未被刪除的商品
+            List<Product> activeProducts = productRepository.findByDeletedFalse();
+            System.out.println("找到 " + activeProducts.size() + " 個有效商品");
+            
+            return activeProducts.stream()
+                .map(p -> {
+                    // 處理圖片URL
+                    String imageUrl = p.getImageUrl();
+                    if (imageUrl == null || imageUrl.isBlank()) {
+                        // 如果沒有圖片URL，嘗試從product_image表獲取第一張圖片
+                        if (p.getImages() != null && !p.getImages().isEmpty()) {
+                            imageUrl = "/products/front/images/" + p.getImages().get(0).getId();
+                        } else {
+                            imageUrl = "/images/default.jpg";
+                        }
+                    }
+                    
+                    // 如果價格為空或為0，設定預設價格
+                    if (p.getPrice() == null || p.getPrice() <= 0) {
+                        p.setPrice(100.0); // 預設價格
+                    }
+                    
+                    // 獲取ProductType資訊
+                    String productTypeName = p.getProductType() != null ? p.getProductType().getTypeName() : null;
+                    Integer productTypeId = p.getProductType() != null ? p.getProductType().getId() : null;
+                    
+                    return new ProductDto(
+                        p.getId(), 
+                        p.getName(), 
+                        imageUrl,
+                        imageUrl,  // primaryImageUrl 與 imageUrl 相同
+                        p.getDescription(),
+                        p.getPriceAsBigDecimal(), 
+                        p.getStock(),
+                        productTypeName,
+                        productTypeId
+                    );
+                })
+                .toList();
+        } catch (Exception e) {
+            System.err.println("獲取商品時發生錯誤: " + e.getMessage());
+            e.printStackTrace();
+            throw new RuntimeException("無法獲取商品列表", e);
+        }
+    }
+    
+    // 新增：獲取單一商品詳情
+    @GetMapping("/front/detail/{id}")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> getProductDetail(@PathVariable Integer id) {
+        try {
+            Product product = productService.getById(id);
+            if (product == null || product.getDeleted()) {
+                Map<String, Object> errorResponse = new HashMap<>();
+                errorResponse.put("success", false);
+                errorResponse.put("message", "商品不存在或已被刪除");
+                return ResponseEntity.notFound().build();
+            }
+            
+            // 處理圖片URL
+            String imageUrl = product.getImageUrl();
+            if (imageUrl == null || imageUrl.isBlank()) {
+                if (product.getImages() != null && !product.getImages().isEmpty()) {
+                    imageUrl = "/products/front/images/" + product.getImages().get(0).getId();
+                } else {
+                    imageUrl = "/images/default.jpg";
+                }
+            }
+            
+            // 處理價格
+            Double price = product.getPrice();
+            if (price == null || price <= 0) {
+                price = 100.0; // 預設價格
+            }
+            
+            // 獲取所有圖片URL
+            List<String> allImageUrls = new ArrayList<>();
+            if (product.getImages() != null && !product.getImages().isEmpty()) {
+                for (ProductImage img : product.getImages()) {
+                    allImageUrls.add("/products/front/images/" + img.getId());
+                }
+            }
+            if (allImageUrls.isEmpty()) {
+                allImageUrls.add("../images/baby.jpg");
+            }
+            
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", true);
+            response.put("id", product.getId());
+            response.put("name", product.getName());
+            response.put("description", product.getDescription());
+            response.put("note", product.getNote());
+            response.put("price", price);
+            response.put("stock", product.getStock());
+            response.put("primaryImageUrl", imageUrl);
+            response.put("allImageUrls", allImageUrls);
+            response.put("specification", product.getSpecification());
+            response.put("color", product.getColor());
+            
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            System.err.println("獲取商品詳情時發生錯誤: " + e.getMessage());
+            e.printStackTrace();
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("success", false);
+            errorResponse.put("message", "無法獲取商品詳情: " + e.getMessage());
+            return ResponseEntity.status(500).body(errorResponse);
+        }
     }
 
 

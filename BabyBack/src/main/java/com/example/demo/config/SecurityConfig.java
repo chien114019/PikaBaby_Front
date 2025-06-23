@@ -51,6 +51,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http 
+      
         	.csrf().disable()
         	.authorizeHttpRequests(auth -> auth
         	    .anyRequest().permitAll() //完全放行
@@ -85,4 +86,7 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
+    
+
+    
 }

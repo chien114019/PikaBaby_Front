@@ -167,9 +167,17 @@ public class CustomerController {
 	    // 登入成功
 	    session.setAttribute("customerId", customer.getId());
 	    session.setAttribute("customerName", customer.getName());
-
-	    response.put("success", true);
+	   
+	    Map<String, Object> member = new HashMap<>();
+        member.put("id", customer.getId());
+        member.put("name", customer.getName());
+        member.put("email", customer.getEmail());
+	   
+        response.put("success", true);
 	    response.put("mesg", "登入成功");
+//	    response.put("member", customer); // 回傳會員資料
+	    
+	    
 	    return ResponseEntity.ok(response);
 	    
 

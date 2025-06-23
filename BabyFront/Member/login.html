@@ -177,7 +177,7 @@
         <div class="mb-3">
           <a href="#" class="text-decoration-none">忘記密碼？</a>
         </div>
-        <button type="submit" class="btn btn-dark btn-login" onclick="login()">登入</button>
+        <button type="submit" class="btn btn-dark btn-login" onclick="login(event)">登入</button>
       </form>
     </div>
 
@@ -198,40 +198,38 @@
   <br><br><br>
 
   <script>
-function login(event) {
-  event.preventDefault(); //  阻止表單預設刷新
+function login(e) {
+  e.preventDefault(); // ✅ 防止表單跳轉
 
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
+  const memberData = {
+    email: document.getElementById('email').value.trim(),
+    password: document.getElementById('password').value
+  };
 
-  fetch("http://localhost:8080/customers/login", {
+  console.log("登入資料：", memberData);
+
+  fetch('http://localhost:8080/customers/login', {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      email: email,
-      password: password
+    headers: { "Content-Type": "application/json" },
+    // credentials: "include",//維持後端 Session 登入
+    body: JSON.stringify(memberData)
+    
+  })
+    .then(res => res.json())
+    .then(data => {
+      console.log("回傳資料：", data);
+      if (data.success) {
+        alert("登入成功！");
+        // sessionStorage.setItem("memberName", data.member.name);
+        window.location.href = "member.html";
+      } else {
+        alert("登入失敗：" + data.mesg);
+      }
     })
-  })
-  .then(res => {
-    if (!res.ok) {
-      throw new Error(`伺服器錯誤：${res.status}`);
-    }
-    return res.json(); // 若回傳非 JSON，這裡會錯
-  })
-  .then(data => {
-    console.log("回傳資料：", data);
-    alert(data.mesg);
-    if (data.success) {
-      sessionStorage.setItem("memberName", memberData.name);
-      window.location.href = "member.html";
-    }
-  })
-  .catch(err => {
-    console.error("登入錯誤：", err.message);
-    alert("登入失敗，請稍後再試！");
-  });
+    .catch(err => {
+      console.error("登入錯誤：", err);
+      alert("系統錯誤，請稍後再試");
+    });
 }
 </script>
 

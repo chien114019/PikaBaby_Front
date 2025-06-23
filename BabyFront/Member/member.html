@@ -919,7 +919,7 @@
             button.textContent = isShown ? '隱藏點數明細' : '顯示點數明細';
         }
 
-//取消訂單
+        //取消訂單
         $.ajax({
             method: "GET",
             url: `${host}/orders/front/search/cust/${custId}`,
@@ -1003,25 +1003,24 @@
                 })
             })
         }
-// 歡迎文字
-      window.addEventListener('DOMContentLoaded', () => {
-         console.log("✅ DOM 已載入");
+ </script>
+ <script>
+
+
+  window.addEventListener('DOMContentLoaded', () => {
     const name = sessionStorage.getItem("memberName");
     console.log("取得的名字：", name);
     const welcomeText = document.getElementById("welcomeText");
-    console.log("🔍 welcomeText 取得結果：", welcomeText);
+    console.log("🔍 welcomeText：", welcomeText);
 
     if (name && welcomeText) {
-        welcomeText.textContent = `歡迎回來，${name}！`;
-        sessionStorage.removeItem("memberName");
+      welcomeText.textContent = `歡迎回來，${name}！`;
+      sessionStorage.removeItem("memberName");
     }
-});
+  });
 
 
-
-
-
-    </script>
+ </script>
 </body>
 
 </html>

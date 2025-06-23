@@ -11,7 +11,8 @@ function logout() {
     console.log("登出結果：", data);
     alert(data.mesg);
     if (data.success) {
-      window.location.href = "../index.html"; // ← 視資料夾結構改成 ./ 或 /Member/login.html
+      sessionStorage.clear();//清掉登入資訊
+      window.location.href = "../index.html"; 
     }
   })
   .catch(err => {

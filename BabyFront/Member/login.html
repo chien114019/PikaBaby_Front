@@ -211,7 +211,7 @@ function login(e) {
   fetch('http://localhost:8080/customers/login', {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    // credentials: "include",//維持後端 Session 登入
+    credentials: "include",//維持後端 Session 登入
     body: JSON.stringify(memberData)
     
   })

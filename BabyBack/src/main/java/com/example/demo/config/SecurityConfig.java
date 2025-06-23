@@ -51,16 +51,13 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http 
-
-      
-
         	.cors()
         	.and()
 
         	.csrf().disable()
         	.authorizeHttpRequests(auth -> auth
         	    .anyRequest().permitAll() //完全放行
-        	    ) 
+        	    );
         
 //            .authorizeHttpRequests(auth -> auth
 //                .requestMatchers("/login", "/css/**", "/js/**", "/logo-pikababy.png").permitAll() // 登入畫面、靜態資源不需驗證
@@ -72,16 +69,16 @@ public class SecurityConfig {
         
        
             
-            
-            .formLogin(login -> login
-                .loginPage("/login") // 自訂登入畫面
-                .defaultSuccessUrl("/", true) // 登入成功導向index
-                .permitAll()
-            )
-            .logout(logout -> logout
-                .logoutSuccessUrl("/login?logout") // 登出後導向登入畫面
-                .permitAll()
-            );
+//            
+//            .formLogin(login -> login
+//                .loginPage("/login") // 自訂登入畫面
+//                .defaultSuccessUrl("/", true) // 登入成功導向index
+//                .permitAll()
+//            )
+//            .logout(logout -> logout
+//                .logoutSuccessUrl("/login?logout") // 登出後導向登入畫面
+//                .permitAll()
+ //           );
 
         return http.build();
     }

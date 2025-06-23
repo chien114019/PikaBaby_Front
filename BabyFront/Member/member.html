@@ -235,12 +235,12 @@
 
                         <div class="card">
                             <h3>會員資訊</h3>
-                            <p><strong>會員名稱：</strong> 某小姐</p>
-                            <p><strong>Email：</strong> pika.baby111@gmail.com</p>
-                            <p><strong>手機：</strong> 0987654321</p>
-                            <p><strong>生日：</strong> 1999-01-14</p>
-                            <p><strong>註冊日期：</strong> 2021-12-31</p>
-                            <p><strong>寶寶出生年月：</strong> 2025/6</p>
+                            <p><strong>會員名稱：</strong> <span id="memberName">載入中...</span></p>
+                            <p><strong>Email：</strong> <span id="memberEmail">載入中...</span></p>
+                            <p><strong>手機：</strong><span id="memberPhone">載入中...</span></p>
+                            <p><strong>生日：</strong><span id="memberBirthday">載入中...</span></p>
+                            <p><strong>註冊日期：</strong><span id="memberCreatedAt">載入中...</span></p>
+                            <p><strong>寶寶出生年月：</strong> <span id="memberBabyBirthday">載入中...</span></p>
                             <div class="text-end mt-3">
                                 <button class="btn btn-outline-primary" data-bs-toggle="modal"
                                     data-bs-target="#editModal">編輯資料</button>
@@ -1003,24 +1003,53 @@
                 })
             })
         }
- </script>
- <script>
+    </script>
+    <script>
 
 
-  window.addEventListener('DOMContentLoaded', () => {
-    const name = sessionStorage.getItem("memberName");
-    console.log("取得的名字：", name);
-    const welcomeText = document.getElementById("welcomeText");
-    console.log("🔍 welcomeText：", welcomeText);
+        //   window.addEventListener('DOMContentLoaded', () => {
+        //     const name = sessionStorage.getItem("memberName");
+        //     console.log("取得的名字：", name);
+        //     const welcomeText = document.getElementById("welcomeText");
+        //     console.log("🔍 welcomeText：", welcomeText);
 
-    if (name && welcomeText) {
-      welcomeText.textContent = `歡迎回來，${name}！`;
-      sessionStorage.removeItem("memberName");
-    }
-  });
+        //     if (name && welcomeText) {
+        //       welcomeText.textContent = `歡迎回來，${name}！`;
+        //       sessionStorage.removeItem("memberName");
+        //     }
+        //   });
+        window.addEventListener("DOMContentLoaded", () => {
+            fetch("http://localhost:8080/customers/me", {
+                method: "GET",
+                credentials: "include" // ✅ 一定要帶上，才能送出 Session Cookie
+            })
+                .then(res => {
+                    if (!res.ok) {
+                        throw new Error("尚未登入");
+                    }
+                    return res.json();
+                })
+                .then(data => {
+                    // 歡迎詞
+                    document.getElementById("welcomeText").textContent = "歡迎回來，" + data.name + "！";
+                    // 成功拿到會員資料，顯示在前端
+                    document.getElementById("memberName").textContent = data.name;
+                    document.getElementById("memberEmail").textContent = data.email;
+                    // 你可以依照你的畫面填充更多資料
+                    document.getElementById("memberPhone").textContent = data.phone || "未填寫";
+                    document.getElementById("memberBirthday").textContent = data.birthday?.substring(0, 10) || "未填寫";
+                    document.getElementById("memberCreatedAt").textContent = data.createdAt;
+                    document.getElementById("memberBabyBirthday").textContent = data.baby1Birthday?.substring(0, 7) || "未填寫";
+                })
+                .catch(err => {
+                    alert("尚未登入，請先登入！");
+                    window.location.href = "login.html";
+                });
+        });
 
 
- </script>
+
+    </script>
 </body>
 
 </html>

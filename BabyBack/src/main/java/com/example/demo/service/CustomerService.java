@@ -47,6 +47,11 @@ public class CustomerService {
         return repository.findByEmail(email);
     }
     
+    public Optional<Customer> findById(Integer id) {
+        return repository.findById(id);
+    }
+   
+    
     // ===== 點數相關業務邏輯 =====
     
     /**

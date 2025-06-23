@@ -13,12 +13,13 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(originPatterns = "*", allowCredentials = "true")
+//@CrossOrigin(originPatterns = "*", allowCredentials = "true")
 @Controller
 @RequestMapping("/customers") // 所有路徑都會以 /customers 開頭
 public class CustomerController {
@@ -142,7 +143,8 @@ public class CustomerController {
 	    // 登入成功
 	    session.setAttribute("customerId", customer.getId());
 	    session.setAttribute("customerName", customer.getName());
-
+	    System.out.println("已登入，Session ID: " + session.getId());
+	    System.out.println("已設 customerId: " + session.getAttribute("customerId"));
 	    response.put("success", true);
 	    response.put("mesg", "登入成功");
 	    return ResponseEntity.ok(response);
@@ -160,6 +162,47 @@ public class CustomerController {
 	    return ResponseEntity.ok(response);
 	}
 
+	//登入抓會員資料
+	@GetMapping("/front/me")
+	@ResponseBody
+	public ResponseEntity<?> getCurrentMember(HttpSession session) {
+	    Object idObj = session.getAttribute("customerId");
+	    System.out.println("讀取 /me 的 Session ID: " + session.getId());
+	    System.out.println("Session 中的 customerId: " + session.getAttribute("customerId"));
+
+	    
+	    
+
+	    if (idObj == null) {
+	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+	                             .body(Map.of("error", "未登入"));
+	    }
+
+	    Integer id = (Integer) idObj;
+	    Optional<Customer> optional = service.findById(id);
+
+	    if (optional.isEmpty()) {
+	        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+	                             .body(Map.of("error", "會員不存在"));
+	    }
+
+	    Customer customer = optional.get();
+
+	    Map<String, Object> member = new HashMap<>();
+	    member.put("id", customer.getId());
+	    member.put("name", customer.getName());
+	    member.put("email", customer.getEmail());
+	    member.put("phone", customer.getPhone());
+	    member.put("birthday", customer.getBirthday());
+	    member.put("createdAt", customer.getCreatedAt());
+	    member.put("baby1Birthday", customer.getBaby1Birthday());
+	    member.put("baby2Birthday", customer.getBaby2Birthday());
+
+	    return ResponseEntity.ok(member);
+	}
+
+	
+	
 	
 }
 

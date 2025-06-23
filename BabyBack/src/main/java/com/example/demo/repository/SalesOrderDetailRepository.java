@@ -10,6 +10,9 @@ public interface SalesOrderDetailRepository extends JpaRepository<SalesOrderDeta
     @Query("SELECT SUM(s.quantity) FROM SalesOrderDetail s WHERE s.supplierProduct.product.id = :productId")
     Long sumQuantityBySupplierProductProductId(@Param("productId") Integer productId);
     
+    @Query("SELECT SUM(s.quantity) FROM SalesOrderDetail s WHERE s.product.id = :productId")
+    Long sumQuantityByProductId(@Param("productId") Integer productId);
+    
     
    
 }

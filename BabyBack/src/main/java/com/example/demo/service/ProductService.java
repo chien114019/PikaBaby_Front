@@ -79,11 +79,11 @@ public class ProductService {
 
 
     public List<Product> getAllProducts() {
-        return repository.findAll();
+        return repository.findByDeletedFalse();
     }
 
     public List<Product> searchByName(String keyword) {
-        return repository.findByNameContainingIgnoreCase(keyword);
+        return repository.searchAvailable(keyword);
     }
 
     // 前台電商用：快速庫存查詢

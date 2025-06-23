@@ -22,6 +22,10 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
 	Optional<Product> findById(Integer id);
 	
+	@Query("SELECT p FROM Product p WHERE p.deleted = false AND LOWER(p.name) LIKE LOWER(CONCAT('%', :keyword, '%'))")
+	List<Product> searchAvailable(@Param("keyword") String keyword);
+
+	
 //	List<Product> findAllByPublishedAndAge1(Boolean published, Boolean age1);
 //
 //	List<Product> findAllByPublishedAndAge2(Boolean published, Boolean age1);

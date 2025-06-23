@@ -55,115 +55,232 @@
 		<div class="container-fluid">
 			<div class="grid-container">
 
+				<!-- 通用元件片段：使用者無權限顯示的替代樣式 -->
+				<template th:fragment="disabled-buttons(title, buttons)">
+					<div class="block vertical">
+						<div class="block-title" th:text="${title}"></div>
+						<div th:each="btn : ${buttons}">
+							<button
+								class="btn btn-outline-secondary disabled w-90 text-muted"
+								style="pointer-events: none;">
+								<i class="bi bi-lock-fill me-1"></i> [[${btn}]]
+							</button>
+						</div>
+						<div class="text-muted small mt-2">
+							<i class="bi bi-info-circle me-1"></i>無此功能權限
+						</div>
+					</div>
+				</template>
+
 				<!-- 事務性管理 -->
-				<div class="block task vertical" sec:authorize="hasRole('ADMIN')">
+				<div class="block task vertical">
 					<div class="block-title">事務性管理</div>
-					<a th:href="@{/employee/list}" class="btn btn-outline-dark">登入/權限管理</a>
-					<a th:href="@{/customers}" class="btn btn-outline-dark">會員帳號管理</a>
-					<!--                         <a th:href="@{/company}" class="btn btn-outline-dark">公司資料維護</a> 
--->
+					<div sec:authorize="hasRole('ADMIN')">
+						<a th:href="@{/employee/list}" class="btn btn-outline-dark">登入/權限管理</a>
+						<a th:href="@{/customers}" class="btn btn-outline-dark">會員帳號管理</a>
+					</div>
+					<div sec:authorize="!hasRole('ADMIN')">
+						<button class="btn btn-outline-secondary disabled w-90 text-muted"
+							style="pointer-events: none;">
+							<i class="bi bi-lock-fill me-1"></i>登入/權限管理
+						</button>
+						<button class="btn btn-outline-secondary disabled w-90 text-muted"
+							style="pointer-events: none;">
+							<i class="bi bi-lock-fill me-1"></i>會員帳號管理
+						</button>
+						<div class="text-muted small mt-2">
+							<i class="bi bi-info-circle me-1"></i>無此功能權限
+						</div>
+					</div>
 				</div>
 
 				<!-- 資訊管理 -->
-				<div class="block info vertical"
-					sec:authorize="hasAnyRole('ADMIN', 'VIEWER')">
+				<div class="block info vertical">
 					<div class="block-title">資訊管理</div>
-					<!--                         <a th:href="@{/menu}" class="btn btn-outline-dark">後台選單管理</a>
-                        <a th:href="@{/categories}" class="btn btn-outline-dark">分類資料維護</a> 
--->
-					<a th:href="@{/company}" class="btn btn-outline-dark">公司資料維護</a>
+					<div sec:authorize="hasAnyRole('ADMIN', 'VIEWER')">
+						<a th:href="@{/company}" class="btn btn-outline-dark">公司資料維護</a>
+					</div>
+					<div sec:authorize="!hasAnyRole('ADMIN', 'VIEWER')">
+						<button class="btn btn-outline-secondary disabled w-90 text-muted"
+							style="pointer-events: none;">
+							<i class="bi bi-lock-fill me-1"></i>公司資料維護
+						</button>
+						<div class="text-muted small mt-2">
+							<i class="bi bi-info-circle me-1"></i>無此功能權限
+						</div>
+					</div>
 				</div>
 
 				<!-- 財務管理 -->
-				<div class="block finance vertical" sec:authorize="hasRole('ADMIN')">
+				<div class="block finance vertical">
 					<div class="block-title">財務管理</div>
-					<a th:href="@{/receivables/list}" class="btn btn-outline-dark">應收帳款管理</a>
-					<a th:href="@{/payables/list}" class="btn btn-outline-dark">應付帳款管理</a>
-
-					<!--  
-						<a th:href="@{/payments/list}" class="btn btn-outline-dark">總帳務</a>
-						<a th:href="@{/payments/list}" class="btn btn-outline-dark">收款沖帳</a>                      
-						<a th:href="@{/accounhttps://pay.line.me/portal/tw/auth/loginting/receipts}" class="btn btn-outline-dark">收支登錄</a>
-                        <a th:href="@{/accounting/settlement}" class="btn btn-outline-dark">收款沖帳</a>
-                        <a th:href="@{/accounting/receivables}" class="btn btn-outline-dark">應收帳款管理</a>
-                        <a th:href="@{/accounting/accounts}" class="btn btn-outline-dark">帳戶類別設定</a>
- -->
+					<div sec:authorize="hasRole('ADMIN')">
+						<a th:href="@{/receivables/list}" class="btn btn-outline-dark">應收帳款管理</a>
+						<a th:href="@{/payables/list}" class="btn btn-outline-dark">應付帳款管理</a>
+					</div>
+					<div sec:authorize="!hasRole('ADMIN')">
+						<button class="btn btn-outline-secondary disabled w-90 text-muted"
+							style="pointer-events: none;">
+							<i class="bi bi-lock-fill me-1"></i>應收帳款管理
+						</button>
+						<button class="btn btn-outline-secondary disabled w-90 text-muted"
+							style="pointer-events: none;">
+							<i class="bi bi-lock-fill me-1"></i>應付帳款管理
+						</button>
+						<div class="text-muted small mt-2">
+							<i class="bi bi-info-circle me-1"></i>無此功能權限
+						</div>
+					</div>
 				</div>
 
 				<!-- POS 結帳系統 -->
-				<div class="block pos vertical"
-					sec:authorize="hasAnyRole('ADMIN', 'SALES')">
+				<div class="block pos vertical">
 					<div class="block-title">結帳</div>
-					<a href="https://pay.line.me/portal/tw/auth/login" target="_blank"
-						class="btn btn-outline-dark p-0 d-block"
-						style="width: 200px; height: 60px;"> <img
-						src="/linepay-logo.png" alt="Line Pay" class="w-100 h-100"
-						style="object-fit: contain;">
-					</a> <a href="https://developers.ecpay.com.tw/" target="_blank"
-						class="btn btn-outline-dark p-0 d-block"
-						style="width: 200px; height: 60px;"> <img src="/ECPay.png"
-						alt="ECpay綠界" class="w-100 h-100" style="object-fit: contain;">
-					</a>
-
+					<div sec:authorize="hasAnyRole('ADMIN', 'SALES')">
+						<a href="https://pay.line.me/portal/tw/auth/login" target="_blank"
+							class="btn btn-outline-dark p-0 d-block"
+							style="width: 200px; height: 60px;"> <img
+							src="/linepay-logo.png" alt="Line Pay" class="w-100 h-100"
+							style="object-fit: contain;">
+						</a> <a href="https://developers.ecpay.com.tw/" target="_blank"
+							class="btn btn-outline-dark p-0 d-block"
+							style="width: 200px; height: 60px;"> <img src="/ECPay.png"
+							alt="ECpay綠界" class="w-100 h-100" style="object-fit: contain;">
+						</a>
+					</div>
+					<div sec:authorize="!hasAnyRole('ADMIN', 'SALES')">
+						<button class="btn btn-outline-secondary disabled w-90 text-muted"
+							style="pointer-events: none; height: 60px; width: 200px;">
+							<i class="bi bi-lock-fill me-1"></i>Line Pay
+						</button>
+						<button
+							class="btn btn-outline-secondary disabled w-90 text-muted mt-2"
+							style="pointer-events: none; height: 60px; width: 200px;">
+							<i class="bi bi-lock-fill me-1"></i>綠界 ECpay
+						</button>
+						<div class="text-muted small mt-2">
+							<i class="bi bi-info-circle me-1"></i>無此功能權限
+						</div>
+					</div>
 				</div>
 
 
 				<!-- 進貨與庫存管理 -->
-				<div class="block inventory vertical"
-					sec:authorize="hasAnyRole('ADMIN', 'SALES', 'VIEWER')">
+				<div class="block inventory vertical">
 					<div class="block-title">進貨與庫存管理</div>
-					<!--                         <a th:href="@{/products}" class="btn btn-outline-dark">商品進貨管理</a>
-                        <a th:href="@{/purchases}" class="btn btn-outline-dark">採購單管理</a> 
--->
-					<a th:href="@{/suppliers}" class="btn btn-outline-dark">廠商建檔</a> <a
-						th:href="@{/products}" class="btn btn-outline-dark">商品建檔</a> <a
-						th:href="@{/supplier-products}" class="btn btn-outline-dark">商品價格建檔</a>
-					<a th:href="@{/purchases}" class="btn btn-outline-dark">進貨單</a> <a
-						th:href="@{/products/publish}" class="btn btn-outline-dark">商品上架</a>
-					<a th:href="@{/stock}" class="btn btn-outline-dark">庫存查詢</a>
-
+					<div sec:authorize="hasAnyRole('ADMIN', 'SALES', 'VIEWER')">
+						<a th:href="@{/suppliers}" class="btn btn-outline-dark">廠商建檔</a> <a
+							th:href="@{/products}" class="btn btn-outline-dark">商品建檔</a> <a
+							th:href="@{/supplier-products}" class="btn btn-outline-dark">商品價格建檔</a>
+						<a th:href="@{/purchases}" class="btn btn-outline-dark">進貨單</a> <a
+							th:href="@{/products/publish}" class="btn btn-outline-dark">商品上架</a>
+						<a th:href="@{/stock}" class="btn btn-outline-dark">庫存查詢</a>
+					</div>
+					<div sec:authorize="!hasAnyRole('ADMIN', 'SALES', 'VIEWER')">
+						<button
+							class="btn btn-outline-secondary disabled w-90 text-muted mb-1"
+							style="pointer-events: none;">
+							<i class="bi bi-lock-fill me-1"></i>廠商建檔
+						</button>
+						<button
+							class="btn btn-outline-secondary disabled w-90 text-muted mb-1"
+							style="pointer-events: none;">
+							<i class="bi bi-lock-fill me-1"></i>商品建檔
+						</button>
+						<button
+							class="btn btn-outline-secondary disabled w-90 text-muted mb-1"
+							style="pointer-events: none;">
+							<i class="bi bi-lock-fill me-1"></i>商品價格建檔
+						</button>
+						<button
+							class="btn btn-outline-secondary disabled w-90 text-muted mb-1"
+							style="pointer-events: none;">
+							<i class="bi bi-lock-fill me-1"></i>進貨單
+						</button>
+						<button
+							class="btn btn-outline-secondary disabled w-90 text-muted mb-1"
+							style="pointer-events: none;">
+							<i class="bi bi-lock-fill me-1"></i>商品上架
+						</button>
+						<button class="btn btn-outline-secondary disabled w-90 text-muted"
+							style="pointer-events: none;">
+							<i class="bi bi-lock-fill me-1"></i>庫存查詢
+						</button>
+						<div class="text-muted small mt-2">
+							<i class="bi bi-info-circle me-1"></i>無此功能權限
+						</div>
+					</div>
 				</div>
 
 				<!-- 出貨與退貨管理 -->
-				<div class="block sale vertical"
-					sec:authorize="hasAnyRole('ADMIN', 'SALES')">
+				<div class="block sale vertical">
 					<div class="block-title">出貨與退貨管理</div>
-					<a th:href="@{/orders}" class="btn btn-outline-dark">出貨單</a> <a
-						th:href="@{/returns/list}" class="btn btn-outline-dark">退貨單</a>
-					<!--                          <a th:href="@{/accounting/settlement}" class="btn btn-outline-dark">收款登錄與沖帳</a>
-                        <a th:href="@{/reports/statements}" class="btn btn-outline-dark">客戶對帳單</a>
--->
-					<!--                         <a th:href="@{/reports}" class="btn btn-outline-dark">銷售報表查詢</a>
-     -->
+					<div sec:authorize="hasAnyRole('ADMIN', 'SALES')">
+						<a th:href="@{/orders}" class="btn btn-outline-dark">出貨單</a> <a
+							th:href="@{/returns/list}" class="btn btn-outline-dark">退貨單</a>
+					</div>
+					<div sec:authorize="!hasAnyRole('ADMIN', 'SALES')">
+						<button class="btn btn-outline-secondary disabled w-90 text-muted"
+							style="pointer-events: none;">
+							<i class="bi bi-lock-fill me-1"></i>出貨單
+						</button>
+						<button class="btn btn-outline-secondary disabled w-90 text-muted"
+							style="pointer-events: none;">
+							<i class="bi bi-lock-fill me-1"></i>退貨單
+						</button>
+						<div class="text-muted small mt-2">
+							<i class="bi bi-info-circle me-1"></i>無此功能權限
+						</div>
+					</div>
 				</div>
 
 				<!-- 二手專區 -->
-				<div class="block secondhand vertical"
-					sec:authorize="hasAnyRole('ADMIN', 'SALES')">
+				<div class="block secondhand vertical">
 					<div class="block-title">二手專區</div>
-					<a th:href="@{/secondhand/consignments}"
-						class="btn btn-outline-dark">托售申請審核</a> <a
-						th:href="@{/secondhand/withdrawals}" class="btn btn-outline-dark">提款申請審核</a>
-					<!--  					    <a th:href="@{/secondhand/review}" class="btn btn-outline-dark">審核處理</a>
-					    <a th:href="@{/secondhand/closed}" class="btn btn-outline-dark">結案紀錄</a>
-					    <a th:href="@{/secondhand/reports}" class="btn btn-outline-dark">匯出報表</a>
--->
+					<div sec:authorize="hasAnyRole('ADMIN', 'SALES')">
+						<a th:href="@{/secondhand/consignments}"
+							class="btn btn-outline-dark">托售申請審核</a> <a
+							th:href="@{/secondhand/withdrawals}" class="btn btn-outline-dark">提款申請審核</a>
+					</div>
+					<div sec:authorize="!hasAnyRole('ADMIN', 'SALES')">
+						<button class="btn btn-outline-secondary disabled w-90 text-muted"
+							style="pointer-events: none;">
+							<i class="bi bi-lock-fill me-1"></i>托售申請審核
+						</button>
+						<button class="btn btn-outline-secondary disabled w-90 text-muted"
+							style="pointer-events: none;">
+							<i class="bi bi-lock-fill me-1"></i>提款申請審核
+						</button>
+						<div class="text-muted small mt-2">
+							<i class="bi bi-info-circle me-1"></i>無此功能權限
+						</div>
+					</div>
 				</div>
 
 
 
 				<!-- 報表管理 -->
-				<div class="block report vertical"
-					sec:authorize="hasAnyRole('ADMIN', 'SALES')">
+				<div class="block report vertical">
 					<div class="block-title">報表管理</div>
-					<a th:href="@{/dashboard/purchase}" class="btn btn-outline-dark">成本報表</a>
-					<a th:href="@{/dashboard/sales}" class="btn btn-outline-dark">銷售報表</a>
-					<!--                        <a th:href="@{/accounting/receipts}" class="btn btn-outline-dark">收支登錄</a>
-                        <a th:href="@{/accounting/settlement}" class="btn btn-outline-dark">收款沖帳</a>
-                        <a th:href="@{/accounting/receivables}" class="btn btn-outline-dark">應收帳款管理</a>
-                        <a th:href="@{/accounting/accounts}" class="btn btn-outline-dark">帳戶類別設定</a>
- -->
+					<div sec:authorize="hasAnyRole('ADMIN', 'SALES')">
+						<a th:href="@{/dashboard/purchase}" class="btn btn-outline-dark">成本報表</a>
+						<a th:href="@{/dashboard/sales}" class="btn btn-outline-dark">銷售報表</a>
+					</div>
+					<div sec:authorize="!hasAnyRole('ADMIN', 'SALES')">
+						<button class="btn btn-outline-secondary disabled w-90 text-muted"
+							style="pointer-events: none;">
+							<i class="bi bi-lock-fill me-1"></i>成本報表
+						</button>
+						<button class="btn btn-outline-secondary disabled w-90 text-muted"
+							style="pointer-events: none;">
+							<i class="bi bi-lock-fill me-1"></i>銷售報表
+						</button>
+						<div class="text-muted small mt-2">
+							<i class="bi bi-info-circle me-1"></i>無此功能權限
+						</div>
+					</div>
 				</div>
+
 
 
 
@@ -204,6 +321,8 @@
     }
   });
 </script> -->
+
+
 
 </body>
 </html>

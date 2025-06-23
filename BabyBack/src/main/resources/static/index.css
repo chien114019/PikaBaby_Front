@@ -24,6 +24,7 @@
         /*  "finance finance finance finance" */;
      gap: 15px;
      padding: 20px;
+     
  }
 
  .block {
@@ -35,6 +36,8 @@
      font-weight: bold;
      font-size: 1.1rem;
      text-align: center;
+     
+      width: 250px;       
  }
 
  .block-title {
@@ -128,4 +131,11 @@
 	margin: 0;
 	line-height: 3;
 }
+
+.btn {
+  min-width: 200px;
+  max-width: 100%;
+  white-space: nowrap;
+} 
+
  

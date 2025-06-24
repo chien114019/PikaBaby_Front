@@ -347,15 +347,7 @@
             position: relative;
         }
 
-        .age-recommendation {
-            background-color: #f8f9fa;
-            padding: 5px 10px;
-            border-radius: 4px;
-            font-size: 14px;
-            color: #666;
-            margin-top: 8px;
-            text-align: center;
-        }
+
     </style>
 </head>
 
@@ -1219,8 +1211,8 @@ function createDynamicProductCard(product, index) {
         imageUrl = '../images/baby.jpg';
     }
     
-    // 處理價格顯示
-    const price = product.price || 0;
+    // 處理價格顯示 - 現在從後端API動態獲取
+    const price = product.price || 100; // 如果沒有價格則使用預設值
     const formattedPrice = typeof price === 'number' ? price.toFixed(0) : price;
     
     // 處理商品名稱，確保不會太長
@@ -1237,7 +1229,7 @@ function createDynamicProductCard(product, index) {
             <h3 class="product-title" title="${product.name || '未命名商品'}">${productName}</h3>
             <p class="product-price">售價：${formattedPrice}元</p>
         </a>
-        <div class="age-recommendation">適合：所有年齡</div>
+
         <div class="quantity-control" style="display:flex;justify-content:center;align-items:center;margin-bottom:8px;">
             <button class="quantity-btn minus" type="button" onclick="changeQuantity(this, -1)">-</button>
             <input type="number" class="quantity-input" value="1" min="1" max="99" 

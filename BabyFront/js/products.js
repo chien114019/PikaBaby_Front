@@ -1,6 +1,6 @@
 // 載入商品數據
 function loadProducts() {
-    fetch('/api/products/published')
+    fetch('http://localhost:8080/products/front/published')
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -40,7 +40,7 @@ function createProductCard(product) {
             <h3 class="product-title">${product.name}</h3>
             <p class="product-price">售價：${product.price}元</p>
         </a>
-        <div class="age-recommendation">適合：${product.ageRecommendation || '所有年齡'}</div>
+
         <div class="quantity-control" style="display:flex;justify-content:center;align-items:center;margin-bottom:8px;">
             <button class="quantity-btn minus" type="button">-</button>
             <input type="number" class="quantity-input" value="1" min="1" max="99" style="width:40px;text-align:center;margin:0 5px;">

@@ -43,6 +43,9 @@ public class SalesOrderService {
     
     @Autowired
     private CustomerService customerService;
+    
+    @Autowired
+    private ProductService productService;
 
     @Transactional
     public void save(SalesOrder order) {
@@ -318,11 +321,7 @@ public class SalesOrderService {
      * 獲取當前庫存（使用動態計算）
      */
     private Long getCurrentStock(Integer productId) {
-        // 計算進貨總量
-        Integer totalIn = 0; // 這裡需要注入PurchaseOrderDetailRepository
-        // 計算出貨總量  
-        Long totalOut = detailRepository.sumQuantityByProductId(productId);
-        return (totalIn != null ? totalIn : 0L) - (totalOut != null ? totalOut : 0L);
+        return productService.getCurrentCalculatedStock(productId);
     }
     
     // 類型轉換輔助方法

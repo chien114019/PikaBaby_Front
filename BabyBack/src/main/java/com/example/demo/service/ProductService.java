@@ -97,9 +97,7 @@ public class ProductService {
         List<Product> products = repository.findAll();
         
         for (Product p : products) {
-            Integer totalIn = purchaseDetailRepository.sumQuantityBySupplierProduct_Product_Id(p.getId());
-            Long totalOut = salesOrderDetailRepository.sumQuantityByProductId(p.getId());
-            Long calculatedStock = (totalIn != null ? totalIn : 0L) - (totalOut != null ? totalOut : 0L);
+            Long calculatedStock = getCurrentCalculatedStock(p.getId());
             p.setCalculatedStock(calculatedStock);
         }
         

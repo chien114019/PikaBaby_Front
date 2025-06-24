@@ -29,11 +29,17 @@ public class StockController {
             products = productService.getAllProducts();
         }
 
-        // 將每個產品的動態庫存算出來
+        // 將每個產品的動態庫存算出來（修正：使用正確的計算方法）
         Map<Integer, Long> stockMap = new HashMap<>();
         for (Product p : products) {
-            long stock = productService.calculateStock(p.getId());
+            // ✅ 修正：使用正確的庫存計算方法（進貨 - 銷售）
+            Long stock = productService.getCurrentCalculatedStock(p.getId());
             stockMap.put(p.getId(), stock);
+            
+            // 除錯日誌
+            System.out.println("📊 庫存查詢 - 商品ID: " + p.getId() + 
+                              ", 商品名稱: " + p.getName() + 
+                              ", 計算庫存: " + stock);
         }
 
         model.addAttribute("products", products);

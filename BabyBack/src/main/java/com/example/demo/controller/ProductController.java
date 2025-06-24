@@ -161,8 +161,15 @@ public class ProductController {
         Map<Integer, Integer> stockMap = new HashMap<>();
 
         for (Product p : products) {
-            int stock = (int) productService.calculateStock(p.getId());
+            // ✅ 修正：使用正確的庫存計算方法（進貨 - 銷售）
+            Long calculatedStock = productService.getCurrentCalculatedStock(p.getId());
+            int stock = calculatedStock != null ? calculatedStock.intValue() : 0;
             stockMap.put(p.getId(), stock);
+            
+            // 除錯日誌
+            System.out.println("📊 商品發布頁面庫存 - 商品ID: " + p.getId() + 
+                              ", 商品名稱: " + p.getName() + 
+                              ", 計算庫存: " + stock);
         }
 
         model.addAttribute("products", products);

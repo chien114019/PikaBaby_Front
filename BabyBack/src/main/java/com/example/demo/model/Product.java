@@ -61,6 +61,10 @@ public class Product {
     @JoinColumn(name = "type")
     private ProductType productType;
     
+    // 商品價格
+    @Column(name = "price")
+    private Double price;
+    
     // 動態計算庫存（不存資料庫）
     @Transient
     private Long calculatedStock;
@@ -201,6 +205,18 @@ public class Product {
     public void setCalculatedStock(Long calculatedStock) {
         this.calculatedStock = calculatedStock;
     }
+    
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+    
+    public BigDecimal getPriceAsBigDecimal() {
+        return price != null ? BigDecimal.valueOf(price) : BigDecimal.valueOf(100.0);
+    }
 
     // 實用方法
     public String getPrimaryImageUrl() {
@@ -234,5 +250,15 @@ public class Product {
         if (Boolean.TRUE.equals(age3)) ranges.add("6-12M");
         if (Boolean.TRUE.equals(age4)) ranges.add("2-3Y");
         return ranges;
+    }
+    
+    
+    // 為了向後兼容，保留原有的stock相關方法，但改為使用calculatedStock
+    public Long getStock() {
+        return calculatedStock != null ? calculatedStock : 0L;
+    }
+    
+    public void setStock(Long stock) {
+        this.calculatedStock = stock;
     }
 }

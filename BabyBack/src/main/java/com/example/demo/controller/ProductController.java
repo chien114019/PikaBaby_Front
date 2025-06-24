@@ -161,8 +161,15 @@ public class ProductController {
         Map<Integer, Integer> stockMap = new HashMap<>();
 
         for (Product p : products) {
-            int stock = (int) productService.calculateStock(p.getId());
+            // ✅ 修正：使用正確的庫存計算方法（進貨 - 銷售）
+            Long calculatedStock = productService.getCurrentCalculatedStock(p.getId());
+            int stock = calculatedStock != null ? calculatedStock.intValue() : 0;
             stockMap.put(p.getId(), stock);
+            
+            // 除錯日誌
+            System.out.println("📊 商品發布頁面庫存 - 商品ID: " + p.getId() + 
+                              ", 商品名稱: " + p.getName() + 
+                              ", 計算庫存: " + stock);
         }
 
         model.addAttribute("products", products);
@@ -186,12 +193,20 @@ public class ProductController {
     	    BigDecimal price = prices.get(i);
 
     	    Product p = productService.getById(id);
-    	    p.setPrice(price.doubleValue());
     	    
     	    // 根據是否在 publishedIds 中來設定發布狀態
-    	    // 這樣既能發布新商品，也能取消發布
     	    boolean shouldPublish = publishedIds != null && publishedIds.contains(id);
     	    p.setPublished(shouldPublish);
+    	    
+    	    // 設定商品價格（無論是否發布都要設定價格）
+    	    if (price != null && price.compareTo(BigDecimal.ZERO) > 0) {
+    	        p.setPrice(price.doubleValue());
+    	        System.out.println(String.format("商品 %d (%s): 設定價格 = %s", 
+    	            id, p.getName(), price));
+    	    } else {
+    	        System.out.println(String.format("商品 %d (%s): 價格無效，跳過設定", 
+    	            id, p.getName()));
+    	    }
     	    
     	    System.out.println(String.format("商品 %d (%s): published = %b", 
     	        id, p.getName(), shouldPublish));
@@ -260,9 +275,7 @@ public class ProductController {
             int publishedCount = 0;
             
             for (Product product : allProducts) {
-                if (product.getPrice() == null || product.getPrice() <= 0) {
-                    product.setPrice(1000.0); // 設定預設價格
-                }
+                // 不再需要檢查價格，因為價格現在從SupplierProduct獲取
                 product.setPublished(true);
                 productService.save(product);
                 publishedCount++;
@@ -284,7 +297,7 @@ public class ProductController {
     
     @GetMapping("/front/published")
     @ResponseBody
-    public List<ProductDto> getPublishedProducts() {
+    public List<Map<String, Object>> getPublishedProducts() {
         try {
             List<Product> publishedProducts = productRepository.findByPublishedTrue();
             System.out.println("找到 " + publishedProducts.size() + " 個已發布的商品");
@@ -306,17 +319,31 @@ public class ProductController {
                     String productTypeName = p.getProductType() != null ? p.getProductType().getTypeName() : null;
                     Integer productTypeId = p.getProductType() != null ? p.getProductType().getId() : null;
                     
-                    return new ProductDto(
-                        p.getId(), 
-                        p.getName(), 
-                        imageUrl,
-                        imageUrl,  // primaryImageUrl 與 imageUrl 相同
-                        p.getDescription(),
-                        p.getPriceAsBigDecimal(), 
-                        p.getStock(),
-                        productTypeName,
-                        productTypeId
-                    );
+                    // 動態計算庫存
+                    Long calculatedStock = productService.getCurrentCalculatedStock(p.getId());
+                    p.setCalculatedStock(calculatedStock);
+                    
+                    // 處理價格 - 確保不為null
+                    Double price = p.getPrice();
+                    if (price == null || price <= 0) {
+                        price = 100.0; // 預設價格
+                    }
+                    
+                    // 創建包含價格和庫存的Map
+                    Map<String, Object> productMap = new HashMap<>();
+                    productMap.put("id", p.getId());
+                    productMap.put("name", p.getName());
+                    productMap.put("imageUrl", imageUrl);
+                    productMap.put("primaryImageUrl", imageUrl);
+                    productMap.put("description", p.getDescription());
+                    productMap.put("productTypeName", productTypeName);
+                    productMap.put("productTypeId", productTypeId);
+                    productMap.put("price", price);
+                    productMap.put("stock", calculatedStock); // 動態計算的庫存
+                    
+                    System.out.println("已發布商品API返回 - ID: " + p.getId() + ", 名稱: " + p.getName() + ", 價格: " + price);
+                    
+                    return productMap;
                 })
                 .toList();
         } catch (Exception e) {
@@ -329,7 +356,7 @@ public class ProductController {
     // 新增：獲取所有有效商品（包括未發布的）
     @GetMapping("/front/all")
     @ResponseBody
-    public List<ProductDto> getAllActiveProducts() {
+    public List<Map<String, Object>> getAllActiveProducts() {
         try {
             // 獲取所有未被刪除的商品
             List<Product> activeProducts = productRepository.findByDeletedFalse();
@@ -348,26 +375,35 @@ public class ProductController {
                         }
                     }
                     
-                    // 如果價格為空或為0，設定預設價格
-                    if (p.getPrice() == null || p.getPrice() <= 0) {
-                        p.setPrice(100.0); // 預設價格
-                    }
-                    
                     // 獲取ProductType資訊
                     String productTypeName = p.getProductType() != null ? p.getProductType().getTypeName() : null;
                     Integer productTypeId = p.getProductType() != null ? p.getProductType().getId() : null;
                     
-                    return new ProductDto(
-                        p.getId(), 
-                        p.getName(), 
-                        imageUrl,
-                        imageUrl,  // primaryImageUrl 與 imageUrl 相同
-                        p.getDescription(),
-                        p.getPriceAsBigDecimal(), 
-                        p.getStock(),
-                        productTypeName,
-                        productTypeId
-                    );
+                    // 動態計算庫存
+                    Long calculatedStock = productService.getCurrentCalculatedStock(p.getId());
+                    p.setCalculatedStock(calculatedStock);
+                    
+                    // 處理價格 - 確保不為null
+                    Double price = p.getPrice();
+                    if (price == null || price <= 0) {
+                        price = 100.0; // 預設價格
+                    }
+                    
+                    // 創建包含價格和庫存的Map
+                    Map<String, Object> productMap = new HashMap<>();
+                    productMap.put("id", p.getId());
+                    productMap.put("name", p.getName());
+                    productMap.put("imageUrl", imageUrl);
+                    productMap.put("primaryImageUrl", imageUrl);
+                    productMap.put("description", p.getDescription());
+                    productMap.put("productTypeName", productTypeName);
+                    productMap.put("productTypeId", productTypeId);
+                    productMap.put("price", price);
+                    productMap.put("stock", calculatedStock); // 動態計算的庫存
+                    
+                    System.out.println("所有商品API返回 - ID: " + p.getId() + ", 名稱: " + p.getName() + ", 價格: " + price);
+                    
+                    return productMap;
                 })
                 .toList();
         } catch (Exception e) {
@@ -400,10 +436,15 @@ public class ProductController {
                 }
             }
             
-            // 處理價格
+            // 動態計算庫存
+            Long calculatedStock = productService.getCurrentCalculatedStock(product.getId());
+            product.setCalculatedStock(calculatedStock);
+            
+            // 處理價格 - 確保不為null，如果為null則使用預設價格
             Double price = product.getPrice();
             if (price == null || price <= 0) {
                 price = 100.0; // 預設價格
+                System.out.println("商品ID " + id + " 價格為null或0，使用預設價格: " + price);
             }
             
             // 獲取所有圖片URL
@@ -424,11 +465,13 @@ public class ProductController {
             response.put("description", product.getDescription());
             response.put("note", product.getNote());
             response.put("price", price);
-            response.put("stock", product.getStock());
+            response.put("stock", calculatedStock);
             response.put("primaryImageUrl", imageUrl);
             response.put("allImageUrls", allImageUrls);
             response.put("specification", product.getSpecification());
             response.put("color", product.getColor());
+            
+            System.out.println("商品詳情API返回 - ID: " + id + ", 價格: " + price + ", 庫存: " + calculatedStock);
             
             return ResponseEntity.ok(response);
         } catch (Exception e) {

@@ -117,8 +117,8 @@
                         </div>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdown5" role="button"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown5" role="button" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
                             二手託售
                         </a>
                         <div class="dropdown-menu p-3 justify-content-center gap-5" aria-labelledby="navbarDropdown5">
@@ -143,7 +143,7 @@
                                 <a class="dropdown-item" href="Shopping/order.html">訂單查詢</a>
                             </div> -->
                         </li>
-                       <!-- ✅ 未登入時：跳 login，不顯示 dropdown -->
+                        <!-- ✅ 未登入時：跳 login，不顯示 dropdown -->
                         <li class="nav-item" id="loginNavItem" style="display: none;">
                             <a class="nav-link" href="./Member/login.html">
                                 <img src="../images/user.png" style="width: 30px;" alt="會員登入圖示">
@@ -381,16 +381,21 @@
     <script>
         let custId = 2
         window.onload = function () {
-            let root = "http://localhost:8080/customers/info"
+            // let root = "http://localhost:8080/customers/info"
+            let root = "http://localhost:8080/customers"
             $.ajax({
                 method: "GET",
-                url: `${root}/${custId}`,
+                // url: `${root}/${custId}`,
+                url: `${root}/front/me`,
+                xhrFields: {
+                    withCredentials: true
+                },
                 success: function (data) {
                     console.log(data);
-                    $("#custName").val(data.customer.name);
-                    $("#custTel").val(data.customer.phone);
-                    $("#custEmail").val(data.customer.email);
-                    $("#custAddress").val(data.customer.address);
+                    $("#custName").val(data.name);
+                    $("#custTel").val(data.phone);
+                    $("#custEmail").val(data.email);
+                    $("#custAddress").val(data.address);
                 },
                 error: function (resp) {
                     console.log(resp);
@@ -510,7 +515,7 @@
                 const formData = new FormData();
 
                 const consign = {
-                    custId: custId,
+                    // custId: custId,
                     productName: $("#productName").val(),
                     pType: $("#type").val(),
                     quantity: $("#quantity").val(),
@@ -533,6 +538,9 @@
                 $.ajax({
                     method: "POST",
                     url: `${root}`,
+                    xhrFields: {
+                        withCredentials: true
+                    },
                     processData: false,  // <--- 不要轉換 data
                     contentType: false,  // <--- 讓瀏覽器自動幫你加 multipart/form-data
                     data: formData,

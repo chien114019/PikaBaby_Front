@@ -13,7 +13,7 @@
 //
 //    @Override
 //    public void run(String... args) throws Exception {
-//        String raw = "bb1234"; //輸入想要加密的密碼
+//        String raw = "1234"; //輸入想要加密的密碼
 //        String encoded = passwordEncoder.encode(raw);
 //        System.out.println("✅ 加密後的密碼：" + encoded);
 //    }

@@ -36,7 +36,16 @@ public class SupplierService {
 
     //功能：根據 ID 刪除某筆供應商資料
     public void deleteById(Integer id) {
-        repository.deleteById(id);
+        Supplier supplier = repository.findById(id)
+            .orElseThrow(() -> new IllegalStateException("找不到供應商 ID: " + id));
+        supplier.setDeleted(true);  // ✅ 軟刪除
+        repository.save(supplier);
     }
+    
+    public List<Supplier> findAllNotDeleted() {
+        return repository.findByDeletedFalse(); // 只撈未刪除資料
+    }
+
+
 
 }

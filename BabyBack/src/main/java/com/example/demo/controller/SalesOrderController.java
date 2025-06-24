@@ -106,7 +106,7 @@ public class SalesOrderController {
             detail.setOrder(order);
             detail.setProduct(product);
             detail.setQuantity(quantities[i]);
-            detail.setUnitPrice(product.getPrice());
+            detail.setUnitPrice(product.getPrice()); // 現在會從SupplierProduct獲取價格
             detailList.add(detail);
         }
 
@@ -259,18 +259,20 @@ public class SalesOrderController {
     @ResponseBody
     public ResponseEntity<?> submitCartOrder(@RequestBody Map<String, Object> orderData) {
         try {
-            System.out.println("=== 收到購物車訂單請求 ===");
-            System.out.println("訂單資料: " + orderData);
+            System.out.println("🚀🚀🚀 === 收到購物車訂單請求 === 🚀🚀🚀");
+            System.out.println("📋 訂單資料: " + orderData);
+            System.out.println("📋 請求時間: " + new java.util.Date());
             
             // 呼叫Service處理業務邏輯
             Map<String, Object> result = orderService.processCartOrder(orderData);
             
-            System.out.println("✅ 訂單處理成功");
+            System.out.println("✅✅✅ 訂單處理成功！結果: " + result);
             return ResponseEntity.ok(result);
             
         } catch (IllegalArgumentException e) {
             // 業務邏輯錯誤（如點數不足、庫存不足等）
-            System.err.println("❌ 業務邏輯錯誤: " + e.getMessage());
+            System.err.println("❌❌❌ 業務邏輯錯誤: " + e.getMessage());
+            e.printStackTrace();
             
             Map<String, Object> errorResponse = new HashMap<>();
             errorResponse.put("success", false);
@@ -280,7 +282,7 @@ public class SalesOrderController {
             
         } catch (Exception e) {
             // 系統錯誤
-            System.err.println("❌ 系統錯誤: " + e.getMessage());
+            System.err.println("❌❌❌ 系統錯誤: " + e.getMessage());
             e.printStackTrace();
             
             Map<String, Object> errorResponse = new HashMap<>();
@@ -348,6 +350,49 @@ public class SalesOrderController {
                 "success", false,
                 "message", "獲取會員點數失敗: " + e.getMessage(),
                 "points", 0
+            ));
+        }
+    }
+    
+    // 除錯API：檢查商品庫存
+    @GetMapping("/api/debug/stock/{productId}")
+    @ResponseBody
+    public ResponseEntity<?> debugProductStock(@PathVariable Integer productId) {
+        try {
+            System.out.println("🔍🔍🔍 === 除錯庫存查詢 === 🔍🔍🔍");
+            
+            // 獲取商品資訊
+            Product product = productService.getById(productId);
+            if (product == null) {
+                return ResponseEntity.badRequest().body(Map.of(
+                    "success", false,
+                    "message", "找不到商品ID: " + productId
+                ));
+            }
+            
+            // 獲取計算庫存
+            Long calculatedStock = productService.getCurrentCalculatedStock(productId);
+            
+            // 獲取資料庫庫存
+            Long dbStock = product.getStock() != null ? product.getStock() : 0L;
+            
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", true);
+            response.put("productId", productId);
+            response.put("productName", product.getName());
+            response.put("calculatedStock", calculatedStock);
+            response.put("databaseStock", dbStock);
+            response.put("message", "庫存查詢成功");
+            
+            System.out.println("📊 除錯結果: " + response);
+            
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            System.err.println("❌ 除錯庫存查詢錯誤: " + e.getMessage());
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body(Map.of(
+                "success", false,
+                "message", "庫存查詢失敗: " + e.getMessage()
             ));
         }
     }

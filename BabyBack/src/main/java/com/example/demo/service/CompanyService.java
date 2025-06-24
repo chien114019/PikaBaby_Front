@@ -15,7 +15,7 @@ public class CompanyService implements Company2 {
 
     @Override
     public Company getCompanyInfo() {
-        return companyRepository.findById((int) 51500025).orElse(new Company()); // 假設 ID = 51500025 是唯一公司
+        return companyRepository.findById((int) 51500025).orElse(new Company()); // 假設 ID(統編) = 51500025 是唯一公司
     }
 
     @Override

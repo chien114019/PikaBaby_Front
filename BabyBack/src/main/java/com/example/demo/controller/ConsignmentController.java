@@ -26,7 +26,9 @@ import com.example.demo.model.Response;
 import com.example.demo.model.Withdrawal;
 import com.example.demo.service.ConsignmentService;
 
-@CrossOrigin(originPatterns = "*", allowCredentials = "true")
+import jakarta.servlet.http.HttpSession;
+
+@CrossOrigin(origins = "http://localhost:5501", allowCredentials = "true")
 @Controller
 @RequestMapping("/secondhand")
 public class ConsignmentController {
@@ -39,11 +41,14 @@ public class ConsignmentController {
 //	--------------- 前台 API ----------------
 	
 //	根據 Customer id 取得託售申請紀錄
-	@GetMapping("/front/consign/cust/{custId}")
+	@GetMapping("/front/consign/cust")
 	@ResponseBody
-	public List<Consignment> getConsignmentsByCustId(@PathVariable String custId, @RequestParam(required = false) String applyStart,
+	public List<Consignment> getConsignmentsByCustId(@RequestParam(required = false) String applyStart,
 			@RequestParam(required = false) String applyEnd, @RequestParam(required = false) String type, 
-			@RequestParam(required = false) String review) {
+			@RequestParam(required = false) String review, HttpSession session) {
+		String custId = session.getAttribute("customerId").toString();
+//		System.out.println("customerId: "+session.getAttribute("customerId"));
+//		System.out.println("sessionId: "+session.getId());
 		
 		List<Consignment> consignments = new ArrayList();
 		try {
@@ -147,7 +152,6 @@ public class ConsignmentController {
 	/*
 	 * RequestBody:
 	 * {
-	 * 		custId: "", // 從 session 取得
 	 * 		pName: "",
 	 * 		pType: "",
 	 * 		quantity: "",
@@ -161,9 +165,10 @@ public class ConsignmentController {
 	 * }
 	 */
 	public ResponseEntity<Response> createConsignment(@RequestPart("consign") ConsignDTO consign, 
-			@RequestPart("photos") MultipartFile[] photos) {
+			@RequestPart("photos") MultipartFile[] photos, HttpSession session) {
+		String custId = session.getAttribute("customerId").toString();
 		Response response;
-		response = service.createConsigment(consign, photos);
+		response = service.createConsigment(consign, photos, custId);
 		if (response.getSuccess()) {
 			response.setMesg("託售申請成功");
 		}

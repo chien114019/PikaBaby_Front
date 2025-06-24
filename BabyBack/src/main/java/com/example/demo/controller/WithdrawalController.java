@@ -22,6 +22,9 @@ import com.example.demo.model.Response;
 import com.example.demo.model.Withdrawal;
 import com.example.demo.repository.BankRepository;
 import com.example.demo.service.WithdrawalService;
+
+import jakarta.servlet.http.HttpSession;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -37,12 +40,11 @@ public class WithdrawalController {
 	private BankRepository bRepository;
 
 //	================ 前台API =================
-	@GetMapping("/front/withdraw/cust/{custId}")
+	@GetMapping("/front/withdraw/cust")
 	@ResponseBody
-	public List<Withdrawal> getWithdrawsByCustId(@PathVariable String custId,
-			@RequestParam(required = false) String start, @RequestParam(required = false) String end,
-			@RequestParam(required = false) String withdraw) {
-
+	public List<Withdrawal> getWithdrawsByCustId(@RequestParam(required = false) String start, 
+			@RequestParam(required = false) String end, @RequestParam(required = false) String withdraw, HttpSession session) {
+		String custId = session.getAttribute("customerId").toString();
 		List<Withdrawal> withdrawals = new ArrayList<Withdrawal>();
 
 		try {
@@ -110,18 +112,20 @@ public class WithdrawalController {
 		return bRepository.findAll();
 	}
 
-	@GetMapping("/front/withdraw/total/custId/{custId}")
+	@GetMapping("/front/withdraw/total/custId")
 	@ResponseBody
-	public ResponseEntity<Map<String, Object>> getTotal(@PathVariable String custId) {
+	public ResponseEntity<Map<String, Object>> getTotal(HttpSession session) {
+		String custId = session.getAttribute("customerId").toString();
 		Map<String, Object> storage = service.getStorageByCust(custId);
 		return ResponseEntity.ok(storage);
 	}
 
 	@PostMapping("/front/withdraw/create")
 	@ResponseBody
-	public ResponseEntity<Response> createWithdraw(@RequestBody Map<String, Object> body) {
-		/* { custId: "", amount: "", bankId: "", bankAccount: "", ids: [] } */ 
-		Response response = service.createWithdraw(body);
+	public ResponseEntity<Response> createWithdraw(@RequestBody Map<String, Object> body, HttpSession session) {
+		/* { amount: "", bankId: "", bankAccount: "", ids: [] } */ 
+		String custId = session.getAttribute("customerId").toString();
+		Response response = service.createWithdraw(body, custId);
 		if (response.getSuccess()) {
 			response.setMesg("提款申請成功");
 		} else {

@@ -204,9 +204,9 @@ public class ConsignmentService {
 	}
 
 //	createConsignment
-	public Response createConsigment(ConsignDTO consign, MultipartFile[] files) {
+	public Response createConsigment(ConsignDTO consign, MultipartFile[] files, String custId) {
 		Response response = new Response();
-		cust = cRepository.findById((int) Long.parseLong(consign.getCustId())).orElse(null);
+		cust = cRepository.findById(Integer.parseInt(custId)).orElse(null);
 		pType = ptRepository.findById(Integer.parseInt(consign.getpType())).orElse(null);
 
 		System.out.println(consign.getProductName());

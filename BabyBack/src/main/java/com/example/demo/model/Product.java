@@ -15,13 +15,6 @@ public class Product {
 
     private String name;
     
-    // 配合資料庫使用 Double 型別
-    private Double price;
-    
-    // 配合資料庫的庫存欄位
-    private Long stock;
-    
-   
     // 如果資料庫沒有這些欄位，JPA會忽略它們
     @Column(name = "specification")
     private String specification;
@@ -68,6 +61,10 @@ public class Product {
     @JoinColumn(name = "type")
     private ProductType productType;
     
+    // 商品價格
+    @Column(name = "price")
+    private Double price;
+    
     // 動態計算庫存（不存資料庫）
     @Transient
     private Long calculatedStock;
@@ -87,22 +84,6 @@ public class Product {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    public Long getStock() {
-        return stock;
-    }
-
-    public void setStock(Long stock) {
-        this.stock = stock;
     }
 
     public String getSpecification() {
@@ -224,6 +205,18 @@ public class Product {
     public void setCalculatedStock(Long calculatedStock) {
         this.calculatedStock = calculatedStock;
     }
+    
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+    
+    public BigDecimal getPriceAsBigDecimal() {
+        return price != null ? BigDecimal.valueOf(price) : BigDecimal.valueOf(100.0);
+    }
 
     // 實用方法
     public String getPrimaryImageUrl() {
@@ -258,13 +251,14 @@ public class Product {
         if (Boolean.TRUE.equals(age4)) ranges.add("2-3Y");
         return ranges;
     }
-
-    // 價格轉換方法（為了與其他使用 BigDecimal 的代碼兼容）
-    public BigDecimal getPriceAsBigDecimal() {
-        return price != null ? BigDecimal.valueOf(price) : BigDecimal.ZERO;
+    
+    
+    // 為了向後兼容，保留原有的stock相關方法，但改為使用calculatedStock
+    public Long getStock() {
+        return calculatedStock != null ? calculatedStock : 0L;
     }
-
-    public void setPriceFromBigDecimal(BigDecimal price) {
-        this.price = price != null ? price.doubleValue() : null;
+    
+    public void setStock(Long stock) {
+        this.calculatedStock = stock;
     }
 }

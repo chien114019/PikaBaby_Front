@@ -660,8 +660,18 @@
             
             // 基本資訊
             document.getElementById('product-name').textContent = product.name;
-            document.getElementById('product-price').textContent = Math.floor(product.price);
+            
+            // 處理價格顯示，確保有有效的價格值
+            let displayPrice = product.price;
+            if (!displayPrice || displayPrice <= 0) {
+                displayPrice = 100; // 預設價格
+                console.warn('商品價格無效，使用預設價格:', displayPrice);
+            }
+            document.getElementById('product-price').textContent = Math.floor(displayPrice);
+            
             document.getElementById('product-id').textContent = product.id;
+            
+            console.log('商品詳情顯示 - 商品ID:', product.id, '價格:', displayPrice);
             
             // 庫存狀態
             updateStockDisplay(product.stock);

@@ -43,6 +43,9 @@ public class SalesOrderService {
     
     @Autowired
     private CustomerService customerService;
+    
+    @Autowired
+    private ProductService productService;
 
     @Transactional
     public void save(SalesOrder order) {
@@ -69,7 +72,13 @@ public class SalesOrderService {
                 detail.setOrder(savedOrder); // 確保關聯正確
                 SalesOrderDetail savedDetail = detailRepository.save(detail);
                 System.out.println("✅ 訂單詳情已保存，ID: " + savedDetail.getId() + 
-                                  ", 商品: " + savedDetail.getProduct().getName());
+                                  ", 商品ID: " + savedDetail.getProduct().getId() +
+                                  ", 商品名稱: " + savedDetail.getProduct().getName() +
+                                  ", 數量: " + savedDetail.getQuantity());
+                
+                // 立即檢查保存後的庫存變化
+                Long newStock = getCurrentStock(savedDetail.getProduct().getId());
+                System.out.println("📊 保存後商品 " + savedDetail.getProduct().getName() + " 的庫存: " + newStock);
             }
         }
         
@@ -80,16 +89,15 @@ public class SalesOrderService {
                 Long orderQuantity = detail.getQuantity();
                 
                 System.out.println("準備扣減庫存：商品 " + product.getName() + " (ID: " + product.getId() + ")");
-                System.out.println("訂購數量: " + orderQuantity + ", 目前庫存: " + product.getStock());
+                // 使用計算庫存檢查
+                Long currentStock = getCurrentStock(product.getId());
+                System.out.println("訂購數量: " + orderQuantity + ", 目前庫存: " + currentStock);
                 
-                // 扣減庫存
-                if (product.getStock() != null && product.getStock() >= orderQuantity) {
-                    Long newStock = product.getStock() - orderQuantity;
-                    product.setStock(newStock);
-                    productRepository.save(product); // 儲存更新後的庫存
-                    System.out.println("✅ 商品 " + product.getName() + " 庫存扣減成功: " + orderQuantity + "，剩餘: " + newStock);
+                // 檢查庫存但不直接扣減（庫存扣減通過SalesOrderDetail的存在來體現）
+                if (currentStock >= orderQuantity) {
+                    System.out.println("✅ 商品 " + product.getName() + " 庫存檢查通過: " + orderQuantity + "，當前庫存: " + currentStock);
                 } else {
-                    System.err.println("❌ 警告：商品 " + product.getName() + " 庫存不足，無法扣減。目前庫存: " + product.getStock() + ", 需要: " + orderQuantity);
+                    System.err.println("❌ 警告：商品 " + product.getName() + " 庫存不足，無法扣減。目前庫存: " + currentStock + ", 需要: " + orderQuantity);
                 }
             }
         }
@@ -188,12 +196,16 @@ public class SalesOrderService {
      */
     @Transactional
     public Map<String, Object> processCartOrder(Map<String, Object> orderData) throws Exception {
+        System.out.println("🛒🛒🛒 === 開始處理購物車訂單 === 🛒🛒🛒");
+        
         // 獲取訂單基本資料
         String customerName = (String) orderData.get("name");
         String phone = (String) orderData.get("phone");
         String email = (String) orderData.get("email");
         String address = (String) orderData.get("address");
         String paymentMethod = (String) orderData.get("paymentMethod");
+        
+        System.out.println("👤 客戶資料 - 姓名: " + customerName + ", 電話: " + phone + ", 地址: " + address);
         
         // 獲取點數使用資料
         Integer pointsUsed = 0;
@@ -316,11 +328,10 @@ public class SalesOrderService {
     }
     
     /**
-     * 獲取當前庫存（模擬方法，實際應該從ProductService調用）
+     * 獲取當前庫存（使用動態計算）
      */
     private Long getCurrentStock(Integer productId) {
-        Product product = productRepository.findById(productId).orElse(null);
-        return product != null ? (product.getStock() != null ? product.getStock() : 0L) : 0L;
+        return productService.getCurrentCalculatedStock(productId);
     }
     
     // 類型轉換輔助方法

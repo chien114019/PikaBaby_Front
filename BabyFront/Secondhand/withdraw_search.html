@@ -123,8 +123,8 @@
                         </div>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdown5" role="button"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown5" role="button" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
                             二手託售
                         </a>
                         <div class="dropdown-menu p-3 justify-content-center gap-5" aria-labelledby="navbarDropdown5">
@@ -267,7 +267,7 @@
     <script>
         const root = "http://localhost:8080/secondhand/front/withdraw"
         // 測試用 id
-        const custid = 2;
+        // const custid = 2;
 
         $(document).ready(function () {
             // 輸出所有托售資料
@@ -282,7 +282,10 @@
 
             $.ajax({
                 method: "GET",
-                url: `${root}/cust/${custid}`,
+                url: `${root}/cust`,
+                xhrFields: {
+                    withCredentials: true
+                },
                 success: function (data) {
                     showData(data);
                 },
@@ -299,7 +302,10 @@
 
             $.ajax({
                 method: "GET",
-                url: `${root}/cust/${custid}?start=${start}&end=${end}&withdraw=${withdraw}`,
+                url: `${root}/cust?start=${start}&end=${end}&withdraw=${withdraw}`,
+                xhrFields: {
+                    withCredentials: true
+                }, 
                 success: function (data) {
                     showData(data);
                 },

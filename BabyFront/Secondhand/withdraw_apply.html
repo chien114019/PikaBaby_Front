@@ -128,8 +128,8 @@
                         </div>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdown5" role="button"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown5" role="button" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
                             二手託售
                         </a>
                         <div class="dropdown-menu p-3 justify-content-center gap-5" aria-labelledby="navbarDropdown5">
@@ -154,21 +154,21 @@
                                 <a class="dropdown-item" href="Shopping/order.html">訂單查詢</a>
                             </div> -->
                         </li>
-                       <!-- ✅ 未登入時：跳 login，不顯示 dropdown -->
+                        <!-- ✅ 未登入時：跳 login，不顯示 dropdown -->
                         <li class="nav-item" id="loginNavItem" style="display: none;">
                             <a class="nav-link" href="./Member/login.html">
-                                <img src="images/user.png" style="width: 30px;" alt="會員登入圖示">
+                                <img src="../images/user.png" style="width: 30px;" alt="會員登入圖示">
                             </a>
                         </li>
                         <!-- ✅ 已登入時：正常 dropdown -->
                         <li class="nav-item dropdown" id="memberDropdownItem" style="display: none;">
                             <a class="nav-link dropdown-toggle" id="navbarDropdown5" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img src="images/user.png" style="width: 30px;" alt="會員圖示">
+                                <img src="../images/user.png" style="width: 30px;" alt="會員圖示">
                             </a>
                             <div class="dropdown-menu p-3 justify-content-center gap-5" id="dropdownForUser"
                                 aria-labelledby="navbarDropdown5">
-                                <a class="dropdown-item" href="./Member/member.html">會員中心</a>
+                                <a class="dropdown-item" href="../Member/member.html">會員中心</a>
                                 <a class="dropdown-item text-danger" href="#" onclick="logout()">登出</a>
                             </div>
                         </li>
@@ -326,7 +326,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../js/navbar.js"></script>
     <script src="../js/logout.js"></script>
-    <script src="js/usernoToggle.js"></script>
+    <script src="../js/usernoToggle.js"></script>
     <script>
         $("#applyBtn").on("click", function () {
             $("footer").css("margin-top", "auto");
@@ -335,7 +335,7 @@
         })
 
         let host = "http://localhost:8080"
-        let custId = 4
+        // let custId = 4
         const consign = {
             amount: 0,
             ids: []
@@ -344,7 +344,10 @@
         window.onload = function () {
             $.ajax({
                 method: "GET",
-                url: `${host}/secondhand/front/withdraw/total/custId/${custId}`,
+                url: `${host}/secondhand/front/withdraw/total/custId`,
+                xhrFields: {
+                    withCredentials: true
+                },
                 success: function (data) {
                     $("#totalAmount").text(data.total);
                     consign.amount = data.total;
@@ -360,13 +363,16 @@
 
             $.ajax({
                 method: "GET",
-                url: `${host}/front/customers/info/${custId}`,
+                url: `${host}/customers/front/me`,
+                xhrFields: {
+                    withCredentials: true
+                },
                 success: function (data) {
                     // console.log(dat  a);
-                    $("#custName").val(data.customer.name);
-                    $("#custTel").val(data.customer.phone);
-                    $("#custEmail").val(data.customer.email);
-                    $("#custAddress").val(data.customer.address);
+                    $("#custName").val(data.name);
+                    $("#custTel").val(data.phone);
+                    $("#custEmail").val(data.email);
+                    $("#custAddress").val(data.address);
                 },
                 error: function (resp) {
                     console.log(resp);
@@ -375,7 +381,7 @@
 
             $.ajax({
                 method: "GET",
-                url: `${host}/front/secondhand/withdraw/banks`,
+                url: `${host}/secondhand/front/withdraw/banks`,
                 success: function (data) {
                     data.forEach(element => {
                         console.log(element)
@@ -393,7 +399,6 @@
             e.preventDefault();
             /*
                 {
-                    custId: "",
                     amount: "",
                     bankId: "",
                     bankAccount: "",
@@ -403,10 +408,13 @@
 
             $.ajax({
                 method: "POST",
-                url: `${host}/front/secondhand/withdraw/create`,
+                url: `${host}/secondhand/front/withdraw/create`,
+                xhrFields: {
+                    withCredentials: true
+                },
                 contentType: "application/json",
                 data: JSON.stringify({
-                    custId: custId,
+                    // custId: custId,
                     amount: consign.amount,
                     bankId: $("#bank").val(),
                     bankAccount: $("#bankAccount").val(),

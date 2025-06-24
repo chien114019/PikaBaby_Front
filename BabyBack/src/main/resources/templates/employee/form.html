@@ -216,26 +216,27 @@
 
     <div class="mb-3">
         <label class="fw-bold">帳號</label>
-        <input type="text" th:field="*{username}" class="form-control" required />
+        <input type="text" th:field="*{username}" class="form-control mt-2" required />
     </div>
 
     <div class="mb-3">
         <label class="fw-bold">姓名</label>
-        <input type="text" th:field="*{realname}" class="form-control" />
+        <input type="text" th:field="*{realname}" class="form-control mt-2" />
     </div>
 
     <div class="mb-3">
         <label class="fw-bold">密碼</label>
-        <input type="password" th:field="*{password}" class="form-control" />
+        <input type="password" th:field="*{password}" class="form-control mt-2" required />
        <!--  <div class="form-text text-muted">如不修改密碼，請輸入與原密碼相同的值</div> -->
     </div>
 
     <div class="mb-3">
         <label class="fw-bold">權限</label>
-        <select th:field="*{role}" class="form-select">
+        <select th:field="*{role}" class="form-select mt-2" required>
             <option value="ADMIN">ADMIN</option>
             <option value="SALES">SALES</option>
-            <option value="VIEWER">VIEWER</option>
+            <!-- <option value="VIEWER">VIEWER</option> -->
+            <option value="FINANCE">FINANCE</option>
         </select>
     </div>
 

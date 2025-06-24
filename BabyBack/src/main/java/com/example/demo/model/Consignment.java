@@ -4,11 +4,13 @@ import java.util.Date;
 
 import org.hibernate.annotations.ColumnDefault;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
@@ -27,9 +29,19 @@ public class Consignment {
 	private Date applyDate;
     
 	private String productName;
+	
+    @Lob   //表示這是一個「大欄位資料」，讓 JPA 知道這是 byte[] 二進位資料
+    @Column(columnDefinition = "BLOB")
 	private byte[] pic1;
+	
+    @Lob   //表示這是一個「大欄位資料」，讓 JPA 知道這是 byte[] 二進位資料
+    @Column(columnDefinition = "BLOB")
 	private byte[] pic2;
+	
+    @Lob   //表示這是一個「大欄位資料」，讓 JPA 知道這是 byte[] 二進位資料
+    @Column(columnDefinition = "BLOB")
 	private byte[] pic3;
+    
 	private String pCondition;
 	private Integer quantity;
 	private Integer delivery;

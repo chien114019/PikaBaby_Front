@@ -95,11 +95,8 @@ public class ReturnOrderController {
                 d.setReturnOrder(ro);
                 detailList.add(d);
 
-                // 加回庫存
-                if (p != null) {
-                    p.setStock(p.getStock() + qty.get(i));
-                    productRepository.save(p);
-                }
+                // 注意：庫存現在通過動態計算，不需要手動調整
+                // 退貨會自動體現在庫存計算中（進貨-銷售+退貨）
             }
         }
 
@@ -225,12 +222,8 @@ public class ReturnOrderController {
 
         ReturnOrder ro = returnOrderRepository.findById(id).orElse(null);
         if (ro != null) {
-            // 庫存扣回
-            for (ReturnOrderDetail d : ro.getDetails()) {
-                Product p = d.getProduct();
-                p.setStock(p.getStock() - d.getQty());
-                productRepository.save(p);
-            }
+            // 注意：庫存現在通過動態計算，不需要手動調整
+            // 刪除退貨記錄會自動體現在庫存計算中
 
             returnOrderRepository.delete(ro); // Cascade 一併刪明細
         }

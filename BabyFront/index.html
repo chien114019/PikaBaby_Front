@@ -190,24 +190,24 @@
         <div class="categories" style="max-width: 1200px; margin: 0 auto 60px;">
             <div class="category-buttons"
                 style="display: flex; justify-content: center; gap: 20px; margin-bottom: 30px;">
-                <a href="/Products/product.html?category=car-seat"
+                <a href="Products/product.html?category=car-seat"
                     style="text-decoration: none; padding: 10px 20px; border: 1px solid #ddd; background: none; border-radius: 5px; color: #333;">汽車座墊</a>
-                <a href="/Products/product.html?category=toys"
+                <a href="Products/product.html?category=toys"
                     style="text-decoration: none; padding: 10px 20px; border: 1px solid #ddd; background: none; border-radius: 5px; color: #333;">絨毛玩具</a>
-                <a href="/Products/product.html?category=care"
+                <a href="Products/product.html?category=care"
                     style="text-decoration: none; padding: 10px 20px; border: 1px solid #ddd; background: none; border-radius: 5px; color: #333;">衛生用品</a>
-                <a href="/Products/product.html?category=stroller"
+                <a href="Products/product.html?category=stroller"
                     style="text-decoration: none; padding: 10px 20px; border: 1px solid #ddd; background: none; border-radius: 5px; color: #333;">嬰兒推車</a>
-                <a href="/Products/product.html?category=care"
+                <a href="Products/product.html?category=care"
                     style="text-decoration: none; padding: 10px 20px; border: 1px solid #ddd; background: none; border-radius: 5px; color: #333;">沐浴用具</a>
-                <a href="/Products/product.html?category=furniture"
+                <a href="Products/product.html?category=furniture"
                     style="text-decoration: none; padding: 10px 20px; border: 1px solid #ddd; background: none; border-radius: 5px; color: #333;">餐椅推薦</a>
             </div>
 
             <!-- 商品展示區 -->
             <div class="products"
                 style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; padding: 0 20px;">
-                <a href="/Products/product.html?category=feeding" style="text-decoration: none; color: inherit;">
+                <a href="Products/product.html?category=feeding" style="text-decoration: none; color: inherit;">
                     <div class="product-card" style="text-align: center;">
                         <img src="images/pd1.jpg" alt="各式哺乳吸乳器"
                             style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 10px;">
@@ -215,7 +215,7 @@
                         <div style="padding: 8px 20px; background-color: #f0ebe5; border-radius: 5px;">查看更多</div>
                     </div>
                 </a>
-                <a href="/Products/product.html?category=education" style="text-decoration: none; color: inherit;">
+                <a href="Products/product.html?category=education" style="text-decoration: none; color: inherit;">
                     <div class="product-card" style="text-align: center;">
                         <img src="images/pd2.jpg" alt="知識就是你的力量"
                             style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 10px;">
@@ -223,7 +223,7 @@
                         <div style="padding: 8px 20px; background-color: #f0ebe5; border-radius: 5px;">查看更多</div>
                     </div>
                 </a>
-                <a href="/Products/product.html?category=furniture" style="text-decoration: none; color: inherit;">
+                <a href="Products/product.html?category=furniture" style="text-decoration: none; color: inherit;">
                     <div class="product-card" style="text-align: center;">
                         <img src="images/pd3.jpg" alt="嬰兒床選購"
                             style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 10px;">
@@ -231,7 +231,7 @@
                         <div style="padding: 8px 20px; background-color: #f0ebe5; border-radius: 5px;">查看更多</div>
                     </div>
                 </a>
-                <a href="/Products/product.html?category=toys" style="text-decoration: none; color: inherit;">
+                <a href="Products/product.html?category=toys" style="text-decoration: none; color: inherit;">
                     <div class="product-card" style="text-align: center;">
                         <img src="images/pd4.jpg" alt="孩子們的夢想玩具"
                             style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 10px;">
@@ -274,19 +274,12 @@
         <div class="rankings" style="max-width: 1200px; margin: 0 auto 60px;">
             <h2 style="text-align: center; margin-bottom: 30px; font-size: 24px;">每月商品銷售排行榜</h2>
             <div id="monthly-rankings"
-                style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; padding: 0 20px;">
+                style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; padding: 0 20px;">
                 <!-- 排行榜項目將從資料庫動態渲染 -->
             </div>
         </div>
 
-        <!-- 二手商品排行榜 -->
-        <div class="rankings" style="max-width: 1200px; margin: 0 auto 60px;">
-            <h2 style="text-align: center; margin-bottom: 30px; font-size: 24px;">二手商品排行榜</h2>
-            <div id="secondhand-rankings"
-                style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; padding: 0 20px;">
-                <!-- 排行榜項目將從資料庫動態渲染 -->
-            </div>
-        </div>
+
 
         <!-- 品牌影片 -->
         <div class="video-section" style="max-width: 1200px; margin: 0 auto 60px;">
@@ -388,36 +381,76 @@
                 const container = document.querySelector(selector);
                 if (!container) return;
                 container.innerHTML = '';
+                
+                if (!data || data.length === 0) {
+                    container.innerHTML = '<div style="text-align:center;color:#888;grid-column:span 3;">暫無商品銷售記錄</div>';
+                    return;
+                }
+                
                 data.slice(0, 3).forEach((item, idx) => {
                     const div = document.createElement('div');
                     div.className = 'ranking-item';
-                    div.style = 'text-align:center;display:inline-block;width:32%;vertical-align:top;margin:0 1%';
+                    div.style.cssText = `
+                        text-align: center;
+                        padding: 20px;
+                        border: 1px solid #ddd;
+                        border-radius: 8px;
+                        background: #fff;
+                        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                        transition: transform 0.3s ease;
+                    `;
+                    
+                    // 排名標籤顏色
+                    const rankColors = ['#FFD700', '#C0C0C0', '#CD7F32']; // 金、銀、銅
+                    const rankColor = rankColors[idx] || '#e6b800';
+                    
                     div.innerHTML = `
-              <div style="font-size:20px;font-weight:bold;color:#e6b800;">No.${idx + 1}</div>
-              <img src="${item.image}" alt="${item.name}" style="width:120px;height:120px;object-fit:cover;border-radius:8px;margin-bottom:8px;">
-              <div style="font-weight:bold;">${item.name}</div>
-              <div style="color:#e44d26;">售價：${item.price}元</div>
-              <div style="color:#888;">銷量：${item.sold}</div>
-            `;
+                        <div style="font-size:24px;font-weight:bold;color:${rankColor};margin-bottom:10px;">
+                            第 ${idx + 1} 名
+                        </div>
+                        <img src="${item.image}" alt="${item.name}" 
+                             style="width:150px;height:150px;object-fit:cover;border-radius:8px;margin-bottom:15px;">
+                        <div style="font-weight:bold;font-size:16px;margin-bottom:8px;">${item.name}</div>
+                        <div style="color:#e44d26;font-size:18px;font-weight:bold;margin-bottom:5px;">
+                            售價：NT$ ${item.price}
+                        </div>
+                        <div style="color:#666;font-size:14px;">
+                            總銷量：${item.sold} 件
+                        </div>
+                    `;
+                    
+                    // 懸停效果
+                    div.addEventListener('mouseenter', () => {
+                        div.style.transform = 'translateY(-5px)';
+                    });
+                    div.addEventListener('mouseleave', () => {
+                        div.style.transform = 'translateY(0)';
+                    });
+                    
                     container.appendChild(div);
                 });
             }
 
             // 取得每月排行榜
-            fetch('/api/rankings/monthly')
-                .then(res => res.json())
-                .then(data => renderRanking('#monthly-rankings', data))
-                .catch(() => {
-                    document.querySelector('#monthly-rankings').innerHTML = '<div style="text-align:center;color:#888;">暫無資料</div>';
+            console.log('🚀 開始調用月銷售排行榜API...');
+            fetch('http://localhost:8080/products/front/rankings/monthly')
+                .then(res => {
+                    console.log('📡 API響應狀態:', res.status);
+                    if (!res.ok) {
+                        throw new Error(`HTTP error! status: ${res.status}`);
+                    }
+                    return res.json();
+                })
+                .then(data => {
+                    console.log('📊 收到的月銷售排行榜數據:', data);
+                    renderRanking('#monthly-rankings', data);
+                })
+                .catch(error => {
+                    console.error('❌ 月銷售排行榜API調用失敗:', error);
+                    document.querySelector('#monthly-rankings').innerHTML = '<div style="text-align:center;color:#888;">載入失敗，請稍後再試</div>';
                 });
 
-            // 取得二手排行榜
-            fetch('/api/rankings/secondhand')
-                .then(res => res.json())
-                .then(data => renderRanking('#secondhand-rankings', data))
-                .catch(() => {
-                    document.querySelector('#secondhand-rankings').innerHTML = '<div style="text-align:center;color:#888;">暫無資料</div>';
-                });
+
         });
     </script>
 

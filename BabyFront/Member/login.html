@@ -221,7 +221,14 @@ function login(e) {
       if (data.success) {
         alert("登入成功！");
         // sessionStorage.setItem("memberName", data.member.name);
-        window.location.href = "member.html";
+        
+        // 檢查是否需要返回結帳頁面
+        if (sessionStorage.getItem('returnToCheckout') === 'true') {
+          sessionStorage.removeItem('returnToCheckout');
+          window.location.href = "../Shopping/shoppingcart.html?checkout=true";
+        } else {
+          window.location.href = "member.html";
+        }
       } else {
         alert("登入失敗：" + data.mesg);
       }

@@ -16,7 +16,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -111,6 +113,9 @@ public class ProductService {
     
     // 後台ERP用：動態計算庫存
     public Long getCurrentCalculatedStock(Integer productId) {
+        // 移除初始庫存的計算，只計算進貨-銷售
+        // 這樣確保只有真正進貨的商品才會有庫存
+        
         Integer totalIn = purchaseDetailRepository.sumQuantityBySupplierProduct_Product_Id(productId);
         Long totalOut = salesOrderDetailRepository.sumQuantityByProductId(productId);
         
@@ -134,11 +139,12 @@ public class ProductService {
             System.err.println("查詢銷售記錄時發生錯誤: " + e.getMessage());
         }
         
+        // 修正計算公式：進貨 - 銷售（不再使用初始庫存）
         Long result = (totalIn != null ? totalIn : 0L) - (totalOut != null ? totalOut : 0L);
         System.out.println("計算結果庫存: " + result);
         System.out.println("=== 庫存計算除錯結束 ===");
         
-        return result;
+        return Math.max(0L, result); // 確保庫存不會是負數
     }
     
     public long calculateStock(Integer integer) {
@@ -235,6 +241,46 @@ public class ProductService {
             System.err.println("計算商品銷售數量時發生錯誤 - 商品ID: " + productId + ", 錯誤: " + e.getMessage());
             return 0L;
         }
+    }
+
+    // 檢查商品是否可以上架（必須有進貨記錄）
+    public boolean canProductBePublished(Integer productId) {
+        // 只檢查是否有進貨記錄，確保業務流程正確
+        Integer totalPurchased = purchaseDetailRepository.sumQuantityBySupplierProduct_Product_Id(productId);
+        
+        // 必須要有進貨記錄才能上架
+        boolean hasPurchaseRecord = totalPurchased != null && totalPurchased > 0;
+        
+        System.out.println("=== 商品上架檢查 ===");
+        System.out.println("商品ID: " + productId);
+        System.out.println("進貨總數: " + (totalPurchased != null ? totalPurchased : 0));
+        System.out.println("可以上架: " + hasPurchaseRecord);
+        
+        return hasPurchaseRecord;
+    }
+    
+    // 獲取商品狀態詳情（用於除錯）
+    public Map<String, Object> getProductStatus(Integer productId) {
+        Product product = repository.findById(productId).orElse(null);
+        if (product == null) {
+            return Map.of("error", "商品不存在");
+        }
+        
+        Integer totalPurchased = purchaseDetailRepository.sumQuantityBySupplierProduct_Product_Id(productId);
+        Long totalSold = salesOrderDetailRepository.sumQuantityByProductId(productId);
+        Long calculatedStock = getCurrentCalculatedStock(productId);
+        
+        Map<String, Object> status = new HashMap<>();
+        status.put("productId", productId);
+        status.put("productName", product.getName());
+        status.put("totalPurchased", totalPurchased != null ? totalPurchased : 0);
+        status.put("totalSold", totalSold != null ? totalSold : 0);
+        status.put("calculatedStock", calculatedStock);
+        status.put("isPublished", product.getPublished());
+        status.put("canBePublished", canProductBePublished(productId));
+        status.put("hasNegativeStock", calculatedStock != null && calculatedStock < 0);
+        
+        return status;
     }
 
 }

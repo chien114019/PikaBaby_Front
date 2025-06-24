@@ -30,7 +30,9 @@
 			<a href="#"
 				class="d-inline-flex align-items-center text-dark text-decoration-none dropdown-toggle"
 				id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-				<i class="bi bi-person-circle fs-4 me-2"></i> Hi! 總經理 小智
+				<i class="bi bi-person-circle fs-4 me-2"></i> Hi! <span
+				th:if="${session.user != null}" th:text="${session.user.realname}">使用者名稱</span>
+				<span th:unless="${session.user != null}">Pika</span>
 			</a>
 			<ul class="dropdown-menu text-small" aria-labelledby="userDropdown">
 				<!-- <li><a class="dropdown-item" href="#">個人資料設定</a></li> -->
@@ -76,6 +78,7 @@
 				<div class="block task vertical">
 					<div class="block-title">事務性管理</div>
 					<div sec:authorize="hasRole('ADMIN')">
+						<!-- 只判斷一種角色，用hasRole|判斷一種「以上」角色,用hasAnyRole  -->
 						<a th:href="@{/employee/list}" class="btn btn-outline-dark">登入/權限管理</a>
 						<a th:href="@{/customers}" class="btn btn-outline-dark">會員帳號管理</a>
 					</div>
@@ -114,11 +117,11 @@
 				<!-- 財務管理 -->
 				<div class="block finance vertical">
 					<div class="block-title">財務管理</div>
-					<div sec:authorize="hasRole('ADMIN')">
+					<div sec:authorize="hasAnyRole('ADMIN','FINANCE')">
 						<a th:href="@{/receivables/list}" class="btn btn-outline-dark">應收帳款管理</a>
 						<a th:href="@{/payables/list}" class="btn btn-outline-dark">應付帳款管理</a>
 					</div>
-					<div sec:authorize="!hasRole('ADMIN')">
+					<div sec:authorize="!hasAnyRole('ADMIN','FINANCE')">
 						<button class="btn btn-outline-secondary disabled w-90 text-muted"
 							style="pointer-events: none;">
 							<i class="bi bi-lock-fill me-1"></i>應收帳款管理
@@ -136,7 +139,7 @@
 				<!-- POS 結帳系統 -->
 				<div class="block pos vertical">
 					<div class="block-title">結帳</div>
-					<div sec:authorize="hasAnyRole('ADMIN', 'SALES')">
+					<div sec:authorize="hasAnyRole('ADMIN','FINANCE')">
 						<a href="https://pay.line.me/portal/tw/auth/login" target="_blank"
 							class="btn btn-outline-dark p-0 d-block"
 							style="width: 200px; height: 60px;"> <img
@@ -148,7 +151,7 @@
 							alt="ECpay綠界" class="w-100 h-100" style="object-fit: contain;">
 						</a>
 					</div>
-					<div sec:authorize="!hasAnyRole('ADMIN', 'SALES')">
+					<div sec:authorize="!hasAnyRole('ADMIN','FINANCE')">
 						<button class="btn btn-outline-secondary disabled w-90 text-muted"
 							style="pointer-events: none; height: 60px; width: 200px;">
 							<i class="bi bi-lock-fill me-1"></i>Line Pay
@@ -263,11 +266,11 @@
 				<!-- 報表管理 -->
 				<div class="block report vertical">
 					<div class="block-title">報表管理</div>
-					<div sec:authorize="hasAnyRole('ADMIN', 'SALES')">
+					<div sec:authorize="hasAnyRole('ADMIN','FINANCE')">
 						<a th:href="@{/dashboard/purchase}" class="btn btn-outline-dark">成本報表</a>
 						<a th:href="@{/dashboard/sales}" class="btn btn-outline-dark">銷售報表</a>
 					</div>
-					<div sec:authorize="!hasAnyRole('ADMIN', 'SALES')">
+					<div sec:authorize="!hasAnyRole('ADMIN','FINANCE')">
 						<button class="btn btn-outline-secondary disabled w-90 text-muted"
 							style="pointer-events: none;">
 							<i class="bi bi-lock-fill me-1"></i>成本報表
@@ -286,7 +289,7 @@
 
 
 				<!-- 系統設定與報表管理 -->
-				<!--                      <div class="block production horizontal">
+				<!-- <div class="block production horizontal">
                         <div class="block-title">系統設定與報表管理</div>
                         <a th:href="@{/auth/users}" class="btn btn-outline-dark">使用者權限管理</a>
                         <a th:href="@{/settings}" class="btn btn-outline-dark">系統參數設定</a>

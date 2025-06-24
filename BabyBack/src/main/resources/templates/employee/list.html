@@ -311,13 +311,13 @@
 					</table>
 
 					<!-- 變更角色 Modal -->
-					<div class="modal fade" id="roleModal" tabindex="-1"
+				<!-- 	<div class="modal fade" id="roleModal" tabindex="-1"
 						aria-labelledby="roleModalLabel" aria-hidden="true">
-						<!-- id="roleModal" 會對應到按鈕的 data-bs-target="#roleModal" -->
+						id="roleModal" 會對應到按鈕的 data-bs-target="#roleModal"
 						<div class="modal-dialog">
 							<div class="modal-content">
 								<form id="roleForm" method="post" th:action="@{/employee/role}">
-									<!-- 對應post方法名稱 -->
+									對應post方法名稱
 									<div class="modal-header">
 										<h5 class="modal-title" id="roleModalLabel">變更權限</h5>
 										<button type="button" class="btn-close"
@@ -325,26 +325,26 @@
 									</div>
 									<div class="modal-body">
 										<input type="hidden" name="id" id="empId">
-										<!-- 用來放員工的 ID（看不到，但會送給後端）之後用 JS 動態改變這個欄位的值 -->
+										用來放員工的 ID（看不到，但會送給後端）之後用 JS 動態改變這個欄位的值
 										<div class="mb-3">
 											<label for="newRole" class="form-label">選擇權限：</label> <select
 												class="form-select" id="newRole" name="role" required>
-												<!-- 下拉選單新角色 -->
+												下拉選單新角色
 												<option value="ADMIN">ADMIN管理員</option>
 												<option value="SALES">SALES業務</option>
 												<option value="VIEWER">VIEWER訪客</option>
-												<!-- <option value="ROOT">ROOT</option> -->
+												<option value="ROOT">ROOT</option>
 											</select>
 										</div>
 									</div>
 									<div class="modal-footer">
 										<button type="submit" class="btn btn-primary">儲存</button>
-										<!-- type="submit"提交表單給遠端伺服器 -->
+										type="submit"提交表單給遠端伺服器
 									</div>
 								</form>
 							</div>
 						</div>
-					</div>
+					</div> -->
 					<!-- 從此以上寫右側區域功能 -->
 				</div>
 			</main>

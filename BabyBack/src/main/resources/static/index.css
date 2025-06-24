@@ -19,13 +19,15 @@
        /* "task pos info sale eis report finance inventory "
          "task pos info sale eis report finance inventory " */
      
-        "task info eis finance inventory "
-         "pos sale report finance inventory " 
+        "task pos report sale inventory "
+         "info finance report eis inventory " 
         /*  "finance finance finance finance" */;
      gap: 15px;
      padding: 20px;
      
  }
+ 
+ 
 
  .block {
      border: 2px dashed #ccc;
@@ -37,8 +39,29 @@
      font-size: 1.1rem;
      text-align: center;
      
-      width: 250px;       
+     width: 250px; 
  }
+ 
+.block .btn {
+  width: 90%;        /* 撐滿 .block 寬度 */
+  height: 50px;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn.disabled, 
+.btn:disabled {
+  height: 50px;
+  width: 90%;
+}
+
+.btn {
+  min-width: 180px;
+  max-width: 100%;
+  height: 50px;
+}
 
  .block-title {
      margin-bottom: 0.5rem;
@@ -48,6 +71,7 @@
  .block.vertical {
      flex-direction: column;
      align-items: center;
+    
  }
 
  .block.vertical .btn {
@@ -65,6 +89,7 @@
      width: auto;
      margin: 0.25rem;
  }
+ 
 
  .info {
      background-color: #ffe5e5;
@@ -132,10 +157,6 @@
 	line-height: 3;
 }
 
-.btn {
-  min-width: 200px;
-  max-width: 100%;
-  white-space: nowrap;
-} 
+
 
  

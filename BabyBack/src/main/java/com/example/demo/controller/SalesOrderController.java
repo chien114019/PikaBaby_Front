@@ -106,7 +106,7 @@ public class SalesOrderController {
             detail.setOrder(order);
             detail.setProduct(product);
             detail.setQuantity(quantities[i]);
-            detail.setUnitPrice(product.getPrice());
+            detail.setUnitPrice(product.getPrice()); // 現在會從SupplierProduct獲取價格
             detailList.add(detail);
         }
 

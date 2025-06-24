@@ -19,7 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-//@CrossOrigin(originPatterns = "*", allowCredentials = "true")
+@CrossOrigin(origins = "http://localhost:5501", allowCredentials = "true")
 @Controller
 @RequestMapping("/customers") // 所有路徑都會以 /customers 開頭
 public class CustomerController {
@@ -174,6 +174,7 @@ public class CustomerController {
 	    
 
 	    if (idObj == null) {
+	    	System.out.println("idObj == null");
 	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
 	                             .body(Map.of("error", "未登入"));
 	    }
@@ -182,7 +183,8 @@ public class CustomerController {
 	    Optional<Customer> optional = service.findById(id);
 
 	    if (optional.isEmpty()) {
-	        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+	    	System.out.println("optional.isEmpty()");
+	    	return ResponseEntity.status(HttpStatus.NOT_FOUND)
 	                             .body(Map.of("error", "會員不存在"));
 	    }
 

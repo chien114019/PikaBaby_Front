@@ -19,7 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = "http://localhost:5501", allowCredentials = "true")
+@CrossOrigin(origins = {"http://localhost:5501", "http://127.0.0.1:5501", "http://localhost:5503", "http://127.0.0.1:5503"}, allowCredentials = "true")
 @Controller
 @RequestMapping("/customers") // 所有路徑都會以 /customers 開頭
 public class CustomerController {
@@ -201,11 +201,99 @@ public class CustomerController {
 	    member.put("baby2Birthday", customer.getBaby2Birthday());
 	    member.put("address", customer.getAddress());
 
-	    return ResponseEntity.ok(member);
-	}
+	        return ResponseEntity.ok(member);
+}
 
-	
-	
-	
+    // 檢查登入狀態API
+    @GetMapping("/check-login")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> checkLoginStatus(HttpSession session) {
+        Object customerId = session.getAttribute("customerId");
+        
+        Map<String, Object> response = new HashMap<>();
+        
+        if (customerId != null) {
+            // 已登入
+            response.put("isLoggedIn", true);
+            response.put("customerId", customerId);
+            response.put("customerName", session.getAttribute("customerName"));
+        } else {
+            // 未登入
+            response.put("isLoggedIn", false);
+        }
+        
+        return ResponseEntity.ok(response);
+    }
+
+    // 獲取會員個人資料API（用於結帳自動帶入）
+    @GetMapping("/profile")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> getMemberProfile(HttpSession session) {
+        Object customerId = session.getAttribute("customerId");
+        
+        if (customerId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("error", "未登入"));
+        }
+        
+        try {
+            Integer id = (Integer) customerId;
+            Optional<Customer> optional = service.findById(id);
+            
+            if (optional.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(Map.of("error", "會員不存在"));
+            }
+            
+            Customer customer = optional.get();
+            
+            // 返回結帳需要的基本資料，包含會員點數
+            Map<String, Object> profile = new HashMap<>();
+            profile.put("name", customer.getName());
+            profile.put("phone", customer.getPhone());
+            profile.put("email", customer.getEmail());
+            profile.put("address", customer.getAddress());
+            profile.put("points", customer.getPoints() != null ? customer.getPoints() : 0);
+            
+            return ResponseEntity.ok(profile);
+            
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", "獲取會員資料失敗：" + e.getMessage()));
+        }
+    }
+
+    // 獲取會員點數API（專門用於點數查詢）
+    @GetMapping("/points")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> getMemberPoints(HttpSession session) {
+        Object customerId = session.getAttribute("customerId");
+        
+        if (customerId == null) {
+            return ResponseEntity.ok(Map.of("points", 0, "message", "未登入"));
+        }
+        
+        try {
+            Integer id = (Integer) customerId;
+            Optional<Customer> optional = service.findById(id);
+            
+            if (optional.isEmpty()) {
+                return ResponseEntity.ok(Map.of("points", 0, "message", "會員不存在"));
+            }
+            
+            Customer customer = optional.get();
+            Integer points = customer.getPoints() != null ? customer.getPoints() : 0;
+            
+            return ResponseEntity.ok(Map.of(
+                "points", points,
+                "customerId", customer.getId(),
+                "customerName", customer.getName()
+            ));
+            
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("points", 0, "error", "獲取點數失敗：" + e.getMessage()));
+        }
+    }
 }
 

@@ -219,12 +219,22 @@ public class ProductService {
     
     // 批量更新所有商品的計算庫存
     public void updateAllCalculatedStock() {
-        List<Product> products = repository.findAll();
-        for (Product product : products) {
-            Long calculatedStock = getCurrentCalculatedStock(product.getId());
-            product.setCalculatedStock(calculatedStock);
+        List<Product> allProducts = repository.findAll();
+        for (Product product : allProducts) {
+            updateCalculatedStock(product.getId());
         }
-        // 注意：不需要save，因為calculatedStock是@Transient字段
+    }
+
+    // 新增：獲取商品總銷售數量（排除已取消的訂單）
+    public Long getTotalSalesQuantity(Integer productId) {
+        try {
+            // 使用現有的方法，排除已取消的訂單
+            Long totalSales = salesOrderDetailRepository.sumQuantityByProductIdExcludeCancelled(productId);
+            return totalSales != null ? totalSales : 0L;
+        } catch (Exception e) {
+            System.err.println("計算商品銷售數量時發生錯誤 - 商品ID: " + productId + ", 錯誤: " + e.getMessage());
+            return 0L;
+        }
     }
 
 }

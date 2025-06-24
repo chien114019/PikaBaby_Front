@@ -186,13 +186,17 @@ public class ProductController {
     	    BigDecimal price = prices.get(i);
 
     	    Product p = productService.getById(id);
-    	    // 價格現在通過SupplierProduct管理，不再直接設定到Product
-    	    // TODO: 需要更新對應的SupplierProduct價格
     	    
     	    // 根據是否在 publishedIds 中來設定發布狀態
-    	    // 這樣既能發布新商品，也能取消發布
     	    boolean shouldPublish = publishedIds != null && publishedIds.contains(id);
     	    p.setPublished(shouldPublish);
+    	    
+    	    // 如果要發布商品且價格有效，則設定商品價格
+    	    if (shouldPublish && price != null && price.compareTo(BigDecimal.ZERO) > 0) {
+    	        p.setPrice(price.doubleValue());
+    	        System.out.println(String.format("商品 %d (%s): 設定價格 = %s", 
+    	            id, p.getName(), price));
+    	    }
     	    
     	    System.out.println(String.format("商品 %d (%s): published = %b", 
     	        id, p.getName(), shouldPublish));

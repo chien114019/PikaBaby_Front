@@ -384,7 +384,7 @@
                         </li>
                         <!-- ✅ 未登入時：跳 login，不顯示 dropdown -->
                         <li class="nav-item" id="loginNavItem" style="display: none;">
-                            <a class="nav-link" href="./Member/login.html">
+                            <a class="nav-link" href="../Member/login.html">
                                 <img src="../images/user.png" style="width: 30px;" alt="會員登入圖示">
                             </a>
                         </li>
@@ -396,7 +396,7 @@
                             </a>
                             <div class="dropdown-menu p-3 justify-content-center gap-5" id="dropdownForUser"
                                 aria-labelledby="navbarDropdown5">
-                                <a class="dropdown-item" href="./Member/member.html">會員中心</a>
+                                <a class="dropdown-item" href="../Member/member.html">會員中心</a>
                                 <a class="dropdown-item text-danger" href="#" onclick="logout()">登出</a>
                             </div>
                         </li>
@@ -428,7 +428,7 @@
                     </table>
                     <div id="cart-total"></div>
                     <div class="text-end">
-                        <button class="btn btn-primary" onclick="showCheckoutForm()">前往結帳</button>
+                        <button class="btn btn-primary" onclick="checkLoginAndProceed()">前往結帳</button>
                     </div>
                 </div>
             </div>
@@ -478,24 +478,35 @@
                     </div>
                 </div>
 
-                <!-- 收件資訊表單 -->
-                <form id="orderForm" onsubmit="submitOrder(event)" style="width:100%;max-width:600px;margin:0 auto;">
-                    <div class="mb-3">
-                        <label class="form-label">收件人姓名</label>
-                        <input type="text" class="form-control" name="name" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">聯絡電話</label>
-                        <input type="tel" class="form-control" name="phone" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Email</label>
-                        <input type="email" class="form-control" name="email" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">收件地址</label>
-                        <input type="text" class="form-control" name="address" required>
-                    </div>
+                                  <!-- 收件資訊表單 -->
+                  <form id="orderForm" onsubmit="submitOrder(event)" style="width:100%;max-width:600px;margin:0 auto;">
+                      <!-- 會員資料自動帶入選項 -->
+                      <div class="mb-4 p-3" style="background-color: #f8f9fa; border-radius: 8px; border: 1px solid #dee2e6;">
+                          <div class="form-check">
+                              <input class="form-check-input" type="checkbox" id="useMemberData" onchange="toggleMemberData()">
+                              <label class="form-check-label fw-bold" for="useMemberData" style="color: #0d6efd;">
+                                  使用會員資料作為收件人資訊
+                              </label>
+                          </div>
+                          <small class="text-muted">勾選此選項將自動帶入您的會員資料，並鎖定收件人欄位</small>
+                      </div>
+
+                      <div class="mb-3">
+                          <label class="form-label">收件人姓名</label>
+                          <input type="text" class="form-control" name="name" id="recipientName" required>
+                      </div>
+                                          <div class="mb-3">
+                          <label class="form-label">聯絡電話</label>
+                          <input type="tel" class="form-control" name="phone" id="recipientPhone" required>
+                      </div>
+                      <div class="mb-3">
+                          <label class="form-label">Email</label>
+                          <input type="email" class="form-control" name="email" id="recipientEmail" required>
+                      </div>
+                      <div class="mb-3">
+                          <label class="form-label">收件地址</label>
+                          <input type="text" class="form-control" name="address" id="recipientAddress" required>
+                      </div>
                     <div class="mb-3">
                         <label class="form-label">付款方式</label>
                         <select class="form-select" name="paymentMethod" required>
@@ -560,17 +571,67 @@
     <script>
         let cartItems = [];
 
+        // 檢查會員登入狀態並進行結帳
+        async function checkLoginAndProceed() {
+            try {
+                // 檢查會員登入狀態
+                const response = await fetch('http://localhost:8080/customers/check-login', {
+                    method: 'GET',
+                    credentials: 'include' // 包含 Session cookie
+                });
+                
+                if (response.ok) {
+                    const loginStatus = await response.json();
+                    
+                    if (loginStatus.isLoggedIn) {
+                        // 已登入，直接進入結帳流程
+                        console.log('✅ 會員已登入，進入結帳流程');
+                        await showCheckoutForm();
+                    } else {
+                        // 未登入，提示登入
+                        showLoginPrompt();
+                    }
+                } else {
+                    // API錯誤，暫時允許結帳（向下兼容）
+                    console.warn('⚠️ 無法檢查登入狀態，允許結帳');
+                    await showCheckoutForm();
+                }
+            } catch (error) {
+                console.error('❌ 檢查登入狀態失敗:', error);
+                // 網路錯誤，暫時允許結帳
+                await showCheckoutForm();
+            }
+        }
+
+        // 顯示登入提示
+        function showLoginPrompt() {
+            const loginConfirm = confirm(
+                '請先登入會員才能進行結帳！\n\n' +
+                '點擊「確定」前往登入頁面\n' +
+                '點擊「取消」繼續瀏覽商品'
+            );
+            
+            if (loginConfirm) {
+                // 儲存當前頁面到登入後返回
+                sessionStorage.setItem('returnToCheckout', 'true');
+                window.location.href = '../Member/login.html';
+            }
+        }
+
         // 當頁面加載時執行
-        document.addEventListener('DOMContentLoaded', function () {
-            loadCart();
-            // 檢查是否需要直接顯示結帳表單
+        document.addEventListener('DOMContentLoaded', async function () {
+            await loadCart();
+            // 檢查是否需要直接顯示結帳表單（從登入頁面返回）
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.get('checkout') === 'true') {
-                showCheckoutForm();
+                // 清理URL參數
+                window.history.replaceState({}, document.title, window.location.pathname);
+                // 延遲一點再顯示結帳表單，確保頁面渲染完成
+                setTimeout(async () => {
+                    await showCheckoutForm();
+                }, 100);
             }
-            const availablePoints = 100; // 假設會員點數
-            const pointsSpan = document.getElementById('availablePoints');
-            if (pointsSpan) pointsSpan.textContent = availablePoints;
+            // 會員點數將在顯示結帳表單時動態載入
             // 檢查加購商品按鈕狀態
             let cart = JSON.parse(localStorage.getItem('cart')) || [];
             if (cart.find(item => item.name === '加購商品A')) {
@@ -583,20 +644,24 @@
             }
         });
 
-        // 從 localStorage 加載購物車數據
-        function loadCart() {
+        // 從 localStorage 加載購物車數據並同步商品資訊
+        async function loadCart() {
             const cart = JSON.parse(localStorage.getItem('cart')) || [];
             const cartContainer = document.getElementById('cart-items');
             cartContainer.innerHTML = '';
             let total = 0;
+            
             if (cart.length === 0) {
                 cartContainer.innerHTML = '<tr><td colspan="6">購物車是空的</td></tr>';
             } else {
-                cart.forEach((item, idx) => {
+                // 同步更新購物車中的商品資訊
+                const updatedCart = await syncCartWithDatabase(cart);
+                
+                updatedCart.forEach((item, idx) => {
                     const imgSrc = item.image && item.image.trim() !== '' ? item.image : 'https://via.placeholder.com/80x80?text=No+Image';
                     const row = document.createElement('tr');
                     row.innerHTML = `
-              <td><img src="${imgSrc}" alt="${item.name}" style="width:60px;height:60px;object-fit:cover;border-radius:8px;"></td>
+              <td><img src="${imgSrc}" alt="${item.name}" style="width:60px;height:60px;object-fit:cover;border-radius:8px;" onerror="this.src='../images/baby.jpg';"></td>
               <td>${item.name}</td>
               <td>NT$${item.price}</td>
               <td>
@@ -610,23 +675,95 @@
                     cartContainer.appendChild(row);
                     total += item.price * item.quantity;
                 });
+                
+                // 更新localStorage
+                localStorage.setItem('cart', JSON.stringify(updatedCart));
             }
             document.getElementById('cart-total').textContent = `總計：NT$ ${total}`;
         }
 
-        function updateQuantity(idx, delta) {
-            let cart = JSON.parse(localStorage.getItem('cart')) || [];
-            cart[idx].quantity = Math.max(1, cart[idx].quantity + delta);
-            localStorage.setItem('cart', JSON.stringify(cart));
-            loadCart();
+        // 同步購物車商品資訊與資料庫
+        async function syncCartWithDatabase(cart) {
+            const updatedCart = [];
+            
+            for (const item of cart) {
+                try {
+                    // 從後端獲取最新的商品資訊
+                    const response = await fetch(`http://localhost:8080/products/front/detail/${item.id}`);
+                    
+                    if (response.ok) {
+                        const productData = await response.json();
+                        if (productData.success) {
+                            // 更新商品資訊，保留購物車中的數量
+                            const updatedItem = {
+                                id: item.id,
+                                name: productData.name,
+                                price: productData.price,
+                                quantity: item.quantity,
+                                image: productData.primaryImageUrl ? 
+                                    (productData.primaryImageUrl.startsWith('/products/front/images/') ? 
+                                        'http://localhost:8080' + productData.primaryImageUrl : 
+                                        productData.primaryImageUrl) : 
+                                    '../images/baby.jpg'
+                            };
+                            updatedCart.push(updatedItem);
+                            console.log(`✅ 已更新商品資訊: ${productData.name}`);
+                        } else {
+                            console.warn(`⚠️ 商品 ${item.name} (ID: ${item.id}) 可能已下架或庫存不足，保留原資訊`);
+                            updatedCart.push(item);
+                        }
+                    } else {
+                        console.warn(`⚠️ 無法獲取商品 ${item.name} (ID: ${item.id}) 的最新資訊，保留原資訊`);
+                        updatedCart.push(item);
+                    }
+                } catch (error) {
+                    console.error(`❌ 同步商品 ${item.name} (ID: ${item.id}) 時發生錯誤:`, error);
+                    updatedCart.push(item);
+                }
+            }
+            
+            return updatedCart;
         }
 
-        function removeItem(idx) {
+        async function updateQuantity(idx, delta) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const currentItem = cart[idx];
+            const newQuantity = Math.max(1, currentItem.quantity + delta);
+            
+            // 如果是增加數量，需要檢查庫存
+            if (delta > 0 && newQuantity > currentItem.quantity) {
+                try {
+                    // 呼叫後端API檢查庫存
+                    const response = await fetch(`http://localhost:8080/products/api/stock/${currentItem.id}`);
+                    if (response.ok) {
+                        const stockData = await response.json();
+                        const availableStock = stockData.stock || 0;
+                        
+                        if (newQuantity > availableStock) {
+                            alert(`庫存不足！「${currentItem.name}」目前庫存僅剩 ${availableStock} 件`);
+                            return; // 不更新數量
+                        }
+                    } else {
+                        console.warn('無法檢查庫存，允許增加數量');
+                    }
+                } catch (error) {
+                    console.error('檢查庫存時發生錯誤:', error);
+                    console.warn('庫存檢查失敗，允許增加數量');
+                }
+            }
+            
+            // 更新數量
+            cart[idx].quantity = newQuantity;
+            localStorage.setItem('cart', JSON.stringify(cart));
+            await loadCart();
+        }
+
+        async function removeItem(idx) {
             if (confirm('確定要刪除此商品嗎？')) {
                 let cart = JSON.parse(localStorage.getItem('cart')) || [];
                 cart.splice(idx, 1);
                 localStorage.setItem('cart', JSON.stringify(cart));
-                loadCart();
+                await loadCart();
             }
         }
 
@@ -635,7 +772,7 @@
         }
 
         // 顯示結帳表單
-        function showCheckoutForm() {
+        async function showCheckoutForm() {
             const cart = JSON.parse(localStorage.getItem('cart')) || [];
             if (cart.length === 0) {
                 alert('購物車是空的！');
@@ -643,43 +780,214 @@
             }
 
             // 渲染訂單項目
-            renderOrderItems(cart);
+            await renderOrderItems(cart);
 
             // 切換顯示
             document.getElementById('cartContent').style.display = 'none';
             document.getElementById('checkoutForm').style.display = 'block';
 
+            // 初始化會員資料選項
+            initializeMemberDataOption();
+
             // 更新會員點數顯示
-            const pointsInput = document.getElementById('points');
-            const availablePoints = document.getElementById('availablePoints');
-            if (pointsInput && availablePoints) {
-                pointsInput.max = availablePoints.textContent;
-                pointsInput.value = '0'; // 重置點數輸入
-            }
+            updateMemberPoints();
 
             // 更新總金額
             updateTotal();
         }
 
+        // 會員資料全域變數
+        let memberData = null;
+        let memberPoints = 0;
+
+        // 會員資料自動帶入功能
+        async function initializeMemberDataOption() {
+            try {
+                const response = await fetch('http://localhost:8080/customers/profile', {
+                    method: 'GET',
+                    credentials: 'include'
+                });
+                
+                if (response.ok) {
+                    memberData = await response.json();
+                    console.log('會員資料載入成功:', memberData);
+                    
+                    // 顯示勾選選項
+                    const memberDataOption = document.querySelector('.mb-4.p-3');
+                    if (memberDataOption) {
+                        memberDataOption.style.display = 'block';
+                    }
+                } else {
+                    console.log('無法載入會員資料，隱藏選項');
+                    const memberDataOption = document.querySelector('.mb-4.p-3');
+                    if (memberDataOption) {
+                        memberDataOption.style.display = 'none';
+                    }
+                }
+            } catch (error) {
+                console.error('載入會員資料失敗:', error);
+                const memberDataOption = document.querySelector('.mb-4.p-3');
+                if (memberDataOption) {
+                    memberDataOption.style.display = 'none';
+                }
+            }
+        }
+
+        // 切換會員資料使用狀態
+        function toggleMemberData() {
+            const checkbox = document.getElementById('useMemberData');
+            const nameField = document.getElementById('recipientName');
+            const phoneField = document.getElementById('recipientPhone');
+            const emailField = document.getElementById('recipientEmail');
+            const addressField = document.getElementById('recipientAddress');
+            
+            if (checkbox.checked && memberData) {
+                // 填入會員資料並禁用欄位
+                nameField.value = memberData.name || '';
+                phoneField.value = memberData.phone || '';
+                emailField.value = memberData.email || '';
+                addressField.value = memberData.address || '';
+                
+                // 設為禁用狀態
+                nameField.disabled = true;
+                phoneField.disabled = true;
+                emailField.disabled = true;
+                addressField.disabled = true;
+                
+                // 視覺效果
+                nameField.style.backgroundColor = '#f8f9fa';
+                phoneField.style.backgroundColor = '#f8f9fa';
+                emailField.style.backgroundColor = '#f8f9fa';
+                addressField.style.backgroundColor = '#f8f9fa';
+                
+                console.log('已帶入會員資料並鎖定欄位');
+            } else {
+                // 清空並啟用欄位
+                nameField.value = '';
+                phoneField.value = '';
+                emailField.value = '';
+                addressField.value = '';
+                
+                // 恢復可編輯狀態
+                nameField.disabled = false;
+                phoneField.disabled = false;
+                emailField.disabled = false;
+                addressField.disabled = false;
+                
+                // 恢復原始樣式
+                nameField.style.backgroundColor = '';
+                phoneField.style.backgroundColor = '';
+                emailField.style.backgroundColor = '';
+                addressField.style.backgroundColor = '';
+                
+                console.log('已清空欄位並解除鎖定');
+            }
+        }
+
+        // 更新會員點數顯示
+        async function updateMemberPoints() {
+            try {
+                const response = await fetch('http://localhost:8080/customers/points', {
+                    method: 'GET',
+                    credentials: 'include'
+                });
+                
+                if (response.ok) {
+                    const pointsData = await response.json();
+                    memberPoints = pointsData.points || 0;
+                    
+                    console.log('✅ 會員點數載入成功:', memberPoints);
+                    
+                    // 更新點數顯示
+                    const availablePointsSpan = document.getElementById('availablePoints');
+                    const pointsInput = document.getElementById('points');
+                    const pointsLabel = document.querySelector('label[for="points"]');
+                    
+                    if (availablePointsSpan) {
+                        availablePointsSpan.textContent = memberPoints;
+                    }
+                    
+                    if (pointsInput) {
+                        pointsInput.max = memberPoints;
+                        pointsInput.value = '0';
+                        
+                        if (memberPoints > 0) {
+                            pointsInput.disabled = false;
+                            pointsInput.placeholder = `可使用 0-${memberPoints} 點`;
+                        } else {
+                            pointsInput.disabled = true;
+                            pointsInput.placeholder = '無可用點數';
+                        }
+                    }
+                    
+                    if (pointsLabel && memberPoints <= 0) {
+                        pointsLabel.innerHTML = '使用點數 <small class="text-muted">(無可用點數)</small>';
+                    }
+                    
+                } else {
+                    console.log('🔍 無法載入會員點數，可能未登入');
+                    memberPoints = 0;
+                    
+                    // 設為未登入狀態
+                    const availablePointsSpan = document.getElementById('availablePoints');
+                    const pointsInput = document.getElementById('points');
+                    const pointsLabel = document.querySelector('label[for="points"]');
+                    
+                    if (availablePointsSpan) {
+                        availablePointsSpan.textContent = '0';
+                    }
+                    
+                    if (pointsInput) {
+                        pointsInput.disabled = true;
+                        pointsInput.value = '0';
+                        pointsInput.placeholder = '請先登入';
+                    }
+                    
+                    if (pointsLabel) {
+                        pointsLabel.innerHTML = '使用點數 <small class="text-muted">(請先登入)</small>';
+                    }
+                }
+            } catch (error) {
+                console.error('❌ 載入會員點數失敗:', error);
+                memberPoints = 0;
+                
+                // 設為錯誤狀態
+                const availablePointsSpan = document.getElementById('availablePoints');
+                const pointsInput = document.getElementById('points');
+                
+                if (availablePointsSpan) {
+                    availablePointsSpan.textContent = '0';
+                }
+                
+                if (pointsInput) {
+                    pointsInput.disabled = true;
+                    pointsInput.value = '0';
+                    pointsInput.placeholder = '載入失敗';
+                }
+            }
+        }
+
         // 渲染結帳明細
-        function renderOrderItems(cart) {
+        async function renderOrderItems(cart) {
             const orderItems = document.getElementById('orderItems');
             orderItems.innerHTML = '';
             let subtotal = 0;
-            cart.forEach((item, idx) => {
+            
+            // 確保使用最新的商品資訊（包括圖片）
+            const updatedCart = await syncCartWithDatabase(cart);
+            
+            updatedCart.forEach((item, idx) => {
                 const imgSrc = item.image && item.image.trim() !== '' ? item.image : 'https://via.placeholder.com/80x80?text=No+Image';
                 const orderItem = document.createElement('div');
                 orderItem.className = 'order-item';
                 orderItem.innerHTML = `
             <div class="order-item-image">
-              <img src="${imgSrc}" alt="${item.name}">
+              <img src="${imgSrc}" alt="${item.name}" onerror="this.src='../images/baby.jpg';">
             </div>
             <div class="order-item-details">
               <div class="product-name">${item.name}</div>
               <div class="product-specs">
-                <button onclick="updateOrderItemQuantity(${idx}, -1)" class="btn btn-sm btn-outline-secondary">-</button>
-                <span style="margin:0 8px;">${item.quantity}</span>
-                <button onclick="updateOrderItemQuantity(${idx}, 1)" class="btn btn-sm btn-outline-secondary">+</button>
+                <span class="text-muted">數量：${item.quantity}</span>
                 <button onclick="removeOrderItem(${idx})" class="btn btn-sm btn-danger ms-2">刪除</button>
               </div>
             </div>
@@ -690,6 +998,10 @@
                 orderItems.appendChild(orderItem);
                 subtotal += item.price * item.quantity;
             });
+            
+            // 更新localStorage以保存最新的商品資訊
+            localStorage.setItem('cart', JSON.stringify(updatedCart));
+            
             document.getElementById('orderSubtotal').textContent = subtotal;
             document.getElementById('orderTotal').textContent = subtotal;
             document.getElementById('shippingFee').textContent = 0;
@@ -697,22 +1009,15 @@
             updateTotal();
         }
 
-        // 結帳明細增減數量
-        function updateOrderItemQuantity(idx, delta) {
-            let cart = JSON.parse(localStorage.getItem('cart')) || [];
-            cart[idx].quantity = Math.max(1, cart[idx].quantity + delta);
-            localStorage.setItem('cart', JSON.stringify(cart));
-            renderOrderItems(cart);
-            updateTotal();
-        }
+        // 已移除結帳明細的數量調整功能，僅在購物車階段可調整
 
         // 結帳明細刪除
-        function removeOrderItem(idx) {
+        async function removeOrderItem(idx) {
             if (confirm('確定要刪除此商品嗎？')) {
                 let cart = JSON.parse(localStorage.getItem('cart')) || [];
                 cart.splice(idx, 1);
                 localStorage.setItem('cart', JSON.stringify(cart));
-                renderOrderItems(cart);
+                await renderOrderItems(cart);
                 updateTotal();
             }
         }
@@ -723,19 +1028,11 @@
             document.getElementById('checkoutForm').style.display = 'none';
         }
 
-        // 客戶資訊變更時的處理函數
+        // 客戶資訊變更時的處理函數（已登入會員不需要此功能）
         function onCustomerInfoChange() {
-            const nameInput = document.querySelector('input[name="name"]');
-            const emailInput = document.querySelector('input[name="email"]');
-            
-            const customerName = nameInput ? nameInput.value.trim() : '';
-            const customerEmail = emailInput ? emailInput.value.trim() : '';
-            
-            // 只有當姓名或email有值時才查詢
-            if (customerName || customerEmail) {
-                console.log('🔄 客戶資訊變更，重新查詢點數...');
-                loadMemberPoints(customerName, customerEmail);
-            }
+            // 會員登入後，點數會在進入結帳頁面時自動載入
+            // 不需要根據表單輸入重新查詢
+            console.log('🔄 客戶資訊變更（會員點數已在登入時載入）');
         }
 
         // 點數輸入驗證和更新
@@ -789,13 +1086,25 @@
                 // 獲取使用的點數
                 const pointsUsed = parseInt(document.getElementById('points').value) || 0;
                 
+                // 直接從DOM元素獲取值（避免禁用欄位問題）
+                const name = document.getElementById('recipientName').value.trim();
+                const phone = document.getElementById('recipientPhone').value.trim();
+                const email = document.getElementById('recipientEmail').value.trim();
+                const address = document.getElementById('recipientAddress').value.trim();
+                const paymentMethod = formData.get('paymentMethod');
+
+                // 前端驗證
+                if (!name || !phone || !email || !address || !paymentMethod) {
+                    throw new Error('請填寫完整的收件人資訊和付款方式');
+                }
+
                 // 準備訂單數據
                 const orderData = {
-                    name: formData.get('name'),
-                    phone: formData.get('phone'),
-                    email: formData.get('email'),
-                    address: formData.get('address'),
-                    paymentMethod: formData.get('paymentMethod'),
+                    name: name,
+                    phone: phone,
+                    email: email,
+                    address: address,
+                    paymentMethod: paymentMethod,
                     pointsUsed: pointsUsed,
                     totalAmount: parseFloat(document.getElementById('orderTotal').textContent.replace(/[^0-9.-]+/g, '')),
                     items: cart.map(item => {
@@ -880,7 +1189,7 @@
         }
 
         // 加購商品加入購物車（結帳頁專用）
-        function addAddonToCart(productName, price, imageUrl, btn, productId) {
+        async function addAddonToCart(productName, price, imageUrl, btn, productId) {
             let cart = JSON.parse(localStorage.getItem('cart')) || [];
             const idx = cart.findIndex(item => item.name === productName);
             if (idx > -1) {
@@ -900,8 +1209,8 @@
             }
             localStorage.setItem('cart', JSON.stringify(cart));
             alert(`已將 ${productName} 加入購物車！`);
-            loadCart();
-            renderOrderItems(cart);
+            await loadCart();
+            await renderOrderItems(cart);
             updateTotal();
             // 按鈕變成已加入且不能再點
             if (btn) {

@@ -26,7 +26,7 @@ import com.example.demo.model.Response;
 import com.example.demo.model.Withdrawal;
 import com.example.demo.service.ConsignmentService;
 
-@CrossOrigin(origins = "*")
+@CrossOrigin(originPatterns = "*", allowCredentials = "true")
 @Controller
 @RequestMapping("/secondhand")
 public class ConsignmentController {

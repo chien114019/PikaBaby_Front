@@ -72,7 +72,13 @@ public class SalesOrderService {
                 detail.setOrder(savedOrder); // 確保關聯正確
                 SalesOrderDetail savedDetail = detailRepository.save(detail);
                 System.out.println("✅ 訂單詳情已保存，ID: " + savedDetail.getId() + 
-                                  ", 商品: " + savedDetail.getProduct().getName());
+                                  ", 商品ID: " + savedDetail.getProduct().getId() +
+                                  ", 商品名稱: " + savedDetail.getProduct().getName() +
+                                  ", 數量: " + savedDetail.getQuantity());
+                
+                // 立即檢查保存後的庫存變化
+                Long newStock = getCurrentStock(savedDetail.getProduct().getId());
+                System.out.println("📊 保存後商品 " + savedDetail.getProduct().getName() + " 的庫存: " + newStock);
             }
         }
         
@@ -190,12 +196,16 @@ public class SalesOrderService {
      */
     @Transactional
     public Map<String, Object> processCartOrder(Map<String, Object> orderData) throws Exception {
+        System.out.println("🛒🛒🛒 === 開始處理購物車訂單 === 🛒🛒🛒");
+        
         // 獲取訂單基本資料
         String customerName = (String) orderData.get("name");
         String phone = (String) orderData.get("phone");
         String email = (String) orderData.get("email");
         String address = (String) orderData.get("address");
         String paymentMethod = (String) orderData.get("paymentMethod");
+        
+        System.out.println("👤 客戶資料 - 姓名: " + customerName + ", 電話: " + phone + ", 地址: " + address);
         
         // 獲取點數使用資料
         Integer pointsUsed = 0;

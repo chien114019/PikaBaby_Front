@@ -113,7 +113,32 @@ public class ProductService {
     public Long getCurrentCalculatedStock(Integer productId) {
         Integer totalIn = purchaseDetailRepository.sumQuantityBySupplierProduct_Product_Id(productId);
         Long totalOut = salesOrderDetailRepository.sumQuantityByProductId(productId);
-        return (totalIn != null ? totalIn : 0L) - (totalOut != null ? totalOut : 0L);
+        
+        // 除錯日誌
+        System.out.println("=== 庫存計算除錯 ===");
+        System.out.println("商品ID: " + productId);
+        System.out.println("進貨總數量(totalIn): " + (totalIn != null ? totalIn : 0));
+        System.out.println("銷售總數量(totalOut): " + (totalOut != null ? totalOut : 0));
+        
+        // 詳細查詢銷售記錄
+        try {
+            java.util.List<com.example.demo.model.SalesOrderDetail> salesDetails = 
+                salesOrderDetailRepository.findByProductId(productId);
+            System.out.println("銷售記錄數量: " + salesDetails.size());
+            for (com.example.demo.model.SalesOrderDetail detail : salesDetails) {
+                System.out.println("  - 訂單ID: " + detail.getOrder().getId() + 
+                                  ", 數量: " + detail.getQuantity() + 
+                                  ", 訂單狀態: " + detail.getOrder().getStatus());
+            }
+        } catch (Exception e) {
+            System.err.println("查詢銷售記錄時發生錯誤: " + e.getMessage());
+        }
+        
+        Long result = (totalIn != null ? totalIn : 0L) - (totalOut != null ? totalOut : 0L);
+        System.out.println("計算結果庫存: " + result);
+        System.out.println("=== 庫存計算除錯結束 ===");
+        
+        return result;
     }
     
     public long calculateStock(Integer integer) {

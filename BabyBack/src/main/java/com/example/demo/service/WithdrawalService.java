@@ -136,9 +136,9 @@ public class WithdrawalService {
 	}
 	
 //	createWithdraw
-	public Response createWithdraw(Map<String, Object> body) {
+	public Response createWithdraw(Map<String, Object> body, String custId) {
 		Response response = new Response();
-		String custId = body.get("custId").toString();
+//		String custId = body.get("custId").toString();
 		String amount = body.get("amount").toString();
 		String bankId = body.get("bankId").toString();
 		String bankAccount = body.get("bankAccount").toString();

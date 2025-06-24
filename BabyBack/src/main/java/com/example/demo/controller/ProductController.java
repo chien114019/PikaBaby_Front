@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
+@CrossOrigin(origins = {"http://localhost:5501", "http://127.0.0.1:5501"}, allowCredentials = "true")
 @Controller
 @RequestMapping("/products")
 public class ProductController {
@@ -484,6 +485,133 @@ public class ProductController {
         }
     }
 
+    // 新增：獲取每月商品銷售排行榜 - 前三名
+    @GetMapping("/front/rankings/monthly")
+    @ResponseBody
+    public List<Map<String, Object>> getMonthlySalesRanking() {
+        try {
+            // 獲取所有已發布且有銷售記錄的商品
+            List<Product> publishedProducts = productRepository.findByPublishedTrue();
+            List<Map<String, Object>> rankingList = new ArrayList<>();
+            
+            for (Product product : publishedProducts) {
+                // 計算該商品的總銷售數量（排除已取消的訂單）
+                Long totalSales = productService.getTotalSalesQuantity(product.getId());
+                
+                if (totalSales != null && totalSales > 0) {
+                    // 處理圖片URL
+                    String imageUrl = product.getPrimaryImageUrl();
+                    
+                    // 處理價格
+                    Double price = product.getPrice();
+                    if (price == null || price <= 0) {
+                        price = 100.0; // 預設價格
+                    }
+                    
+                    Map<String, Object> rankingItem = new HashMap<>();
+                    rankingItem.put("id", product.getId());
+                    rankingItem.put("name", product.getName());
+                    rankingItem.put("image", imageUrl);
+                    rankingItem.put("price", price.intValue());
+                    rankingItem.put("sold", totalSales.intValue());
+                    
+                    rankingList.add(rankingItem);
+                }
+            }
+            
+            // 按銷售數量降序排序，取前3名
+            rankingList.sort((a, b) -> {
+                Integer soldA = (Integer) a.get("sold");
+                Integer soldB = (Integer) b.get("sold");
+                return soldB.compareTo(soldA);
+            });
+            
+            // 只返回前3名
+            List<Map<String, Object>> top3 = rankingList.stream()
+                    .limit(3)
+                    .toList();
+            
+            System.out.println("月銷售排行榜API返回 " + top3.size() + " 個商品");
+            return top3;
+            
+        } catch (Exception e) {
+            System.err.println("獲取月銷售排行榜時發生錯誤: " + e.getMessage());
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
+    }
 
+    // 新增：獲取二手商品排行榜 - 前三名 (暫時返回空列表，後續可擴展)
+    @GetMapping("/front/rankings/secondhand")
+    @ResponseBody
+    public List<Map<String, Object>> getSecondhandRanking() {
+        try {
+            // 目前先返回空列表，後續可根據二手託售數據實現
+            System.out.println("二手商品排行榜API被調用 - 暫時返回空列表");
+            return new ArrayList<>();
+        } catch (Exception e) {
+            System.err.println("獲取二手商品排行榜時發生錯誤: " + e.getMessage());
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
+    }
+
+    // 新增：測試API - 檢查銷售數據和排行榜邏輯
+    @GetMapping("/front/rankings/debug")
+    @ResponseBody
+    public Map<String, Object> debugRankings() {
+        Map<String, Object> debug = new HashMap<>();
+        
+        try {
+            // 1. 檢查已發布商品
+            List<Product> publishedProducts = productRepository.findByPublishedTrue();
+            debug.put("publishedProductsCount", publishedProducts.size());
+            debug.put("publishedProducts", publishedProducts.stream()
+                .map(p -> Map.of("id", p.getId(), "name", p.getName(), "published", p.getPublished()))
+                .toList());
+            
+            // 2. 檢查銷售記錄
+            List<Map<String, Object>> salesData = new ArrayList<>();
+            for (Product product : publishedProducts) {
+                Long totalSales = productService.getTotalSalesQuantity(product.getId());
+                String imageUrl = product.getPrimaryImageUrl();
+                Double price = product.getPrice();
+                
+                Map<String, Object> productSales = new HashMap<>();
+                productSales.put("id", product.getId());
+                productSales.put("name", product.getName());
+                productSales.put("totalSales", totalSales);
+                productSales.put("imageUrl", imageUrl);
+                productSales.put("price", price);
+                productSales.put("published", product.getPublished());
+                
+                salesData.add(productSales);
+            }
+            debug.put("salesData", salesData);
+            
+            // 3. 檢查所有銷售記錄（不限於已發布商品）
+            List<Product> allProducts = productRepository.findAll();
+            List<Map<String, Object>> allSalesData = new ArrayList<>();
+            for (Product product : allProducts.stream().limit(10).toList()) { // 限制10個避免太多數據
+                Long totalSales = productService.getTotalSalesQuantity(product.getId());
+                if (totalSales > 0) {
+                    Map<String, Object> productSales = new HashMap<>();
+                    productSales.put("id", product.getId());
+                    productSales.put("name", product.getName());
+                    productSales.put("totalSales", totalSales);
+                    productSales.put("published", product.getPublished());
+                    allSalesData.add(productSales);
+                }
+            }
+            debug.put("allProductsWithSales", allSalesData);
+            
+            return debug;
+            
+        } catch (Exception e) {
+            debug.put("error", e.getMessage());
+            e.printStackTrace();
+            return debug;
+        }
+    }
 
 }

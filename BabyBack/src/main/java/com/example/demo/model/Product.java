@@ -15,13 +15,6 @@ public class Product {
 
     private String name;
     
-    // 配合資料庫使用 Double 型別
-    private Double price;
-    
-    // 配合資料庫的庫存欄位
-    private Long stock;
-    
-   
     // 如果資料庫沒有這些欄位，JPA會忽略它們
     @Column(name = "specification")
     private String specification;
@@ -87,22 +80,6 @@ public class Product {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    public Long getStock() {
-        return stock;
-    }
-
-    public void setStock(Long stock) {
-        this.stock = stock;
     }
 
     public String getSpecification() {
@@ -257,14 +234,5 @@ public class Product {
         if (Boolean.TRUE.equals(age3)) ranges.add("6-12M");
         if (Boolean.TRUE.equals(age4)) ranges.add("2-3Y");
         return ranges;
-    }
-
-    // 價格轉換方法（為了與其他使用 BigDecimal 的代碼兼容）
-    public BigDecimal getPriceAsBigDecimal() {
-        return price != null ? BigDecimal.valueOf(price) : BigDecimal.ZERO;
-    }
-
-    public void setPriceFromBigDecimal(BigDecimal price) {
-        this.price = price != null ? price.doubleValue() : null;
     }
 }

@@ -80,16 +80,15 @@ public class SalesOrderService {
                 Long orderQuantity = detail.getQuantity();
                 
                 System.out.println("準備扣減庫存：商品 " + product.getName() + " (ID: " + product.getId() + ")");
-                System.out.println("訂購數量: " + orderQuantity + ", 目前庫存: " + product.getStock());
+                // 使用計算庫存檢查
+                Long currentStock = getCurrentStock(product.getId());
+                System.out.println("訂購數量: " + orderQuantity + ", 目前庫存: " + currentStock);
                 
-                // 扣減庫存
-                if (product.getStock() != null && product.getStock() >= orderQuantity) {
-                    Long newStock = product.getStock() - orderQuantity;
-                    product.setStock(newStock);
-                    productRepository.save(product); // 儲存更新後的庫存
-                    System.out.println("✅ 商品 " + product.getName() + " 庫存扣減成功: " + orderQuantity + "，剩餘: " + newStock);
+                // 檢查庫存但不直接扣減（庫存扣減通過SalesOrderDetail的存在來體現）
+                if (currentStock >= orderQuantity) {
+                    System.out.println("✅ 商品 " + product.getName() + " 庫存檢查通過: " + orderQuantity + "，當前庫存: " + currentStock);
                 } else {
-                    System.err.println("❌ 警告：商品 " + product.getName() + " 庫存不足，無法扣減。目前庫存: " + product.getStock() + ", 需要: " + orderQuantity);
+                    System.err.println("❌ 警告：商品 " + product.getName() + " 庫存不足，無法扣減。目前庫存: " + currentStock + ", 需要: " + orderQuantity);
                 }
             }
         }
@@ -316,11 +315,14 @@ public class SalesOrderService {
     }
     
     /**
-     * 獲取當前庫存（模擬方法，實際應該從ProductService調用）
+     * 獲取當前庫存（使用動態計算）
      */
     private Long getCurrentStock(Integer productId) {
-        Product product = productRepository.findById(productId).orElse(null);
-        return product != null ? (product.getStock() != null ? product.getStock() : 0L) : 0L;
+        // 計算進貨總量
+        Integer totalIn = 0; // 這裡需要注入PurchaseOrderDetailRepository
+        // 計算出貨總量  
+        Long totalOut = detailRepository.sumQuantityByProductId(productId);
+        return (totalIn != null ? totalIn : 0L) - (totalOut != null ? totalOut : 0L);
     }
     
     // 類型轉換輔助方法

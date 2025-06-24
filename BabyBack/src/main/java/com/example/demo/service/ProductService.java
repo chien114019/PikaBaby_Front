@@ -106,10 +106,9 @@ public class ProductService {
         return products;
     }
 
-    // 前台電商用：快速庫存查詢
+    // 前台電商用：快速庫存查詢（改為使用計算庫存）
     public Long getCurrentStock(Integer productId) {
-        Product product = repository.findById(productId).orElse(null);
-        return product != null ? (product.getStock() != null ? product.getStock() : 0L) : 0L;
+        return getCurrentCalculatedStock(productId);
     }
     
     // 後台ERP用：動態計算庫存
@@ -156,7 +155,7 @@ public class ProductService {
         return repository.findAll(); // 不過濾
     }
 
-    // 防超賣庫存扣除方法（暫時移除事務控制）
+    // 防超賣庫存扣除方法（使用計算庫存）
     // @Transactional
     public void deductStock(Integer productId, Long quantity) {
         Product product = repository.findById(productId).orElse(null);
@@ -173,44 +172,36 @@ public class ProductService {
             throw new RuntimeException("商品未發布，無法購買");
         }
         
-        Long currentStock = product.getStock() != null ? product.getStock() : 0L;
+        Long currentStock = getCurrentCalculatedStock(productId);
         if (currentStock < quantity) {
             throw new RuntimeException("商品庫存不足，請稍後再試或選擇其他商品");
         }
         
-        // 原子操作：扣除庫存
-        product.setStock(currentStock - quantity);
-        repository.save(product);
+        // 注意：這裡不再直接修改Product的stock欄位
+        // 庫存扣減是通過創建SalesOrderDetail來實現的
+        // 這個方法主要用於檢查庫存是否足夠
         
         // 記錄庫存扣除日誌（可選）
-        System.out.println("商品ID: " + productId + " 扣除庫存: " + quantity + " 剩餘: " + (currentStock - quantity));
+        System.out.println("商品ID: " + productId + " 庫存檢查通過，可扣除數量: " + quantity + " 當前庫存: " + currentStock);
     }
     
-    // 庫存同步：將ERP動態計算的庫存同步到電商stock欄位
-    public void syncStockFromCalculated(Integer productId) {
+    // 更新商品的計算庫存（設定到@Transient字段）
+    public void updateCalculatedStock(Integer productId) {
         Long calculatedStock = getCurrentCalculatedStock(productId);
         Product product = repository.findById(productId).orElse(null);
         if (product != null) {
-            product.setStock(calculatedStock);
-            repository.save(product);
+            product.setCalculatedStock(calculatedStock);
         }
     }
     
-    // 批量庫存同步
-    public void syncAllStockFromCalculated() {
+    // 批量更新所有商品的計算庫存
+    public void updateAllCalculatedStock() {
         List<Product> products = repository.findAll();
         for (Product product : products) {
             Long calculatedStock = getCurrentCalculatedStock(product.getId());
-            product.setStock(calculatedStock);
+            product.setCalculatedStock(calculatedStock);
         }
-        repository.saveAll(products);
-    }
-    
-    // 庫存差異檢查
-    public boolean hasStockDiscrepancy(Integer productId) {
-        Long currentStock = getCurrentStock(productId);
-        Long calculatedStock = getCurrentCalculatedStock(productId);
-        return !currentStock.equals(calculatedStock);
+        // 注意：不需要save，因為calculatedStock是@Transient字段
     }
 
 }

@@ -18,7 +18,7 @@ public class Supplier {
     
     private String address;
     
-    @Column(name = "deleted")
+    @Column(name = "deleted", nullable = false)
     private Boolean deleted = false;
 
     

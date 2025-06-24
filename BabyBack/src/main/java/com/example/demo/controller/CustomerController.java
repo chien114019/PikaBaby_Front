@@ -2,13 +2,17 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.LoginRequestDTO;
 import com.example.demo.model.Customer;
+import com.example.demo.model.CustomerAddress;
 import com.example.demo.model.Response;
+import com.example.demo.repository.CustomerRepository;
+import com.example.demo.service.AddressService;
 import com.example.demo.service.CustomerService;
 
 import jakarta.servlet.http.HttpSession;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -107,19 +111,24 @@ public class CustomerController {
 
 //    ============= 前台會員API =================
 // 註冊   
-	@PostMapping("/register")
+	@PostMapping("/front/register")
 	@ResponseBody
+	public ResponseEntity<Map<String, String>> register(@RequestBody Customer customer) {
+	    try {
+	        service.register(customer);
 
-	public ResponseEntity<String> register(@RequestBody Customer customer) {
-		try {
-			service.register(customer);
-			return ResponseEntity.ok("註冊成功！");
-		} catch (Exception e) {
-			return ResponseEntity.badRequest().body("註冊失敗：" + e.getMessage());
-		}
+	        Map<String, String> response = new HashMap<>();
+	        response.put("message", "註冊成功！");
+	        return ResponseEntity.ok(response);
+
+	    } catch (Exception e) {
+	        Map<String, String> errorResponse = new HashMap<>();
+	        errorResponse.put("message", "註冊失敗：" + e.getMessage());
+	        return ResponseEntity.badRequest().body(errorResponse);
+	    }
 	}
 //	登入API
-	@PostMapping("/login")
+	@PostMapping("/front/login")
 	@ResponseBody
 	public ResponseEntity<Map<String, Object>> login(@RequestBody LoginRequestDTO request, HttpSession session) {
 	    Optional<Customer> optional = service.findByEmail(request.getEmail());
@@ -152,7 +161,7 @@ public class CustomerController {
 
 	}
 
-	@PostMapping("/logout")
+	@PostMapping("/front/logout")
 	@ResponseBody
 	public ResponseEntity<Map<String, Object>> logout(HttpSession session) {
 	    session.invalidate();
@@ -203,8 +212,97 @@ public class CustomerController {
 	    return ResponseEntity.ok(member);
 	}
 
+	//常用地址
+	 @Autowired
+	    private AddressService addressService;
+
+	    @Autowired
+	    private CustomerRepository customerRepo;
+
+	 // 取得登入會員的所有地址
+    @GetMapping("/front/address")
+    public List<CustomerAddress> getAddresses(HttpSession session) {
+    	Integer customerId = (Integer) session.getAttribute("customerId");
+        if (customerId == null) throw new RuntimeException("未登入");
+        
+        Customer customer = customerRepo.findById(customerId).orElseThrow();
+        return addressService.getAllByCustomer(customer);
+    }
+
+    // 新增地址（使用 session 取得會員，處理預設地址唯一性）
+    @PostMapping
+    public CustomerAddress addAddress(@RequestBody CustomerAddress address, HttpSession session) {
+    	 Integer customerId = (Integer) session.getAttribute("customerId");
+         if (customerId == null) throw new RuntimeException("未登入");
+
+         Customer customer = customerRepo.findById(customerId).orElseThrow();
+         address.setCustomer(customer);
+    	
+      // 若要設為預設地址 → 清除其他預設
+         if (Boolean.TRUE.equals(address.getIsDefaultOrder())) {
+             addressService.clearDefaultOrder(customer);
+         }
+         if (Boolean.TRUE.equals(address.getIsDefaultShipping())) {
+             addressService.clearDefaultShipping(customer);
+         }
+    	
+    	return addressService.save(address);
+    }
+
+    // 刪除地址
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteAddress(@PathVariable Integer id, HttpSession session) {
+        Integer customerId = (Integer) session.getAttribute("customerId");
+        if (customerId == null) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("未登入");
+
+        CustomerAddress address = addressService.findById(id);
+        if (!address.getCustomer().getId().equals(customerId)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("無權限刪除");
+        }
+
+        addressService.deleteById(id);
+        return ResponseEntity.ok("刪除成功");
+    }
+
 	
-	
+    //編輯地址
+    
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateAddress(@PathVariable Integer id,
+                                           @RequestBody CustomerAddress updated,
+                                           HttpSession session) {
+        Integer customerId = (Integer) session.getAttribute("customerId");
+        if (customerId == null) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("未登入");
+
+        CustomerAddress original = addressService.findById(id);
+        if (!original.getCustomer().getId().equals(customerId)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("無權限修改");
+        }
+
+        if (Boolean.TRUE.equals(updated.getIsDefaultOrder())) {
+            addressService.clearDefaultOrder(original.getCustomer());
+        }
+        if (Boolean.TRUE.equals(updated.getIsDefaultShipping())) {
+            addressService.clearDefaultShipping(original.getCustomer());
+        }
+
+        original.setName(updated.getName());
+        original.setCity(updated.getCity());
+        original.setDistrict(updated.getDistrict());
+        original.setZipcode(updated.getZipcode());
+        original.setStreet(updated.getStreet());
+        original.setPhone(updated.getPhone());
+        original.setIsDefaultOrder(updated.getIsDefaultOrder());
+        original.setIsDefaultShipping(updated.getIsDefaultShipping());
+
+        addressService.save(original);
+        return ResponseEntity.ok("編輯成功");
+    }
+ 
+    
+    
+    
+    
 	
 }
 

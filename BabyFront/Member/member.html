@@ -387,6 +387,7 @@
                                                 <label class="form-label">行政區 *</label>
                                                 <select class="form-select" id="district" required>
                                                     <option selected disabled>請選擇</option>
+
                                                 </select>
                                             </div>
                                             <div class="col-md-4">
@@ -402,7 +403,7 @@
 
                                         <div class="mb-3">
                                             <label class="form-label">手機號碼 *</label>
-                                            <input type="text" class="form-control" id="phone" pattern="09\\d{8}"
+                                            <input type="tel" class="form-control" id="phone" pattern="^09\\d{8}$"
                                                 required>
                                         </div>
 
@@ -465,7 +466,7 @@
 
                                         <div class="mb-3">
                                             <label class="form-label">手機號碼 *</label>
-                                            <input type="text" class="form-control" id="phone" pattern="09\\d{8}"
+                                            <input type="text" class="form-control" id="phone" pattern="^09\d{8}$"
                                                 required>
                                         </div>
 
@@ -1046,6 +1047,44 @@
                     window.location.href = "login.html";
                 });
         });
+//新增地址fetch
+document.getElementById("addressForm").addEventListener("submit", function (e) {
+    e.preventDefault(); // 防止表單送出跳轉
+
+    const addressData = {
+        name: document.getElementById("name").value.trim(),
+        city: document.getElementById("city").value,
+        district: document.getElementById("district").value,
+        zipcode: document.getElementById("zipcode").value,
+        street: document.getElementById("street").value.trim(),
+        phone: document.getElementById("phone").value.trim(),
+        isDefaultOrder: document.getElementById("isDefaultOrder").checked,
+        isDefaultShipping: document.getElementById("isDefaultShipping").checked
+    };
+
+    console.log("📦 準備送出地址：", addressData);
+
+    fetch("http://localhost:8080/customers/front/address", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        credentials: "include", // ⬅️ 重點！讓 cookie / session 傳到後端
+        body: JSON.stringify(addressData)
+    })
+        .then(res => {
+            if (!res.ok) throw new Error("新增失敗");
+            return res.json();
+        })
+        .then(data => {
+            alert("✅ 地址新增成功！");
+            // 可以刷新地址列表或關閉 modal
+        })
+        .catch(err => {
+            console.error("❌ 新增失敗：", err);
+            alert("地址新增失敗，請再試一次！");
+        });
+});
 
 
 

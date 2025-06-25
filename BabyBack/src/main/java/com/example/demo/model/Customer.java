@@ -4,6 +4,7 @@ package com.example.demo.model;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -36,6 +37,8 @@ public class Customer {
     
     private Integer points;
   
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CustomerAddress> address;
     
 	public Integer getId() {
 		return id;
@@ -116,6 +119,12 @@ public class Customer {
 		this.points = points;
 	}
 
+	public List<CustomerAddress> getAddresses() {
+		return address;
+	}
+	public void setAddresses(List<CustomerAddress> addresses) {
+		this.address = addresses;
+	}
 	// 空建構子（必要）
     public Customer() {}
 

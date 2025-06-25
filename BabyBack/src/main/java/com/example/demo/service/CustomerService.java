@@ -67,7 +67,6 @@ public class CustomerService {
 	public List<Customer> getAllByCreateDateAndAreaAndPointAndKeyword(String createDate, String area, String hasPoint,
 			String keyword) {
 		List<Customer> customers = new ArrayList<Customer>();
-		area = area + "%";
 		keyword = "%" + keyword + "%";
 		LocalDateTime start = getLocalDate(createDate).atStartOfDay();
 		LocalDateTime end = getLocalDate(createDate).plusDays(1).atStartOfDay();
@@ -82,7 +81,6 @@ public class CustomerService {
 
 	public List<Customer> getAllByCreateDateAndAreaAndPoint(String createDate, String area, String hasPoint) {
 		List<Customer> customers = new ArrayList<Customer>();
-		area = area + "%";
 		LocalDateTime start = getLocalDate(createDate).atStartOfDay();
 		LocalDateTime end = getLocalDate(createDate).plusDays(1).atStartOfDay();
 
@@ -95,7 +93,6 @@ public class CustomerService {
 	}
 
 	public List<Customer> getAllByCreateDateAndAreaAndKeyword(String createDate, String area, String keyword) {
-		area = area + "%";
 		keyword = "%" + keyword + "%";
 		LocalDateTime start = getLocalDate(createDate).atStartOfDay();
 		LocalDateTime end = getLocalDate(createDate).plusDays(1).atStartOfDay();
@@ -103,7 +100,6 @@ public class CustomerService {
 	}
 
 	public List<Customer> getAllByCreateDateAndArea(String createDate, String area) {
-		area = area + "%";
 		LocalDateTime start = getLocalDate(createDate).atStartOfDay();
 		LocalDateTime end = getLocalDate(createDate).plusDays(1).atStartOfDay();
 		return repository.findAllByDateAndArea(start, end, area);
@@ -146,7 +142,6 @@ public class CustomerService {
 	}
 
 	public List<Customer> getAllByAreaAndPointAndKeyword(String area, String hasPoint, String keyword) {
-		area = area + "%";
 		keyword = "%" + keyword + "%";
 		if (Integer.parseInt(hasPoint) > 0) {
 			return repository.findAllByAddressAndHasPointsAndKeyword(area, keyword);
@@ -156,7 +151,6 @@ public class CustomerService {
 	}
 
 	public List<Customer> getAllByAreaAndPoint(String area, String hasPoint) {
-		area = area + "%";
 		if (Integer.parseInt(hasPoint) > 0) {
 			return repository.findAllByAddressLikeAndPointsGreaterThan(area, 0);
 		} else {
@@ -165,13 +159,11 @@ public class CustomerService {
 	}
 
 	public List<Customer> getAllByAreaAndKeyword(String area, String keyword) {
-		area = area + "%";
 		keyword = "%" + keyword + "%";
 		return repository.findAllByAddressAndKeyword(area, keyword);
 	}
 
 	public List<Customer> getAllByArea(String area) {
-		area = area + "%";
 		return repository.findAllByAddressLike(area);
 	}
 

@@ -125,12 +125,28 @@ public class CustomerController {
 			System.out.println(e);
 			customers = new ArrayList<Customer>();
 		}
+		
+		List<Map<String, Object>> custList = new ArrayList<Map<String,Object>>();
+		for (Customer cust : customers) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("customer", cust);
+			CustomerAddress address = addressService.getHomeAddress(cust);
+			if (address == null) {
+				address = new CustomerAddress();
+				address.setCity("");
+				address.setDistrict("");
+				address.setStreet("");
+			}
+			map.put("address", address);
+			custList.add(map);
+		}
 
 		model.addAttribute("createDate", createDate);
 		model.addAttribute("area", area);
 		model.addAttribute("hasPoint", hasPoint);
 		model.addAttribute("keyword", keyword);
-		model.addAttribute("customers", customers); // 將所有客戶資料加入 model
+//		model.addAttribute("customers", customers); // 將所有客戶資料加入 model
+		model.addAttribute("customers", custList); // 將所有客戶資料及會員地址加入 model
 		return "customer/list"; // 回傳顯示清單的 Thymeleaf 頁面
 	}
 

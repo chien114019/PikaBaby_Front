@@ -333,18 +333,15 @@
                     </thead>
                     <tbody>
                         <tr th:each="c : ${customers}">
-                            <!-- 							<td class="text-center"><input type="checkbox"
+                            <!-- <td class="text-center"><input type="checkbox"
 								class="row-check"></td>  -->
-                            <td th:text="${c.id}" class="text-center"></td>
-                            <td th:text="${c.name}"></td>
-                            <td th:text="${c.phone}"></td>
-                            <td th:text="${c.email}"></td>
-                            <td th:text="${c.address}"></td>
-                            <td class="text-center"><a th:href="@{'/customers/detail/' + ${c.id}}"
-                                    class="btn btn-primary btn-sm">詳細資料</a> <!--  <a class="btn btn-warning btn-sm"
-									th:href="@{'/customers/edit/' + ${c.id}}">編輯</a> -->
-                                <!-- <a class="btn btn-danger btn-sm" data-bs-toggle="modal"
-                                    data-bs-target="#confirmDeleteModal" th:onclick="deleteCust([[${c.id}]])"> 刪除 </a> -->
+                            <td th:text="${c.customer.id}" class="text-center"></td>
+                            <td th:text="${c.customer.name}"></td>
+                            <td th:text="${c.customer.phone}"></td>
+                            <td th:text="${c.customer.email}"></td>
+                            <td th:text="${c.address.city} + ${c.address.district} + ${c.address.street}"></td>
+                            <td class="text-center"><a th:href="@{'/customers/detail/' + ${c.customer.id}}"
+                                    class="btn btn-primary btn-sm">詳細資料</a>
                             </td>
                         </tr>
                     </tbody>
@@ -399,24 +396,6 @@
             $("select").prop("value", "");
         }
 
-        // function deleteCust(custId) {
-        //     console.log(`Delete ${custId}`);
-        //     $("#confirmBtn").on("click", function () {
-        //         $.ajax({
-        //             method: "DELETE",
-        //             url: `/customers/delete/${custId}`,
-        //             success: function (resp) {
-        //                 alert(`會員編號 ${custId} ${resp.mesg}`);
-        //                 $("#confirmDeleteModal").removeClass("show");
-        //                 window.location.reload();
-        //             },
-        //             error: function () {
-        //                 alert("系統錯誤，無法刪除");
-        //                 $("#confirmDeleteModal").removeClass("show");
-        //             }
-        //         })
-        //     })
-        // }
     </script>
 
 </body>

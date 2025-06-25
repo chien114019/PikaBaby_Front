@@ -17,6 +17,87 @@
      overflow-y: auto;
      /* 讓 sidebar 本體可以捲動 */
  }
+ 
+ /* 0625新增sidebar中間側邊欄按鈕 */
+.sidebar-toggle {
+  display: none;
+  transition: left 0.3s ease;
+}
+
+/* 當螢幕寬度 ≤ 768px 時啟用 */
+@media (max-width: 768px) {
+  .sidebar-toggle {
+    position: fixed;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    z-index: 1001;
+    width: 40px;
+    height: 80px;
+    background: #333;
+    color: white;
+    border: none;
+    border-radius: 0 10px 10px 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* 畫面縮小時，點開sidebar縮合按鍵貼在sidebar右側邊 */
+  .sidebar-toggle.open {
+  left: 250px;
+}
+
+.sidebar-toggle i {
+    transition: transform 0.3s ease;
+  }
+
+/* 找到 .sidebar.show 的「同一層後面」的 .sidebar-toggle 元素 */
+
+  /* .sidebar.show ~ .sidebar-toggle i {
+    transform: scaleX(-1); 展開時翻轉箭頭
+  } */
+  
+  .sidebar-toggle.open i {
+    transform: scaleX(-1);
+  }
+  
+  .sidebar {
+    left: -250px;
+    transition: left 0.3s ease;
+  }
+
+  .sidebar.show {
+    left: 0;
+  }
+
+  .overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    display: none;
+  }
+
+  .overlay.show {
+    display: block;
+  }
+  
+
+  
+}
+
+
+
+/* 當螢幕寬度 ≤ 1200px 時啟用 */
+@media (max-width: 1200px) {
+  .breadcrumb li:first-child {
+    margin-left: 4rem; 
+  }
+}
 
 
  /* main {
@@ -97,32 +178,6 @@
      outline: none !important;
  }
  
- 
- /* 0624sidebar新增響應式 */
- /* 手機尺寸下 sidebar 預設收合，點按鈕展開 */
-@media (max-width: 768px) {
-  .sidebar {
-    left: -250px;
-    transition: left 0.3s ease;
-  }
 
-  .sidebar.show {
-    left: 0;
-  }
-
-  .overlay {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 999;
-    display: none;
-  }
-
-  .overlay.show {
-    display: block;
-  }
-}
 
  /* Main content */

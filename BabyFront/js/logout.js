@@ -1,6 +1,6 @@
 
 function logout() {
-  fetch("http://localhost:8080/customers/logout", {
+  fetch("http://localhost:8080/customers/front/logout", {
     method: "POST"
   })
   .then(res => {

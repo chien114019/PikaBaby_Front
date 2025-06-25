@@ -447,7 +447,7 @@ function login(e) {
 
   console.log("登入資料：", memberData);
 
-  fetch('http://localhost:8080/customers/login', {
+  fetch('http://localhost:8080/customers/front/login', {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     credentials: "include",//維持後端 Session 登入

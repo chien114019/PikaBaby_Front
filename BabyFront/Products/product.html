@@ -508,6 +508,7 @@
                     <option value="newest">最新上架</option>
                     <option value="hot">熱銷推薦</option>
                     <option value="brand">品牌</option>
+                    <option value="category">商品分類</option>
                 </select>
             </div>
 
@@ -516,16 +517,7 @@
                 <div class="filter-title">商品種類</div>
                 <select class="category-select" id="category-select">
                     <option value="">全部商品</option>
-                    <option value="feeding">奶瓶/奶嘴/餐具</option>
-                    <option value="clothes">嬰幼兒服裝</option>
-                    <option value="care">清潔/護理用品</option>
-                    <option value="stroller">嬰兒推車</option>
-                    <option value="furniture">嬰兒床/餐椅</option>
-                    <option value="toys">玩具</option>
-                    <option value="walking">學步用品</option>
-                    <option value="car-seat">汽座</option>
-                    <option value="education">幼教用品</option>
-                    <option value="electronics">電器用品</option>
+                    <!-- 動態載入的分類選項會在這裡顯示 -->
                 </select>
             </div>
 
@@ -755,6 +747,22 @@
                             const titleB = b.querySelector('.product-title').textContent;
                             return titleA.localeCompare(titleB, 'zh-TW');
                         });
+                    case 'category':
+                        return productsArray.sort((a, b) => {
+                            const categoryA = a.dataset.category || '未分類';
+                            const categoryB = b.dataset.category || '未分類';
+                            
+                            // 先按分類名稱排序
+                            const categoryCompare = categoryA.localeCompare(categoryB, 'zh-TW');
+                            if (categoryCompare !== 0) {
+                                return categoryCompare;
+                            }
+                            
+                            // 如果分類相同，再按商品名稱排序
+                            const titleA = a.querySelector('.product-title').textContent;
+                            const titleB = b.querySelector('.product-title').textContent;
+                            return titleA.localeCompare(titleB, 'zh-TW');
+                        });
                     default:
                         return productsArray;
                 }
@@ -770,7 +778,18 @@
                     const productCondition = product.dataset.condition;
                     const productTitle = product.querySelector('.product-title').textContent.toLowerCase();
 
-                    const matchesCategory = !currentFilters.category || productCategory === currentFilters.category;
+                    // 檢查分類匹配 - 支持直接的ProductType名稱匹配和舊式分類映射
+                    let matchesCategory = !currentFilters.category;
+                    if (currentFilters.category) {
+                        // 直接匹配ProductType名稱
+                        matchesCategory = productCategory === currentFilters.category;
+                        
+                        // 如果沒有直接匹配，嘗試舊式分類映射（向後兼容）
+                        if (!matchesCategory) {
+                            matchesCategory = checkLegacyCategoryMatch(productCategory, currentFilters.category);
+                        }
+                    }
+                    
                     const matchesCondition = !currentFilters.condition || productCondition === currentFilters.condition;
                     const matchesSearch = !currentFilters.search || productTitle.includes(currentFilters.search.toLowerCase());
 
@@ -806,35 +825,76 @@
                     sortSelect.value = currentFilters.sort;
                 }
             }
+            
+            // 檢查舊式分類映射（向後兼容）
+            function checkLegacyCategoryMatch(productCategory, filterCategory) {
+                const legacyMapping = {
+                    'feeding': ['嬰兒用品'], // 奶瓶/奶嘴、哺乳用品
+                    'clothes': ['嬰兒服裝', '幼兒服裝', '兒童服裝'],
+                    'stroller': ['嬰兒推車'],
+                    'furniture': ['嬰兒床', '餐椅'],
+                    'care': ['嬰兒用品'],
+                    'toys': ['玩具'],
+                    'car-seat': ['汽座'],
+                    'walking': ['學步用品'],
+                    'dining': ['嬰兒用品'], // 餐具用品
+                    'education': ['幼教用品'],
+                    'appliance': ['電器用品']
+                };
+                
+                return legacyMapping[filterCategory] && legacyMapping[filterCategory].includes(productCategory);
+            }
+            
+            // 將舊式分類代碼轉換為對應的ProductType名稱
+            function mapLegacyCategoryToProductType(legacyCategory) {
+                const categoryMapping = {
+                    'feeding': '嬰兒用品',
+                    'clothes': ['嬰兒服裝', '幼兒服裝', '兒童服裝'], // 多對應，需要特殊處理
+                    'stroller': '嬰兒推車',
+                    'furniture': ['嬰兒床', '餐椅'], // 多對應
+                    'care': '嬰兒用品',
+                    'toys': '玩具',
+                    'car-seat': '汽座',
+                    'walking': '學步用品',
+                    'dining': '嬰兒用品',
+                    'education': '幼教用品',
+                    'appliance': '電器用品'
+                };
+                
+                const mapped = categoryMapping[legacyCategory];
+                
+                // 如果是數組，返回第一個作為主要分類
+                if (Array.isArray(mapped)) {
+                    return mapped[0];
+                }
+                
+                return mapped || legacyCategory;
+            }
 
             // 修改 filterProducts 函數，使其能夠處理 URL 參數
             window.filterProducts = function (category) {
+                console.log(`🔍 篩選分類: ${category}`);
+                
                 // 更新 URL 參數
                 const url = new URL(window.location.href);
                 url.searchParams.set('category', category);
                 window.history.pushState({}, '', url);
 
-                // 更新當前篩選條件
+                // 更新當前篩選條件（保持原始參數用於篩選邏輯）
                 currentFilters.category = category;
-
-                // 更新選擇器
-                if (categorySelect) {
-                    categorySelect.value = category;
+                
+                // 如果分類選擇器尚未設置正確的值，再次嘗試設置
+                const mappedCategory = mapLegacyCategoryToProductType(category);
+                const categorySelect = document.getElementById('category-select');
+                if (categorySelect && categorySelect.value !== mappedCategory) {
+                    updateCategorySelector(mappedCategory);
                 }
 
                 // 執行篩選
                 filterAndSortProducts();
             };
 
-            // 頁面載入時檢查 URL 參數
-            document.addEventListener('DOMContentLoaded', function () {
-                const urlParams = new URLSearchParams(window.location.search);
-                const categoryParam = urlParams.get('category');
-
-                if (categoryParam) {
-                    filterProducts(categoryParam);
-                }
-            });
+            // 移除重複的DOMContentLoaded監聽器，URL參數處理已在loadProductTypes中完成
 
             // 添加事件監聽器
             if (sortSelect) {
@@ -959,25 +1019,16 @@
                 });
         }
 
-        function applyCategoryFromURL() {
+        // 網址變動時（例如使用者點擊導覽列分類）
+        window.addEventListener('popstate', function () {
+            console.log('🔄 URL變動，重新處理分類參數');
             const urlParams = new URLSearchParams(window.location.search);
             const categoryParam = urlParams.get('category');
             if (categoryParam) {
                 filterProducts(categoryParam);
             } else {
-                // 若無參數則顯示全部
                 filterProducts('');
             }
-        }
-
-        // 頁面載入時
-        document.addEventListener('DOMContentLoaded', function () {
-            applyCategoryFromURL();
-        });
-
-        // 網址變動時（例如使用者點擊導覽列分類）
-        window.addEventListener('popstate', function () {
-            applyCategoryFromURL();
         });
     </script>
 
@@ -988,8 +1039,88 @@ let isUsingDynamicData = false; // 標記是否使用動態資料
 
         document.addEventListener("DOMContentLoaded", function () {
     console.log("🚀 開始載入商品資料...");
-    loadProductsFromDatabase();
+    loadProductTypes(); // 先載入商品分類
+    loadProductsFromDatabase(); // 再載入商品
 });
+
+// 載入商品分類
+async function loadProductTypes() {
+    try {
+        console.log("📡 載入商品分類...");
+        const response = await fetch("http://localhost:8080/products/front/product-types");
+        
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+        
+        const productTypes = await response.json();
+        console.log("✅ 成功載入商品分類:", productTypes);
+        
+        // 動態填充分類選項
+        const categorySelect = document.getElementById('category-select');
+        
+        // 清空現有選項（保留"全部商品"）
+        const allOption = categorySelect.querySelector('option[value=""]');
+        categorySelect.innerHTML = '';
+        categorySelect.appendChild(allOption);
+        
+        // 添加動態分類選項
+        productTypes.forEach(type => {
+            const option = document.createElement('option');
+            option.value = type.typeName; // 使用typeName作為值
+            option.textContent = type.typeName;
+            categorySelect.appendChild(option);
+        });
+        
+        console.log("✅ 商品分類選項已更新");
+        
+        // 分類選項載入完成後，立即檢查並處理URL參數
+        setTimeout(() => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const categoryParam = urlParams.get('category');
+            if (categoryParam) {
+                console.log(`🎯 分類選項載入完成，處理URL分類參數: ${categoryParam}`);
+                
+                // 將舊式分類代碼轉換為ProductType名稱
+                const mappedCategory = mapLegacyCategoryToProductType(categoryParam);
+                console.log(`🔄 映射結果: ${categoryParam} → ${mappedCategory}`);
+                
+                // 更新下拉選單
+                updateCategorySelector(mappedCategory);
+                
+                // 設置篩選條件但不執行篩選，等商品載入後再執行
+                window.pendingCategoryFilter = categoryParam;
+            }
+        }, 100);
+        
+    } catch (error) {
+        console.error("❌ 載入商品分類失敗:", error);
+        // 如果載入失敗，保持原有的固定分類選項
+    }
+}
+
+// 更新分類選擇器的輔助函數
+function updateCategorySelector(targetCategory) {
+    const categorySelect = document.getElementById('category-select');
+    if (!categorySelect) return;
+    
+    console.log(`🔧 嘗試更新分類選擇器為: ${targetCategory}`);
+    
+    // 列出所有可用選項（除錯用）
+    const options = Array.from(categorySelect.options);
+    console.log('📋 可用分類選項:', options.map(opt => `"${opt.value}"`));
+    
+    // 尋找匹配的選項
+    const matchingOption = options.find(option => option.value === targetCategory);
+    
+    if (matchingOption) {
+        categorySelect.value = targetCategory;
+        console.log(`✅ 成功設置分類選擇器為: ${targetCategory}`);
+    } else {
+        console.log(`⚠️ 未找到匹配的分類選項: ${targetCategory}`);
+        categorySelect.value = '';
+    }
+}
 
 // 從資料庫載入商品
 async function loadProductsFromDatabase() {
@@ -1035,6 +1166,23 @@ async function loadProductsFromDatabase() {
             
             isUsingDynamicData = true;
             hideLoadingIndicator();
+            
+            // 商品載入完成後，處理待處理的分類篩選
+            setTimeout(() => {
+                if (window.pendingCategoryFilter) {
+                    console.log(`🎯 商品載入完成，執行待處理的分類篩選: ${window.pendingCategoryFilter}`);
+                    filterProducts(window.pendingCategoryFilter);
+                    window.pendingCategoryFilter = null; // 清除待處理的篩選
+                } else {
+                    // 如果沒有待處理的篩選，檢查URL參數
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const categoryParam = urlParams.get('category');
+                    if (categoryParam) {
+                        console.log(`🎯 商品載入完成，處理URL分類參數: ${categoryParam}`);
+                        filterProducts(categoryParam);
+                    }
+                }
+            }, 300);
         } else {
             console.log("⚠️ 資料庫中沒有已發布的商品");
             showErrorIndicator("資料庫中沒有已發布的商品");
@@ -1124,35 +1272,16 @@ function renderDynamicProducts(products) {
     console.log(`✅ 最終商品ID列表: [${Array.from(finalCards).map(c => c.dataset.productId).join(', ')}]`);
 }
 
-// 根據商品資料獲取分類 (優先使用productType，備選使用商品名稱推斷)
+// 根據商品資料獲取分類 (直接使用ProductType名稱)
 function getProductCategory(product) {
-    // 優先使用資料庫中的 productType
-    if (product.productTypeName) {
-        return mapProductTypeToCategory(product.productTypeName);
-    }
-    
-    // 如果沒有 productType，使用商品名稱推斷 (向後兼容)
-    return inferCategoryFromName(product.name);
+    // 直接返回 ProductType 的 typeName，如果沒有則返回 'others'
+    return product.productTypeName || 'others';
 }
 
-// 將資料庫的 ProductType 對應到前端分類
+// 將資料庫的 ProductType 對應到前端分類 (備用 - 向後兼容)
 function mapProductTypeToCategory(productTypeName) {
-    const typeMap = {
-        '嬰兒服裝': 'clothes',
-        '嬰兒推車': 'stroller', 
-        '嬰兒床': 'furniture',
-        '嬰兒用品': 'care',
-        '玩具': 'toys',
-        '汽座': 'car-seat',
-        '學步用品': 'walking',
-        '幼兒服裝': 'clothes',
-        '幼教用品': 'education',
-        '兒童服裝': 'clothes',
-        '餐椅': 'furniture',
-        '電器用品': 'appliance'
-    };
-    
-    return typeMap[productTypeName] || 'others';
+    // 現在直接返回 ProductType 名稱，不再進行映射
+    return productTypeName || 'others';
 }
 
 // 根據商品名稱推斷商品分類 (備選方案)

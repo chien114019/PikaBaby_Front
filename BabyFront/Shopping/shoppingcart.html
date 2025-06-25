@@ -511,10 +511,13 @@
                         <label class="form-label">付款方式</label>
                         <select class="form-select" name="paymentMethod" required>
                             <option value="">請選擇付款方式</option>
-                            <option value="credit">信用卡</option>
-                            <option value="transfer">銀行轉帳</option>
-                            <option value="linepay">LINE Pay</option>
+                            <option value="credit">💳 信用卡</option>
+                            <option value="transfer">🏦 銀行轉帳</option>
+                            <option value="linepay">💚 LINE Pay</option>
                         </select>
+                        <small class="text-muted">
+                            選擇 LINE Pay 將跳轉至 LINE 官方付款頁面進行安全付款
+                        </small>
                     </div>
                     <div class="text-end">
                         <button type="button" class="btn btn-secondary me-2" onclick="hideCheckoutForm()">返回購物車</button>
@@ -621,6 +624,7 @@
         // 當頁面加載時執行
         document.addEventListener('DOMContentLoaded', async function () {
             await loadCart();
+            
             // 檢查是否需要直接顯示結帳表單（從登入頁面返回）
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.get('checkout') === 'true') {
@@ -631,6 +635,25 @@
                     await showCheckoutForm();
                 }, 100);
             }
+            
+            // 檢查 LINE Pay 取消付款的情況
+            if (urlParams.get('linepay') === 'cancelled') {
+                // 恢復購物車資料
+                const pendingOrderData = localStorage.getItem('pendingOrder');
+                if (pendingOrderData) {
+                    const orderData = JSON.parse(pendingOrderData);
+                    if (orderData.cart) {
+                        localStorage.setItem('cart', JSON.stringify(orderData.cart));
+                        await loadCart(); // 重新載入購物車
+                    }
+                }
+                localStorage.removeItem('pendingOrder');
+                
+                // 清理URL參數並顯示提示
+                window.history.replaceState({}, document.title, window.location.pathname);
+                alert('LINE Pay 付款已取消，商品已恢復到購物車中。');
+            }
+            
             // 會員點數將在顯示結帳表單時動態載入
             // 檢查加購商品按鈕狀態
             let cart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -1124,7 +1147,13 @@
                 
                 console.log('📝 訂單數據:', orderData);
 
-                // 發送請求到後端 - 使用原本的API路徑
+                // 如果選擇 LINE Pay，則導向 LINE Pay 流程
+                if (paymentMethod === 'linepay') {
+                    await processLinePayPayment(orderData, cart);
+                    return;
+                }
+
+                // 其他付款方式：發送請求到後端 - 使用原本的API路徑
                 const response = await fetch('http://localhost:8080/orders/api/cart', {
                     method: 'POST',
                     headers: {
@@ -1176,6 +1205,75 @@
             } catch (error) {
                 console.error('Error:', error);
                 alert(error.message || '訂單建立失敗，請稍後再試');
+            }
+        }
+
+        // LINE Pay 付款處理函數
+        async function processLinePayPayment(orderData, cart) {
+            try {
+                console.log('🔄 準備 LINE Pay 付款...');
+                
+                // 生成唯一訂單ID
+                const orderId = 'ORDER_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                
+                // 準備 LINE Pay 請求數據
+                const linePayRequest = {
+                    amount: Math.round(orderData.totalAmount), // LINE Pay 需要整數金額
+                    currency: 'TWD',
+                    orderId: orderId,
+                    packages: [{
+                        id: 'PACKAGE_1',
+                        amount: Math.round(orderData.totalAmount),
+                        name: 'PikaBaby 購物',
+                        products: cart.map(item => ({
+                            id: item.id.toString(),
+                            name: item.name,
+                            quantity: item.quantity,
+                            price: Math.round(item.price)
+                        }))
+                    }],
+                    redirectUrls: {
+                        confirmUrl: `${window.location.origin}/BabyFront/Shopping/linepay-confirm.html?orderId=${orderId}`,
+                        cancelUrl: `${window.location.origin}/BabyFront/Shopping/shoppingcart.html?linepay=cancelled`
+                    }
+                };
+                
+                console.log('📝 LINE Pay 請求數據:', linePayRequest);
+                
+                // 暫存訂單資料到 localStorage（用於付款確認後建立正式訂單）
+                localStorage.setItem('pendingOrder', JSON.stringify({
+                    ...orderData,
+                    orderId: orderId,
+                    cart: cart
+                }));
+                
+                // 發送 LINE Pay 請求
+                const response = await fetch('http://localhost:8080/linepay/request', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(linePayRequest)
+                });
+                
+                if (!response.ok) {
+                    throw new Error('LINE Pay 請求失敗');
+                }
+                
+                const result = await response.json();
+                console.log('✅ LINE Pay 響應:', result);
+                
+                if (result.returnCode === '0000' && result.info && result.info.paymentUrl) {
+                    // 成功建立 LINE Pay 付款請求，導向付款頁面
+                    console.log('🔄 導向 LINE Pay 付款頁面...');
+                    window.location.href = result.info.paymentUrl.web;
+                } else {
+                    throw new Error('LINE Pay 初始化失敗: ' + (result.returnMessage || '未知錯誤'));
+                }
+                
+            } catch (error) {
+                console.error('❌ LINE Pay 付款處理失敗:', error);
+                alert('LINE Pay 付款處理失敗：' + error.message);
             }
         }
 

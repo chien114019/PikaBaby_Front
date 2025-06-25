@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
+@CrossOrigin(origins = {"http://localhost:5501", "http://127.0.0.1:5501", "http://localhost:5503", "http://127.0.0.1:5503"}, allowCredentials = "true")
 @Controller
 @RequestMapping("/products")
 public class ProductController {
@@ -188,6 +189,8 @@ public class ProductController {
     	System.out.println("productIds: " + productIds);
     	System.out.println("publishedIds: " + publishedIds);
     	
+    	List<String> warnings = new ArrayList<>();
+    	
     	for (int i = 0; i < productIds.size(); i++) {
     	    Integer id = productIds.get(i);
     	    BigDecimal price = prices.get(i);
@@ -196,6 +199,15 @@ public class ProductController {
     	    
     	    // 根據是否在 publishedIds 中來設定發布狀態
     	    boolean shouldPublish = publishedIds != null && publishedIds.contains(id);
+    	    
+    	    // 如果要發布商品，檢查是否符合上架條件
+    	    if (shouldPublish) {
+    	        if (!productService.canProductBePublished(id)) {
+    	            warnings.add("商品「" + p.getName() + "」沒有進貨記錄，無法上架");
+    	            shouldPublish = false; // 強制不上架
+    	        }
+    	    }
+    	    
     	    p.setPublished(shouldPublish);
     	    
     	    // 設定商品價格（無論是否發布都要設定價格）
@@ -214,10 +226,22 @@ public class ProductController {
     	    productService.save(p);
     	}
     	
-    	// 顯示發布狀態統計
+    	// 建立提示訊息
     	int publishedCount = publishedIds != null ? publishedIds.size() : 0;
-    	redirectAttributes.addFlashAttribute("successMessage", 
-    	    String.format("商品上架狀態已更新！目前共 %d 個商品已發布", publishedCount));
+    	int actualPublished = 0;
+    	for (Integer id : productIds) {
+    	    Product p = productService.getById(id);
+    	    if (Boolean.TRUE.equals(p.getPublished())) {
+    	        actualPublished++;
+    	    }
+    	}
+    	
+    	String message = String.format("商品上架狀態已更新！實際發布 %d 個商品", actualPublished);
+    	if (!warnings.isEmpty()) {
+    	    message += "\\n警告：" + String.join("；", warnings);
+    	}
+    	
+    	redirectAttributes.addFlashAttribute("successMessage", message);
         return "redirect:/products/publish";
     }
     
@@ -300,9 +324,18 @@ public class ProductController {
     public List<Map<String, Object>> getPublishedProducts() {
         try {
             List<Product> publishedProducts = productRepository.findByPublishedTrue();
-            System.out.println("找到 " + publishedProducts.size() + " 個已發布的商品");
+            System.out.println("找到 " + publishedProducts.size() + " 個已發布的商品，正在檢查庫存...");
             
-            return publishedProducts.stream()
+            List<Map<String, Object>> result = publishedProducts.stream()
+                .filter(p -> {
+                    // 先計算庫存，只顯示庫存大於0的商品
+                    Long calculatedStock = productService.getCurrentCalculatedStock(p.getId());
+                    boolean hasStock = calculatedStock != null && calculatedStock > 0;
+                    if (!hasStock) {
+                        System.out.println("過濾掉庫存為0的商品 - ID: " + p.getId() + ", 名稱: " + p.getName() + ", 庫存: " + calculatedStock);
+                    }
+                    return hasStock;
+                })
                 .map(p -> {
                     // 處理圖片URL
                     String imageUrl = p.getImageUrl();
@@ -335,79 +368,22 @@ public class ProductController {
                     productMap.put("name", p.getName());
                     productMap.put("imageUrl", imageUrl);
                     productMap.put("primaryImageUrl", imageUrl);
-                    productMap.put("description", p.getDescription());
+                    // description欄位已移除
                     productMap.put("productTypeName", productTypeName);
                     productMap.put("productTypeId", productTypeId);
                     productMap.put("price", price);
                     productMap.put("stock", calculatedStock); // 動態計算的庫存
                     
-                    System.out.println("已發布商品API返回 - ID: " + p.getId() + ", 名稱: " + p.getName() + ", 價格: " + price);
+                    System.out.println("已發布商品API返回 - ID: " + p.getId() + ", 名稱: " + p.getName() + ", 價格: " + price + ", 庫存: " + calculatedStock);
                     
                     return productMap;
                 })
                 .toList();
+            
+            System.out.println("最終返回 " + result.size() + " 個商品（已過濾庫存為0的商品）");
+            return result;
         } catch (Exception e) {
             System.err.println("獲取已發布商品時發生錯誤: " + e.getMessage());
-            e.printStackTrace();
-            throw new RuntimeException("無法獲取商品列表", e);
-        }
-    }
-    
-    // 新增：獲取所有有效商品（包括未發布的）
-    @GetMapping("/front/all")
-    @ResponseBody
-    public List<Map<String, Object>> getAllActiveProducts() {
-        try {
-            // 獲取所有未被刪除的商品
-            List<Product> activeProducts = productRepository.findByDeletedFalse();
-            System.out.println("找到 " + activeProducts.size() + " 個有效商品");
-            
-            return activeProducts.stream()
-                .map(p -> {
-                    // 處理圖片URL
-                    String imageUrl = p.getImageUrl();
-                    if (imageUrl == null || imageUrl.isBlank()) {
-                        // 如果沒有圖片URL，嘗試從product_image表獲取第一張圖片
-                        if (p.getImages() != null && !p.getImages().isEmpty()) {
-                            imageUrl = "/products/front/images/" + p.getImages().get(0).getId();
-                        } else {
-                            imageUrl = "/images/default.jpg";
-                        }
-                    }
-                    
-                    // 獲取ProductType資訊
-                    String productTypeName = p.getProductType() != null ? p.getProductType().getTypeName() : null;
-                    Integer productTypeId = p.getProductType() != null ? p.getProductType().getId() : null;
-                    
-                    // 動態計算庫存
-                    Long calculatedStock = productService.getCurrentCalculatedStock(p.getId());
-                    p.setCalculatedStock(calculatedStock);
-                    
-                    // 處理價格 - 確保不為null
-                    Double price = p.getPrice();
-                    if (price == null || price <= 0) {
-                        price = 100.0; // 預設價格
-                    }
-                    
-                    // 創建包含價格和庫存的Map
-                    Map<String, Object> productMap = new HashMap<>();
-                    productMap.put("id", p.getId());
-                    productMap.put("name", p.getName());
-                    productMap.put("imageUrl", imageUrl);
-                    productMap.put("primaryImageUrl", imageUrl);
-                    productMap.put("description", p.getDescription());
-                    productMap.put("productTypeName", productTypeName);
-                    productMap.put("productTypeId", productTypeId);
-                    productMap.put("price", price);
-                    productMap.put("stock", calculatedStock); // 動態計算的庫存
-                    
-                    System.out.println("所有商品API返回 - ID: " + p.getId() + ", 名稱: " + p.getName() + ", 價格: " + price);
-                    
-                    return productMap;
-                })
-                .toList();
-        } catch (Exception e) {
-            System.err.println("獲取商品時發生錯誤: " + e.getMessage());
             e.printStackTrace();
             throw new RuntimeException("無法獲取商品列表", e);
         }
@@ -419,12 +395,25 @@ public class ProductController {
     public ResponseEntity<Map<String, Object>> getProductDetail(@PathVariable Integer id) {
         try {
             Product product = productService.getById(id);
-            if (product == null || product.getDeleted()) {
+            if (product == null || product.getDeleted() || !product.getPublished()) {
                 Map<String, Object> errorResponse = new HashMap<>();
                 errorResponse.put("success", false);
-                errorResponse.put("message", "商品不存在或已被刪除");
+                errorResponse.put("message", "商品不存在、已被刪除或尚未發布");
                 return ResponseEntity.notFound().build();
             }
+            
+            // 動態計算庫存
+            Long calculatedStock = productService.getCurrentCalculatedStock(product.getId());
+            
+            // 檢查庫存，庫存為0的商品不允許查看詳情
+            if (calculatedStock == null || calculatedStock <= 0) {
+                Map<String, Object> errorResponse = new HashMap<>();
+                errorResponse.put("success", false);
+                errorResponse.put("message", "商品庫存不足，暫時無法查看");
+                return ResponseEntity.notFound().build();
+            }
+            
+            product.setCalculatedStock(calculatedStock);
             
             // 處理圖片URL
             String imageUrl = product.getImageUrl();
@@ -435,10 +424,6 @@ public class ProductController {
                     imageUrl = "/images/default.jpg";
                 }
             }
-            
-            // 動態計算庫存
-            Long calculatedStock = productService.getCurrentCalculatedStock(product.getId());
-            product.setCalculatedStock(calculatedStock);
             
             // 處理價格 - 確保不為null，如果為null則使用預設價格
             Double price = product.getPrice();
@@ -462,7 +447,7 @@ public class ProductController {
             response.put("success", true);
             response.put("id", product.getId());
             response.put("name", product.getName());
-            response.put("description", product.getDescription());
+            // description欄位已移除
             response.put("note", product.getNote());
             response.put("price", price);
             response.put("stock", calculatedStock);
@@ -484,6 +469,177 @@ public class ProductController {
         }
     }
 
+    // 新增：獲取每月商品銷售排行榜 - 前三名
+    @GetMapping("/front/rankings/monthly")
+    @ResponseBody
+    public List<Map<String, Object>> getMonthlySalesRanking() {
+        try {
+            // 獲取所有已發布且有銷售記錄的商品
+            List<Product> publishedProducts = productRepository.findByPublishedTrue();
+            List<Map<String, Object>> rankingList = new ArrayList<>();
+            
+            for (Product product : publishedProducts) {
+                // 計算該商品的總銷售數量（排除已取消的訂單）
+                Long totalSales = productService.getTotalSalesQuantity(product.getId());
+                
+                if (totalSales != null && totalSales > 0) {
+                    // 處理圖片URL
+                    String imageUrl = product.getPrimaryImageUrl();
+                    
+                    // 處理價格
+                    Double price = product.getPrice();
+                    if (price == null || price <= 0) {
+                        price = 100.0; // 預設價格
+                    }
+                    
+                    Map<String, Object> rankingItem = new HashMap<>();
+                    rankingItem.put("id", product.getId());
+                    rankingItem.put("name", product.getName());
+                    rankingItem.put("image", imageUrl);
+                    rankingItem.put("price", price.intValue());
+                    rankingItem.put("sold", totalSales.intValue());
+                    
+                    rankingList.add(rankingItem);
+                }
+            }
+            
+            // 按銷售數量降序排序，取前3名
+            rankingList.sort((a, b) -> {
+                Integer soldA = (Integer) a.get("sold");
+                Integer soldB = (Integer) b.get("sold");
+                return soldB.compareTo(soldA);
+            });
+            
+            // 只返回前3名
+            List<Map<String, Object>> top3 = rankingList.stream()
+                    .limit(3)
+                    .toList();
+            
+            System.out.println("月銷售排行榜API返回 " + top3.size() + " 個商品");
+            return top3;
+            
+        } catch (Exception e) {
+            System.err.println("獲取月銷售排行榜時發生錯誤: " + e.getMessage());
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
+    }
 
+    // 新增：獲取二手商品排行榜 - 前三名 (暫時返回空列表，後續可擴展)
+    @GetMapping("/front/rankings/secondhand")
+    @ResponseBody
+    public List<Map<String, Object>> getSecondhandRanking() {
+        try {
+            // 目前先返回空列表，後續可根據二手託售數據實現
+            System.out.println("二手商品排行榜API被調用 - 暫時返回空列表");
+            return new ArrayList<>();
+        } catch (Exception e) {
+            System.err.println("獲取二手商品排行榜時發生錯誤: " + e.getMessage());
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
+    }
+
+    // 新增：測試API - 檢查銷售數據和排行榜邏輯
+    @GetMapping("/front/rankings/debug")
+    @ResponseBody
+    public Map<String, Object> debugRankings() {
+        Map<String, Object> debug = new HashMap<>();
+        
+        try {
+            // 1. 檢查已發布商品
+            List<Product> publishedProducts = productRepository.findByPublishedTrue();
+            debug.put("publishedProductsCount", publishedProducts.size());
+            debug.put("publishedProducts", publishedProducts.stream()
+                .map(p -> Map.of("id", p.getId(), "name", p.getName(), "published", p.getPublished()))
+                .toList());
+            
+            // 2. 檢查銷售記錄
+            List<Map<String, Object>> salesData = new ArrayList<>();
+            for (Product product : publishedProducts) {
+                Long totalSales = productService.getTotalSalesQuantity(product.getId());
+                String imageUrl = product.getPrimaryImageUrl();
+                Double price = product.getPrice();
+                
+                Map<String, Object> productSales = new HashMap<>();
+                productSales.put("id", product.getId());
+                productSales.put("name", product.getName());
+                productSales.put("totalSales", totalSales);
+                productSales.put("imageUrl", imageUrl);
+                productSales.put("price", price);
+                productSales.put("published", product.getPublished());
+                
+                salesData.add(productSales);
+            }
+            debug.put("salesData", salesData);
+            
+            // 3. 檢查所有銷售記錄（不限於已發布商品）
+            List<Product> allProducts = productRepository.findAll();
+            List<Map<String, Object>> allSalesData = new ArrayList<>();
+            for (Product product : allProducts.stream().limit(10).toList()) { // 限制10個避免太多數據
+                Long totalSales = productService.getTotalSalesQuantity(product.getId());
+                if (totalSales > 0) {
+                    Map<String, Object> productSales = new HashMap<>();
+                    productSales.put("id", product.getId());
+                    productSales.put("name", product.getName());
+                    productSales.put("totalSales", totalSales);
+                    productSales.put("published", product.getPublished());
+                    allSalesData.add(productSales);
+                }
+            }
+            debug.put("allProductsWithSales", allSalesData);
+            
+            return debug;
+            
+        } catch (Exception e) {
+            debug.put("error", e.getMessage());
+            e.printStackTrace();
+            return debug;
+        }
+    }
+    
+    // 測試頁面
+    @GetMapping("/test-flow")
+    public String testFlow() {
+        return "test-flow";
+    }
+    
+    // 檢查商品狀態API（除錯用）
+    @GetMapping("/api/stock/{id}")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> getProductStock(@PathVariable Integer id) {
+        try {
+            Long calculatedStock = productService.getCurrentCalculatedStock(id);
+            int stock = calculatedStock != null ? calculatedStock.intValue() : 0;
+            
+            Map<String, Object> response = new HashMap<>();
+            response.put("productId", id);
+            response.put("stock", stock);
+            response.put("success", true);
+            
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("productId", id);
+            errorResponse.put("stock", 0);
+            errorResponse.put("success", false);
+            errorResponse.put("message", "庫存查詢失敗: " + e.getMessage());
+            
+            return ResponseEntity.badRequest().body(errorResponse);
+        }
+    }
+
+    @GetMapping("/api/status/{id}")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> getProductStatus(@PathVariable Integer id) {
+        try {
+            Map<String, Object> status = productService.getProductStatus(id);
+            return ResponseEntity.ok(status);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(Map.of(
+                "error", "查詢商品狀態失敗: " + e.getMessage()
+            ));
+        }
+    }
 
 }

@@ -28,8 +28,7 @@ public class Product {
     @Column(name = "image_url")
     private String imageUrl;
     
-    @Column(name = "description")
-    private String description;
+
     
     @Column(name = "deleted", nullable = false)
     private Boolean deleted = false;
@@ -64,6 +63,10 @@ public class Product {
     // 商品價格
     @Column(name = "price")
     private Double price;
+    
+    // 商品實際庫存欄位（存資料庫）
+    @Column(name = "stock")
+    private Long stock;
     
     // 動態計算庫存（不存資料庫）
     @Transient
@@ -118,13 +121,7 @@ public class Product {
         this.imageUrl = imageUrl;
     }
 
-    public String getDescription() {
-        return description;
-    }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
 
     public Boolean getDeleted() {
         return deleted;
@@ -253,12 +250,17 @@ public class Product {
     }
     
     
-    // 為了向後兼容，保留原有的stock相關方法，但改為使用calculatedStock
+    // 資料庫庫存欄位的getter/setter
     public Long getStock() {
-        return calculatedStock != null ? calculatedStock : 0L;
+        return stock != null ? stock : 0L;
     }
     
     public void setStock(Long stock) {
-        this.calculatedStock = stock;
+        this.stock = stock;
+    }
+    
+    // 計算庫存的getter/setter（用於顯示）
+    public Long getDisplayStock() {
+        return calculatedStock != null ? calculatedStock : getStock();
     }
 }

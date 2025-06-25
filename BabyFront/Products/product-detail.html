@@ -489,7 +489,14 @@
                                 <span class="cart-count" style="display: none;">0</span>
                             </a>
                         </li>
-                        <li class="nav-item dropdown">
+                        <!-- ✅ 未登入時：跳 login，不顯示 dropdown -->
+                        <li class="nav-item" id="loginNavItem" style="display: none;">
+                            <a class="nav-link" href="../Member/login.html">
+                                <img src="../images/user.png" style="width: 30px;" alt="會員登入圖示">
+                            </a>
+                        </li>
+                        <!-- ✅ 已登入時：正常 dropdown -->
+                        <li class="nav-item dropdown" id="memberDropdownItem" style="display: none;">
                             <a class="nav-link dropdown-toggle" id="navbarDropdown5" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <img src="../images/user.png" style="width: 30px;" alt="會員圖示">
@@ -607,6 +614,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../js/navbar.js"></script>
+    <script src="../js/logout.js"></script>
+    <script src="../js/usernoToggle.js"></script>
     
     <script>
         let currentProduct = null;
@@ -687,11 +696,6 @@
                 document.getElementById('spec-color').style.display = 'flex';
             }
             
-            // 商品描述
-            if (product.description && product.description.trim()) {
-                document.getElementById('product-description').textContent = product.description;
-                document.getElementById('description-section').style.display = 'block';
-            }
             
             // 商品備註
             if (product.note && product.note.trim()) {
@@ -816,7 +820,7 @@
         });
 
         // 加入購物車
-        function addToCart() {
+        async function addToCart() {
             if (!currentProduct) {
                 showNotification('商品資訊載入中，請稍候', 'warning');
                 return;
@@ -828,6 +832,30 @@
                 
                 // 檢查商品是否已在購物車中
                 const existingIndex = cart.findIndex(item => item.id === currentProduct.id);
+                let totalQuantityInCart = quantity;
+                
+                if (existingIndex > -1) {
+                    totalQuantityInCart = cart[existingIndex].quantity + quantity;
+                }
+                
+                // 檢查庫存是否充足
+                try {
+                    const response = await fetch(`http://localhost:8080/products/api/stock/${currentProduct.id}`);
+                    if (response.ok) {
+                        const stockData = await response.json();
+                        const availableStock = stockData.stock || 0;
+                        
+                        if (totalQuantityInCart > availableStock) {
+                            showNotification(`庫存不足！「${currentProduct.name}」目前庫存僅剩 ${availableStock} 件`, 'warning');
+                            return;
+                        }
+                    } else {
+                        console.warn('無法檢查庫存，允許加入購物車');
+                    }
+                } catch (error) {
+                    console.error('檢查庫存時發生錯誤:', error);
+                    console.warn('庫存檢查失敗，允許加入購物車');
+                }
                 
                 if (existingIndex > -1) {
                     // 商品已存在，增加數量

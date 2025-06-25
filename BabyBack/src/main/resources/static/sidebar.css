@@ -96,5 +96,33 @@
      box-shadow: none !important;
      outline: none !important;
  }
+ 
+ 
+ /* 0624sidebar新增響應式 */
+ /* 手機尺寸下 sidebar 預設收合，點按鈕展開 */
+@media (max-width: 768px) {
+  .sidebar {
+    left: -250px;
+    transition: left 0.3s ease;
+  }
+
+  .sidebar.show {
+    left: 0;
+  }
+
+  .overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    display: none;
+  }
+
+  .overlay.show {
+    display: block;
+  }
+}
 
  /* Main content */

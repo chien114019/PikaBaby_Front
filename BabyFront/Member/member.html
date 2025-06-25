@@ -367,10 +367,10 @@
                             <div class="modal-dialog modal-lg modal-dialog-centered">
                                 <div class="modal-content address-modal-content">
                                     <h4 class="address-title mb-4">編輯地址</h4>
-                                    <form id="addressForm">
+                                    <form class="address-form" id="addressEditForm">
                                         <div class="mb-3">
                                             <label class="form-label">姓名 *</label>
-                                            <input type="text" class="form-control" id="name" required>
+                                            <input type="text" class="form-control" id="addressname" required>
                                         </div>
 
                                         <div class="row mb-3">
@@ -431,7 +431,7 @@
                             <div class="modal-dialog modal-lg modal-dialog-centered">
                                 <div class="modal-content address-modal-content">
                                     <h4 class="address-title mb-4">新增地址</h4>
-                                    <form id="addressForm">
+                                    <form class="address-form" id="addressAddForm">
                                         <div class="mb-3">
                                             <label class="form-label">姓名 *</label>
                                             <input type="text" class="form-control" id="name" required>
@@ -748,13 +748,16 @@
             }
         };
 
-        const cityEl = document.getElementById('city');
-        const districtEl = document.getElementById('district');
-        const zipcodeEl = document.getElementById('zipcode');
+       // 選出所有 .address-form 表單
+document.querySelectorAll('.address-form').forEach(form => {
+  const cityEl = form.querySelector('[name="city"]');
+  const districtEl = form.querySelector('[name="district"]');
+  const zipcodeEl = form.querySelector('[name="zipcode"]');
 
+   // 城市變更 → 更新行政區
         cityEl.addEventListener('change', () => {
             const city = cityEl.value;
-            const districts = zipData[city];
+            const districts = zipData[city]|| {};
             districtEl.innerHTML = '<option selected disabled>請選擇</option>';
             for (let district in districts) {
                 const opt = document.createElement('option');
@@ -762,41 +765,75 @@
                 opt.textContent = district;
                 districtEl.appendChild(opt);
             }
+             zipcodeEl.value = '';
         });
 
+// 行政區變更 → 更新郵遞區號
         districtEl.addEventListener('change', () => {
             const city = cityEl.value;
             const district = districtEl.value;
-            zipcodeEl.value = zipData[city][district];
+            zipcodeEl.value = (zipData[city] && zipData[city][district]) || '';
         });
 
-        document.getElementById('addressForm').addEventListener('submit', function (e) {
+        // 表單送出
+        form.addEventListener('submit', e => {
             e.preventDefault();
-            const name = document.getElementById('name').value.trim();
-            const city = cityEl.value;
-            const district = districtEl.value;
-            const zipcode = zipcodeEl.value;
-            const street = document.getElementById('street').value.trim();
-            const phone = document.getElementById('phone').value.trim();
 
-            if (!/^09\d{8}$/.test(phone)) {
-                alert('手機號碼格式錯誤，請輸入正確的 09 開頭 10 碼號碼');
+          const addressData = {
+      name: form.querySelector('[name="name"]').value.trim(),
+      city: cityEl.value,
+      district: districtEl.value,
+      zipcode: zipcodeEl.value,
+      street: form.querySelector('[name="street"]').value.trim(),
+      phone: form.querySelector('[name="phone"]').value.trim(),
+      isDefaultOrder: form.querySelector('[name="isDefaultOrder"]').checked,
+      isDefaultShipping: form.querySelector('[name="isDefaultShipping"]').checked
+    };
+            if (!/^09\d{8}$/.test(addressData.phone)) {
+                alert('請輸入正確格式的手機號碼');
                 return;
             }
 
-            const address = {
-                name, city, district, zipcode, street, phone,
-                isDefaultOrder: document.getElementById('isDefaultOrder').checked,
-                isDefaultShipping: document.getElementById('isDefaultShipping').checked
-            };
+       
+            // 示範儲存與關閉 Modal（你可根據 form.id 決定是新增還是編輯）
+            const mode = form.dataset.mode; // "add" or "edit"
+const addressId = form.dataset.addressId || null;
+             let url = "http://localhost:8080/customers/front/address";
+  let method = "POST"; // 預設是新增
 
-            localStorage.setItem('userAddress', JSON.stringify(address));
-            alert('地址已儲存！');
-            document.getElementById('addressForm').reset();
-            zipcodeEl.value = '';
-            districtEl.innerHTML = '<option selected disabled>請選擇</option>';
-            bootstrap.Modal.getInstance(document.getElementById('addressModal')).hide();
-        });
+  if (mode === "edit" && addressId) {
+    url += `/${addressId}`; // 如果是編輯，就加上地址 ID
+    method = "PUT";
+  }
+     fetch(url, {
+        method,
+        headers: {
+            "Content-Type": "application/json"
+        },
+        credentials: "include", // ⬅️ 重點！讓 cookie / session 傳到後端
+        body: JSON.stringify(addressData)
+    })
+        .then(res => {
+            if (!res.ok) throw new Error("儲存失敗");
+            return res.json();
+        })
+        .then(data => {
+            alert("✅ 地址新增成功！");
+            form.reset(); // 清空表單
+    districtEl.innerHTML = '<option selected disabled>請選擇</option>';
+    zipcodeEl.value = '';
+
+    const modalId = form.id === 'addressAddForm' ? 'address_addModal' : 'addressModal';
+bootstrap.Modal.getInstance(document.getElementById(modalId)).hide(); // ✅ 用 modalId 決定關哪一個 modal
+        refreshAddressList(); // 👉 TODO：重新整理地址列表（你之後可以寫）
+  }).catch(err => {
+        console.error("❌ 儲存錯誤：", err);
+        alert("儲存失敗，請再試一次！");
+      });
+  });
+});
+          
+
 
         // creditCard
         const cardInput = document.getElementById('cardNumber');
@@ -913,12 +950,12 @@
             });
         }
 
-        // 點數明細
-        function toggleDetail(button) {
-            const container = document.getElementById('points-detail-container');
-            const isShown = container.classList.toggle('show');
-            button.textContent = isShown ? '隱藏點數明細' : '顯示點數明細';
-        }
+        // // 點數明細
+        // function toggleDetail(button) {
+        //     const container = document.getElementById('points-detail-container');
+        //     const isShown = container.classList.toggle('show');
+        //     button.textContent = isShown ? '隱藏點數明細' : '顯示點數明細';
+        // }
 
         //取消訂單
         $.ajax({
@@ -1047,44 +1084,6 @@
                     window.location.href = "login.html";
                 });
         });
-//新增地址fetch
-document.getElementById("addressForm").addEventListener("submit", function (e) {
-    e.preventDefault(); // 防止表單送出跳轉
-
-    const addressData = {
-        name: document.getElementById("name").value.trim(),
-        city: document.getElementById("city").value,
-        district: document.getElementById("district").value,
-        zipcode: document.getElementById("zipcode").value,
-        street: document.getElementById("street").value.trim(),
-        phone: document.getElementById("phone").value.trim(),
-        isDefaultOrder: document.getElementById("isDefaultOrder").checked,
-        isDefaultShipping: document.getElementById("isDefaultShipping").checked
-    };
-
-    console.log("📦 準備送出地址：", addressData);
-
-    fetch("http://localhost:8080/customers/front/address", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        credentials: "include", // ⬅️ 重點！讓 cookie / session 傳到後端
-        body: JSON.stringify(addressData)
-    })
-        .then(res => {
-            if (!res.ok) throw new Error("新增失敗");
-            return res.json();
-        })
-        .then(data => {
-            alert("✅ 地址新增成功！");
-            // 可以刷新地址列表或關閉 modal
-        })
-        .catch(err => {
-            console.error("❌ 新增失敗：", err);
-            alert("地址新增失敗，請再試一次！");
-        });
-});
 
 
 

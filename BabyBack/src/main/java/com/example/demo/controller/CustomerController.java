@@ -24,9 +24,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.example.demo.dto.LoginRequestDTO;
 import com.example.demo.model.Customer;
 import com.example.demo.model.CustomerAddress;
+import com.example.demo.model.CustomerFavorites;
+import com.example.demo.model.Product;
 import com.example.demo.model.Response;
 import com.example.demo.repository.CustomerRepository;
 import com.example.demo.service.AddressService;
+import com.example.demo.service.CustomerFavoritesService;
 import com.example.demo.service.CustomerService;
 
 import jakarta.servlet.http.HttpSession;
@@ -290,6 +293,7 @@ public class CustomerController {
 
 	 // 取得登入會員的所有地址
     @GetMapping("/front/address")
+    @ResponseBody
     public List<CustomerAddress> getAddresses(HttpSession session) {
     	Integer customerId = (Integer) session.getAttribute("customerId");
         if (customerId == null) throw new RuntimeException("未登入");
@@ -299,7 +303,8 @@ public class CustomerController {
     }
 
     // 新增地址（使用 session 取得會員，處理預設地址唯一性）
-    @PostMapping
+    @PostMapping("/front/address")
+    @ResponseBody
     public CustomerAddress addAddress(@RequestBody CustomerAddress address, HttpSession session) {
     	 Integer customerId = (Integer) session.getAttribute("customerId");
          if (customerId == null) throw new RuntimeException("未登入");
@@ -319,7 +324,8 @@ public class CustomerController {
     }
 
     // 刪除地址
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/front/address/{id}")
+    @ResponseBody
     public ResponseEntity<?> deleteAddress(@PathVariable Integer id, HttpSession session) {
         Integer customerId = (Integer) session.getAttribute("customerId");
         if (customerId == null) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("未登入");
@@ -336,7 +342,8 @@ public class CustomerController {
 	
     //編輯地址
     
-    @PutMapping("/{id}")
+    @PutMapping("/front/address/{id}")
+    @ResponseBody
     public ResponseEntity<?> updateAddress(@PathVariable Integer id,
                                            @RequestBody CustomerAddress updated,
                                            HttpSession session) {
@@ -369,6 +376,65 @@ public class CustomerController {
     }
  
     
+ // ============= 收藏清單 API =================
+    @Autowired
+    private CustomerFavoritesService favoritesService;
+
+    @GetMapping("/front/favorites")
+    @ResponseBody
+    public ResponseEntity<?> getFavorites(HttpSession session) {
+        Integer customerId = (Integer) session.getAttribute("customerId");
+        if (customerId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("未登入");
+        }
+
+        Customer customer = customerRepo.findById(customerId).orElseThrow();
+        List<CustomerFavorites> favorites = favoritesService.getFavoritesByCustomer(customer);
+
+        List<Map<String, Object>> list = favorites.stream().map(fav -> {
+            Product p = fav.getProduct();
+            Map<String, Object> m = new HashMap<>();
+            m.put("id", p.getId());
+            m.put("name", p.getName());
+            m.put("price", p.getPrice());
+            m.put("imageUrl", p.getImageUrl());
+            m.put("color", p.getColor()); // ✅ 新增
+            m.put("specification", p.getSpecification()); // ✅ 新增
+            return m;
+        }).toList();
+
+        return ResponseEntity.ok(list);
+    }
+
+    @DeleteMapping("/front/favorites/{productId}")
+    @ResponseBody
+    public ResponseEntity<String> removeFavorite(@PathVariable Integer productId, HttpSession session) {
+        Integer customerId = (Integer) session.getAttribute("customerId");
+        if (customerId == null) return ResponseEntity.status(401).body("未登入");
+
+        Customer customer = customerRepo.findById(customerId).orElseThrow();
+        Product product = new Product();
+        product.setId(productId);
+        favoritesService.removeFavorite(customer, product);
+
+        return ResponseEntity.ok("已移除收藏");
+    }
+
+    @PostMapping("/front/favorites")
+    @ResponseBody
+    public ResponseEntity<String> addFavorite(@RequestBody Map<String, Integer> body, HttpSession session) {
+        Integer customerId = (Integer) session.getAttribute("customerId");
+        if (customerId == null) return ResponseEntity.status(401).body("未登入");
+
+        Integer productId = body.get("productId");
+        Customer customer = customerRepo.findById(customerId).orElseThrow();
+        Product product = new Product();
+        product.setId(productId);
+
+        favoritesService.addFavorite(customer, product);
+        return ResponseEntity.ok("已加入收藏");
+    }
+
     
     
     

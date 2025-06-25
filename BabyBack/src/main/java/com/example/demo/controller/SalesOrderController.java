@@ -36,6 +36,7 @@ public class SalesOrderController {
     @Autowired private SalesOrderService orderService;
     @Autowired private CustomerRepository customerRepository;
     @Autowired private ProductRepository productRepository;
+    @Autowired private AddressService addressService;
     
     @GetMapping
     public String listOrders(Model model) {
@@ -189,7 +190,8 @@ public class SalesOrderController {
                 customerEmail = order.getCustomer().getEmail();
             }
             if (customerAddress == null && order.getCustomer() != null) {
-                customerAddress = order.getCustomer().getAddress();
+            	CustomerAddress address = addressService.getDeliverAddress(order.getCustomer());
+                customerAddress = address.getCity() + address.getDistrict() + address.getStreet();
             }
             
             orderData.put("customerName", customerName != null ? customerName : "未提供");

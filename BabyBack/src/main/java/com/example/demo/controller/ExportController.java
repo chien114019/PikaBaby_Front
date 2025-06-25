@@ -1,26 +1,47 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.SalesOrder;
-import com.example.demo.service.SalesOrderService;
-import jakarta.servlet.http.HttpServletResponse;
-import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
-
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.demo.model.Customer;
+import com.example.demo.model.SalesOrder;
+import com.example.demo.service.CustomerService;
+import com.example.demo.service.SalesOrderService;
+
+import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
-public class SalesOrderExportController {
+public class ExportController {
 
     @Autowired
     private SalesOrderService orderService;
+    
+    @Autowired
+    private CustomerService customerService;
 
     @GetMapping("/orders/export")
-    public void exportExcel(HttpServletResponse response) throws IOException {
+    public void exportOrdersExcel(HttpServletResponse response) throws IOException {
         List<SalesOrder> orders = orderService.listAll();
 
         Workbook workbook = new XSSFWorkbook();
@@ -56,5 +77,23 @@ public class SalesOrderExportController {
 
         workbook.write(response.getOutputStream());
         workbook.close();
+    }
+    
+    private String LocalDateFormatter(LocalDate date) {
+    	DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    	if (date != null) {
+    		return date.format(dtf);			
+		} else {
+			return "";
+		}
+    }
+    
+    private String LocalDateTimeFormatter(LocalDateTime dateTime) {
+    	DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    	if (dateTime != null) {		
+    		return dateTime.format(dtf);
+		} else {
+			return "";
+		}
     }
 }

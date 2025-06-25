@@ -25,11 +25,11 @@ public class AddressService {
 	public void deleteById(Integer id) {
 		addressRepo.deleteById(id);
 	}
-	
+
 	public CustomerAddress findById(Integer id) {
 		return addressRepo.findById(id).orElseThrow(() -> new RuntimeException("地址不存在"));
 	}
-	
+
 	public void clearDefaultOrder(Customer customer) {
 		CustomerAddress currentDefault = addressRepo.findByCustomerAndIsDefaultOrderTrue(customer);
 		if (currentDefault != null) {
@@ -44,6 +44,14 @@ public class AddressService {
 			currentDefault.setIsDefaultShipping(false);
 			addressRepo.save(currentDefault);
 		}
+	}
+
+	public CustomerAddress getHomeAddress(Customer cust) {
+		return addressRepo.findByCustomerAndIsDefaultOrderTrue(cust);
+	}
+
+	public CustomerAddress getDeliverAddress(Customer cust) {
+		return addressRepo.findByCustomerAndIsDefaultShippingTrue(cust);
 	}
 
 }

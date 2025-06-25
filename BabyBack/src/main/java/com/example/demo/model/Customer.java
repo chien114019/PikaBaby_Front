@@ -19,7 +19,6 @@ public class Customer {
     private String name;
     private String phone;
     private String email;
-    private String address;
     private String password;
     private LocalDate birthday;
     
@@ -29,13 +28,14 @@ public class Customer {
     
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Taipei")
     private LocalDateTime createdAt;
+    
     private LocalDateTime firstLoginAt;
     
     @Column(length = 30)
     private String creditCard;
     
     private Integer points;
-    
+  
     
 	public Integer getId() {
 		return id;
@@ -60,12 +60,6 @@ public class Customer {
 	}
 	public void setEmail(String email) {
 		this.email = email;
-	}
-	public String getAddress() {
-		return address;
-	}
-	public void setAddress(String address) {
-		this.address = address;
 	}
 	public String getPassword() {
 		return password;

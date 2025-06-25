@@ -1,5 +1,7 @@
 package com.example.demo.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.example.demo.model.Customer;
@@ -19,4 +21,6 @@ public interface CustomerFavoritesRepository extends JpaRepository<CustomerFavor
 
     // 移除特定收藏
     void deleteByCustomerAndProduct(Customer customer, Product product);
+    
+    List<CustomerFavorites> findAllByCustomer(Customer cust);
 }

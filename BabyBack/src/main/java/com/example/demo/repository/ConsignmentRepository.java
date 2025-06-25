@@ -48,6 +48,12 @@ public interface ConsignmentRepository extends JpaRepository<Consignment, Intege
 	List<Consignment> getStorageByCust(@Param("custId") Long custId);
 
 	List<Consignment> findAllByWithdrawal(Withdrawal withdrawal);
+	
+	@Query("""
+			SELECT COUNT(c) FROM Consignment c
+			WHERE c.customer = :customer
+			""")
+	Integer getConsignTotalByCustomer(Customer customer);
 
 //	============前台API=============
 	List<Consignment> findAllByCustomer(Customer customer);

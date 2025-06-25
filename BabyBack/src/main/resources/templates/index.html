@@ -173,7 +173,7 @@
 				<div class="block inventory vertical">
 					<div class="block-title">進貨與庫存管理</div>
 					<div sec:authorize="hasAnyRole('ADMIN', 'SALES')">
-						<a th:href="@{/suppliers}" class="btn btn-outline-dark">廠商建檔</a> <a
+						<a th:href="@{/suppliers}" class="btn btn-outline-dark">供應商建檔</a> <a
 							th:href="@{/products}" class="btn btn-outline-dark">商品建檔</a> <a
 							th:href="@{/supplier-products}" class="btn btn-outline-dark">商品價格建檔</a>
 						<a th:href="@{/purchases}" class="btn btn-outline-dark">進貨單</a> <a
@@ -184,7 +184,7 @@
 						<button
 							class="btn btn-outline-secondary disabled w-90 text-muted mb-1"
 							style="pointer-events: none;">
-							<i class="bi bi-lock-fill me-1"></i>廠商建檔
+							<i class="bi bi-lock-fill me-1"></i>供應商建檔
 						</button>
 						<button
 							class="btn btn-outline-secondary disabled w-90 text-muted mb-1"

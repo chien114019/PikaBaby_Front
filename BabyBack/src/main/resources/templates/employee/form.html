@@ -10,15 +10,19 @@
 	rel="stylesheet">
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-<link href="/supplier.css" rel="stylesheet">
+<link href="/sidebar.css" rel="stylesheet">
 
 </head>
 
 <body>
+	<!-- 0624新增響應式 還有最下方js-->
+	<!-- 黑色遮罩（點擊可關閉 sidebar） -->
+	<div class="overlay" id="sidebarOverlay"></div>
+
 	<div class="container-fluid">
 		<div class="row">
 
-			<!-- Sidebar 0619版新增商品上架、商品價格建檔 但尚未加上連結-->
+			<!-- Sidebar 0624新增響應式版 -->
 			<nav class="col-md-3 col-lg-2 px-3 sidebar">
 				<div class="position-sticky">
 					<a href="http://localhost:8080/"> <img src="/logo-pikababy.png"
@@ -85,14 +89,14 @@
                 <div class="accordion-item">
                   <h5 class="accordion-header" id="heading4">
                     <button class="accordion-button collapsed bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
-                      <i class="bi bi-cash-coin me-2"></i>POS結帳
+                      <i class="bi bi-cash-coin me-2"></i>結帳
                     </button>
                   </h5>
                   <div id="collapse4" class="accordion-collapse collapse" aria-labelledby="heading4" >
                     <div class="accordion-body">
                       <ul class="list-unstyled">
-                        <li><a href="/pos" class="text-secondary">POS前台結帳系統</a></li>
-                        
+                        <li><a href="https://pay.line.me/portal/tw/auth/login" class="text-secondary">Line Pay</a></li>
+                        <li><a href="https://developers.ecpay.com.tw/" class="text-secondary">綠界</a></li>
                       </ul>
                     </div>
                   </div>
@@ -110,9 +114,9 @@
                       <ul class="list-unstyled">
                       <li><a href="/suppliers" class="text-secondary">廠商建檔</a></li>
                       <li><a href="/products" class="text-secondary">商品建檔</a></li>
-                      <li><a href="" class="text-secondary">商品價格建檔</a></li>
+                      <li><a href="/supplier-products" class="text-secondary">商品價格建檔</a></li>
                         <li><a href="/purchases" class="text-secondary">進貨單</a></li>
-                        <li><a href="" class="text-secondary">商品上架</a></li>
+                        <li><a href="/products/publish" class="text-secondary">商品上架</a></li>
                         <li><a href="/stock" class="text-secondary">庫存查詢</a></li>
                         </ul>
                     </div>
@@ -160,14 +164,14 @@
                     <button class="accordion-button collapsed bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapse8" aria-expanded="false" aria-controls="collapse8">
                       <i class="bi bi-bar-chart-line me-2"></i>報表管理
                     </button>
-                  </h5>
-                  <div id="collapse8" class="accordion-collapse collapse" aria-labelledby="heading8" >
-                    <div class="accordion-body">
-                      <ul class="list-unstyled">
-                        <li><a href="/accounting/receipts" class="text-secondary">成本報表</a></li>
-                        <li><a href="/dashboard" class="text-secondary">銷售報表</a></li>
-                        </ul>
-                    </div>
+                      </h5>
+                      <div id="collapse8" class="accordion-collapse collapse" aria-labelledby="heading8" >
+                        <div class="accordion-body">
+                          <ul class="list-unstyled">
+                            <li><a href="/dashboard/purchase" class="text-secondary">成本報表</a></li>
+                            <li><a href="/dashboard/sales" class="text-secondary">銷售報表</a></li>
+                            </ul>
+                        </div>
                   </div>
                 </div>
               `);
@@ -175,20 +179,25 @@
 					</div>
 				</div>
 			</nav>
+			<!-- 新增中間側邊欄按鈕 -->
+			<button class="sidebar-toggle" id="toggleSidebarBtn">
+				<i class="bi bi-chevron-right"></i>
+			</button>
+
 
 			<!-- 員工登入 -->
 			<div class="dropdown d-flex justify-content-end pe-4 pt-3 user">
 				<a href="#"
 					class="d-inline-flex align-items-center text-dark text-decoration-none dropdown-toggle"
 					id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-					<i class="bi bi-person-circle fs-4 me-2"></i> Hi! 總經理 小智
+					<i class="bi bi-person-circle fs-4 me-2"></i> Hi! Pika
 				</a>
 				<ul class="dropdown-menu text-small" aria-labelledby="userDropdown">
-					<!-- <li><a class="dropdown-item" href="#">個人資料設定</a></li>
-					<li><a class="dropdown-item" href="#"></a></li>
-					<li>
-						<hr class="dropdown-divider">
-					</li> -->
+					<!-- <li><a class="dropdown-item" href="#">個人資料設定</a></li> -->
+					<!-- <li><a class="dropdown-item" href="#"></a></li> -->
+					<!-- <li> -->
+					<!-- <hr class="dropdown-divider"> -->
+					<!-- </li> -->
 					<li><a class="dropdown-item text-danger text-center"
 						th:href="@{/logout}">登出</a></li>
 				</ul>
@@ -209,42 +218,48 @@
 					<!-- 從此往下寫右側區域功能 -->
 					<div class="card w-75 mx-auto bg-white m-5 shadow rounded-4"
 						style="padding: 4rem;">
-						<h2 th:text="${employee.id != null ? '編輯後台使用者' : '新增後台使用者'}" class="text-center"></h2>
+						<h2 th:text="${employee.id != null ? '編輯後台使用者' : '新增後台使用者'}"
+							class="text-center"></h2>
 
-						<form th:action="@{/employee/save}" th:object="${employee}" method="post">
-    <input type="hidden" th:field="*{id}" />
+						<form th:action="@{/employee/save}" th:object="${employee}"
+							method="post">
+							<input type="hidden" th:field="*{id}" />
 
-    <div class="mb-3">
-        <label class="fw-bold">帳號</label>
-        <input type="text" th:field="*{username}" class="form-control mt-2" required />
-    </div>
+							<div class="mb-3">
+								<label class="fw-bold">帳號</label> <input type="text"
+									th:field="*{username}" class="form-control mt-2" required />
+							</div>
 
-    <div class="mb-3">
-        <label class="fw-bold">姓名</label>
-        <input type="text" th:field="*{realname}" class="form-control mt-2" />
-    </div>
+							<div class="mb-3">
+								<label class="fw-bold">姓名</label> <input type="text"
+									th:field="*{realname}" class="form-control mt-2" />
+							</div>
 
-    <div class="mb-3">
-        <label class="fw-bold">密碼</label>
-        <input type="password" th:field="*{password}" class="form-control mt-2" required />
-       <!--  <div class="form-text text-muted">如不修改密碼，請輸入與原密碼相同的值</div> -->
-    </div>
+							<div class="mb-3">
+								<label class="fw-bold">密碼</label> <input type="password"
+									th:field="*{password}" class="form-control mt-2" required />
+								<!--  <div class="form-text text-muted">如不修改密碼，請輸入與原密碼相同的值</div> -->
+							</div>
 
-    <div class="mb-3">
-        <label class="fw-bold">權限</label>
-        <select th:field="*{role}" class="form-select mt-2" required>
-            <option value="ADMIN">ADMIN</option>
-            <option value="SALES">SALES</option>
-            <!-- <option value="VIEWER">VIEWER</option> -->
-            <option value="FINANCE">FINANCE</option>
-        </select>
-    </div>
+							<div class="mb-3">
+								<label class="fw-bold">權限</label> <select th:field="*{role}"
+									class="form-select mt-2" required>
+									<option value="ADMIN">ADMIN</option>
+									<option value="SALES">SALES</option>
+									<!-- <option value="VIEWER">VIEWER</option> -->
+									<option value="FINANCE">FINANCE</option>
+								</select>
+							</div>
 
-    <div class="text-center mt-4">
-        <button type="submit" class="btn btn-outline-success"><i class="bi bi-check2-square me-1"></i>儲存</button>
-        <a th:href="@{/employee/list}" class="btn btn-outline-secondary ms-2"><i class="bi bi-x-circle me-1"></i>取消</a>
-    </div>
-</form>
+							<div class="text-center mt-4">
+								<button type="submit" class="btn btn-outline-success">
+									<i class="bi bi-check2-square me-1"></i>儲存
+								</button>
+								<a th:href="@{/employee/list}"
+									class="btn btn-outline-secondary ms-2"><i
+									class="bi bi-x-circle me-1"></i>取消</a>
+							</div>
+						</form>
 
 					</div>
 					<!-- 從此以上寫右側區域功能 -->
@@ -256,7 +271,23 @@
 
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+	<script>
+const toggleBtn = document.getElementById("toggleSidebarBtn");
+const sidebar = document.querySelector(".sidebar");
+const overlay = document.getElementById("sidebarOverlay");
 
+toggleBtn.addEventListener("click", () => {
+  sidebar.classList.toggle("show");
+  overlay.classList.toggle("show");
+  toggleBtn.classList.toggle("open");
+});
+
+overlay.addEventListener("click", () => {
+  sidebar.classList.remove("show");
+  overlay.classList.remove("show");
+  toggleBtn.classList.remove("open");
+});
+</script>
 </body>
 
 </html>

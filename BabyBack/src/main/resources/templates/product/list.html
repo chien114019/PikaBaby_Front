@@ -10,15 +10,19 @@
 	rel="stylesheet">
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-<link href="/product.css" rel="stylesheet">
+<link href="/sidebar.css" rel="stylesheet">
 
 </head>
 
 <body>
+	<!-- 0624新增響應式 還有最下方js-->
+	<!-- 黑色遮罩（點擊可關閉 sidebar） -->
+	<div class="overlay" id="sidebarOverlay"></div>
+
 	<div class="container-fluid">
 		<div class="row">
 
-			<!-- Sidebar 0619版新增商品上架、商品價格建檔 但尚未加上連結-->
+			<!-- Sidebar 0624新增響應式版 -->
 			<nav class="col-md-3 col-lg-2 px-3 sidebar">
 				<div class="position-sticky">
 					<a href="http://localhost:8080/"> <img src="/logo-pikababy.png"
@@ -85,14 +89,14 @@
                 <div class="accordion-item">
                   <h5 class="accordion-header" id="heading4">
                     <button class="accordion-button collapsed bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
-                      <i class="bi bi-cash-coin me-2"></i>POS結帳
+                      <i class="bi bi-cash-coin me-2"></i>結帳
                     </button>
                   </h5>
                   <div id="collapse4" class="accordion-collapse collapse" aria-labelledby="heading4" >
                     <div class="accordion-body">
                       <ul class="list-unstyled">
-                        <li><a href="/pos" class="text-secondary">POS前台結帳系統</a></li>
-                        
+                        <li><a href="https://pay.line.me/portal/tw/auth/login" class="text-secondary">Line Pay</a></li>
+                        <li><a href="https://developers.ecpay.com.tw/" class="text-secondary">綠界</a></li>
                       </ul>
                     </div>
                   </div>
@@ -108,11 +112,11 @@
                   <div id="collapse5" class="accordion-collapse collapse" aria-labelledby="heading5" >
                     <div class="accordion-body">
                       <ul class="list-unstyled">
-                      <li><a href="/suppliers" class="text-secondary">廠商建檔</a></li>
+                      <li><a href="/suppliers" class="text-secondary">供應商建檔</a></li>
                       <li><a href="/products" class="text-secondary">商品建檔</a></li>
-                      <li><a href="" class="text-secondary">商品價格建檔</a></li>
+                      <li><a href="/supplier-products" class="text-secondary">商品價格建檔</a></li>
                         <li><a href="/purchases" class="text-secondary">進貨單</a></li>
-                        <li><a href="" class="text-secondary">商品上架</a></li>
+                        <li><a href="/products/publish" class="text-secondary">商品上架</a></li>
                         <li><a href="/stock" class="text-secondary">庫存查詢</a></li>
                         </ul>
                     </div>
@@ -164,8 +168,8 @@
                   <div id="collapse8" class="accordion-collapse collapse" aria-labelledby="heading8" >
                     <div class="accordion-body">
                       <ul class="list-unstyled">
-                        <li><a href="/accounting/receipts" class="text-secondary">成本報表</a></li>
-                        <li><a href="/dashboard" class="text-secondary">銷售報表</a></li>
+                        <li><a href="/dashboard/purchase" class="text-secondary">成本報表</a></li>
+                        <li><a href="/dashboard/sales" class="text-secondary">銷售報表</a></li>
                         </ul>
                     </div>
                   </div>
@@ -175,6 +179,10 @@
 					</div>
 				</div>
 			</nav>
+			<!-- 新增中間側邊欄按鈕 -->
+			<button class="sidebar-toggle" id="toggleSidebarBtn">
+				<i class="bi bi-chevron-right"></i>
+			</button>
 
 
 			<!-- 員工登入 -->
@@ -182,7 +190,7 @@
 				<a href="#"
 					class="d-inline-flex align-items-center text-dark text-decoration-none dropdown-toggle"
 					id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-					<i class="bi bi-person-circle fs-4 me-2"></i> Hi! 總經理 小智
+					<i class="bi bi-person-circle fs-4 me-2"></i> Hi! Pika
 				</a>
 				<ul class="dropdown-menu text-small" aria-labelledby="userDropdown">
 					<!-- <li><a class="dropdown-item" href="#">個人資料設定</a></li> -->
@@ -207,14 +215,16 @@
 						</ol>
 					</nav>
 					<!-- 從此往下寫右側區域功能 -->
-					<h2>商品清單</h2>
+					<h2 class="fw-bold">商品清單</h2>
 
 					<form method="get" action="/products" class="mb-3">
 						<div class="d-flex align-items-end flex-wrap gap-3">
+							<!-- 左側搜尋 -->
 							<div>
-								<label for="keyword" class="form-label">商品關鍵字</label> <input
-									type="text" class="form-control" id="keyword" name="keyword"
-									th:value="${param.keyword}" placeholder="請輸入商品名稱">
+								<!-- <label for="keyword" class="form-label">商品關鍵字</label>  -->
+								<input type="text" class="form-control" id="keyword"
+									name="keyword" th:value="${param.keyword}"
+									placeholder="請輸入商品名稱">
 							</div>
 
 							<div class="pt-2">
@@ -223,6 +233,7 @@
 								</button>
 							</div>
 
+							<!-- 顯示已刪除 按鈕 -->
 							<div class="pt-2">
 								<input class="form-check-input" type="checkbox"
 									name="showDeleted" id="showDeleted" th:checked="${showDeleted}">
@@ -230,6 +241,7 @@
 								<button type="submit" class="btn btn-outline-success btn-sm">篩選</button>
 							</div>
 
+							<!-- 右側新增按鈕 -->
 							<div class="ms-auto pt-2">
 								<a class="btn btn-outline-primary" th:href="@{/products/new}">
 									<i class="bi bi-plus-circle me-1"></i>新增商品
@@ -239,7 +251,7 @@
 					</form>
 
 
-
+					<!-- 表格區塊 -->
 					<table class="table table-bordered align-middle">
 						<thead class="text-center">
 							<tr>
@@ -253,18 +265,20 @@
 						</thead>
 						<tbody>
 							<tr th:each="p : ${products}">
-								<td th:text="${p.id}" class="text-center">1</td>
-								<td th:text="${p.name}" class="text-center">Apple</td>
+								<td th:text="${p.id}" class="text-center" th:classappend="${p.deleted} ? 'text-muted text-decoration-line-through' : ''">1</td>
+								<td th:text="${p.name}" class="text-center" th:classappend="${p.deleted} ? 'text-muted text-decoration-line-through' : ''">Apple</td>
 								<!--  <td th:text="${p.price}">100</td> -->
 								<!-- 0, 'COMMA'：代表小數點前每三位加逗號;0, 'POINT'：代表保留0位小數，用小數點分隔;'$' + ...：前面手動加上 $ 符號 -->
 								<!-- <td th:text="'$' + ${#numbers.formatDecimal(p.price, 0, 'COMMA', 0, 'POINT')}" class="text-center"></td>-->
 								<td th:text="${#strings.abbreviate(p.note, 30)}"
-									th:title="${p.note}" class="text-center">說明</td>
-								<td class="text-center"><a class="btn btn-sm btn-info "
+									th:title="${p.note}" class="text-center" th:classappend="${p.deleted} ? 'text-muted text-decoration-line-through' : ''">說明</td>
+								<td class="text-center" ><a class="btn btn-sm btn-info "
 									th:href="@{'/products/view/' + ${p.id}}">查看</a></td>
 								<!-- <td th:text="${p.stock}" class="text-center">50</td> -->
 								<td class="text-center"><span th:if="${p.deleted}"
-									class="text-danger fw-bold">已刪除</span> <!-- 還原按鈕 -->
+									class="text-danger fw-bold"></span> 
+									
+									<!-- 還原按鈕 -->
 									<form th:if="${p.deleted}"
 										th:action="@{/products/restore/{id}(id=${p.id})}"
 										method="post" class="d-inline">
@@ -290,6 +304,25 @@
 
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+		<script>
+	/* Sidebar響應式功能 */
+		 const toggleBtn = document.getElementById("toggleSidebarBtn");
+		  const sidebar = document.querySelector(".sidebar");
+		  const overlay = document.getElementById("sidebarOverlay");
+
+		  toggleBtn.addEventListener("click", () => {
+		    sidebar.classList.toggle("show");
+		    overlay.classList.toggle("show");
+		    toggleBtn.classList.toggle("open");
+		  });
+
+		  overlay.addEventListener("click", () => {
+		    sidebar.classList.remove("show");
+		    overlay.classList.remove("show");
+		    toggleBtn.classList.remove("open");
+		  });
+</script>
+		
 
 </body>
 

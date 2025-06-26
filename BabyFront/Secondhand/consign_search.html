@@ -357,9 +357,10 @@
 
             $.ajax({
                 method: "GET",
-                // url: `${root}/cust/${custid}?applyStart=${start}&applyEnd=${end}&type=${type}&review=${review}`,
                 url: `${root}/cust?applyStart=${start}&applyEnd=${end}&type=${type}&review=${review}`,
-                credentials: 'include',
+                xhrFields:{
+                    withCredentials: true
+                },
                 success: function (data) {
                     showData(data);
                 },

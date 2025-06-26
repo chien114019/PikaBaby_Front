@@ -45,6 +45,7 @@ public class WithdrawalService {
 //	getWithdrawsByCustId
 	public List<Withdrawal> getWithdrawsByCustId(String custId) {
 		cust = cRepository.findById((int) Long.parseLong(custId)).orElse(null);
+		System.out.println(repository.findAllByCustomer(cust).get(0).getBankNo().getbCode());
 		return repository.findAllByCustomer(cust);
 	}
 	

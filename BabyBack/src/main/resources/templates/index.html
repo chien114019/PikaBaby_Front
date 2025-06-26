@@ -26,22 +26,25 @@
 	<main class="px-1 py-1">
 
 		<!-- 員工登入 -->
-		<div class="dropdown d-flex justify-content-end pe-4 pt-3 user">
+		<div class="dropdown d-flex justify-content-end pe-5 pt-3 user">
 			<a href="#"
 				class="d-inline-flex align-items-center text-dark text-decoration-none dropdown-toggle"
 				id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-				<i class="bi bi-person-circle fs-4 me-2"></i> Hi! <span
+				<i class="bi bi-person-circle fs-4 me-2"></i> 
+				<!-- <span
 				th:if="${session.user != null}" th:text="${session.user.realname}">使用者名稱</span>
-				<span th:unless="${session.user != null}">Pika</span>
+				<span th:unless="${session.user != null}">Pika</span> -->
 			</a>
-			<ul class="dropdown-menu text-small" aria-labelledby="userDropdown">
+			<ul class="dropdown-menu text-small " aria-labelledby="userDropdown">
 				<!-- <li><a class="dropdown-item" href="#">個人資料設定</a></li> -->
 				<!-- <li><a class="dropdown-item" href="#"></a></li> -->
 				<!-- <li> -->
 				<!-- <hr class="dropdown-divider"> -->
 				<!-- </li> -->
-				<li><a class="dropdown-item text-danger text-center"
-					th:href="@{/logout}">登出</a></li>
+				<li>
+				<a class="dropdown-item text-danger text-center"
+					th:href="@{/logout}">登出</a>
+					</li>
 			</ul>
 		</div>
 
@@ -81,6 +84,7 @@
 						<!-- 只判斷一種角色，用hasRole|判斷一種「以上」角色,用hasAnyRole  -->
 						<a th:href="@{/employee/list}" class="btn btn-outline-dark">登入/權限管理</a>
 						<a th:href="@{/customers}" class="btn btn-outline-dark">會員帳號管理</a>
+						<a th:href="@{/company}" class="btn btn-outline-dark">公司資料維護</a>
 					</div>
 					<div sec:authorize="!hasRole('ADMIN')">
 						<button class="btn btn-outline-secondary disabled w-90 text-muted"
@@ -91,14 +95,18 @@
 							style="pointer-events: none;">
 							<i class="bi bi-lock-fill me-1"></i>會員帳號管理
 						</button>
+						<button class="btn btn-outline-secondary disabled w-90 text-muted"
+							style="pointer-events: none;">
+							<i class="bi bi-lock-fill me-1"></i>公司資料維護
+						</button>
 						<div class="text-muted small mt-2">
 							<i class="bi bi-info-circle me-1"></i>無此功能權限
 						</div>
 					</div>
 				</div>
 
-				<!-- 資訊管理 -->
-				<div class="block info vertical">
+				<!-- 資訊管理 0626跟事務性管理合併-->
+				<!--  <div class="block info vertical">
 					<div class="block-title">資訊管理</div>
 					<div sec:authorize="hasAnyRole('ADMIN', 'VIEWER')">
 						<a th:href="@{/company}" class="btn btn-outline-dark">公司資料維護</a>
@@ -112,7 +120,7 @@
 							<i class="bi bi-info-circle me-1"></i>無此功能權限
 						</div>
 					</div>
-				</div>
+				</div>  -->
 
 				<!-- 財務管理 -->
 				<div class="block finance vertical">

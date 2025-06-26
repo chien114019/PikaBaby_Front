@@ -4,10 +4,10 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.example.demo.model.SalesOrder;
 import com.example.demo.model.Customer;
-
 
 public interface SalesOrderRepository extends JpaRepository<SalesOrder, Integer> {
 	
@@ -22,4 +22,19 @@ public interface SalesOrderRepository extends JpaRepository<SalesOrder, Integer>
 		List<Object[]> getMonthlySalesRaw();
 
 	List<SalesOrder> findAllByCustomer(Customer customer);
+	
+	@Query("""
+			SELECT SUM(sod.quantity*sod.unitPrice) FROM SalesOrder so
+			JOIN so.details sod
+			WHERE so.customer = :customer
+			""")
+	Integer getConsumptionByCustomer(@Param("customer") Customer customer);
+	
+	@Query("""
+			SELECT COUNT(so) FROM SalesOrder so
+			WHERE so.customer = :customer
+			""")
+	Integer getOrderTotalByCustomer(@Param("customer") Customer customer);
+	
+	
 }

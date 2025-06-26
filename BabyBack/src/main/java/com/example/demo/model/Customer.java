@@ -4,6 +4,7 @@ package com.example.demo.model;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -19,7 +20,6 @@ public class Customer {
     private String name;
     private String phone;
     private String email;
-    private String address;
     private String password;
     private LocalDate birthday;
     
@@ -29,13 +29,16 @@ public class Customer {
     
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Taipei")
     private LocalDateTime createdAt;
+    
     private LocalDateTime firstLoginAt;
     
     @Column(length = 30)
     private String creditCard;
     
     private Integer points;
-    
+  
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CustomerAddress> address;
     
 	public Integer getId() {
 		return id;
@@ -60,12 +63,6 @@ public class Customer {
 	}
 	public void setEmail(String email) {
 		this.email = email;
-	}
-	public String getAddress() {
-		return address;
-	}
-	public void setAddress(String address) {
-		this.address = address;
 	}
 	public String getPassword() {
 		return password;
@@ -122,6 +119,12 @@ public class Customer {
 		this.points = points;
 	}
 
+	public List<CustomerAddress> getAddresses() {
+		return address;
+	}
+	public void setAddresses(List<CustomerAddress> addresses) {
+		this.address = addresses;
+	}
 	// 空建構子（必要）
     public Customer() {}
 

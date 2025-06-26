@@ -153,7 +153,7 @@
     </nav>
 
     <!-- 主要內容區 -->
-    <main style="margin-top: 120px;">
+    <main style="margin-top: 10px;">
         <!-- 輪播圖區域 -->
         <div class="carousel" style="max-width: 1200px; margin: 0 auto 40px; position: relative;">
             <div class="carousel-container" style="position: relative; overflow: hidden; border-radius: 10px;">
@@ -209,7 +209,7 @@
                 style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; padding: 0 20px;">
                 <a href="Products/product.html?category=feeding" style="text-decoration: none; color: inherit;">
                     <div class="product-card" style="text-align: center;">
-                        <img src="images/pd1.jpg" alt="各式哺乳吸乳器"
+                        <img src="images/pd1.jpg" alt="各式哺乳吸乳器" loading="lazy"
                             style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 10px;">
                         <h3 style="margin-bottom: 10px;">哺乳用品系列</h3>
                         <div style="padding: 8px 20px; background-color: #f0ebe5; border-radius: 5px;">查看更多</div>
@@ -217,7 +217,7 @@
                 </a>
                 <a href="Products/product.html?category=education" style="text-decoration: none; color: inherit;">
                     <div class="product-card" style="text-align: center;">
-                        <img src="images/pd2.jpg" alt="知識就是你的力量"
+                        <img src="images/pd2.jpg" alt="知識就是你的力量" loading="lazy"
                             style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 10px;">
                         <h3 style="margin-bottom: 10px;">教育系列</h3>
                         <div style="padding: 8px 20px; background-color: #f0ebe5; border-radius: 5px;">查看更多</div>
@@ -225,7 +225,7 @@
                 </a>
                 <a href="Products/product.html?category=furniture" style="text-decoration: none; color: inherit;">
                     <div class="product-card" style="text-align: center;">
-                        <img src="images/pd3.jpg" alt="嬰兒床選購"
+                        <img src="images/pd3.jpg" alt="嬰兒床選購" loading="lazy"
                             style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 10px;">
                         <h3 style="margin-bottom: 10px;">嬰兒床選購</h3>
                         <div style="padding: 8px 20px; background-color: #f0ebe5; border-radius: 5px;">查看更多</div>
@@ -233,7 +233,7 @@
                 </a>
                 <a href="Products/product.html?category=toys" style="text-decoration: none; color: inherit;">
                     <div class="product-card" style="text-align: center;">
-                        <img src="images/pd4.jpg" alt="孩子們的夢想玩具"
+                        <img src="images/pd4.jpg" alt="孩子們的夢想玩具" loading="lazy"
                             style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 10px;">
                         <h3 style="margin-bottom: 10px;">玩具系列</h3>
                         <div style="padding: 8px 20px; background-color: #f0ebe5; border-radius: 5px;">查看更多</div>
@@ -248,23 +248,23 @@
             <div class="theme-container"
                 style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 20px; padding: 0 20px;">
                 <div class="theme-main" style="grid-row: span 2;">
-                    <img src="images/theme1.jpg" alt="主題特色"
+                    <img src="images/theme1.jpg" alt="主題特色" loading="lazy"
                         style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;">
                 </div>
                 <div class="theme-item">
-                    <img src="images/theme2.jpg" alt="主題2"
+                    <img src="images/theme2.jpg" alt="主題2" loading="lazy"
                         style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;">
                 </div>
                 <div class="theme-item">
-                    <img src="images/theme3.jpg" alt="主題3"
+                    <img src="images/theme3.jpg" alt="主題3" loading="lazy"
                         style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;">
                 </div>
                 <div class="theme-item">
-                    <img src="images/theme4.jpg" alt="主題4"
+                    <img src="images/theme4.jpg" alt="主題4" loading="lazy"
                         style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;">
                 </div>
                 <div class="theme-item">
-                    <img src="images/theme5.jpg" alt="主題5"
+                    <img src="images/theme5.jpg" alt="主題5" loading="lazy"
                         style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;">
                 </div>
             </div>
@@ -278,8 +278,6 @@
                 <!-- 排行榜項目將從資料庫動態渲染 -->
             </div>
         </div>
-
-
 
         <!-- 品牌影片 -->
         <div class="video-section" style="max-width: 1200px; margin: 0 auto 60px;">
@@ -380,55 +378,31 @@
             function renderRanking(selector, data) {
                 const container = document.querySelector(selector);
                 if (!container) return;
-                container.innerHTML = '';
-                
                 if (!data || data.length === 0) {
                     container.innerHTML = '<div style="text-align:center;color:#888;grid-column:span 3;">暫無商品銷售記錄</div>';
                     return;
                 }
-                
+                let html = '';
+                const rankColors = ['#FFD700', '#C0C0C0', '#CD7F32']; // 金、銀、銅
                 data.slice(0, 3).forEach((item, idx) => {
-                    const div = document.createElement('div');
-                    div.className = 'ranking-item';
-                    div.style.cssText = `
-                        text-align: center;
-                        padding: 20px;
-                        border: 1px solid #ddd;
-                        border-radius: 8px;
-                        background: #fff;
-                        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-                        transition: transform 0.3s ease;
-                    `;
-                    
-                    // 排名標籤顏色
-                    const rankColors = ['#FFD700', '#C0C0C0', '#CD7F32']; // 金、銀、銅
                     const rankColor = rankColors[idx] || '#e6b800';
-                    
-                    div.innerHTML = `
-                        <div style="font-size:24px;font-weight:bold;color:${rankColor};margin-bottom:10px;">
-                            第 ${idx + 1} 名
-                        </div>
-                        <img src="${item.image}" alt="${item.name}" 
-                             style="width:150px;height:150px;object-fit:cover;border-radius:8px;margin-bottom:15px;">
-                        <div style="font-weight:bold;font-size:16px;margin-bottom:8px;">${item.name}</div>
-                        <div style="color:#e44d26;font-size:18px;font-weight:bold;margin-bottom:5px;">
-                            售價：NT$ ${item.price}
-                        </div>
-                        <div style="color:#666;font-size:14px;">
-                            總銷量：${item.sold} 件
+                    html += `
+                        <div class="ranking-item" style="text-align: center; padding: 20px; border: 1px solid #ddd; border-radius: 8px; background: #fff;">
+                            <div style="font-size:24px;font-weight:bold;color:${rankColor};margin-bottom:10px;">
+                                第 ${idx + 1} 名
+                            </div>
+                            <img src="${item.image}" alt="${item.name}" loading="lazy" style="width:150px;height:150px;object-fit:cover;border-radius:8px;margin-bottom:15px;">
+                            <div style="font-weight:bold;font-size:16px;margin-bottom:8px;">${item.name}</div>
+                            <div style="color:#e44d26;font-size:18px;font-weight:bold;margin-bottom:5px;">
+                                售價：NT$ ${item.price}
+                            </div>
+                            <div style="color:#666;font-size:14px;">
+                                總銷量：${item.sold} 件
+                            </div>
                         </div>
                     `;
-                    
-                    // 懸停效果
-                    div.addEventListener('mouseenter', () => {
-                        div.style.transform = 'translateY(-5px)';
-                    });
-                    div.addEventListener('mouseleave', () => {
-                        div.style.transform = 'translateY(0)';
-                    });
-                    
-                    container.appendChild(div);
                 });
+                container.innerHTML = html;
             }
 
             // 取得每月排行榜

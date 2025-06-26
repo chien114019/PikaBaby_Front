@@ -215,10 +215,13 @@
 						</ol>
 					</nav>
 					<!-- 從此往下寫右側區域功能 -->
-					<h2 class="fw-bold mb-4">登入/權限管理</h2>
-
+					<!-- <div class="mx-auto  d-flex justify-content-between align-items-end" style="max-width: 1000px;"> -->
+						<h2 class="fw-bold mb-4">登入/權限管理</h2>
+					<!-- </div> -->
 					<!-- 搜尋 + 新增供應商按鈕區塊 -->
-					<div class="d-flex justify-content-between align-items-end mb-4">
+					<div
+						class="mx-auto mb-4 d-flex justify-content-between align-items-end"
+						style="max-width: 1000px;">
 						<!-- 左側搜尋欄位與查詢按鈕 -->
 						<!-- 	<form class="d-flex align-items-end" method="get"
 							action="/employee/list">
@@ -251,9 +254,10 @@
 						</a>
 					</div>
 
-
+					<!-- 表格區塊 -->
 					<table
-						class="table table-bordered table-hover bg-white align-middle">
+						class="table table-bordered table-hover bg-white align-middle mx-auto"
+						style="table-layout: fixed; width: 100%; max-width: 1000px;">
 						<thead class="table-light text-center">
 							<tr>
 								<th style="display: none;">ID</th>
@@ -264,7 +268,7 @@
 								<th>操作</th>
 							</tr>
 						</thead>
-						<tbody class="text-center" th:each="emp : ${employees}">
+						<tbody th:each="emp : ${employees}" class="text-center">
 							<!-- Thymeleaf 的迴圈語法:${employees} 是從後端傳進來的員工清單（List<UserAccount>）emp 是迴圈中的每一筆員工資料。這段意思是：「對每一筆 employees 中的員工 emp，都重複產生一列 <tr>。」 -->
 							<tr>
 								<td th:text="${emp.id}" style="display: none;">1</td>
@@ -273,8 +277,9 @@
 								<!-- ?: 是 Thymeleaf 的「空值處理運算子」，意思是：如果 realname 是 null，就顯示「（未填）」 -->
 
 								<!-- 根據角色名稱 emp.role，顯示不同顏色的 badge -->
-								<td><span th:switch="${emp.role}"> <!-- th:switch 是 Thymeleaf 的「條件判斷」語法（類似 Java 的 switch） -->
-										<span th:case="'ADMIN'" class="badge bg-danger">[[${emp.role}]]</span>
+								<td class="text-center"><span th:switch="${emp.role}">
+										<!-- th:switch 是 Thymeleaf 的「條件判斷」語法（類似 Java 的 switch） --> <span
+										th:case="'ADMIN'" class="badge bg-danger">[[${emp.role}]]</span>
 										<!-- th:case 是各種判斷值（字串需加引號 '...'） --> <span th:case="'SALES'"
 										class="badge bg-warning text-dark">[[${emp.role}]]</span> <!-- [[${emp.role}]] 是 Thymeleaf 的 inline 語法，作用同 th:text，但可以在 span 中嵌套使用 -->
 										<span th:case="'VIEWER'" class="badge bg-info text-dark">[[${emp.role}]]</span>
@@ -290,20 +295,16 @@
 
 
 								<td class="d-flex justify-content-center gap-2">
-									<!--該員工角色權限切換  --> 
-									<!-- <button class="btn btn-sm btn-primary" data-bs-toggle="modal"
+									<!--該員工角色權限切換  --> <!-- <button class="btn btn-sm btn-primary" data-bs-toggle="modal"
 										data-bs-target="#roleModal"
 										th:attr="data-id=${emp.id}, data-role=${emp.role}">
 										變更權限 --> <!-- data-bs-toggle="modal"Bootstrap 內建功能：告訴瀏覽器「當這個按鈕被點擊時，要打開一個 Modal」
                                  data-bs-target="#roleModal"目標是 ID 為 roleModal 的 <div class="modal">...</div>
                                  Thymeleaf 動態加入兩個自訂的 data 屬性，在 JS用const id = button.dataset.id;把資料抓出來 → 丟到 Modal 的 <form> 裡面填入
-							 --> <!-- </button>  --> 
-							 
-							 <!-- 編輯員工資料  --> 
-							 <a th:href="@{'/employee/edit/' + ${emp.id}}"
-									class="btn btn-sm btn-warning" sec:authorize="hasRole('ADMIN')"> 編輯 </a> 
-									
-									<!--  切換該帳號啟用or停用  -->
+							 --> <!-- </button>  --> <!-- 編輯員工資料  --> <a
+									th:href="@{'/employee/edit/' + ${emp.id}}"
+									class="btn btn-sm btn-warning" sec:authorize="hasRole('ADMIN')">
+										編輯 </a> <!--  切換該帳號啟用or停用  -->
 									<form th:action="@{/employee/toggle}" method="post"
 										th:object="${emp}">
 										<input type="hidden" name="id" th:value="${emp.id}" />
@@ -319,7 +320,7 @@
 					</table>
 
 					<!-- 變更角色 Modal -->
-				<!-- 	<div class="modal fade" id="roleModal" tabindex="-1"
+					<!-- 	<div class="modal fade" id="roleModal" tabindex="-1"
 						aria-labelledby="roleModalLabel" aria-hidden="true">
 						id="roleModal" 會對應到按鈕的 data-bs-target="#roleModal"
 						<div class="modal-dialog">

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import com.example.demo.model.Customer;
 import com.example.demo.model.Receivable;
 
 //繼承自 JpaRepository
@@ -23,5 +24,6 @@ public interface ReceivableRepository extends JpaRepository<Receivable, Integer>
     //條件為：CustomerName 包含 keyword & CreatedAt 早於 end 時間
     List<Receivable> findByCustomerNameContainingIgnoreCaseAndCreatedAtBefore(String keyword, Timestamp end);
     
+    List<Receivable> findAllByCustomer(Customer cust);
     
 }

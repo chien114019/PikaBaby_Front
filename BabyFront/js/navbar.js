@@ -64,3 +64,14 @@ setInterval(function () {  // 設置倒數計時: 結束時間 - 當前時間
     spans[2].textContent = min;
     spans[3].textContent = sec;
 }, 1000);
+
+function setUserToggle(data) {
+    const loginNavItem = document.getElementById("loginNavItem");
+    const memberDropdownItem = document.getElementById("memberDropdownItem");
+
+    if (data) {
+        // ✅ 已登入，顯示 dropdown
+        memberDropdownItem.style.display = "block";
+        loginNavItem.style.display = "none";
+    }
+}

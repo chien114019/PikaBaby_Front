@@ -141,13 +141,210 @@
 
         .signature {
             text-align: right;
-            margin-top: 60px;
-            padding-right: 40px;
+            margin-top: 20px;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            color: #a67c52;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: 20%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 10px;
         }
 
         .signature img {
-            max-width: 150px;
-            margin-top: 10px;
+            display: inline-block;
+            margin: 0;
+            max-width: 120px;
+            vertical-align: middle;
+        }
+
+        /* 滑動卡片效果樣式 */
+        #main {
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #f0ebe5 0%, #eacfc3 100%);
+            margin: 0;
+            padding: 0;
+        }
+
+        #click-section {
+            width: 25%;
+            height: 100%;
+            padding: 20px 0;
+            position: relative;
+        }
+
+        #drawerboxes {
+            margin-left: 10%;
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+        }
+
+        #drawerboxes::before {
+            content: "";
+            width: 8px;
+            height: 94%;
+            position: absolute;
+            left: -10px;
+            top: 3%;
+            z-index: 120;
+        }
+
+        .drawerbox {
+            height: calc(100% / 4.5);
+            width: 70%;
+            position: relative;
+            z-index: 100;
+            transform: translateX(-70%);
+            transition: transform .5s ease-in-out;
+        }
+
+        .drawerbox.active {
+            transform: translateX(0);
+        }
+
+        .drawer-btn {
+            width: 100%;
+            height: 100%;
+            font: 800 24px '';
+            background-color: #f0ebe5;
+            border: none;
+            transition: background-color .5s ease-in-out;
+            color: #b89b82;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .drawer-btn.active {
+            background: linear-gradient(135deg, #eacfc3 0%, #f0ebe5 100%);
+            color: #a67c52;
+        }
+
+        .drawer-btn:hover {
+            cursor: pointer;
+            background-color: #eacfc3;
+        }
+
+        .drawer-head {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            font-size: 32px;
+            color: #eacfc3;
+            text-shadow: none;
+            transition: opacity 0.3s;
+        }
+
+        .drawerbox.active .drawer-head {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        #slide-section {
+            position: relative;
+            height: 100%;
+            width: 75%;
+            display: flex;
+            justify-content: center;
+            padding: 0 40px;
+            background: linear-gradient(to right bottom,
+                #f0ebe5 80%,
+                #eacfc3 100%);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            margin: 20px;
+        }
+
+        #slide-bar {
+            position: absolute;
+            top: 10%;
+            left: 40px;
+            height: 80%;
+            width: 1px;
+            background-color: #eacfc3;
+        }
+
+        #bar {
+            position: absolute;
+            height: calc(100% / 4);
+            width: 5px;
+            top: 0;
+            left: -2px;
+            background: linear-gradient(135deg, #eacfc3 0%, #f0ebe5 100%);
+            transition: transform .5s ease-in-out;
+            border-radius: 3px;
+        }
+
+        #card-section {
+            height: 100%;
+            width: 80%;
+            overflow: hidden;
+        }
+
+        .card {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            width: 100%;
+            padding: 0;
+            color: #333;
+            font-size: 18px;
+            transition: transform .5s ease-in-out;
+        }
+
+        .card-small-title {
+            font-size: 18px;
+            font-weight: 600;
+            padding: 24px 0 10px 0;
+            color: #a67c52;
+            text-align: center;
+        }
+
+        .card-title {
+            font-size:36px;
+            font-weight: 700;
+            padding-bottom: 20px;
+            color: #d89a64;
+            text-align: center;
+        }
+
+        .card-content {
+            font-size: 16px;
+            font-weight: 400;
+            color: #7c5c3b;
+            margin-bottom: 30px;
+            line-height: 1.8;
+            text-align: center;
+            padding: 0 24px;
+        }
+
+        .card-img {
+            width: 100%;
+            height: 100%;
+            flex: 1 1 0;
+            display: flex;
+            align-items: stretch;
+            justify-content: stretch;
+            overflow: hidden;
+            border-radius: 15px 15px 0 0;
+        }
+
+        .card-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
         }
 
         /* 響應式設計 */
@@ -164,9 +361,39 @@
                 font-size: 2.5rem;
             }
 
-            .image-gallery {
-                grid-template-columns: 1fr;
-                gap: 20px;
+            #main {
+                flex-direction: column;
+                height: auto;
+                min-height: 100vh;
+            }
+
+            #click-section {
+                width: 100%;
+                height: auto;
+                order: 2;
+            }
+
+            #slide-section {
+                width: 100%;
+                height: 60vh;
+                order: 1;
+                margin: 10px;
+            }
+
+            .drawerbox {
+                width: 90%;
+                height: 80px;
+                transform: translateX(0);
+            }
+
+            .drawer-head {
+                font-size: 60px;
+                right: -15px;
+                top: calc(50% - 40px);
+            }
+
+            .card-img {
+                height: 150px;
             }
 
             .letter-content {
@@ -338,70 +565,98 @@
         </div>
     </section>
 
-    <div class="content-container">
-        <!-- 圖片畫廊 -->
-        <div class="image-gallery">
-            <div class="gallery-item">
-                <img src="images/about1.jpg" alt="About Image 1">
-            </div>
-            <div class="gallery-item">
-                <img src="images/about2.jpg" alt="About Image 2">
-            </div>
-            <div class="gallery-item">
-                <img src="images/about3.jpg" alt="About Image 3">
-            </div>
-        </div>
-
-        <!-- 品牌介紹 -->
-        <div class="about-content">
-            <h2 class="about-title" style=" border-bottom: 2px solid #f0ebe5;">品牌簡介</h2>
-            <div class="about-text">
-                孩子成長每一階段，父母都想給予最好的
-                <br><br>
-                作為大人的我們，也深刻知道
-                <br><br>好用、安全、溫馨陪伴的育兒用品<br><br>不一定非得昂貴或全新才值得信賴
-                <br><br>
-                Pika Baby 皮卡兒 就是這樣誕生的
+    <!-- 滑動卡片效果區域 -->
+    <div id="main">
+        <div id="click-section">
+            <div id="drawerboxes">
+                <div class="drawerbox active">
+                    <button class="drawer-btn active" onclick="slideTo(1)">品牌故事<span class="drawer-head"><i class="bi bi-shop"></i></span></button>
+                </div>
+                <div class="drawerbox">
+                    <button class="drawer-btn" onclick="slideTo(2)">建立緣起<span class="drawer-head"><i class="bi bi-pencil"></i></span></button>
+                </div>
+                <div class="drawerbox">
+                    <button class="drawer-btn" onclick="slideTo(3)">未來願景<span class="drawer-head"><i class="bi bi-star"></i></span></button>
+                </div>
+                <div class="drawerbox">
+                    <button class="drawer-btn" onclick="slideTo(4)">Dears<span class="drawer-head"><i class="bi bi-envelope-heart"></i></span></button>
+                </div>
             </div>
         </div>
-        <div class="about-content">
-            <h2 class="about-title" style=" border-bottom: 2px solid #f0ebe5;">特色經營</h2>
-            <div class="about-text">
-                少子化的來臨，讓每位家庭在開銷上，總是如履薄冰<br><br>而物價飛漲的現今社會，如何有效率地分配所得<br><br>並為家中孩子們添購用品，更是新手爸媽需要面對的課題<br><br>我們除了提供全新的用品，讓家長們可以選擇外<br><br>也有獨特的二手賣場，讓家庭的資源能夠彼此流通，不過度消耗<br><br>確保獲得品質受到保障的相關用品，讓育兒這條路能夠更加順暢
-
-
+        <div id="slide-section">
+            <div id="slide-bar">
+                <div id="bar"></div>
+            </div>
+            <div id="card-section">
+                <div id="card1" class="card">
+                    <div class="card-small-title">PikaBaby 皮卡兒</div>
+                    <div class="card-title">品牌故事</div>
+                    <div class="card-content">
+                        在孩子成長的每一個階段，父母都想給予他們最好的<br>作為大人的我們，也深刻知道好用、安全、溫馨陪伴的育兒用品<br>不一定非得昂貴或全新才值得信賴。Pika Baby 皮卡兒就是這樣誕生的
+                    </div>
+                    <div class="card-img">
+                        <img src="images/about1.jpg" alt="品牌故事">
+                    </div>
+                </div>
+                <div id="card2" class="card">
+                    <div class="card-small-title">PikaBaby 皮卡兒</div>
+                    <div class="card-title">建立緣起</div>
+                    <div class="card-content">
+                        資訊過載、決策焦慮及高品質的用品閒置率高，加上二手市場信任門檻高，新手爸媽常為此感到困擾<br>基於觀察與需求，我們決定打造一個兼具「全新選品」與「二手轉售」功能的專業嬰幼兒用品平台<br>提供有溫度的導購體驗，同時讓商品能夠延續「第二次生命」，讓大家育兒這條路能夠更加順暢
+                    </div>
+                    <div class="card-img">
+                        <img src="images/about2.jpg" alt="經營理念">
+                    </div>
+                </div>
+                <div id="card3" class="card">
+                    <div class="card-small-title">PikaBaby 皮卡兒</div>
+                    <div class="card-title">未來願景</div>
+                    <div class="card-content">
+                        我們期許成為「信任 × 溫度」的橋樑<br>是購物的入口，更是育兒階段裡值得信賴的陪伴者<br>歡迎加入我們的行列，一起陪伴孩子們成長吧～
+                    </div>
+                    <div class="card-img">
+                        <img src="images/about3.jpg" alt="致來到這邊的您們">
+                    </div>
+                </div>
+                <div id="card4" class="card">
+                    
+                    <div  style="font-size:25px;
+                    font-weight: 600;
+                    padding: 24px 0 10px 0;
+                    color: #cc723e9a;
+                    text-align: center;
+                ">給親愛的您</div>
+                    <div  style="font-size: 16px;
+                    font-weight: 400;
+                    color: #5f4c38;
+                    margin-bottom: 30px;
+                    line-height:2.1;
+                    text-align: center;
+                    padding: 0 24px;
+                ">
+                        這裡是一個讓爸媽安心挑選用品的地方 <br>
+                        不論是精選新品 <br>
+                        還是由其他家庭溫暖傳承而來的二手寶貝 <br>
+                        每一樣，都經過我們細心挑選與把關 <br>
+                        只為了讓你買得安心、用得放心 <br>
+                        <br>這不只是一個購物網站 <br>
+                        更是一個「分享與陪伴」的空間 <br>
+                        讓用過的愛，能夠延續 <br>
+                        讓育兒的路上，有人懂你，也有人陪你 <br>
+                        <br>親愛的爸媽 <br>
+                        歡迎你來到 Pika Baby <br>
+                        這裡有我們一點一滴為孩子準備的溫柔心意 <br>
+                        也有為你們生活著想的體貼設計 <br>
+                        一起，讓育兒變得更輕鬆、更有愛 :)
+                    </div>
+                    <div class="signature">
+                        董事長
+                        <img src="images/boss.png" alt="董事長簽名">
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-
-    <!-- 信件區域 -->
-    <section class="letter-section">
-        <div class="content-container">
-            <div class="letter-content">
-                <h2 class="letter-title">給親愛的您</h2>
-                <div class="letter-text">
-                    這裡是一個讓爸媽安心挑選用品的地方 <br>
-                    不論是精選新品 <br>
-                    還是由其他家庭溫暖傳承而來的二手寶貝 <br>
-                    每一樣，都經過我們細心挑選與把關 <br>
-                    只為了讓你買得安心、用得放心 <br>
-                    <br>這不只是一個購物網站 <br>
-                    更是一個「分享與陪伴」的空間 <br>
-                    讓用過的愛，能夠延續 <br>
-                    讓育兒的路上，有人懂你，也有人陪你 <br>
-                    <br>親愛的爸媽 <br>
-                    歡迎你來到 Pika Baby <br>
-                    這裡有我們一點一滴為孩子準備的溫柔心意 <br>
-                    也有為你們生活著想的體貼設計 <br>
-                    一起，讓育兒變得更輕鬆、更有愛 :) <br>
-                </div>
-                <div class="signature">
-                    董事長
-                    <img src="images/boss.png">
-                </div>
-            </div>
-        </div>
-    </section>
 
     <!-- 頁尾 -->
     <footer>
@@ -461,6 +716,81 @@
     <script src="js/chat.js"></script>
 
     <script>
+        // 滑動卡片效果 JavaScript
+        let chosenSlideNumber = 1; // 當前選擇的幻燈片編號 
+        let offset = 0; // 幻燈片偏移量 
+        let barOffset = 0; // 導航條偏移量 
+        let intervalID; // 定時器 ID 
+
+        // 啟動幻燈片輪播 
+        startSlide();
+
+        // 獲取所有抽屜按鈕，並為每個按鈕添加點擊事件監聽器 
+        const drawerBtns = Array.from(document.querySelectorAll(".drawer-btn"));
+        drawerBtns.forEach(btn => {
+            btn.addEventListener("click", () => {
+                clearInterval(intervalID); // 清除定時器 
+                startSlide(); // 重新啟動幻燈片輪播 
+            })
+        })
+
+        // 獲取幻燈片區域 
+        const slideSection = document.querySelector("#slide-section");
+        // 鼠標移入幻燈片區域時清除定時器 
+        slideSection.addEventListener("mouseenter", () => {
+            clearInterval(intervalID);
+        })
+        // 鼠標移出幻燈片區域時重新啟動幻燈片輪播 
+        slideSection.addEventListener("mouseleave", () => {
+            startSlide();
+        })
+
+        // 切換到指定編號的幻燈片 
+        function slideTo(slideNumber) {
+            drawerboxToggle(slideNumber); // 切換抽屜面板狀態 
+            drawerbtnToggle(slideNumber); // 切換抽屜按鈕狀態 
+            // 更新偏移量 
+            let previousSlideNumber = chosenSlideNumber;
+            chosenSlideNumber = slideNumber;
+            offset += (chosenSlideNumber - previousSlideNumber) * (-100); // 計算幻燈片偏移量 
+            barOffset += (chosenSlideNumber - previousSlideNumber) * (100); // 計算導航條偏移量 
+            barSlide(barOffset); // 移動導航條 
+            // 獲取所有幻燈片，為每個幻燈片設置偏移量 
+            const slides = document.querySelectorAll(".card");
+            Array.from(slides).forEach(slide => {
+                slide.style.transform = `translateY(${offset}%)`;
+            })
+        }
+
+        // 切換抽屜面板狀態 
+        function drawerboxToggle(drawerboxNumber) {
+            let prevDrawerboxNumber = chosenSlideNumber;
+            const drawerboxes = document.querySelectorAll(".drawerbox");
+            drawerboxes[prevDrawerboxNumber - 1].classList.toggle("active"); // 切換前一個抽屜面板的狀態 
+            drawerboxes[drawerboxNumber - 1].classList.toggle("active"); // 切換當前抽屜面板的狀態 
+        }
+
+        // 切換抽屜按鈕狀態 
+        function drawerbtnToggle(drawerBtnNumber) {
+            let prevDrawerBtnNumber = chosenSlideNumber;
+            const drawerBtns = document.querySelectorAll(".drawer-btn");
+            drawerBtns[prevDrawerBtnNumber - 1].classList.toggle("active"); // 切換前一個抽屜按鈕的狀態 
+            drawerBtns[drawerBtnNumber - 1].classList.toggle("active"); // 切換當前抽屜按鈕的狀態 
+        }
+
+        // 移動導航條 
+        function barSlide(barOffset) {
+            const bar = document.querySelector("#bar");
+            bar.style.transform = `translateY(${barOffset}%)`;
+        }
+
+        // 啟動幻燈片輪播 
+        function startSlide() {
+            intervalID = setInterval(() => {
+                slideTo(chosenSlideNumber % 4 + 1); // 每次切換到下一個幻燈片 
+            }, 10000); // 每隔 10 秒自動切換幻燈片 
+        }
+
         // 篩選功能
         function filterProducts(category) {
             // 更新 URL 參數

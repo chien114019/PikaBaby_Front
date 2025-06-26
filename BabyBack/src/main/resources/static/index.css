@@ -19,8 +19,8 @@
        /* "task pos info sale eis report finance inventory "
          "task pos info sale eis report finance inventory " */
      
-        "task pos report sale inventory "
-         "info finance report eis inventory " 
+        "task       pos      report    sale    inventory "
+         "production   finance    info    eis     inventory " 
         /*  "finance finance finance finance" */;
      gap: 15px;
      padding: 20px;

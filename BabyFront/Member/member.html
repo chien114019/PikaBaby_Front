@@ -349,15 +349,40 @@
 
 
                         <!-- 常用地址 -->
-                        <div class="card">
-                            <h3>常用地址</h3>
-                            <p><strong>地址：</strong> 406 台中市北屯區松竹三路 18 號</p>
-                            <div class="text-end d-flex gap-2 justify-content-end">
-                                <button class="btn btn-outline-primary" data-bs-toggle="modal"
-                                    data-bs-target="#addressModal">編輯</button>
-                                <button class="btn btn-outline-danger">刪除</button>
-                                <button class="btn btn-outline-primary" data-bs-toggle="modal"
-                                    data-bs-target="#address_addModal">新增</button>
+                        <div class="card p-4">
+                            <h4 class="mb-3">常用地址</h4>
+
+                            <!-- 預設訂單地址 -->
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <p class="mb-0">
+                                    <strong>預設訂單地址：</strong><span id="memberOrderAddress">載入中...</span>
+                                </p>
+                                <div class="d-flex gap-2 ms-3">
+                                    <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal"
+                                        data-bs-target="#addressModal" onclick="editAddress('order')">編輯</button>
+                                    <button class="btn btn-sm btn-outline-danger"
+                                        onclick="deleteAddress('order')">刪除</button>
+                                </div>
+                            </div>
+
+                            <!-- 預設配送地址 -->
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <p class="mb-0">
+                                    <strong>預設配送地址：</strong><span id="memberShippingAddress">載入中...</span>
+                                </p>
+                                <div class="d-flex gap-2 ms-3">
+                                    <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal"
+                                        data-bs-target="#addressModal" onclick="editAddress('shipping')">編輯</button>
+                                    <button class="btn btn-sm btn-outline-danger"
+                                        onclick="deleteAddress('shipping')">刪除</button>
+                                </div>
+                            </div>
+
+                            <!-- 底部提示 + 新增按鈕 -->
+                            <div class="d-flex justify-content-between align-items-center">
+                                <small class="text-muted">共可填 2 筆預設地址。</small>
+                                <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal"
+                                    data-bs-target="#address_addModal"onclick="addAddress()">新增</button>
                             </div>
                         </div>
 
@@ -403,8 +428,8 @@
 
                                         <div class="mb-3">
                                             <label class="form-label">手機號碼 *</label>
-                                            <input type="tel" class="form-control" id="phone" pattern="^09\\d{8}$"
-                                                required>
+                                           <input type="tel" class="form-control" id="phone" pattern="^09\d{8}$" title="請輸入正確的手機號碼，例如：0912345678" required>
+
                                         </div>
 
                                         <div class="form-check mb-2">
@@ -434,7 +459,7 @@
                                     <form class="address-form" id="addressAddForm">
                                         <div class="mb-3">
                                             <label class="form-label">姓名 *</label>
-                                            <input type="text" class="form-control" id="name" required>
+                                            <input type="text" class="form-control" id="addressname" required>
                                         </div>
 
                                         <div class="row mb-3">
@@ -707,6 +732,7 @@
     <script src="../js/navbar.js"></script>
     <script src="../js/logout.js"></script>
     <script src="../js/wishlistAddCart.js"></script>
+    <script src="../js/addressData.js"></script>
     <script>
         // 目前顧客ID
         const custId = 3
@@ -720,120 +746,6 @@
             document.querySelectorAll('.nav-button').forEach(el => el.classList.remove('active'));
             event.currentTarget.classList.add('active');
         }
-
-        // 我的收藏
-        function updateQty(button, delta) {
-            const row = button.closest('tr');
-            const qtySpan = row.querySelector('.qty-number');
-            let qty = parseInt(qtySpan.textContent);
-            qty = Math.max(1, qty + delta);
-            qtySpan.textContent = qty;
-
-            // 從第二欄單價抓數字（去掉 $）
-            const unitPrice = parseInt(row.children[1].textContent.replace('$', ''));
-            const subtotalCell = row.children[3];
-            subtotalCell.textContent = `$${unitPrice * qty}`;
-        }
-
-        //  address
-        const zipData = {
-            '台中市': {
-                '北屯區': '406',
-                '西屯區': '407'
-            },
-            '台北市': {
-                '大安區': '106'
-            },
-            '高雄市': {
-                '鼓山區': '804'
-            }
-        };
-
-       // 選出所有 .address-form 表單
-document.querySelectorAll('.address-form').forEach(form => {
-  const cityEl = form.querySelector('[name="city"]');
-  const districtEl = form.querySelector('[name="district"]');
-  const zipcodeEl = form.querySelector('[name="zipcode"]');
-
-   // 城市變更 → 更新行政區
-        cityEl.addEventListener('change', () => {
-            const city = cityEl.value;
-            const districts = zipData[city]|| {};
-            districtEl.innerHTML = '<option selected disabled>請選擇</option>';
-            for (let district in districts) {
-                const opt = document.createElement('option');
-                opt.value = district;
-                opt.textContent = district;
-                districtEl.appendChild(opt);
-            }
-             zipcodeEl.value = '';
-        });
-
-// 行政區變更 → 更新郵遞區號
-        districtEl.addEventListener('change', () => {
-            const city = cityEl.value;
-            const district = districtEl.value;
-            zipcodeEl.value = (zipData[city] && zipData[city][district]) || '';
-        });
-
-        // 表單送出
-        form.addEventListener('submit', e => {
-            e.preventDefault();
-
-          const addressData = {
-      name: form.querySelector('[name="name"]').value.trim(),
-      city: cityEl.value,
-      district: districtEl.value,
-      zipcode: zipcodeEl.value,
-      street: form.querySelector('[name="street"]').value.trim(),
-      phone: form.querySelector('[name="phone"]').value.trim(),
-      isDefaultOrder: form.querySelector('[name="isDefaultOrder"]').checked,
-      isDefaultShipping: form.querySelector('[name="isDefaultShipping"]').checked
-    };
-            if (!/^09\d{8}$/.test(addressData.phone)) {
-                alert('請輸入正確格式的手機號碼');
-                return;
-            }
-
-       
-            // 示範儲存與關閉 Modal（你可根據 form.id 決定是新增還是編輯）
-            const mode = form.dataset.mode; // "add" or "edit"
-const addressId = form.dataset.addressId || null;
-             let url = "http://localhost:8080/customers/front/address";
-  let method = "POST"; // 預設是新增
-
-  if (mode === "edit" && addressId) {
-    url += `/${addressId}`; // 如果是編輯，就加上地址 ID
-    method = "PUT";
-  }
-     fetch(url, {
-        method,
-        headers: {
-            "Content-Type": "application/json"
-        },
-        credentials: "include", // ⬅️ 重點！讓 cookie / session 傳到後端
-        body: JSON.stringify(addressData)
-    })
-        .then(res => {
-            if (!res.ok) throw new Error("儲存失敗");
-            return res.json();
-        })
-        .then(data => {
-            alert("✅ 地址新增成功！");
-            form.reset(); // 清空表單
-    districtEl.innerHTML = '<option selected disabled>請選擇</option>';
-    zipcodeEl.value = '';
-
-    const modalId = form.id === 'addressAddForm' ? 'address_addModal' : 'addressModal';
-bootstrap.Modal.getInstance(document.getElementById(modalId)).hide(); // ✅ 用 modalId 決定關哪一個 modal
-        refreshAddressList(); // 👉 TODO：重新整理地址列表（你之後可以寫）
-  }).catch(err => {
-        console.error("❌ 儲存錯誤：", err);
-        alert("儲存失敗，請再試一次！");
-      });
-  });
-});
-          
 
 
         // creditCard
@@ -958,7 +870,7 @@ bootstrap.Modal.getInstance(document.getElementById(modalId)).hide(); // ✅ 用
         //     button.textContent = isShown ? '隱藏點數明細' : '顯示點數明細';
         // }
 
-        //取消訂單
+        //訂單查詢 
         $.ajax({
             method: "GET",
             url: `${host}/orders/front/search/cust/${custId}`,
@@ -1026,7 +938,7 @@ bootstrap.Modal.getInstance(document.getElementById(modalId)).hide(); // ✅ 用
                 alert("系統查詢錯誤");
             }
         })
-
+        //取消訂單
         function cancelOrder(id) {
             $("#confirmBtn").on("click", function () {
                 $.ajax({
@@ -1077,14 +989,17 @@ bootstrap.Modal.getInstance(document.getElementById(modalId)).hide(); // ✅ 用
                     // 你可以依照你的畫面填充更多資料
                     document.getElementById("memberPhone").textContent = data.phone || "未填寫";
                     document.getElementById("memberBirthday").textContent = data.birthday?.substring(0, 10) || "未填寫";
-                    document.getElementById("memberCreatedAt").textContent = data.createdAt;
+                    document.getElementById("memberCreatedAt").textContent = data.createdAt?.substring(0, 10);
                     document.getElementById("memberBabyBirthday").textContent = data.baby1Birthday?.substring(0, 7) || "未填寫";
+                    // document.getElementById("memberBabyBirthday").textContent = data.creditCard?.substring(0, 7) || "未填寫";
+
                 })
                 .catch(err => {
                     alert("尚未登入，請先登入！");
                     window.location.href = "login.html";
                 });
         });
+
 
 
 

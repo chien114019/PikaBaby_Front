@@ -18,6 +18,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -160,6 +161,7 @@ public class ProductController {
     public String publishList(Model model) {
         List<Product> products = purchaseOrderDetailRepository.findDistinctProductsInPurchaseHistory();
         Map<Integer, Integer> stockMap = new HashMap<>();
+        Map<Integer, String> imageMap = new HashMap<>(); 
 
         for (Product p : products) {
             // ✅ 修正：使用正確的庫存計算方法（進貨 - 銷售）
@@ -167,14 +169,18 @@ public class ProductController {
             int stock = calculatedStock != null ? calculatedStock.intValue() : 0;
             stockMap.put(p.getId(), stock);
             
-            // 除錯日誌
-            System.out.println("📊 商品發布頁面庫存 - 商品ID: " + p.getId() + 
-                              ", 商品名稱: " + p.getName() + 
-                              ", 計算庫存: " + stock);
+            List<ProductImage> images = imageRepository.findByProductId(p.getId());
+            if (!images.isEmpty()) {
+                byte[] firstImageData = images.get(0).getImageData(); // 只用第一張
+                String base64 = Base64.getEncoder().encodeToString(firstImageData);
+                imageMap.put(p.getId(), base64);
+            }
+
         }
 
         model.addAttribute("products", products);
         model.addAttribute("stockMap", stockMap);
+        model.addAttribute("imageMap", imageMap);
         return "product/publish";
     }
 
@@ -324,7 +330,7 @@ public class ProductController {
     public List<Map<String, Object>> getPublishedProducts() {
         try {
             List<Product> publishedProducts = productRepository.findByPublishedTrue();
-            System.out.println("找到 " + publishedProducts.size() + " 個已發布的商品，正在檢查庫存...");
+
             
             List<Map<String, Object>> result = publishedProducts.stream()
                 .filter(p -> {

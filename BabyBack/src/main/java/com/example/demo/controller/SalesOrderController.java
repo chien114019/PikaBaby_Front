@@ -2,6 +2,9 @@ package com.example.demo.controller;
 
 import com.example.demo.model.*;
 import com.example.demo.service.*;
+
+import jakarta.servlet.http.HttpSession;
+
 import com.example.demo.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -117,9 +120,11 @@ public class SalesOrderController {
     }
 
 //   ========== 前台API============
-    @GetMapping("/front/search/cust/{custId}")
+    @GetMapping("/front/search/cust")
     @ResponseBody
-    public ResponseEntity<Map<String, Object>> getOrdersByCustId(@PathVariable String custId) {
+    public ResponseEntity<Map<String, Object>> getOrdersByCustId(HttpSession session) {
+    	String custId = session.getAttribute("customerId").toString();
+    	System.out.println("sessionId: " + session.getId());
     	return ResponseEntity.ok(orderService.getOrdersByCustId(custId));
     }
     

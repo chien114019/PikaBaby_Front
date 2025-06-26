@@ -30,8 +30,7 @@
 			<a href="#"
 				class="d-inline-flex align-items-center text-dark text-decoration-none dropdown-toggle"
 				id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-				<i class="bi bi-person-circle fs-4 me-2"></i> 
-				<!-- <span
+				<i class="bi bi-person-circle fs-4 me-2"></i> <!-- <span
 				th:if="${session.user != null}" th:text="${session.user.realname}">使用者名稱</span>
 				<span th:unless="${session.user != null}">Pika</span> -->
 			</a>
@@ -41,10 +40,8 @@
 				<!-- <li> -->
 				<!-- <hr class="dropdown-divider"> -->
 				<!-- </li> -->
-				<li>
-				<a class="dropdown-item text-danger text-center"
-					th:href="@{/logout}">登出</a>
-					</li>
+				<li><a class="dropdown-item text-danger text-center"
+					th:href="@{/logout}">登出</a></li>
 			</ul>
 		</div>
 
@@ -169,62 +166,12 @@
 							style="pointer-events: none; height: 60px; width: 200px;">
 							<i class="bi bi-lock-fill me-1"></i>綠界 ECpay
 						</button>
-						
+
 						<div class="text-muted small mt-2">
 							<i class="bi bi-info-circle me-1"></i>無此功能權限
 						</div>
 					</div>
 				</div>
-
-
-				
-
-				<!-- 出貨與退貨管理 -->
-				<div class="block sale vertical">
-					<div class="block-title">出貨與退貨管理</div>
-					<div sec:authorize="hasAnyRole('ADMIN', 'SALES')">
-						<a th:href="@{/orders}" class="btn btn-outline-dark">出貨單</a> <a
-							th:href="@{/returns/list}" class="btn btn-outline-dark">退貨單</a>
-					</div>
-					<div sec:authorize="!hasAnyRole('ADMIN', 'SALES')">
-						<button class="btn btn-outline-secondary disabled w-90 text-muted"
-							style="pointer-events: none;">
-							<i class="bi bi-lock-fill me-1"></i>出貨單
-						</button>
-						<button class="btn btn-outline-secondary disabled w-90 text-muted"
-							style="pointer-events: none;">
-							<i class="bi bi-lock-fill me-1"></i>退貨單
-						</button>
-						<div class="text-muted small mt-2">
-							<i class="bi bi-info-circle me-1"></i>無此功能權限
-						</div>
-					</div>
-				</div>
-
-				<!-- 二手專區 -->
-				<div class="block secondhand vertical">
-					<div class="block-title">二手專區</div>
-					<div sec:authorize="hasAnyRole('ADMIN', 'SALES')">
-						<a th:href="@{/secondhand/consignments}"
-							class="btn btn-outline-dark">托售申請審核</a> <a
-							th:href="@{/secondhand/withdrawals}" class="btn btn-outline-dark">提款申請審核</a>
-					</div>
-					<div sec:authorize="!hasAnyRole('ADMIN', 'SALES')">
-						<button class="btn btn-outline-secondary disabled w-90 text-muted"
-							style="pointer-events: none;">
-							<i class="bi bi-lock-fill me-1"></i>托售申請審核
-						</button>
-						<button class="btn btn-outline-secondary disabled w-90 text-muted"
-							style="pointer-events: none;">
-							<i class="bi bi-lock-fill me-1"></i>提款申請審核
-						</button>
-						<div class="text-muted small mt-2">
-							<i class="bi bi-info-circle me-1"></i>無此功能權限
-						</div>
-					</div>
-				</div>
-
-
 
 				<!-- 報表管理 -->
 				<div class="block report vertical">
@@ -250,6 +197,50 @@
 
 
 
+				<!-- 出貨與退貨管理 -->
+				<!-- 	<div class="block sale vertical">
+					<div class="block-title">出貨與退貨管理</div>
+					<div sec:authorize="hasAnyRole('ADMIN', 'SALES')">
+						<a th:href="@{/orders}" class="btn btn-outline-dark">出貨單</a> <a
+							th:href="@{/returns/list}" class="btn btn-outline-dark">退貨單</a>
+					</div>
+					<div sec:authorize="!hasAnyRole('ADMIN', 'SALES')">
+						<button class="btn btn-outline-secondary disabled w-90 text-muted"
+							style="pointer-events: none;">
+							<i class="bi bi-lock-fill me-1"></i>出貨單
+						</button>
+						<button class="btn btn-outline-secondary disabled w-90 text-muted"
+							style="pointer-events: none;">
+							<i class="bi bi-lock-fill me-1"></i>退貨單
+						</button>
+						<div class="text-muted small mt-2">
+							<i class="bi bi-info-circle me-1"></i>無此功能權限
+						</div>
+					</div>
+				</div> -->
+
+				<!-- 二手專區 -->
+				<div class="block secondhand vertical">
+					<div class="block-title">二手專區</div>
+					<div sec:authorize="hasAnyRole('ADMIN', 'SALES')">
+						<a th:href="@{/secondhand/consignments}"
+							class="btn btn-outline-dark">托售申請審核</a> <a
+							th:href="@{/secondhand/withdrawals}" class="btn btn-outline-dark">提款申請審核</a>
+					</div>
+					<div sec:authorize="!hasAnyRole('ADMIN', 'SALES')">
+						<button class="btn btn-outline-secondary disabled w-90 text-muted"
+							style="pointer-events: none;">
+							<i class="bi bi-lock-fill me-1"></i>托售申請審核
+						</button>
+						<button class="btn btn-outline-secondary disabled w-90 text-muted"
+							style="pointer-events: none;">
+							<i class="bi bi-lock-fill me-1"></i>提款申請審核
+						</button>
+						<div class="text-muted small mt-2">
+							<i class="bi bi-info-circle me-1"></i>無此功能權限
+						</div>
+					</div>
+				</div>
 
 				<!-- 系統設定與報表管理 -->
 				<!-- <div class="block production horizontal">
@@ -262,16 +253,17 @@
                     </div>
 -->
 
-<!-- 進貨與庫存管理 -->
+				<!-- 進貨與庫存管理 -->
 				<div class="block inventory vertical">
 					<div class="block-title">進貨與庫存管理</div>
 					<div sec:authorize="hasAnyRole('ADMIN', 'SALES')">
-						<a th:href="@{/suppliers}" class="btn btn-outline-dark">供應商建檔</a> <a
-							th:href="@{/products}" class="btn btn-outline-dark">商品建檔</a> <a
-							th:href="@{/supplier-products}" class="btn btn-outline-dark">供應商商品報價</a>
+						<a th:href="@{/suppliers}" class="btn btn-outline-dark">供應商建檔</a>
+						<a th:href="@{/products}" class="btn btn-outline-dark">商品建檔</a> <a
+							th:href="@{/supplier-products}" class="btn btn-outline-dark">供應商報價</a>
 						<a th:href="@{/purchases}" class="btn btn-outline-dark">進貨單</a> <a
 							th:href="@{/products/publish}" class="btn btn-outline-dark">商品上架</a>
-						<a th:href="@{/stock}" class="btn btn-outline-dark">庫存查詢</a>
+						<a th:href="@{/orders}" class="btn btn-outline-dark">出貨單</a> <a
+							th:href="@{/stock}" class="btn btn-outline-dark">庫存查詢</a>
 					</div>
 					<div sec:authorize="!hasAnyRole('ADMIN', 'SALES')">
 						<button
@@ -287,7 +279,7 @@
 						<button
 							class="btn btn-outline-secondary disabled w-90 text-muted mb-1"
 							style="pointer-events: none;">
-							<i class="bi bi-lock-fill me-1"></i>商品價格建檔
+							<i class="bi bi-lock-fill me-1"></i>供應商報價
 						</button>
 						<button
 							class="btn btn-outline-secondary disabled w-90 text-muted mb-1"
@@ -298,6 +290,10 @@
 							class="btn btn-outline-secondary disabled w-90 text-muted mb-1"
 							style="pointer-events: none;">
 							<i class="bi bi-lock-fill me-1"></i>商品上架
+						</button>
+						<button class="btn btn-outline-secondary disabled w-90 text-muted"
+							style="pointer-events: none;">
+							<i class="bi bi-lock-fill me-1"></i>出貨單
 						</button>
 						<button class="btn btn-outline-secondary disabled w-90 text-muted"
 							style="pointer-events: none;">

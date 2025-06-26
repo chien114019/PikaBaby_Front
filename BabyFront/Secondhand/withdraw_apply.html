@@ -358,6 +358,7 @@
                 },
                 error: function () {
                     console.log("Error");
+                    showLoginPrompt();
                 }
             })
 
@@ -393,6 +394,22 @@
                     console.log(resp);
                 }
             })
+        }
+
+        // 顯示登入提示
+        function showLoginPrompt() {
+            const loginConfirm = confirm(
+                '請先登入會員才能進行申請！\n\n' +
+                '點擊「確定」前往登入頁面\n' +
+                '點擊「取消」前往託售服務頁面'
+            );
+
+            if (loginConfirm) {
+                window.location.href = '../Member/login.html';
+            }
+            else {
+                window.location.href = 'consign.html';
+            }
         }
 
         $("#sendBtn").on("click", function (e) {

@@ -381,11 +381,9 @@
     <script>
         let custId = 2
         window.onload = function () {
-            // let root = "http://localhost:8080/customers/info"
             let root = "http://localhost:8080/customers"
             $.ajax({
                 method: "GET",
-                // url: `${root}/${custId}`,
                 url: `${root}/front/me`,
                 xhrFields: {
                     withCredentials: true
@@ -399,8 +397,25 @@
                 },
                 error: function (resp) {
                     console.log(resp);
+                    showLoginPrompt();
                 }
             })
+        }
+
+        // 顯示登入提示
+        function showLoginPrompt() {
+            const loginConfirm = confirm(
+                '請先登入會員才能進行申請！\n\n' +
+                '點擊「確定」前往登入頁面\n' +
+                '點擊「取消」前往託售服務頁面'
+            );
+            
+            if (loginConfirm) {
+                window.location.href = '../Member/login.html';
+            }
+            else {
+                window.location.href = 'consign.html';
+            }
         }
 
         // main js

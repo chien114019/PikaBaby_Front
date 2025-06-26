@@ -2,6 +2,8 @@ package com.example.demo.model;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -21,6 +23,7 @@ public class CustomerAddress {
 
 	    @ManyToOne(fetch = FetchType.LAZY)
 	    @JoinColumn(name = "customer_id", nullable = false)
+	    @JsonIgnore
 	    private Customer customer;
 
 	    private String name;        // 收件人姓名

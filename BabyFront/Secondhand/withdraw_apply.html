@@ -155,8 +155,8 @@
                             </div> -->
                         </li>
                         <!-- ✅ 未登入時：跳 login，不顯示 dropdown -->
-                        <li class="nav-item" id="loginNavItem" style="display: none;">
-                            <a class="nav-link" href="./Member/login.html">
+                        <li class="nav-item" id="loginNavItem">
+                            <a class="nav-link" href="../Member/login.html">
                                 <img src="../images/user.png" style="width: 30px;" alt="會員登入圖示">
                             </a>
                         </li>
@@ -326,7 +326,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../js/navbar.js"></script>
     <script src="../js/logout.js"></script>
-    <script src="../js/usernoToggle.js"></script>
+    <!-- <script src="../js/usernoToggle.js"></script> -->
     <script>
         $("#applyBtn").on("click", function () {
             $("footer").css("margin-top", "auto");
@@ -349,6 +349,8 @@
                     withCredentials: true
                 },
                 success: function (data) {
+                    setUserToggle(data);
+
                     $("#totalAmount").text(data.total);
                     consign.amount = data.total;
                     (data.ids).forEach(element => {

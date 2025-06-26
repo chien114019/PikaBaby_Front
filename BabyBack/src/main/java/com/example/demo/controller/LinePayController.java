@@ -1,5 +1,8 @@
 package com.example.demo.controller;
 
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +25,7 @@ public class LinePayController {
 	@Autowired
 	LinePayService linePayService;
 	
-	private String payStatus = "";	// 1:成功，-1:失敗
+	private Map<String, String> payStatus =  new ConcurrentHashMap<>();	
 
 	
 	@PostMapping("/request")
@@ -43,29 +46,39 @@ public class LinePayController {
 	
 	@GetMapping("/confirm")
 	public void PayConfirm(@RequestParam String transactionId, 
-			@RequestParam String orderId, HttpServletResponse res) {
+						   @RequestParam String orderId, 
+						   @RequestParam Integer amount,
+						   HttpServletResponse res) {
 		try {
 			System.out.println("PayConfirm()");
+			Response result = linePayService.ConfirmService(transactionId, orderId,amount);
 			
-			Response result = linePayService.ConfirmService(transactionId, orderId);
-			if (result.getReturnCode().equals("0000")) {
-				payStatus = "1";
-			}
-			else {
-				payStatus = "-1";
-			}
-			res.sendRedirect("http://localhost:8080/Payment.html");
+			 if ("0000".equals(result.getReturnCode())) {
+		            payStatus.put(orderId, "1");
+		        } else {
+		            payStatus.put(orderId, "-1");
+		        }
+			 
+			res.sendRedirect("http://localhost:8080/Shopping/linepay-confirm.html?orderId=" + orderId + "&transactionId=" + transactionId);
 		} catch (Exception e) {
-			System.out.println(e);
+			e.printStackTrace();
 		}
 	}
 	
 	@GetMapping("/checkStatus")
-	public ResponseEntity<Response> getPayStatus() {
+	public ResponseEntity<Response> getPayStatus(@RequestParam String orderId) {
 		Response response = new Response();
-		response.setReturnCode(payStatus);
-		payStatus = "";
-		return ResponseEntity.ok(response);
+		String status = payStatus.get(orderId);
+		
+
+	    if (status != null) {
+	        response.setReturnCode(status);
+	        payStatus.remove(orderId); // ✅ 用完後就移除
+	    } else {
+	        response.setReturnCode("0"); // 或其他預設狀態
+	    }
+
+	    return ResponseEntity.ok(response);
 	}
 	
 	

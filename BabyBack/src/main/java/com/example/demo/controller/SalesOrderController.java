@@ -361,7 +361,7 @@ public class SalesOrderController {
     @ResponseBody
     public ResponseEntity<?> debugProductStock(@PathVariable Integer productId) {
         try {
-            System.out.println("🔍🔍🔍 === 除錯庫存查詢 === 🔍🔍🔍");
+            
             
             // 獲取商品資訊
             Product product = productService.getById(productId);
@@ -386,11 +386,11 @@ public class SalesOrderController {
             response.put("databaseStock", dbStock);
             response.put("message", "庫存查詢成功");
             
-            System.out.println("📊 除錯結果: " + response);
+            
             
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            System.err.println("❌ 除錯庫存查詢錯誤: " + e.getMessage());
+            
             e.printStackTrace();
             return ResponseEntity.badRequest().body(Map.of(
                 "success", false,

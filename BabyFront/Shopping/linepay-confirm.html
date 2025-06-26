@@ -150,7 +150,8 @@
                 }
                 
                 // 檢查付款狀態
-                const statusResponse = await fetch('http://localhost:8080/linepay/checkStatus');
+                const amount = localStorage.getItem('pendingOrder') ? JSON.parse(localStorage.getItem('pendingOrder')).amount : 0;
+                const statusResponse = await fetch(`http://localhost:8080/linepay/checkStatus?orderId=${orderId}`);
                 const statusResult = await statusResponse.json();
                 
                 console.log('✅ 付款狀態:', statusResult);

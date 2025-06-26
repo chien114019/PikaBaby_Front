@@ -60,11 +60,11 @@ public class LinePayService {
 		
 	}
 	
-	public Response ConfirmService(String transactionId, String orderId) throws Exception {
+	public Response ConfirmService(String transactionId, String orderId, Integer amount) throws Exception {
 		System.out.println("ConfirmService");
 		
         ConfirmData confirmData = new ConfirmData();
-        confirmData.setAmount(form.getAmount());
+        confirmData.setAmount(amount);
         confirmData.setCurrency("TWD");
         
     	String confirmUri = String.format("/v3/payments/%s/confirm", transactionId);

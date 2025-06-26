@@ -254,3 +254,31 @@ footer a {
 .floating-bottle:hover {
     transform: scale(1.1);
 }
+
+.theme-main img, .theme-item img, .product-card img {
+    transition: transform 0.4s cubic-bezier(0.4,0,0.2,1), filter 0.4s;
+    cursor: pointer;
+    z-index: 1;
+}
+.theme-main img:hover, .theme-item img:hover, .product-card img:hover {
+    transform: scale(1.12);
+    filter: brightness(1.2) drop-shadow(0 4px 16px rgba(0,0,0,0.15));
+    z-index: 2;
+}
+.theme-main img:not(:hover), .theme-item img:not(:hover), .product-card img:not(:hover) {
+    filter: brightness(0.7) grayscale(0.1);
+    z-index: 1;
+}
+
+.category-buttons a {
+    transition: transform 0.2s, background 0.2s, color 0.2s, box-shadow 0.2s;
+    display: inline-block;
+}
+.category-buttons a:hover {
+    transform: scale(1.08);
+    background: #ffe5b4;
+    color: #b87c2a;
+    box-shadow: 0 2px 8px rgba(200,150,50,0.12);
+    border-color: #f5c16c;
+    text-decoration: none;
+}

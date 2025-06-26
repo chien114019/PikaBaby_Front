@@ -348,8 +348,9 @@ public class CustomerController {
 		member.put("createdAt", customer.getCreatedAt());
 		member.put("baby1Birthday", customer.getBaby1Birthday());
 		member.put("baby2Birthday", customer.getBaby2Birthday());
-//		member.put("address", customer.getAddress());
+		member.put("baby3Birthday", customer.getBaby3Birthday());
 		member.put("address", address.getCity() + address.getDistrict() + address.getStreet());
+		member.put("points", customer.getPoints());
 
 		return ResponseEntity.ok(member);
 	}

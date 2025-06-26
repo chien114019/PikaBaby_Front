@@ -234,7 +234,7 @@
 					<!-- 顯示已刪除 按鈕 -->
 					<div class="pt-2">
 								<input class="form-check-input" type="checkbox" name="showDeleted" value="true" id="showDeleted"
-									th:checked="${param.showDeleted == 'true'}">
+									th:checked="${showDeleted}">
 								<label class="form-check-label me-2" for="showDeleted">顯示已刪除供應商</label>
 								<button type="submit" class="btn btn-outline-success btn-sm">篩選</button>
 							</div>
@@ -261,30 +261,30 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr th:each="s : ${suppliers}">
-									<td th:text="${s.name}"
-										th:classappend="${s.deleted} ? 'text-muted text-decoration-line-through' : ''"></td>
-										<!-- text-muted → 讓文字變成灰色（Bootstrap 樣式）｜text-decoration-line-through → 加上刪除線 -->
-									<td th:text="${s.phone}" th:classappend="${s.deleted} ? 'text-muted text-decoration-line-through' : ''"></td>
-									<td th:text="${s.address}" th:classappend="${s.deleted} ? 'text-muted text-decoration-line-through' : ''"></td>
-									<td class="text-center">
-										<!-- 未刪除可編輯/刪除 -->
-										<a th:href="@{/suppliers/edit/{id}(id=${s.id})}" class="btn btn-sm btn-warning"
-										   th:if="${!s.deleted}">編輯</a>
-					
-										<a th:href="@{/suppliers/delete/{id}(id=${s.id})}" class="btn btn-sm btn-danger"
-										   th:if="${!s.deleted}"
-										   onclick="return confirm('確定要刪除嗎？')">刪除</a>
-					
-										<!-- 已刪除則顯示還原 -->
-										<form th:action="@{/suppliers/restore/{id}(id=${s.id})}" method="post"
-											  th:if="${s.deleted}" style="display:inline;">
-											<button type="submit" class="btn btn-sm btn-success"
-												onclick="return confirm('確定要還原這筆供應商資料嗎？')">還原</button>
-										</form>
-									</td>
-								</tr>
-							</tbody>
+    <tr th:each="s : ${suppliers}">
+        <td th:text="${s.name}"
+            th:classappend="${s.deleted} ? 'text-muted text-decoration-line-through ps-4' : 'ps-4'"></td>
+        <td th:text="${s.phone}"
+            th:classappend="${s.deleted} ? 'text-muted text-decoration-line-through ps-4' : 'ps-4'"></td>
+        <td th:text="${s.address}"
+            th:classappend="${s.deleted} ? 'text-muted text-decoration-line-through ps-4' : 'ps-4'"></td>
+        <td class="text-center">
+            <a th:href="@{/suppliers/edit/{id}(id=${s.id})}" class="btn btn-sm btn-warning"
+               th:if="${!s.deleted}">編輯</a>
+
+            <a th:href="@{/suppliers/delete/{id}(id=${s.id})}" class="btn btn-sm btn-danger"
+               th:if="${!s.deleted}"
+               onclick="return confirm('確定要刪除嗎？')">刪除</a>
+
+            <form th:action="@{/suppliers/restore/{id}(id=${s.id})}" method="post"
+                  th:if="${s.deleted}" style="display:inline;">
+                <button type="submit" class="btn btn-sm btn-success"
+                        onclick="return confirm('確定要還原這筆供應商資料嗎？')">還原</button>
+            </form>
+        </td>
+    </tr>
+</tbody>
+
 						</table>
 					</div>
 					

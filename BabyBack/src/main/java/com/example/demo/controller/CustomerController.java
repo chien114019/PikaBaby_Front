@@ -266,22 +266,63 @@ public class CustomerController {
 	}
 
 //    ============= 前台會員API =================
-// 註冊   
+//	檢查 email
+	@PostMapping("/front/checkEmail")
+	@ResponseBody
+	public ResponseEntity<Response> checkEmail(@RequestBody Map<String, String> body, HttpSession session) {
+		/*
+		 * { email: "" }
+		 */
+		Response response = service.checkEmail(body.get("email"));
+		if (response.getSuccess()) {
+			session.setAttribute("name", body.get("name"));
+			session.setAttribute("email", body.get("email"));
+			session.setAttribute("password", body.get("password"));
+			System.out.println("session id:" + session.getId());
+			System.out.println("session email: " + session.getAttribute("email"));
+		}
+		return ResponseEntity.ok(response);
+	}
+	
+//	傳送驗證信
+	@GetMapping("/front/sendEmail")
+	@ResponseBody
+	public ResponseEntity<Response> sendEmail(HttpSession session) {
+		String email = (String) session.getAttribute("email");
+		String name = (String) session.getAttribute("name");
+		System.out.println("send session id:" + session.getId());
+		System.out.println("send session email: " + session.getAttribute("email"));
+		Response response = service.sendEmail(email, name);
+		return ResponseEntity.ok(response);
+	}
+	
+	// 註冊
 	@PostMapping("/front/register")
 	@ResponseBody
-	public ResponseEntity<Map<String, String>> register(@RequestBody Customer customer, HttpSession session) {
-		try {
-			Customer cust = service.register(customer);
-			session.setAttribute("customerId", cust.getId());
-			Map<String, String> response = new HashMap<>();
-			response.put("message", "註冊成功！");
-			return ResponseEntity.ok(response);
-
-		} catch (Exception e) {
-			Map<String, String> errorResponse = new HashMap<>();
-			errorResponse.put("message", "註冊失敗：" + e.getMessage());
-			return ResponseEntity.badRequest().body(errorResponse);
+	public ResponseEntity<Response> verifyEmail(@RequestBody Map<String, String> body, HttpSession session, 
+			HttpServletRequest request) {
+		String code = body.get("code");
+		Response response = service.verifyEmail(code);
+		if (response.getSuccess()) {
+			try {
+				String name = (String) session.getAttribute("name");
+				String email = (String) session.getAttribute("email");
+				String password = (String) session.getAttribute("password");
+				session.invalidate();
+				
+				Customer cust = service.register(name, email, password);
+				session = request.getSession(true); 
+				session.setAttribute("customerId", cust.getId());
+				response.setMesg("註冊成功！");
+				return ResponseEntity.ok(response);
+	
+			} catch (Exception e) {
+				response.setSuccess(false);
+				response.setMesg("註冊失敗：" + e.getMessage());
+				return ResponseEntity.badRequest().body(response);
+			}
 		}
+		return ResponseEntity.ok(response);
 	}
 
 //	登入API

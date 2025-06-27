@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import org.hibernate.type.descriptor.java.LocalDateTimeJavaType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.stereotype.Service;
 
@@ -27,11 +28,14 @@ import com.example.demo.repository.CustomerRepository;
 import com.example.demo.repository.ReceivableRepository;
 import com.example.demo.repository.SalesOrderRepository;
 import com.example.demo.repository.WithdrawalRepository;
+import com.example.demo.util.SendMailUtils;
+
+import jakarta.servlet.http.HttpSession;
 
 @Service
 public class CustomerService {
 
-    private final SecurityFilterChain filterChain;
+	private final SecurityFilterChain filterChain;
 
 	@Autowired
 	private CustomerRepository repository;
@@ -41,16 +45,16 @@ public class CustomerService {
 
 	@Autowired
 	private ConsignmentRepository cRepository;
-	
+
 	@Autowired
 	private ReceivableRepository rRepository;
-	
+
 	@Autowired
-	private WithdrawalRepository wRepository;	
-	
+	private WithdrawalRepository wRepository;
+
 	@Autowired
 	private CustomerFavoritesRepository cfRepository;
-	
+
 	@Autowired
 	private AddressRepository aRepository;
 
@@ -216,11 +220,11 @@ public class CustomerService {
 	public Response delete(Integer id) {
 		Response response = new Response();
 		Customer cust = repository.findById(id).orElse(null);
-		
+
 		if (cust != null) {
 //			採用硬刪除（相關資料紀錄全部刪除）
 			try {
-				List<CustomerAddress> addressList = aRepository.findByCustomer(cust);				
+				List<CustomerAddress> addressList = aRepository.findByCustomer(cust);
 				List<CustomerFavorites> favoriteList = cfRepository.findAllByCustomer(cust);
 				List<Consignment> consignList = cRepository.findAllByCustomer(cust);
 				List<Receivable> receivableList = rRepository.findAllByCustomer(cust);
@@ -232,74 +236,125 @@ public class CustomerService {
 					for (CustomerAddress item : addressList) {
 						item.setCustomer(null);
 						aRepository.delete(item);
-					}					
+					}
 				}
-				
+
 				if (favoriteList.size() > 0) {
 					for (CustomerFavorites item : favoriteList) {
 						item.setCustomer(null);
 						cfRepository.delete(item);
-					}					
+					}
 				}
-				
+
 				if (consignList.size() > 0) {
 					for (Consignment consign : consignList) {
 						consign.setCustomer(null);
 						consign.setWithdrawal(null);
 						cRepository.delete(consign);
-					}					
+					}
 				}
-				
+
 				if (receivableList.size() > 0) {
 					for (Receivable receivable : receivableList) {
 						receivable.setCustomer(null);
 						receivable.setOrder(null);
 						rRepository.delete(receivable);
-					}					
+					}
 				}
-				
+
 				if (salesOrderList.size() > 0) {
 					for (SalesOrder salesOrder : salesOrderList) {
 						salesOrder.setCustomer(null);
 						soRepository.delete(salesOrder);
-					}					
+					}
 				}
-				
+
 				if (withdrawalList.size() > 0) {
 					for (Withdrawal withdrawal : withdrawalList) {
 						withdrawal.setCustomer(null);
 						wRepository.delete(withdrawal);
-					}					
+					}
 				}
-				
+
 				repository.deleteById(id);
 				response.setSuccess(true);
-				
+
 			} catch (Exception e) {
 				System.out.println(e);
 				response.setSuccess(false);
 			}
-			
+
 		} else {
 			response.setSuccess(false);
 			response.setMesg("查無此顧客，刪除失敗");
 		}
-		
+
+		return response;
+	}
+
+//	檢查 email
+	public Response checkEmail(String email) {
+		Response response = new Response();
+		if (repository.findByEmail(email).isPresent()) {
+			response.setSuccess(false);
+			response.setMesg("Email 已被註冊");
+		} else {
+			response.setSuccess(true);
+		}
+		return response;
+	}
+
+//	寄送驗證信
+	public Response sendEmail(String email, String name) {
+		Response response = new Response();
+		System.out.println("sendEmail: " + email);
+		try {
+			SendMailUtils.sendVerifyEmail(email, name);
+			response.setSuccess(true);
+		} catch (Exception e) {
+			System.out.println(e);
+			response.setSuccess(false);
+			response.setMesg("信件寄送有誤");
+		}
+
+		return response;
+
+	}
+
+	public Response verifyEmail(String code) {
+		Response response = new Response();
+		if (SendMailUtils.verifySuccess(code)) {
+			response.setSuccess(true);
+		} else {
+			response.setSuccess(false);
+			response.setMesg("驗證碼錯誤，請重新輸入");
+		}
 		return response;
 	}
 
 //    註冊抓註冊時間、給點數100點
-	public Customer register(Customer Customer) {
-		if (repository.findByEmail(Customer.getEmail()).isPresent()) {
-			throw new RuntimeException("Email 已被註冊");
-		}
+	public Customer register(String name, String email, String password) {
+		Customer customer = new Customer();
+		customer.setName(name);
+		customer.setEmail(email);
+		customer.setPassword(password);
+		customer.setCreatedAt(LocalDateTime.now());
+		customer.setFirstLoginAt(LocalDateTime.now());
+		customer.setPoints(100);
 
-		Customer.setCreatedAt(LocalDateTime.now());
-		Customer.setFirstLoginAt(LocalDateTime.now());
-		Customer.setPoints(100);
-
-		return repository.save(Customer);
+		return repository.save(customer);
 	}
+//	public Customer register(Customer Customer) {
+//		if (repository.findByEmail(Customer.getEmail()).isPresent()) {
+//			throw new RuntimeException("Email 已被註冊");
+//		}
+//
+//		Customer.setCreatedAt(LocalDateTime.now());
+//		Customer.setFirstLoginAt(LocalDateTime.now());
+//		Customer.setPoints(100);
+//
+//		return repository.save(Customer);
+//	}
 
 //    登入比對
 	public Optional<Customer> findByEmail(String email) {
@@ -417,7 +472,7 @@ public class CustomerService {
 //			待處理：更新zipcode
 //			custAddress.setZipcode();
 			aRepository.save(custAddress);
-			
+
 		} else {
 			// 創建新客戶
 			customer = new Customer();
@@ -427,7 +482,7 @@ public class CustomerService {
 //			customer.setAddress(address);
 			customer.setPoints(100); // 新會員預設100點
 			repository.save(customer);
-			
+
 //			將地址新增到會員地址(訂單地址)
 			custAddress = new CustomerAddress();
 			custAddress.setCustomer(customer);
@@ -439,7 +494,7 @@ public class CustomerService {
 //			待處理：更新zipcode
 //			custAddress.setZipcode();
 			aRepository.save(custAddress);
-			
+
 		}
 
 		return customer;

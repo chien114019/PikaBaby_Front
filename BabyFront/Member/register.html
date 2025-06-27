@@ -210,48 +210,41 @@
             //   password: document.getElementById('password').value
             // };
 
-            // 註冊fetch
-
+            // 檢查重複email
             const lastname = document.getElementById('lastname').value.trim();
             const firstname = document.getElementById('firstname').value.trim();
             const fullName = lastname + firstname;
-            console.log("⚠️ lastname =", lastname);
-            console.log("⚠️ firstname =", firstname);
-            console.log("⚠️ fullName =", fullName);
             const memberData = {
                 name: fullName,
                 email: document.getElementById('email').value.trim(),
                 password: document.getElementById('password').value
             };
-            sessionStorage.setItem("memberName", fullName);
 
-            fetch('http://localhost:8080/customers/front/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
+            $.ajax({
+                method: "POST",
+                url: "http://localhost:8080/customers/front/checkEmail",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    name: memberData.name,
+                    email: memberData.email,
+                    password: memberData.password
+                }),
+                xhrFields: {
+                    withCredentials: true
                 },
-                body: JSON.stringify(memberData),
-                credentials: "include"
-            })
-                .then(res => {
-                    if (!res.ok) {
-                        return res.json().then(err => {
-                            // ❗ 拿到錯誤訊息中的 message
-                            throw new Error(err.message || '註冊失敗');
-                        });
+                success: function (resp) {
+                    if (resp.success) {
+                        window.location.href = "emailVerify.html"
                     }
-                    return res.json();
-                })
-                .then(data => {
-                    alert(data.message); // ✅ 成功訊息
-                    sessionStorage.setItem("memberName", memberData.name);// 傳使用這名字
-                    console.log("✅ 成功設置 sessionStorage:", sessionStorage.getItem("memberName"));
-                    window.location.href = 'member.html';
-                })
-                .catch(error => {
-                    alert(error.message); // ✅ 錯誤訊息
-                    console.error(error);
-                });
+                    else {
+                        alert(resp.mesg);
+                        return;
+                    }
+                },
+                error: function () {
+                    alert("系統錯誤，請稍後再進行註冊");
+                }
+            })
 
         });
 

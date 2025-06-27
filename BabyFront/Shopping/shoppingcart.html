@@ -10,28 +10,31 @@
     <style>
         /* 購物車樣式 */
         .cart-container {
-            max-width: 1200px;
+            max-width: 1500px;
             margin: 20px auto;
             padding: 20px;
         }
 
         .cart-table {
             width: 100%;
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
             border-collapse: collapse;
             margin-bottom: 20px;
         }
 
         .cart-table th,
         .cart-table td {
-            padding: 15px;
+            padding: 18px;
             text-align: center;
             vertical-align: middle;
             border-bottom: 1px solid #ddd;
         }
 
         .cart-item-image {
-            width: 120px;
-            height: 120px;
+            width: 100px;
+            height: 100px;
             margin: 0 auto;
         }
 
@@ -91,30 +94,18 @@
 
         .checkout-form {
             display: block;
-            max-width: 700px;
-            margin: 40px auto;
-            background: #fff;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-            border-radius: 12px;
-            border: 1.5px solid #e0e0e0;
-            padding: 32px 24px 24px 24px;
-            text-align: center;
-        }
-
-        #checkoutForm {
-            display: block;
-            max-width: 700px;
+            max-width: 1200px;
             margin: 40px auto;
             background: none;
             box-shadow: none;
             border-radius: 0;
-            padding: 0 16px;
+            padding: 0 32px;
             text-align: center;
         }
 
         #checkoutForm>* {
             width: 100%;
-            max-width: 600px;
+            max-width: 900px;
             margin-left: auto;
             margin-right: auto;
             text-align: center;
@@ -123,7 +114,9 @@
         .order-summary,
         .checkout-addons,
         #orderForm {
-            text-align: center;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         #orderForm {
@@ -262,6 +255,41 @@
                 text-align: center;
             }
         }
+
+        input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+
+        .cart-table tfoot td {
+            border-bottom: none !important;
+        }
+
+        .cart-action-row {
+            margin-top: 0;
+            margin-bottom: 20px; /* 可依需求調整 */
+        }
+
+        @media (max-width: 991.98px) {
+            .navbar-collapse.show {
+                background-color: #f5e6c8 !important;
+                border-radius: 0 0 12px 12px;
+            }
+            .navbar-collapse .mobile-logo {
+                display: none;
+            }
+            .navbar-collapse.show .mobile-logo {
+                display: block !important;
+            }
+        }
+        @media (min-width: 992px) {
+            .mobile-logo {
+                display: none !important;
+            }
+        }
     </style>
 </head>
 
@@ -283,19 +311,22 @@
     </header>
 
     <!-- 導覽列 -->
-    <nav class="navbar navbar-expand-lg navbar-dark">
+    <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container-fluid">
-            <!-- <div class="collapse navbar-collapse justify-content-center d-flex" id="navbarSupportedContent"> -->
-            <div class="collapse navbar-collapse justify-content-around d-flex" id="navbarSupportedContent">
-                <!-- LOGO -->
-                <img id="logo" src="../images/logo-pikababy.png" alt="PikaBaby"
-                    style="height: 80px; width: 0px; transition: 3s; display: none;" />
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-around" id="navbarSupportedContent">
+                <div class="mobile-logo text-center py-2" style="display:none;">
+                    <img src="../images/logo-pikababy.png" alt="PikaBaby" style="height: 48px;">
+                </div>
                 <ul class="navbar-nav ml-auto nav-links gap-5 me-0">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="../index.html">首頁</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdown1" role="button" data-toggle="dropdown"
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown1" role="button" data-bs-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false">
                             年齡區間(0-3M)
                         </a>
@@ -311,7 +342,7 @@
                         </div>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdown2" role="button" data-toggle="dropdown"
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown2" role="button" data-bs-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false">
                             年齡區間(3-6M)
                         </a>
@@ -325,7 +356,7 @@
                         </div>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdown3" role="button" data-toggle="dropdown"
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown3" role="button" data-bs-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false">
                             年齡區間(6-12M)
                         </a>
@@ -340,7 +371,7 @@
                         </div>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdown4" role="button" data-toggle="dropdown"
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown4" role="button" data-bs-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false">
                             年齡區間(2-3y)
                         </a>
@@ -356,7 +387,7 @@
                         </div>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdown5" role="button" data-toggle="dropdown"
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown5" role="button" data-bs-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false">
                             二手託售
                         </a>
@@ -371,36 +402,23 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="../about.html">關於我們</a>
                     </li>
-                    <div class="d-flex gap-3">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#">
-                                <img src="../images/cart.png" style="width: 30px;">
-                            </a>
-                            <!-- <div class="dropdown-menu p-3 justify-content-center gap-5"
-                                aria-labelledby="navbarDropdown5">
-                                <a class="dropdown-item" href="Shopping/shoppingcart.html">購物車</a>
-                                <a class="dropdown-item" href="Shopping/order.html">訂單查詢</a>
-                            </div> -->
-                        </li>
-                        <!-- ✅ 未登入時：跳 login，不顯示 dropdown -->
-                        <li class="nav-item" id="loginNavItem" style="display: none;">
-                            <a class="nav-link" href="../Member/login.html">
-                                <img src="../images/user.png" style="width: 30px;" alt="會員登入圖示">
-                            </a>
-                        </li>
-                        <!-- ✅ 已登入時：正常 dropdown -->
-                        <li class="nav-item dropdown" id="memberDropdownItem" style="display: none;">
-                            <a class="nav-link dropdown-toggle" id="navbarDropdown5" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img src="../images/user.png" style="width: 30px;" alt="會員圖示">
-                            </a>
-                            <div class="dropdown-menu p-3 justify-content-center gap-5" id="dropdownForUser"
-                                aria-labelledby="navbarDropdown5">
-                                <a class="dropdown-item" href="../Member/member.html">會員中心</a>
-                                <a class="dropdown-item text-danger" href="#" onclick="logout()">登出</a>
-                            </div>
-                        </li>
-                    </div>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><img src="../images/cart.png" style="width: 30px;"></a>
+                    </li>
+                    <li class="nav-item" id="loginNavItem" style="display: none;">
+                        <a class="nav-link" href="../Member/login.html">
+                            <img src="../images/user.png" style="width: 30px;" alt="會員登入圖示">
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown" id="memberDropdownItem" style="display: none;">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown6" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <img src="../images/user.png" style="width: 30px;" alt="會員圖示">
+                        </a>
+                        <div class="dropdown-menu p-3 justify-content-center gap-5" id="dropdownForUser" aria-labelledby="navbarDropdown6">
+                            <a class="dropdown-item" href="../Member/member.html">會員中心</a>
+                            <a class="dropdown-item text-danger" href="#" onclick="logout()">登出</a>
+                        </div>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -412,7 +430,7 @@
             <div class="cart-main-row">
                 <!-- 購物車內容 -->
                 <div id="cartContent">
-                    <h2 style="color: rgb(226, 190, 44);">購物車</h2>
+                    <h2 style="color: rgb(95, 76, 0); text-align: center;">購物車</h2>
                     <table class="cart-table" id="cart-table">
                         <thead>
                             <tr>
@@ -421,26 +439,46 @@
                                 <th>單價</th>
                                 <th>數量</th>
                                 <th>小計</th>
-                                <th>刪除</th>
+                                <th>操作</th>
                             </tr>
                         </thead>
                         <tbody id="cart-items"></tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="4"></td>
+                                <td style="font-size: 1.2em; font-weight: bold; border-bottom: none;" id="cart-total">總計：NT$ 0</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td colspan="6" style="padding-top: 0; border-bottom: none;">
+                                    <div class="d-flex justify-content-end align-items-center gap-2 cart-action-row">
+                                        <button class="btn btn-success" onclick="continueShopping()">繼續購物</button>
+                                        <button class="btn btn-primary" onclick="checkLoginAndProceed()">前往結帳</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tfoot>
                     </table>
-                    <div id="cart-total"></div>
-                    <div class="text-end">
-                        <button class="btn btn-primary" onclick="checkLoginAndProceed()">前往結帳</button>
-                    </div>
                 </div>
             </div>
             <!-- 結帳表單移出 cart-main-row，直接放在 cart-container 下方 -->
             <div id="checkoutForm" style="display: none;">
-                <h2 style="text-align:center;">結帳資訊</h2>
+                <h2 style="color: rgb(95, 76, 0); text-align: center;">結帳資訊</h2>
                 <!-- 訂單摘要 -->
                 <div class="order-summary">
-                    <h4 style="text-align:center;">訂單明細</h4>
-                    <div id="orderItems" class="order-items">
-                        <!-- 訂單項目將在這裡動態添加 -->
-                    </div>
+                    <table class="cart-table" id="checkout-table">
+                        <thead>
+                            <tr>
+                                <th><img src="../images/pikababy.png" alt="商品圖片" style="height:32px;"></th>
+                                <th>商品名稱</th>
+                                <th>單價</th>
+                                <th>數量</th>
+                                <th>小計</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="orderItems"></tbody>
+                    </table>
                     <div class="total-section">
                         <div class="mb-2">商品總額：<span id="orderSubtotal">0</span> 元</div>
                         <div class="mb-2">運費：<span id="shippingFee">0</span> 元</div>
@@ -448,7 +486,7 @@
                         <div class="mb-2">
                             <label for="points">使用會員點數折價 (1點折1元)：</label>
                             <input type="number" id="points" min="0" value="0" onchange="validateAndUpdatePoints()"
-                                style="width: 80px;">
+                                style="width: 80px;"><br>
                             <span style="margin-left:8px;color:#e6b800;">剩餘點數：<span id="availablePoints">載入中...</span>
                                 點</span>
                             <div id="pointsError" style="color: red; font-size: 12px; margin-top: 4px; display: none;"></div>
@@ -481,7 +519,7 @@
                                   <!-- 收件資訊表單 -->
                   <form id="orderForm" onsubmit="submitOrder(event)" style="width:100%;max-width:600px;margin:0 auto;">
                       <!-- 會員資料自動帶入選項 -->
-                      <div class="mb-4 p-3" style="background-color: #f8f9fa; border-radius: 8px; border: 1px solid #dee2e6;">
+                      <div class="mb-4 p-3" style="background-color: #f8f9fa; border-radius: 8px; border: 1px solid #dee2e6; margin-top: 32px;">
                           <div class="form-check">
                               <input class="form-check-input" type="checkbox" id="useMemberData" onchange="toggleMemberData()">
                               <label class="form-check-label fw-bold" for="useMemberData" style="color: #0d6efd;">
@@ -572,6 +610,7 @@
     <script src="../js/logout.js"></script>
     <script src="../js/usernoToggle.js"></script>
     <script>
+        let stockMap = {};
         let cartItems = [];
 
         // 檢查會員登入狀態並進行結帳
@@ -673,35 +712,45 @@
             const cartContainer = document.getElementById('cart-items');
             cartContainer.innerHTML = '';
             let total = 0;
-            
-            if (cart.length === 0) {
-                cartContainer.innerHTML = '<tr><td colspan="6">購物車是空的</td></tr>';
-            } else {
-                // 同步更新購物車中的商品資訊
-                const updatedCart = await syncCartWithDatabase(cart);
-                
-                updatedCart.forEach((item, idx) => {
-                    const imgSrc = item.image && item.image.trim() !== '' ? item.image : 'https://via.placeholder.com/80x80?text=No+Image';
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-              <td><img src="${imgSrc}" alt="${item.name}" style="width:60px;height:60px;object-fit:cover;border-radius:8px;" onerror="this.src='../images/baby.jpg';"></td>
-              <td>${item.name}</td>
-              <td>NT$${item.price}</td>
-              <td>
-                <button onclick="updateQuantity(${idx}, -1)" class="btn btn-sm btn-outline-secondary">-</button>
-                <span style="margin:0 8px;">${item.quantity}</span>
-                <button onclick="updateQuantity(${idx}, 1)" class="btn btn-sm btn-outline-secondary">+</button>
-              </td>
-              <td>NT$${item.price * item.quantity}</td>
-              <td><button onclick="removeItem(${idx})"  class="btn btn-danger">刪除</button></td>
-            `;
-                    cartContainer.appendChild(row);
-                    total += item.price * item.quantity;
-                });
-                
-                // 更新localStorage
-                localStorage.setItem('cart', JSON.stringify(updatedCart));
-            }
+            // 查詢所有商品庫存
+            stockMap = {};
+            await Promise.all(cart.map(async (item) => {
+                try {
+                    const response = await fetch(`http://localhost:8080/products/api/stock/${item.id}`);
+                    if (response.ok) {
+                        const stockData = await response.json();
+                        stockMap[item.id] = stockData.stock || 0;
+                    } else {
+                        stockMap[item.id] = 99; // 查詢失敗給大值
+                    }
+                } catch {
+                    stockMap[item.id] = 99;
+                }
+            }));
+            cart.forEach((item, idx) => {
+                const imgSrc = item.image && item.image.trim() !== '' ? item.image : 'https://via.placeholder.com/80x80?text=No+Image';
+                const disableMinus = item.quantity <= 1 ? 'disabled' : '';
+                const disablePlus = item.quantity >= stockMap[item.id] ? 'disabled' : '';
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><img src="${imgSrc}" alt="${item.name}" style="width:100px;height:100px;object-fit:cover;border-radius:8px;" onerror="this.src='../images/baby.jpg';"></td>
+                    <td>${item.name}</td>
+                    <td>NT$${item.price}</td>
+                    <td>
+                        <div style="display:flex;align-items:center;justify-content:center;gap:4px;">
+                            <button type="button" onclick="updateQuantity(${idx}, -1)" class="btn btn-sm btn-outline-secondary" ${disableMinus}>-</button>
+                            <span id="qty-display-${idx}" style="display:inline-block;width:60px;text-align:center;line-height:32px;">${item.quantity}</span>
+                            <button id="plus-btn-${idx}" type="button" onclick="updateQuantity(${idx}, 1)" class="btn btn-sm btn-outline-secondary" ${disablePlus}>+</button>
+                        </div>
+                        <div style='font-size:0.9em;color:#b8860b;margin-top:2px;'>庫存僅剩${stockMap[item.id]}件</div>
+                    </td>
+                    <td>NT$${item.price * item.quantity}</td>
+                    <td><button onclick="removeItem(${idx})"  class="btn btn-danger">刪除</button></td>
+                `;
+                cartContainer.appendChild(row);
+                total += item.price * item.quantity;
+                updatePlusMinusBtnState(row, item.quantity, stockMap[item.id]);
+            });
             document.getElementById('cart-total').textContent = `總計：NT$ ${total}`;
         }
 
@@ -748,37 +797,8 @@
             return updatedCart;
         }
 
-        async function updateQuantity(idx, delta) {
-            let cart = JSON.parse(localStorage.getItem('cart')) || [];
-            const currentItem = cart[idx];
-            const newQuantity = Math.max(1, currentItem.quantity + delta);
-            
-            // 如果是增加數量，需要檢查庫存
-            if (delta > 0 && newQuantity > currentItem.quantity) {
-                try {
-                    // 呼叫後端API檢查庫存
-                    const response = await fetch(`http://localhost:8080/products/api/stock/${currentItem.id}`);
-                    if (response.ok) {
-                        const stockData = await response.json();
-                        const availableStock = stockData.stock || 0;
-                        
-                        if (newQuantity > availableStock) {
-                            alert(`庫存不足！「${currentItem.name}」目前庫存僅剩 ${availableStock} 件`);
-                            return; // 不更新數量
-                        }
-                    } else {
-                        console.warn('無法檢查庫存，允許增加數量');
-                    }
-                } catch (error) {
-                    console.error('檢查庫存時發生錯誤:', error);
-                    console.warn('庫存檢查失敗，允許增加數量');
-                }
-            }
-            
-            // 更新數量
-            cart[idx].quantity = newQuantity;
-            localStorage.setItem('cart', JSON.stringify(cart));
-            await loadCart();
+        function onQuantityInput(idx, value) {
+            // 此功能已移除，保留空函式防止錯誤
         }
 
         async function removeItem(idx) {
@@ -995,36 +1015,23 @@
             const orderItems = document.getElementById('orderItems');
             orderItems.innerHTML = '';
             let subtotal = 0;
-            
-            // 確保使用最新的商品資訊（包括圖片）
             const updatedCart = await syncCartWithDatabase(cart);
-            
             updatedCart.forEach((item, idx) => {
                 const imgSrc = item.image && item.image.trim() !== '' ? item.image : 'https://via.placeholder.com/80x80?text=No+Image';
-                const orderItem = document.createElement('div');
-                orderItem.className = 'order-item';
-                orderItem.innerHTML = `
-            <div class="order-item-image">
-              <img src="${imgSrc}" alt="${item.name}" onerror="this.src='../images/baby.jpg';">
-            </div>
-            <div class="order-item-details">
-              <div class="product-name">${item.name}</div>
-              <div class="product-specs">
-                <span class="text-muted">數量：${item.quantity}</span>
-                <button onclick="removeOrderItem(${idx})" class="btn btn-sm btn-danger ms-2">刪除</button>
-              </div>
-            </div>
-            <div class="order-item-price">
-              NT$${item.price * item.quantity}
-            </div>
-          `;
-                orderItems.appendChild(orderItem);
+                const row = document.createElement('tr');
+                row.innerHTML = `
+            <td><img src="${imgSrc}" alt="${item.name}" style="width:60px;height:60px;object-fit:cover;border-radius:8px;" onerror="this.src='../images/baby.jpg';"></td>
+            <td>${item.name}</td>
+            <td>NT$${item.price}</td>
+            <td>${item.quantity}</td>
+            <td>NT$${item.price * item.quantity}</td>
+            <td><button onclick="removeOrderItem(${idx})" class="btn btn-danger">刪除</button></td>
+        `;
+                orderItems.appendChild(row);
                 subtotal += item.price * item.quantity;
+                updatePlusMinusBtnState(row, item.quantity, stockMap[item.id]);
             });
-            
-            // 更新localStorage以保存最新的商品資訊
             localStorage.setItem('cart', JSON.stringify(updatedCart));
-            
             document.getElementById('orderSubtotal').textContent = subtotal;
             document.getElementById('orderTotal').textContent = subtotal;
             document.getElementById('shippingFee').textContent = 0;
@@ -1280,7 +1287,8 @@
         function updateTotal() {
             const subtotal = parseFloat(document.getElementById('orderSubtotal').textContent);
             const shippingFee = parseFloat(document.getElementById('shippingFee').textContent);
-            const discount = parseFloat(document.getElementById('discount').textContent);
+            const discountElem = document.getElementById('discount');
+            const discount = discountElem ? parseFloat(discountElem.textContent) : 0;
             const points = parseInt(document.getElementById('points').value) || 0;
             const total = subtotal + shippingFee - discount - points;
             document.getElementById('orderTotal').textContent = total;
@@ -1329,7 +1337,50 @@
                 window.location.href = `product.html?category=${category}`;
             }
         }
+
+        // updateQuantity與onQuantityInput都要即時更新加減號disabled狀態
+        async function updateQuantity(idx, delta) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const item = cart[idx];
+            const stock = stockMap[item.id] || 99; // 直接用全域 stockMap
+            let currentQuantity = item.quantity;
+            let newQuantity = currentQuantity + delta;
+            if (currentQuantity >= stock && delta > 0) {
+                newQuantity = stock;
+            }
+            if (currentQuantity <= 1 && delta < 0) {
+                newQuantity = 1;
+            }
+            newQuantity = Math.min(Math.max(newQuantity, 1), stock);
+            cart[idx].quantity = newQuantity;
+            localStorage.setItem('cart', JSON.stringify(cart));
+            // 只更新該行
+            const cartTable = document.getElementById('cart-table');
+            const row = cartTable.rows[idx + 1];
+            const qtyDisplay = document.getElementById(`qty-display-${idx}`);
+            if (row && qtyDisplay) {
+                qtyDisplay.textContent = newQuantity;
+                row.cells[4].textContent = `NT$${cart[idx].price * cart[idx].quantity}`;
+                updatePlusMinusBtnState(row, newQuantity, stock);
+            }
+            // 更新總計
+            let total = 0;
+            cart.forEach(item => { total += item.price * item.quantity; });
+            document.getElementById('cart-total').textContent = `總計：NT$ ${total}`;
+        }
+
+        統一控制加減按鈕狀態
+        function updatePlusMinusBtnState(row, newQuantity, stock) {
+            const minusBtn = row.cells[3].querySelector('button:nth-child(1)');
+            const plusBtn = row.cells[3].querySelector('button:nth-child(3)');
+            if (minusBtn) minusBtn.disabled = newQuantity <= 1;
+            if (plusBtn) plusBtn.disabled = newQuantity >= stock;
+        }
+
+        新增繼續購物功能
+        function continueShopping() {
+            window.location.href = '../Products/product.html';
+        }
     </script>
 </body>
-
 </html>

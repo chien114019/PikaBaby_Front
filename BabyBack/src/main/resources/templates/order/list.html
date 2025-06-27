@@ -204,7 +204,7 @@
 						</ol>
 					</nav>
 					<!-- 從此往下寫右側區域功能 -->
-					<h2>出貨紀錄</h2>
+					<h2>銷貨單</h2>
 					
 					<div class="text-end">
 						<a class="btn btn-outline-primary mb-3" th:href="@{/orders/new}">新增出貨單</a>
@@ -213,35 +213,52 @@
 					
 					<table class="table table-bordered align-middle">
 						<thead class="text-center">
-							<tr>
-								<th>ID</th>
-								<th>客戶</th>
-								<th>日期</th>
-								<th>明細</th>
-							</tr>
+						  <tr>
+						    <th>ID</th>
+						    <th>客戶</th>
+						    <th>日期</th>
+						    <th>明細</th>
+						    <th>狀態</th> <!-- 新增 -->
+						    <th>操作</th> <!-- 新增 -->
+						  </tr>
 						</thead>
 						<tbody>
-							<tr th:each="order : ${orders}">
-								<td th:text="${order.id}" class="text-center"></td>
-								<td th:text="${order.customer.name}"></td>
-								<td th:text="${#dates.format(order.orderDate, 'yyyy-MM-dd')}" class="text-center"></td>
-								<td>
-									<ul>
-										<li th:each="d : ${order.details}"
-											th:text="${d.product.name + ' x ' + d.quantity + '（單價 $' + d.unitPrice + '）'}">
-										</li>
-									</ul>
-								</td>
-							</tr>
+						  <tr th:each="order : ${orders}">
+						    <td th:text="${order.id}" class="text-center"></td>
+						    <td th:text="${order.customer?.name} ?: '（未指定）'"></td>
+						    <td th:text="${#dates.format(order.orderDate, 'yyyy-MM-dd')}" class="text-center"></td>
+						    <td>
+						      <ul>
+						        <li th:each="d : ${order.details}" 
+						            th:text="${d.product.name + ' x ' + d.quantity + '（$' + d.unitPrice + '）'}"></li>
+						      </ul>
+						    </td>
+						    <td class="text-center">
+						      <span th:text="${shippedSalesOrderIds.contains(order.id) ? '已出貨' : '未出貨'}"></span>
+						    </td>
+						    <td class="text-center">					
+						    	<div class="d-flex justify-content-center align-items-center gap-4" style="gap: 1.25rem;">
+						    		<a th:if="${!shippedSalesOrderIds.contains(order.id)}"
+							         th:href="@{'/shipping/create?salesOrderId=' + ${order.id}}"
+							         class="btn btn-sm btn-outline-primary">建立出貨單</a>
+						      	<span th:if="${shippedSalesOrderIds.contains(order.id)}" class="text-muted d-inline-block" style="line-height: 1.6;">已建立</span>
+						    	
+									<div class="vr mx-1"></div>
+									
+									<form th:action="@{'/orders/delete/' + ${order.id}}" method="post" style="display:inline"
+									      th:onsubmit="|return confirm('確定要刪除訂單 #${order.id} 嗎？');|">
+									    <button type="submit" class="btn btn-sm btn-danger">刪除</button>
+									</form>				      
+						      </div>
+						    </td>						    
+						  </tr>
 						</tbody>
 					</table>
-					<div class="text-end">
-						<a class="btn btn-secondary" th:href="@{/}">返回</a>
-					</div>
-					<!-- 從此以上寫右側區域功能 -->
+						<div class="text-end">
+							<a class="btn btn-secondary" th:href="@{/}">返回</a>
+						</div>
 				</div>
 			</main>
-
 		</div>
 	</div>
 

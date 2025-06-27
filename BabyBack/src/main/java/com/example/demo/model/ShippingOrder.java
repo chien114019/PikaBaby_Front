@@ -1,6 +1,8 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
+
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -15,7 +17,7 @@ public class ShippingOrder {
     @JoinColumn(name = "sales_order_id")
     private SalesOrder salesOrder;
 
-    private Date shippingDate;
+    private LocalDate shippingDate;
 
     private String status; // 例："待出貨"、"已出貨"
 
@@ -29,8 +31,8 @@ public class ShippingOrder {
     public SalesOrder getSalesOrder() { return salesOrder; }
     public void setSalesOrder(SalesOrder salesOrder) { this.salesOrder = salesOrder; }
 
-    public Date getShippingDate() { return shippingDate; }
-    public void setShippingDate(Date shippingDate) { this.shippingDate = shippingDate; }
+    public LocalDate getShippingDate() { return shippingDate; }
+    public void setShippingDate(LocalDate localDate) { this.shippingDate = localDate; }
 
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }

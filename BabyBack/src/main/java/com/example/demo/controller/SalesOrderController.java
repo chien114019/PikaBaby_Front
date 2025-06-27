@@ -40,11 +40,22 @@ public class SalesOrderController {
     @Autowired private CustomerRepository customerRepository;
     @Autowired private ProductRepository productRepository;
     @Autowired private AddressService addressService;
+    @Autowired private ShippingOrderRepository shippingOrderRepository;
+
     
     @GetMapping
     public String listOrders(Model model) {
         List<SalesOrder> orders = orderService.listAll();
         model.addAttribute("orders", orders);
+        
+
+        // 查詢已有出貨單的 SalesOrder ID
+        List<ShippingOrder> shippingOrders = shippingOrderRepository.findAll();
+        List<Integer> shippedSalesOrderIds = shippingOrders.stream()
+                .map(o -> o.getSalesOrder().getId())
+                .toList();
+
+        model.addAttribute("shippedSalesOrderIds", shippedSalesOrderIds); // ✅ 傳入前端用來判斷狀態
         return "order/list"; 
     }
 
@@ -55,6 +66,13 @@ public class SalesOrderController {
         model.addAttribute("products", productService.listAll());
         return "order/form";
     }
+    
+    @PostMapping("/delete/{id}")
+    public String deleteOrder(@PathVariable Integer id) {
+        orderService.deleteById(id);
+        return "redirect:/orders";
+    }
+
 
     @PostMapping("/save")
     public String saveOrder(@RequestParam Integer customerId,
@@ -140,7 +158,7 @@ public class SalesOrderController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/api/{id}")
+    @GetMapping("/api/{id:\\\\d+}")
     @ResponseBody
     public ResponseEntity<?> getOrderApi(@PathVariable String id) {
         try {
@@ -234,32 +252,7 @@ public class SalesOrderController {
             ));
         }
     }
-    
-    // 購物車API測試端點
-    @GetMapping(value = "/api/cart/test", produces = "application/json")
-    @ResponseBody
-    public ResponseEntity<?> testCartAPI() {
-        Map<String, Object> response = new HashMap<>();
-        response.put("status", "success");
-        response.put("message", "購物車API正常運行");
-        response.put("timestamp", new Date());
-        System.out.println("=== 測試API被調用 ===");
-        return ResponseEntity.ok(response);
-    }
-    
-    // 簡單的測試端點
-    @PostMapping(value = "/api/simple-test", produces = "application/json")
-    @ResponseBody
-    public ResponseEntity<?> simpleTest(@RequestBody(required = false) String body) {
-        System.out.println("=== 簡單測試API被調用 ===");
-        System.out.println("請求體: " + body);
-        
-        Map<String, Object> response = new HashMap<>();
-        response.put("success", true);
-        response.put("message", "簡單測試成功");
-        response.put("receivedBody", body);
-        return ResponseEntity.ok(response);
-    }
+ 
     
     // 購物車提交訂單API（重構版 - 只負責HTTP層處理）
     @PostMapping(value = "/api/cart", produces = "application/json")

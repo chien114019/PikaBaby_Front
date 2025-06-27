@@ -1,9 +1,12 @@
 package com.example.demo.service;
 
+import java.math.BigDecimal;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.digest.HmacUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -12,13 +15,21 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.example.demo.model.SalesOrder;
 import com.example.demo.model.Linepay.CheckoutPaymentRequestForm;
 import com.example.demo.model.Linepay.ConfirmData;
 import com.example.demo.model.Linepay.Response;
+import com.example.demo.repository.SalesOrderRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 public class LinePayService {
+	
+	@Autowired
+	private OrderStatusService orderStatusService;
+	
+	@Autowired
+	private SalesOrderRepository salesOrderRepository;
 
 	@Value("${linepay.channelid}")
 	private String ChannelID;
@@ -41,8 +52,6 @@ public class LinePayService {
 	public ResponseEntity<Response> RequestService(CheckoutPaymentRequestForm form) throws Exception {
 		System.out.println("RequestService()");
 		
-		this.form = form;
-		
 		String requestUri = "/v3/payments/request";
 		String requestNonce = UUID.randomUUID().toString();	
 		String requestBody = mapper.writeValueAsString(form);
@@ -60,28 +69,41 @@ public class LinePayService {
 		
 	}
 	
-	public Response ConfirmService(String transactionId, String orderId, Integer amount) throws Exception {
-		System.out.println("ConfirmService");
-		
-        ConfirmData confirmData = new ConfirmData();
-        confirmData.setAmount(amount);
-        confirmData.setCurrency("TWD");
-        
-    	String confirmUri = String.format("/v3/payments/%s/confirm", transactionId);
-    	String confirmNonce = UUID.randomUUID().toString();
-		String confirmBody = mapper.writeValueAsString(confirmData);
-		String confirmSignature = encrypt(ChannelSecret, ChannelSecret + confirmUri + confirmBody + confirmNonce);
-		
-		HttpEntity<String> entity = createHttpEntity(confirmBody, confirmNonce, confirmSignature);
-		String confirmUrl = linepayHost + confirmUri;
-		
-		ResponseEntity<Response> responseEntity =  template.exchange(confirmUrl, HttpMethod.POST, 
-				entity, Response.class);
-		
-//		System.out.println(responseEntity.getBody().getInfo());
-		
-		return responseEntity.getBody();
+	public Response ConfirmService(String transactionId, String orderId) throws Exception {
+	    System.out.println("ConfirmService");
+
+	    // 建立確認資料
+	    ConfirmData confirmData = new ConfirmData();
+
+	    confirmData.setCurrency("TWD");
+
+	    // 設定確認簽章
+	    String confirmUri = String.format("/v3/payments/%s/confirm", transactionId);
+	    String confirmNonce = UUID.randomUUID().toString();
+	    String confirmBody = mapper.writeValueAsString(confirmData);
+	    String confirmSignature = encrypt(ChannelSecret, ChannelSecret + confirmUri + confirmBody + confirmNonce);
+
+	    HttpEntity<String> entity = createHttpEntity(confirmBody, confirmNonce, confirmSignature);
+	    String confirmUrl = linepayHost + confirmUri;
+
+	    // 發送確認請求
+	    ResponseEntity<Response> responseEntity = template.exchange(confirmUrl, HttpMethod.POST, entity, Response.class);
+	    Response response = responseEntity.getBody();
+
+	    // ✅ 付款成功則更新訂單狀態
+	    if (response != null && "0000".equals(response.getReturnCode())) {
+	        try {
+	            Integer orderIdInt = Integer.parseInt(orderId);
+	            orderStatusService.updatePayStatus(orderIdInt, 1); // 1 表示已付款
+	        } catch (Exception ex) {
+	            System.err.println("❌ 更新付款狀態時發生錯誤：" + ex.getMessage());
+	        }
+	    }
+
+
+	    return response;
 	}
+
 	
 	private HttpEntity<String> createHttpEntity(String body, String nonce, String signature) {
 		HttpHeaders headers = new HttpHeaders();
@@ -101,4 +123,6 @@ public class LinePayService {
         byte[] byteArray = Base64.encodeBase64(bytes);
         return new String(byteArray);
     }
+	
+	
 }

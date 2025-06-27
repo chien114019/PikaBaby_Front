@@ -1,18 +1,19 @@
 package com.example.demo.model.Linepay;
 
+import java.math.BigDecimal;
 
 public class ConfirmData {
 	public ConfirmData() {}
 	
-	private Integer amount;
+	private BigDecimal amount;
 	private String currency;
 	
-	public Integer getAmount() {
+	public BigDecimal getAmount() {
 		return amount;
 	}
 	
-	public void setAmount(Integer amount) {
-		this.amount = amount;
+	public void setAmount(BigDecimal bigDecimal) {
+		this.amount = bigDecimal;
 	}
 	
 	public String getCurrency() {

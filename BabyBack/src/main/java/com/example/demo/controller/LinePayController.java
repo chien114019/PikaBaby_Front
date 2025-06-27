@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.math.BigDecimal;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -47,11 +48,12 @@ public class LinePayController {
 	@GetMapping("/confirm")
 	public void PayConfirm(@RequestParam String transactionId, 
 						   @RequestParam String orderId, 
-						   @RequestParam Integer amount,
 						   HttpServletResponse res) {
 		try {
 			System.out.println("PayConfirm()");
-			Response result = linePayService.ConfirmService(transactionId, orderId,amount);
+			
+			
+			Response result = linePayService.ConfirmService(transactionId, orderId);
 			
 			 if ("0000".equals(result.getReturnCode())) {
 		            payStatus.put(orderId, "1");
@@ -59,7 +61,8 @@ public class LinePayController {
 		            payStatus.put(orderId, "-1");
 		        }
 			 
-			res.sendRedirect("http://localhost:8080/Shopping/linepay-confirm.html?orderId=" + orderId + "&transactionId=" + transactionId);
+			 res.sendRedirect("http://localhost:5500/BabyFront/Shopping/linepay-confirm-test.html?orderId=" + orderId + "&transactionId=" + transactionId);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

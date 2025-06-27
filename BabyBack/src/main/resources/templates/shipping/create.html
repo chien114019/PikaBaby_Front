@@ -1,0 +1,16 @@
+<h2>建立出貨單</h2>
+
+<form th:action="@{/shipping/create}" method="post">
+    <div class="mb-3">
+        <label class="form-label">選擇對應的銷貨單</label>
+        <select name="salesOrderId" class="form-select" required>
+            <option value="">-- 請選擇銷貨單 --</option>
+            <option th:each="so : ${salesOrders}" th:value="${so.id}" 
+                    th:text="${'銷貨單 #' + so.id + ' - ' + so.customer.name + ' - ' + #dates.format(so.orderDate, 'yyyy-MM-dd')}">
+            </option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-success">建立出貨單</button>
+    <a th:href="@{/shipping}" class="btn btn-secondary">返回</a>
+</form>

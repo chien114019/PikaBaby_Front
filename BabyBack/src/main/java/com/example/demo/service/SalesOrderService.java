@@ -1,6 +1,6 @@
 package com.example.demo.service;
 
-import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -56,6 +56,20 @@ public class SalesOrderService {
     
     @Autowired
     private ShippingOrderDetailRepository shippingOrderDetailRepository;
+    
+    @Transactional
+    public void updatePayStatus(Integer orderId, Integer payStatus) {
+        SalesOrder order = getById(orderId);
+        if (order != null) {
+            order.setPayStatus(payStatus);
+            repository.save(order);
+            System.out.println("✅ 訂單 " + orderId + " 付款狀態已更新為：" + payStatus);
+        } else {
+            System.err.println("❌ 找不到訂單 ID：" + orderId + "，無法更新付款狀態");
+            throw new IllegalArgumentException("找不到訂單 ID：" + orderId);
+        }
+    }
+
 
     @Transactional
     public void save(SalesOrder order) {
@@ -115,7 +129,7 @@ public class SalesOrderService {
         // 建立出貨單
         ShippingOrder shippingOrder = new ShippingOrder();
         shippingOrder.setSalesOrder(savedOrder);
-        shippingOrder.setShippingDate(new Date());
+        shippingOrder.setShippingDate(LocalDate.now());
         shippingOrder.setStatus("待出貨");
         shippingOrderRepository.save(shippingOrder);
         
@@ -153,6 +167,10 @@ public class SalesOrderService {
     
     public SalesOrder getById(Integer id) {
         return repository.findById(id).orElse(null);
+    }
+    
+    public void deleteById(Integer id) {
+        repository.deleteById(id);
     }
     
     public Map<String, Object> getOrdersByCustId(String custId) {

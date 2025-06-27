@@ -20,12 +20,15 @@ public class SalesOrder {
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SalesOrderDetail> details;
+    
+    @OneToMany(mappedBy = "salesOrder", cascade = CascadeType.ALL)
+    private List<ShippingOrder> shippingOrders;
 
     @Column(columnDefinition = "integer default 0")
     private Integer status = 0;  // 0:已成立, 1:已完成, -1:已取消
 
     @Column(columnDefinition = "integer default 0")
-    private Integer payStatus = 0;  // 0:未付款, 1:已付款
+    private Integer payStatus = 0;  // 0:未付款, 1:已付款, 2:付款失敗ㄝ, 3:已退款
     
     // 對應實際資料表中的前台訂單欄位
     @Column(name = "recipient_name")
@@ -146,6 +149,16 @@ public class SalesOrder {
 	        })
 	        .sum();
 	}
+
+	public List<ShippingOrder> getShippingOrders() {
+		return shippingOrders;
+	}
+
+	public void setShippingOrders(List<ShippingOrder> shippingOrders) {
+		this.shippingOrders = shippingOrders;
+	}
+	
+	
     
 
 }

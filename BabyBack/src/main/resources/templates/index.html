@@ -277,7 +277,8 @@
 					<div class="block-title"><i class="bi bi-cart-check me-2"></i>銷售管理</div>
 					<div sec:authorize="hasAnyRole('ADMIN', 'SALES')">
 						<a th:href="@{/products/publish}" class="btn btn-outline-dark">商品上架</a>
-						<a th:href="@{/orders}" class="btn btn-outline-dark">出貨單</a>
+						<a th:href="@{/orders}" class="btn btn-outline-dark">銷貨單</a>
+						<a th:href="@{/shipping}" class="btn btn-outline-dark">出貨單</a>
 						<!-- 退貨單預留未來 -->
 					</div>
 					<div sec:authorize="!hasAnyRole('ADMIN', 'SALES')">

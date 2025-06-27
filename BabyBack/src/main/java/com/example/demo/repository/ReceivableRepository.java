@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.example.demo.model.Customer;
 import com.example.demo.model.Receivable;
+import com.example.demo.model.SalesOrder;
 
 //繼承自 JpaRepository
 //操作的是 Receivable 類別對應的資料表，而主鍵是 Long 型別
@@ -25,5 +26,7 @@ public interface ReceivableRepository extends JpaRepository<Receivable, Integer>
     List<Receivable> findByCustomerNameContainingIgnoreCaseAndCreatedAtBefore(String keyword, Timestamp end);
     
     List<Receivable> findAllByCustomer(Customer cust);
+    
+    Receivable findByOrder(SalesOrder order);
     
 }

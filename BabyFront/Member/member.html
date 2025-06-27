@@ -852,9 +852,11 @@
             const container = document.getElementById('baby-container');
             const fieldDiv = button.closest('.baby-field');
             if (fieldDiv) {
-                fieldDiv.remove();
-            }
+                const input = fieldDiv.querySelector('input[type="month"]');
+                if (input) input.value = ""; // 清除值（確保不被送出）
 
+                fieldDiv.remove(); //移除整個欄位
+            }
             // 重新編號與命名
             const babyFields = container.querySelectorAll('.baby-field');
             const babyNames = ['大寶', '二寶', '三寶'];

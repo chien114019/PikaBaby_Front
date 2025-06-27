@@ -418,6 +418,11 @@ public class CustomerController {
 		// 處理 babyBirthdays（List<String> → LocalDate）
 		List<String> babyBirthdays = (List<String>) payload.get("babyBirthdays");
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		
+		// 先清空
+		customer.setBaby1Birthday(null);
+		customer.setBaby2Birthday(null);
+		customer.setBaby3Birthday(null);
 		if (babyBirthdays != null) {
 			if (babyBirthdays.size() > 0)
 				customer.setBaby1Birthday(LocalDate.parse(babyBirthdays.get(0) + "-01", formatter));
@@ -426,6 +431,7 @@ public class CustomerController {
 			if (babyBirthdays.size() > 2)
 				customer.setBaby3Birthday(LocalDate.parse(babyBirthdays.get(2) + "-01", formatter));
 		}
+		System.out.println("接收到 babyBirthdays：" + babyBirthdays);
 
 		service.save(customer);
 		return ResponseEntity.ok("會員資料更新成功");

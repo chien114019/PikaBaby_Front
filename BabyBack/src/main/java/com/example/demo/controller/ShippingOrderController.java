@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.model.SalesOrder;
 import com.example.demo.model.ShippingOrder;
@@ -52,6 +53,23 @@ public class ShippingOrderController {
         shippingOrderService.createFromSalesOrder(salesOrderId);
         return "redirect:/shipping";
     }
+    
+    @PostMapping("/{id}/ship")
+    public String shipOrder(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
+        // 執行出貨邏輯
+        shippingOrderService.markAsShipped(id);
+
+        redirectAttributes.addFlashAttribute("successMessage", "銷貨單 #" + id + " 出貨成功！");
+        return "redirect:/shipping";  // 回到訂單列表頁
+    }
+    
+    @PostMapping("/{id}/unship")
+    public String unshipOrder(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
+        shippingOrderService.markAsUnshipped(id); // 將狀態改回「待出貨」
+        redirectAttributes.addFlashAttribute("successMessage", "訂單 #" + id + " 已還原為待出貨");
+        return "redirect:/shipping";
+    }
+
 
     // ========== API ==========
 

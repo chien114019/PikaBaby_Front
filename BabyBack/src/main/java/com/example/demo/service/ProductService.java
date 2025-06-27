@@ -118,31 +118,21 @@ public class ProductService {
         
         Integer totalIn = purchaseDetailRepository.sumQuantityBySupplierProduct_Product_Id(productId);
         Long totalOut = salesOrderDetailRepository.sumQuantityByProductId(productId);
-        
-        // 除錯日誌
-        System.out.println("=== 庫存計算除錯 ===");
-        System.out.println("商品ID: " + productId);
-        System.out.println("進貨總數量(totalIn): " + (totalIn != null ? totalIn : 0));
-        System.out.println("銷售總數量(totalOut): " + (totalOut != null ? totalOut : 0));
-        
+             
         // 詳細查詢銷售記錄
         try {
             java.util.List<com.example.demo.model.SalesOrderDetail> salesDetails = 
                 salesOrderDetailRepository.findByProductId(productId);
-            System.out.println("銷售記錄數量: " + salesDetails.size());
+            
             for (com.example.demo.model.SalesOrderDetail detail : salesDetails) {
-                System.out.println("  - 訂單ID: " + detail.getOrder().getId() + 
-                                  ", 數量: " + detail.getQuantity() + 
-                                  ", 訂單狀態: " + detail.getOrder().getStatus());
+          
             }
         } catch (Exception e) {
-            System.err.println("查詢銷售記錄時發生錯誤: " + e.getMessage());
+            
         }
         
         // 修正計算公式：進貨 - 銷售（不再使用初始庫存）
-        Long result = (totalIn != null ? totalIn : 0L) - (totalOut != null ? totalOut : 0L);
-        System.out.println("計算結果庫存: " + result);
-        System.out.println("=== 庫存計算除錯結束 ===");
+        Long result = (totalIn != null ? totalIn : 0L) - (totalOut != null ? totalOut : 0L);       
         
         return Math.max(0L, result); // 確保庫存不會是負數
     }
@@ -210,8 +200,7 @@ public class ProductService {
         // 庫存扣減是通過創建SalesOrderDetail來實現的
         // 這個方法主要用於檢查庫存是否足夠
         
-        // 記錄庫存扣除日誌（可選）
-        System.out.println("商品ID: " + productId + " 庫存檢查通過，可扣除數量: " + quantity + " 當前庫存: " + currentStock);
+
     }
     
     // 更新商品的計算庫存（設定到@Transient字段）

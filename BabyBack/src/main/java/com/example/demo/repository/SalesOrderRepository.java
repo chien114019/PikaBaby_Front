@@ -36,6 +36,8 @@ public interface SalesOrderRepository extends JpaRepository<SalesOrder, Integer>
 			WHERE so.customer = :customer
 			""")
 	Integer getOrderTotalByCustomer(@Param("customer") Customer customer);
+	
+	Optional<SalesOrder> findByOrderNumber(String orderNumber);
 
 	
 	

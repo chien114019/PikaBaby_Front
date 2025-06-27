@@ -21,5 +21,7 @@ public interface SalesOrderDetailRepository extends JpaRepository<SalesOrderDeta
     // 新增：根據商品ID查詢所有訂單詳情（用於除錯）
     @Query("SELECT s FROM SalesOrderDetail s WHERE s.product.id = :productId")
     java.util.List<SalesOrderDetail> findByProductId(@Param("productId") Integer productId);
+    
+    
    
 }

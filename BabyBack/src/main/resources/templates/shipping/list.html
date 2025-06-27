@@ -40,6 +40,7 @@
           <tr>
             <th>出貨單 ID</th>
             <th>銷貨單 ID</th>
+            <th>訂單編號</th>
             <th>客戶</th>
             <th>出貨日期</th>
             <th>狀態</th>
@@ -51,6 +52,7 @@
           <tr th:each="ship : ${shippingOrders}">
             <td class="text-center" th:text="${ship.id}"></td>
             <td class="text-center" th:text="${ship.salesOrder.id}"></td>
+            <td class="text-center" th:text="${ship.salesOrder.orderNumber}"></td>
             <td th:text="${ship.salesOrder.customer.name}"></td>
             <td class="text-center" th:text="${#temporals.format(ship.shippingDate, 'yyyy-MM-dd')}"></td>
             <td class="text-center" th:text="${ship.status}"></td>
@@ -60,11 +62,19 @@
               </ul>
             </td>
             <td class="text-center">
-              <form th:action="@{'/api/shipping/' + ${ship.id} + '/ship'}" method="post">
-                <input type="hidden" name="_method" value="put"/>
-                <button type="submit" class="btn btn-success btn-sm" th:disabled="${ship.status == '已出貨'}">標記已出貨</button>
-              </form>
-            </td>
+			    <th:block th:if="${ship.status == '待出貨'}">
+			        <form th:action="@{'/shipping/' + ${ship.id} + '/ship'}" method="post">
+			            <input type="hidden" name="_method" value="put"/>
+			            <button type="submit" class="btn btn-success btn-sm">標記已出貨</button>
+			        </form>
+			    </th:block>
+			    
+			    <th:block th:if="${ship.status == '已出貨'}">
+			        <form th:action="@{'/shipping/' + ${ship.id} + '/unship'}" method="post">
+			            <button type="submit" class="btn btn-warning btn-sm">還原成待出貨</button>
+			        </form>
+			    </th:block>
+			</td>
           </tr>
           </tbody>
         </table>

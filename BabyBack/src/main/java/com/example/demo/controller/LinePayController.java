@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.model.Linepay.CheckoutPaymentRequestForm;
 import com.example.demo.model.Linepay.Response;
+import com.example.demo.repository.SalesOrderDetailRepository;
 import com.example.demo.service.LinePayService;
+import com.example.demo.service.SalesOrderService;
 
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -25,6 +27,9 @@ public class LinePayController {
 	
 	@Autowired
 	LinePayService linePayService;
+	
+	@Autowired
+	private SalesOrderService salesOrderService;
 	
 	private Map<String, String> payStatus =  new ConcurrentHashMap<>();	
 
@@ -52,7 +57,8 @@ public class LinePayController {
 		try {
 			System.out.println("PayConfirm()");
 			
-			
+			  BigDecimal amount = salesOrderService.findAmountByOrderId(orderId);
+		
 			Response result = linePayService.ConfirmService(transactionId, orderId);
 			
 			 if ("0000".equals(result.getReturnCode())) {

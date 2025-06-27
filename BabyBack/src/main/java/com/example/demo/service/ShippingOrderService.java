@@ -78,6 +78,14 @@ public class ShippingOrderService {
         }
     }
     
+    public void markAsUnshipped(Integer id) {
+        ShippingOrder order = shippingOrderRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("找不到出貨單 ID: " + id));
+        order.setStatus("待出貨");
+        shippingOrderRepository.save(order);
+    }
+
+    
     public List<SalesOrder> findSalesOrdersWithoutShipping() {
         List<SalesOrder> allSalesOrders = salesOrderRepository.findAll();
         List<ShippingOrder> allShippingOrders = shippingOrderRepository.findAll();

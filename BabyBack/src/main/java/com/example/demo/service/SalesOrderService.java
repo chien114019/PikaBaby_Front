@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
@@ -35,6 +36,9 @@ public class SalesOrderService {
     
     @Autowired
     private SalesOrderDetailRepository detailRepository;
+    
+    @Autowired
+    private SalesOrderRepository salesOrderRepository;
     
     @Autowired
     private ReceivableRepository receivableRepository;
@@ -287,6 +291,8 @@ public class SalesOrderService {
         
         // 創建銷售訂單
         SalesOrder order = new SalesOrder();
+        String orderNumber = "ORDER" + System.currentTimeMillis();
+        order.setOrderNumber(orderNumber);
         order.setCustomer(customer);
         order.setOrderDate(new Date());
         order.setRecipientName(customerName);
@@ -407,4 +413,12 @@ public class SalesOrderService {
         if (obj instanceof Number) return ((Number) obj).doubleValue();
         return null;
     }
+    
+    public BigDecimal findAmountByOrderId(String orderId) {
+        return salesOrderRepository.findByOrderNumber(orderId)
+            .map(order -> BigDecimal.valueOf(order.getTotalAmount()))
+            .orElseThrow(() -> new IllegalArgumentException("查無訂單金額"));
+    }
+
+
 }

@@ -30,6 +30,9 @@ public class SalesOrder {
     @Column(columnDefinition = "integer default 0")
     private Integer payStatus = 0;  // 0:未付款, 1:已付款, 2:付款失敗ㄝ, 3:已退款
     
+    @Column(name = "order_number")
+    private String orderNumber;
+    
     // 對應實際資料表中的前台訂單欄位
     @Column(name = "recipient_name")
     private String recipientName;
@@ -158,7 +161,13 @@ public class SalesOrder {
 		this.shippingOrders = shippingOrders;
 	}
 	
+	public String getOrderNumber() {
+	    return orderNumber;
+	}
 	
+	public void setOrderNumber(String orderNumber) {
+	    this.orderNumber = orderNumber;
+	}
     
 
 }

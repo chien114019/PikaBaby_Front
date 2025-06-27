@@ -33,7 +33,6 @@ public class CustomerService {
 
     private final SecurityFilterChain filterChain;
 
-	private final LinePayController linePayController;
 	@Autowired
 	private CustomerRepository repository;
 
@@ -55,8 +54,7 @@ public class CustomerService {
 	@Autowired
 	private AddressRepository aRepository;
 
-	CustomerService(LinePayController linePayController, SecurityFilterChain filterChain) {
-		this.linePayController = linePayController;
+	CustomerService(SecurityFilterChain filterChain) {
 		this.filterChain = filterChain;
 	}
 

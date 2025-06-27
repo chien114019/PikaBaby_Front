@@ -297,6 +297,7 @@ public class CustomerService {
 		}
 
 		Customer.setCreatedAt(LocalDateTime.now());
+		Customer.setFirstLoginAt(LocalDateTime.now());
 		Customer.setPoints(100);
 
 		return repository.save(Customer);

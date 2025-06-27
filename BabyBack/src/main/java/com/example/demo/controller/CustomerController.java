@@ -222,14 +222,21 @@ public class CustomerController {
 			deliverAddress.setDistrict("");
 			deliverAddress.setStreet("");
 		}
+		
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		String createdAt = dtf.format(customer.getCreatedAt());
+		System.out.println(customer.getFirstLoginAt());
+		String firstLoginAt = dtf.format(customer.getFirstLoginAt());
 
 		model.addAttribute("consumption", consumption);
 		model.addAttribute("orderTotal", orderTotal);
 		model.addAttribute("consignTotal", consignTotal);
 		model.addAttribute("points", points == null ? 0 : points);
+		model.addAttribute("customer", customer);
 		model.addAttribute("homeAddress", homeAddress);
 		model.addAttribute("deliverAddress", deliverAddress);
-		model.addAttribute("customer", customer);
+		model.addAttribute("createdAt", createdAt);
+		model.addAttribute("firstLoginAt", firstLoginAt);
 		return "customer/detail";
 	}
 

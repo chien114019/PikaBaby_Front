@@ -222,7 +222,9 @@
 					
 					
 					<!-- 從此往下寫右側區域功能 -->
-					<h2 th:text="${order.id} != null ? '編輯進貨單' : '新增進貨單'"></h2>
+					<div class="card w-100 mx-auto bg-white m-4 shadow rounded-4"
+						style="padding: 3rem;">
+					<h2 th:text="${order.id} != null ? '編輯進貨單' : '新增進貨單'" class="text-center"></h2>
 
 					<form th:action="@{/purchases/save}" th:object="${order}"  method="post">
 					<input type="hidden" name="id" th:value="${order.id}" />
@@ -231,16 +233,16 @@
 							<!-- 左欄 -->
 							<div class="col-md-6">
 								<div class="mb-3">
-									<label class="form-label">進貨日：</label> 
-									<input type="date" name="orderDate" th:value="${#dates.format(order.orderDate, 'yyyy-MM-dd')}" class="form-control w-75" />
+									<label class="fw-bold mt-2">進貨日：</label> 
+									<input type="date" name="orderDate" th:value="${#dates.format(order.orderDate, 'yyyy-MM-dd')}" class="form-control w-50 mt-2" />
 								</div>
 							</div>
 
 							<!-- 右欄 -->
 							<div class="col-md-6">
 								<div class="mb-3">
-									<label class="form-label" >進貨單號：</label> 
-									<input type="text" name="orderNumber" th:field="*{orderNumber}" class="form-control w-75" readonly>
+									<label class="fw-bold mt-2" >進貨單號：</label> 
+									<input type="text" name="orderNumber" th:field="*{orderNumber}" class="form-control w-50 mt-2" readonly>
 								</div>
 								
 							</div>
@@ -249,26 +251,24 @@
 						<!-- <hr> -->
 						 <div style="height: 1px; background: linear-gradient(to right, transparent, #999, transparent); border: 0; margin: 1.5rem 0;"></div> 
 
-						<h5>商品明細</h5>
+						<h5 class="mb-3">商品明細</h5>
 						
-						<div class="text-end mb-3">
-							<button type="button" class="btn btn-secondary" onclick="addRow()">新增商品</button>
-						</div>
+
 						
-						<table class="table table-bordered text-center align-middle" id="detailsTable">
-							<thead>
+						<table class="table table-bordered align-middle" id="detailsTable" style="table-layout: fixed; width: 100%;">
+							<thead class="text-center table-light align-middle">
 								<tr>
-									<th>序號</th>
-									<th>商品/廠商</th>
-									<th>規格</th>
-									<th>數量</th>
-									<th>金額</th>
-									<th>操作</th>
+									<th style="width: 5%;">序號</th>
+									<th style="width: 35%;">商品/供應商</th>
+									<th style="width: 20%;">規格</th>
+									<th style="width: 15%;">數量</th>
+									<th style="width: 15%;">金額</th>
+									<th style="width: 10%;">操作</th>
 								</tr>
 							</thead>
-							<tbody id="detailRows">
+							<tbody id="detailRows" class="text-center">
 								<tr>
-								  <td></td>
+								  <td class="align-middle">&nbsp;</td>
 								
 								  <!-- 商品 + 廠商選擇 -->
 								  <td>
@@ -299,14 +299,21 @@
 							</tbody>
 						</table>
 
-					
+					<div class="text-end mb-3">
+							<button type="button" class="btn btn-outline-primary" onclick="addRow()"><i class="bi bi-plus-circle me-1"></i>新增商品</button>
+						</div>
 
 						<!-- 按鈕 -->
-						<div class="text-end mt-3">
-							<button class="btn btn-success" type="submit">儲存</button>
-							<a class="btn btn-secondary" th:href="@{/purchases}">取消</a>
-						</div>
+						<div class="text-center mt-5">
+								<button class="btn btn-outline-success" type="submit">
+									<i class="bi bi-check2-square me-1"></i>儲存
+								</button>
+								<a class="btn btn-outline-secondary ms-2" th:href="@{/purchases}"><i
+									class="bi bi-x-circle me-1"></i>取消</a>
+							</div>
+						
 					</form>
+					</div>
 					<!-- 從此以上寫右側區域功能 -->
 				</div>
 			</main>

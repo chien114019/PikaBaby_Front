@@ -242,6 +242,84 @@
 					</div>
 				</div>
 
+				<!--  進貨管理 -->
+				<div class="block purchase vertical">
+					<div class="block-title">進貨管理</div>
+					<div sec:authorize="hasAnyRole('ADMIN', 'SALES')">
+						<a th:href="@{/suppliers}" class="btn btn-outline-dark">供應商建檔</a>
+						<a th:href="@{/supplier-products}" class="btn btn-outline-dark">商品價格建檔</a>
+						<a th:href="@{/purchases}" class="btn btn-outline-dark">進貨單</a>
+					</div>
+					<div sec:authorize="!hasAnyRole('ADMIN', 'SALES')">
+						<button
+							class="btn btn-outline-secondary disabled w-90 text-muted mb-1"
+							style="pointer-events: none;">
+							<i class="bi bi-lock-fill me-1"></i>供應商建檔
+						</button>
+						<button
+							class="btn btn-outline-secondary disabled w-90 text-muted mb-1"
+							style="pointer-events: none;">
+							<i class="bi bi-lock-fill me-1"></i>商品價格建檔
+						</button>
+						<button
+							class="btn btn-outline-secondary disabled w-90 text-muted mb-1"
+							style="pointer-events: none;">
+							<i class="bi bi-lock-fill me-1"></i>進貨單
+						</button>
+						<div class="text-muted small mt-2">
+							<i class="bi bi-info-circle me-1"></i>無此功能權限
+						</div>
+					</div>
+				</div>
+
+				<!-- 銷售管理 -->
+				<div class="block sales vertical">
+					<div class="block-title">銷售管理</div>
+					<div sec:authorize="hasAnyRole('ADMIN', 'SALES')">
+						<a th:href="@{/products/publish}" class="btn btn-outline-dark">商品上架</a>
+						<a th:href="@{/orders}" class="btn btn-outline-dark">出貨單</a>
+						<!-- 退貨單預留未來 -->
+					</div>
+					<div sec:authorize="!hasAnyRole('ADMIN', 'SALES')">
+						<button
+							class="btn btn-outline-secondary disabled w-90 text-muted mb-1"
+							style="pointer-events: none;">
+							<i class="bi bi-lock-fill me-1"></i>商品上架
+						</button>
+						<button class="btn btn-outline-secondary disabled w-90 text-muted"
+							style="pointer-events: none;">
+							<i class="bi bi-lock-fill me-1"></i>出貨單
+						</button>
+						<div class="text-muted small mt-2">
+							<i class="bi bi-info-circle me-1"></i>無此功能權限
+						</div>
+					</div>
+				</div>
+
+				<!-- 庫存管理 -->
+				<div class="block inventory vertical">
+					<div class="block-title">庫存管理</div>
+					<div sec:authorize="hasAnyRole('ADMIN', 'SALES')">
+						<a th:href="@{/products}" class="btn btn-outline-dark">商品建檔</a> <a
+							th:href="@{/stock}" class="btn btn-outline-dark">庫存查詢</a>
+					</div>
+					<div sec:authorize="!hasAnyRole('ADMIN', 'SALES')">
+						<button
+							class="btn btn-outline-secondary disabled w-90 text-muted mb-1"
+							style="pointer-events: none;">
+							<i class="bi bi-lock-fill me-1"></i>商品建檔
+						</button>
+						<button class="btn btn-outline-secondary disabled w-90 text-muted"
+							style="pointer-events: none;">
+							<i class="bi bi-lock-fill me-1"></i>庫存查詢
+						</button>
+						<div class="text-muted small mt-2">
+							<i class="bi bi-info-circle me-1"></i>無此功能權限
+						</div>
+					</div>
+				</div>
+
+
 				<!-- 系統設定與報表管理 -->
 				<!-- <div class="block production horizontal">
                         <div class="block-title">系統設定與報表管理</div>
@@ -253,9 +331,9 @@
                     </div>
 -->
 
-				<!-- 進貨與庫存管理 -->
-				<div class="block inventory vertical">
-					<div class="block-title">進貨與庫存管理</div>
+				<!-- 進銷存管理 -->
+				<!-- <div class="block inventory vertical">
+					<div class="block-title">進銷存管理</div>
 					<div sec:authorize="hasAnyRole('ADMIN', 'SALES')">
 						<a th:href="@{/suppliers}" class="btn btn-outline-dark">供應商建檔</a>
 						<a th:href="@{/products}" class="btn btn-outline-dark">商品建檔</a> <a
@@ -303,7 +381,7 @@
 							<i class="bi bi-info-circle me-1"></i>無此功能權限
 						</div>
 					</div>
-				</div>
+				</div> -->
 
 			</div>
 		</div>

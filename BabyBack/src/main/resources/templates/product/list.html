@@ -265,13 +265,13 @@
 						</thead>
 						<tbody>
 							<tr th:each="p : ${products}">
-								<td th:text="${p.id}" class="text-center" th:classappend="${p.deleted} ? 'text-muted text-decoration-line-through' : ''">1</td>
-								<td th:text="${p.name}" class="text-center" th:classappend="${p.deleted} ? 'text-muted text-decoration-line-through' : ''">Apple</td>
+								<td th:text="${p.id}" class="text-center" th:classappend="${p.deleted} ? 'text-muted text-decoration-line-through ' : ''">1</td>
+								<td th:text="${p.name}"  th:classappend="${p.deleted} ? 'text-muted text-decoration-line-through ps-4' : 'ps-4'">Apple</td>
 								<!--  <td th:text="${p.price}">100</td> -->
 								<!-- 0, 'COMMA'：代表小數點前每三位加逗號;0, 'POINT'：代表保留0位小數，用小數點分隔;'$' + ...：前面手動加上 $ 符號 -->
 								<!-- <td th:text="'$' + ${#numbers.formatDecimal(p.price, 0, 'COMMA', 0, 'POINT')}" class="text-center"></td>-->
 								<td th:text="${#strings.abbreviate(p.note, 30)}"
-									th:title="${p.note}" class="text-center" th:classappend="${p.deleted} ? 'text-muted text-decoration-line-through' : ''">說明</td>
+									th:title="${p.note}"  th:classappend="${p.deleted} ? 'text-muted text-decoration-line-throughps-4' : 'ps-4'">說明</td>
 								<td class="text-center" ><a class="btn btn-sm btn-info "
 									th:href="@{'/products/view/' + ${p.id}}">查看</a></td>
 								<!-- <td th:text="${p.stock}" class="text-center">50</td> -->

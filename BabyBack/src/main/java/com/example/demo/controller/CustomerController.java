@@ -133,11 +133,12 @@ public class CustomerController {
 		List<Map<String, Object>> custList = new ArrayList<Map<String, Object>>();
 		for (Customer cust : customers) {
 			Map<String, Object> map = new HashMap<String, Object>();
+			cust.setPhone(cust.getPhone() == null? "無" : cust.getPhone());
 			map.put("customer", cust);
 			CustomerAddress address = addressService.getHomeAddress(cust);
 			if (address == null) {
 				address = new CustomerAddress();
-				address.setCity("");
+				address.setCity("無");
 				address.setDistrict("");
 				address.setStreet("");
 			}
@@ -201,42 +202,42 @@ public class CustomerController {
 	// 對應指定客戶ID跳出詳細資料
 	@GetMapping("/detail/{id}")
 	public String showCustomerDetail(@PathVariable Integer id, Model model) {
-		Customer customer = service.getById(id); // 這邊用 service.getById 方法
-		Integer consumption = service.getConsumption(customer);
-		Integer orderTotal = service.getOrderTotal(customer);
-		Integer consignTotal = service.getConsignTotal(customer);
-		Integer points = customer.getPoints();
-		CustomerAddress homeAddress = addressService.getHomeAddress(customer);
-		CustomerAddress deliverAddress = addressService.getDeliverAddress(customer);
-
-		if (homeAddress == null) {
-			homeAddress = new CustomerAddress();
-			homeAddress.setCity("");
-			homeAddress.setDistrict("");
-			homeAddress.setStreet("");
-		}
-
-		if (deliverAddress == null) {
-			deliverAddress = new CustomerAddress();
-			deliverAddress.setCity("");
-			deliverAddress.setDistrict("");
-			deliverAddress.setStreet("");
-		}
+		Customer target = service.getById(id); // 這邊用 service.getById 方法
+		Map<String, Object> customer = new HashMap<String, Object>();
+		
+		Integer consumption = service.getConsumption(target);
+		Integer orderTotal = service.getOrderTotal(target);
+		Integer consignTotal = service.getConsignTotal(target);
+		Integer points = target.getPoints();
+		CustomerAddress homeAddress = addressService.getHomeAddress(target);
+		CustomerAddress deliverAddress = addressService.getDeliverAddress(target);
+		
+		customer.put("id", target.getId());
+		customer.put("consumption", consumption);
+		customer.put("orderTotal", orderTotal);
+		customer.put("consignTotal", consignTotal);
+		customer.put("points", points == null ? 0 : points);
+		customer.put("name", target.getName());
+		customer.put("birthday", target.getBirthday() == null? "未填寫" : target.getBirthday());
+		customer.put("email", target.getEmail());
+		customer.put("phone", target.getPhone() == null? "未填寫" : target.getPhone());
+		customer.put("homeAddress", homeAddress == null? "未填寫" : homeAddress.getCity() + homeAddress.getDistrict() 
+			+ homeAddress.getStreet());
+		customer.put("deliverAddress", deliverAddress == null? "未填寫" : deliverAddress.getCity() + deliverAddress.getDistrict() 
+			+ deliverAddress.getStreet());
 		
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-		String createdAt = dtf.format(customer.getCreatedAt());
-		System.out.println(customer.getFirstLoginAt());
-		String firstLoginAt = dtf.format(customer.getFirstLoginAt());
+		String createdAt = dtf.format(target.getCreatedAt());
+		String firstLoginAt = dtf.format(target.getFirstLoginAt());
+		
+		customer.put("createdAt", createdAt);
+		customer.put("firstLoginAt", firstLoginAt);
+		
+		customer.put("baby1Birthday", target.getBaby1Birthday() == null? "未填寫" : target.getBaby1Birthday());
+		customer.put("baby2Birthday", target.getBaby2Birthday() == null? "未填寫" : target.getBaby2Birthday());
+		customer.put("baby3Birthday", target.getBaby3Birthday() == null? "未填寫" : target.getBaby3Birthday());
 
-		model.addAttribute("consumption", consumption);
-		model.addAttribute("orderTotal", orderTotal);
-		model.addAttribute("consignTotal", consignTotal);
-		model.addAttribute("points", points == null ? 0 : points);
 		model.addAttribute("customer", customer);
-		model.addAttribute("homeAddress", homeAddress);
-		model.addAttribute("deliverAddress", deliverAddress);
-		model.addAttribute("createdAt", createdAt);
-		model.addAttribute("firstLoginAt", firstLoginAt);
 		return "customer/detail";
 	}
 

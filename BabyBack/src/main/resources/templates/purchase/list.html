@@ -221,34 +221,36 @@
 					</nav>
 					<!-- 從此往下寫右側區域功能 -->
 					<h2 class="fw-bold">進貨紀錄</h2>
-					
+
 					<form method="get" action="/products" class="mb-3">
 						<div class="d-flex align-items-end flex-wrap gap-3">
 							<!-- 左側搜尋 -->
-						 <div>
-								<label for="keyword" class="form-label"></label> 
-								<input type="text" class="form-control" id="keyword"
-									name="keyword" th:value="${param.keyword}"
-									placeholder="請輸入關鍵字">
+							<div>
+								<label for="keyword" class="form-label"></label> <input
+									type="text" class="form-control" id="keyword" name="keyword"
+									th:value="${param.keyword}" placeholder="請輸入關鍵字">
 							</div>
 
 							<div class="pt-2">
 								<button type="submit" class="btn btn-outline-primary">
 									<i class="bi bi-search"></i> 查詢
 								</button>
-							</div> 
-							
-							
-					<!-- 右側新增按鈕 -->
-					<div class="ms-auto pt-2">
-						<a class="btn btn-outline-primary me-2" th:href="@{/purchases/new}"><i class="bi bi-plus-circle me-1"></i>新增進貨單</a>
-						<a class="btn btn-outline-success" href="/purchases/export"><i class="bi bi-download me-1"></i>匯出Excel</a>
-					</div>
-					
-					</div>
+							</div>
+
+
+							<!-- 右側新增按鈕 -->
+							<div class="ms-auto pt-2">
+								<a class="btn btn-outline-primary me-2"
+									th:href="@{/purchases/new}"><i
+									class="bi bi-plus-circle me-1"></i>新增進貨單</a> <a
+									class="btn btn-outline-success" href="/purchases/export"><i
+									class="bi bi-download me-1"></i>匯出Excel</a>
+							</div>
+
+						</div>
 					</form>
-					
-					
+
+
 					<!-- 表格區塊 -->
 					<table class="table table-bordered align-middle">
 						<thead class="text-center table-light">
@@ -259,32 +261,42 @@
 								<th>明細</th>
 								<th>總額</th>
 								<th>操作</th>
-								
+
 							</tr>
 						</thead>
 						<tbody>
 							<tr th:each="order : ${orders}">
 								<td th:text="${order.id}" class="text-center"></td>
-								<td th:text="${#dates.format(order.orderDate, 'yyyy-MM-dd')}" class="text-center"></td>
-								<td th:text="${order.supplier != null ? order.supplier.name : '（無）' }" class="ps-4"></td>
-								<td class="ps-4">
-									<ul>
+								<td th:text="${#dates.format(order.orderDate, 'yyyy-MM-dd')}"
+									class="text-center"></td>
+								<td
+									th:text="${order.supplier != null ? order.supplier.name : '（無）' }"
+									class="ps-4"></td>
+								<td>
+								<!-- 	<ul>
 										<li th:each="d : ${order.details}"
 											th:text="${d.supplierProduct.product.name + ' x ' + d.quantity}">
-											<!--   + '（單價 $' + d.unitPrice + '）'   -->
+											  + '（單價 $' + d.unitPrice + '）'  
 										</li>
-									</ul>
-									
-								</td>
-								<td th:text="${#numbers.formatDecimal(order.totalAmount, 0, 'COMMA', 2, 'POINT')}" class="ps-4"></td>
+									</ul> -->
 
-								<td class="text-center">
-								 	<a class="btn btn-warning btn-sm" th:href="@{'/purchases/edit/' + ${order.id}}">編輯</a>
-									<a class="btn btn-danger btn-sm" th:href="@{'/purchases/delete/' + ${order.id}}"
-   										onclick="return confirm('確定要刪除這筆進貨單嗎？')">刪除</a>
+									<div th:each="d : ${order.details}" class="text-nowrap">
+										＊<span
+											th:text="${d.supplierProduct.product.name + ' x ' + d.quantity}"></span>
+									</div>
+
 								</td>
+								<td
+									th:text="${#numbers.formatDecimal(order.totalAmount, 0, 'COMMA', 2, 'POINT')}"
+									class="ps-4"></td>
+
+								<td class="text-center"><a class="btn btn-warning btn-sm"
+									th:href="@{'/purchases/edit/' + ${order.id}}">編輯</a> <a
+									class="btn btn-danger btn-sm"
+									th:href="@{'/purchases/delete/' + ${order.id}}"
+									onclick="return confirm('確定要刪除這筆進貨單嗎？')">刪除</a></td>
 							</tr>
-							
+
 						</tbody>
 					</table>
 					<div class="text-end mb-3">

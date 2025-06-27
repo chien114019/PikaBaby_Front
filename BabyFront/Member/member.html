@@ -648,7 +648,7 @@
                                 </svg>
                                 不適用項目：部份活動、特定商品、或搭配其他優惠時可能無法使用，請以結帳頁顯示為準。<br>
                             </div>
-                            <div class="points">累計點數：<span>5</span> 點</div>
+                            <div class="points">累計點數：<span id="points">5</span> 點</div>
                         </div>
                     </div>
                     <div id="password" class="tab-content">
@@ -736,7 +736,6 @@
     <script src="../js/memberData.js"></script>
     <script>
         // 目前顧客ID
-        const custId = 3
         const host = "http://localhost:8080"
 
         // 切換頁面
@@ -747,6 +746,120 @@
             document.querySelectorAll('.nav-button').forEach(el => el.classList.remove('active'));
             event.currentTarget.classList.add('active');
         }
+
+        // 我的收藏
+        function updateQty(button, delta) {
+            const row = button.closest('tr');
+            const qtySpan = row.querySelector('.qty-number');
+            let qty = parseInt(qtySpan.textContent);
+            qty = Math.max(1, qty + delta);
+            qtySpan.textContent = qty;
+
+            // 從第二欄單價抓數字（去掉 $）
+            const unitPrice = parseInt(row.children[1].textContent.replace('$', ''));
+            const subtotalCell = row.children[3];
+            subtotalCell.textContent = `$${unitPrice * qty}`;
+        }
+
+        // //  address
+        // const zipData = {
+        //     '台中市': {
+        //         '北屯區': '406',
+        //         '西屯區': '407'
+        //     },
+        //     '台北市': {
+        //         '大安區': '106'
+        //     },
+        //     '高雄市': {
+        //         '鼓山區': '804'
+        //     }
+        // };
+
+        // // 選出所有 .address-form 表單
+        // document.querySelectorAll('.address-form').forEach(form => {
+        //     const cityEl = form.querySelector('[name="city"]');
+        //     const districtEl = form.querySelector('[name="district"]');
+        //     const zipcodeEl = form.querySelector('[name="zipcode"]');
+
+        //     // 城市變更 → 更新行政區
+        //     cityEl.addEventListener('change', () => {
+        //         const city = cityEl.value;
+        //         const districts = zipData[city] || {};
+        //         districtEl.innerHTML = '<option selected disabled>請選擇</option>';
+        //         for (let district in districts) {
+        //             const opt = document.createElement('option');
+        //             opt.value = district;
+        //             opt.textContent = district;
+        //             districtEl.appendChild(opt);
+        //         }
+        //         zipcodeEl.value = '';
+        //     });
+
+        //     // 行政區變更 → 更新郵遞區號
+        //     districtEl.addEventListener('change', () => {
+        //         const city = cityEl.value;
+        //         const district = districtEl.value;
+        //         zipcodeEl.value = (zipData[city] && zipData[city][district]) || '';
+        //     });
+
+        //     // 表單送出
+        //     form.addEventListener('submit', e => {
+        //         e.preventDefault();
+
+        //         const addressData = {
+        //             name: form.querySelector('[name="name"]').value.trim(),
+        //             city: cityEl.value,
+        //             district: districtEl.value,
+        //             zipcode: zipcodeEl.value,
+        //             street: form.querySelector('[name="street"]').value.trim(),
+        //             phone: form.querySelector('[name="phone"]').value.trim(),
+        //             isDefaultOrder: form.querySelector('[name="isDefaultOrder"]').checked,
+        //             isDefaultShipping: form.querySelector('[name="isDefaultShipping"]').checked
+        //         };
+        //         if (!/^09\d{8}$/.test(addressData.phone)) {
+        //             alert('請輸入正確格式的手機號碼');
+        //             return;
+        //         }
+
+
+        //         // 示範儲存與關閉 Modal（你可根據 form.id 決定是新增還是編輯）
+        //         const mode = form.dataset.mode; // "add" or "edit"
+        //         const addressId = form.dataset.addressId || null;
+        //         let url = "http://localhost:8080/customers/front/address";
+        //         let method = "POST"; // 預設是新增
+
+        //         if (mode === "edit" && addressId) {
+        //             url += `/${addressId}`; // 如果是編輯，就加上地址 ID
+        //             method = "PUT";
+        //         }
+        //         fetch(url, {
+        //             method,
+        //             headers: {
+        //                 "Content-Type": "application/json"
+        //             },
+        //             credentials: "include", // ⬅️ 重點！讓 cookie / session 傳到後端
+        //             body: JSON.stringify(addressData)
+        //         })
+        //             .then(res => {
+        //                 if (!res.ok) throw new Error("儲存失敗");
+        //                 return res.json();
+        //             })
+        //             .then(data => {
+        //                 alert("✅ 地址新增成功！");
+        //                 form.reset(); // 清空表單
+        //                 districtEl.innerHTML = '<option selected disabled>請選擇</option>';
+        //                 zipcodeEl.value = '';
+
+        //                 const modalId = form.id === 'addressAddForm' ? 'address_addModal' : 'addressModal';
+        //                 bootstrap.Modal.getInstance(document.getElementById(modalId)).hide(); // ✅ 用 modalId 決定關哪一個 modal
+        //                 refreshAddressList(); // 👉 TODO：重新整理地址列表（你之後可以寫）
+        //             }).catch(err => {
+        //                 console.error("❌ 儲存錯誤：", err);
+        //                 alert("儲存失敗，請再試一次！");
+        //             });
+        //     });
+        // });
+
 
 
         // creditCard
@@ -871,75 +984,112 @@
         //     button.textContent = isShown ? '隱藏點數明細' : '顯示點數明細';
         // }
 
-        //訂單查詢 
-        $.ajax({
-            method: "GET",
-            url: `${host}/orders/front/search/cust/${custId}`,
-            success: function (data) {
-                console.log(data);
-                if (data.response.success) {
-                    (data.orders).forEach(element => {
-                        console.log(element);
-                        let row = $("<tr>");
-                        let id = $("<td>").text(element.id);
-                        let date = $("<td>").text(element.date);
-                        let cancelIcon = $("<i class='bi bi-x-circle-fill'>");
-                        let cancelBtn = $("<button class='btn' data-bs-toggle='modal' data-bs-target='#cancelModal'>");
-                        cancelBtn.attr("onclick", `cancelOrder(${element.id})`)
-                        let cancel = $("<td>");
+    </script>
+    <script>
+        window.addEventListener("DOMContentLoaded", () => {
+            fetch("http://localhost:8080/customers/front/me", {
+                method: "GET",
+                credentials: "include" // ✅ 一定要帶上，才能送出 Session Cookie
+            })
+                .then(res => {
+                    if (!res.ok) {
+                        throw new Error("尚未登入");
+                    }
+                    return res.json();
+                })
+                .then(data => {
+                    console.log(data);
+                    
+                    // 歡迎詞
+                    document.getElementById("welcomeText").textContent = "歡迎回來，" + data.name + "！";
+                    // 成功拿到會員資料，顯示在前端
+                    document.getElementById("memberName").textContent = data.name;
+                    document.getElementById("memberEmail").textContent = data.email;
+                    // 你可以依照你的畫面填充更多資料
+                    document.getElementById("memberPhone").textContent = data.phone || "未填寫";
+                    document.getElementById("memberBirthday").textContent = data.birthday?.substring(0, 10) || "未填寫";
+                    document.getElementById("memberCreatedAt").textContent = data.createdAt;
+                    document.getElementById("memberBabyBirthday").textContent = data.baby1Birthday?.substring(0, 7) || "未填寫";
+                    document.getElementById("points").textContent = data.points;
+                })
+                .catch(err => {
+                    alert("尚未登入，請先登入！");
+                    window.location.href = "login.html";
+                });
 
-                        let status = $("<td>");
-                        switch (element.status) {
-                            case -1:
-                                status.text("已取消")
-                                cancelIcon.addClass("text-secondary-emphasis");
-                                cancelBtn.attr("disabled", "disabled");
-                                break;
-                            case 0:
-                                status.text("已成立")
-                                cancelIcon.addClass("text-danger");
-                                break;
-                            case 1:
-                                status.text("已完成")
-                                cancelIcon.addClass("text-secondary-emphasis");
-                                cancelBtn.attr("disabled", "disabled");
-                                break;
+            //查詢訂單
+            $.ajax({
+                method: "GET",
+                url: `${host}/orders/front/search/cust`,
+                xhrFields: {
+                    withCredentials: true
+                },
+                success: function (data) {
+                    console.log(data);
+                    if (data.response.success) {
+                        (data.orders).forEach(element => {
+                            console.log(element);
+                            let row = $("<tr>");
+                            let id = $("<td>").text(element.id);
+                            let date = $("<td>").text(element.date);
+                            let cancelIcon = $("<i class='bi bi-x-circle-fill'>");
+                            let cancelBtn = $("<button class='btn' data-bs-toggle='modal' data-bs-target='#cancelModal'>");
+                            cancelBtn.attr("onclick", `cancelOrder(${element.id})`)
+                            let cancel = $("<td>");
 
-                            default:
-                                break;
-                        }
+                            let status = $("<td>");
+                            switch (element.status) {
+                                case -1:
+                                    status.text("已取消")
+                                    cancelIcon.addClass("text-secondary-emphasis");
+                                    cancelBtn.attr("disabled", "disabled");
+                                    break;
+                                case 0:
+                                    status.text("已成立")
+                                    cancelIcon.addClass("text-danger");
+                                    break;
+                                case 1:
+                                    status.text("已完成")
+                                    cancelIcon.addClass("text-secondary-emphasis");
+                                    cancelBtn.attr("disabled", "disabled");
+                                    break;
 
-                        let payStatus = $("<td>");
-                        switch (element.payStatus) {
-                            case 0:
-                                payStatus.text("已付款");
-                                break;
-                            case 1:
-                                payStatus.text("待退款");
-                                break;
-                            case 2:
-                                payStatus.text("已退款");
-                                break;
-                            default:
-                                break;
-                        }
+                                default:
+                                    break;
+                            }
 
-                        let total = $("<td>").text(element.total);
-                        cancelBtn.append(cancelIcon);
-                        cancel.append(cancelBtn);
-                        row.append(id, date, status, payStatus, total, cancel);
-                        $("#orderTable").append(row);
-                    });
+                            let payStatus = $("<td>");
+                            switch (element.payStatus) {
+                                case 0:
+                                    payStatus.text("已付款");
+                                    break;
+                                case 1:
+                                    payStatus.text("待退款");
+                                    break;
+                                case 2:
+                                    payStatus.text("已退款");
+                                    break;
+                                default:
+                                    break;
+                            }
+
+                            let total = $("<td>").text(element.total);
+                            cancelBtn.append(cancelIcon);
+                            cancel.append(cancelBtn);
+                            row.append(id, date, status, payStatus, total, cancel);
+                            $("#orderTable").append(row);
+                        });
+                    }
+                    else {
+                        alert(data.response.mesg);
+                    }
+                },
+                error: function () {
+                    alert("系統查詢錯誤");
                 }
-                else {
-                    alert(data.response.mesg);
-                }
-            },
-            error: function () {
-                alert("系統查詢錯誤");
-            }
-        })
-        //取消訂單
+            })
+        });
+
         function cancelOrder(id) {
             $("#confirmBtn").on("click", function () {
                 $.ajax({
@@ -955,53 +1105,6 @@
                 })
             })
         }
-    </script>
-    <script>
-
-
-        //   window.addEventListener('DOMContentLoaded', () => {
-        //     const name = sessionStorage.getItem("memberName");
-        //     console.log("取得的名字：", name);
-        //     const welcomeText = document.getElementById("welcomeText");
-        //     console.log("🔍 welcomeText：", welcomeText);
-
-        //     if (name && welcomeText) {
-        //       welcomeText.textContent = `歡迎回來，${name}！`;
-        //       sessionStorage.removeItem("memberName");
-        //     }
-        //   });
-        window.addEventListener("DOMContentLoaded", () => {
-            fetch("http://localhost:8080/customers/front/me", {
-                method: "GET",
-                credentials: "include" // ✅ 一定要帶上，才能送出 Session Cookie
-            })
-                .then(res => {
-                    if (!res.ok) {
-                        throw new Error("尚未登入");
-                    }
-                    return res.json();
-                })
-                .then(data => {
-                    // 歡迎詞
-                    document.getElementById("welcomeText").textContent = "歡迎回來，" + data.name + "！";
-                    // 成功拿到會員資料，顯示在前端
-                    document.getElementById("memberName").textContent = data.name;
-                    document.getElementById("memberEmail").textContent = data.email;
-                    // 你可以依照你的畫面填充更多資料
-                    document.getElementById("memberPhone").textContent = data.phone || "未填寫";
-                    document.getElementById("memberBirthday").textContent = data.birthday?.substring(0, 10) || "未填寫";
-                    document.getElementById("memberCreatedAt").textContent = data.createdAt?.substring(0, 10);
-                    document.getElementById("memberBabyBirthday").textContent = data.baby1Birthday?.substring(0, 7) || "未填寫";
-                    // document.getElementById("memberBabyBirthday").textContent = data.creditCard?.substring(0, 7) || "未填寫";
-
-                })
-                .catch(err => {
-                    alert("尚未登入，請先登入！");
-                    window.location.href = "login.html";
-                });
-        });
-
-
 
 
     </script>

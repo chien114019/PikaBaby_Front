@@ -17,10 +17,14 @@ import com.example.demo.model.Receivable;
 import com.example.demo.model.Response;
 import com.example.demo.model.SalesOrder;
 import com.example.demo.model.SalesOrderDetail;
+import com.example.demo.model.ShippingOrder;
+import com.example.demo.model.ShippingOrderDetail;
 import com.example.demo.repository.CustomerRepository;
 import com.example.demo.repository.ProductRepository;
 import com.example.demo.repository.ReceivableRepository;
 import com.example.demo.repository.SalesOrderRepository;
+import com.example.demo.repository.ShippingOrderDetailRepository;
+import com.example.demo.repository.ShippingOrderRepository;
 import com.example.demo.repository.SalesOrderDetailRepository;
 
 @Service
@@ -46,6 +50,12 @@ public class SalesOrderService {
     
     @Autowired
     private ProductService productService;
+    
+    @Autowired
+    private ShippingOrderRepository shippingOrderRepository ;
+    
+    @Autowired
+    private ShippingOrderDetailRepository shippingOrderDetailRepository;
 
     @Transactional
     public void save(SalesOrder order) {
@@ -102,6 +112,28 @@ public class SalesOrderService {
             }
         }
         
+        // 建立出貨單
+        ShippingOrder shippingOrder = new ShippingOrder();
+        shippingOrder.setSalesOrder(savedOrder);
+        shippingOrder.setShippingDate(new Date());
+        shippingOrder.setStatus("待出貨");
+        shippingOrderRepository.save(shippingOrder);
+        
+
+	     // 建立出貨明細
+	     for (SalesOrderDetail detail : savedOrder.getDetails()) {
+	         ShippingOrderDetail shippingDetail = new ShippingOrderDetail();
+	         shippingDetail.setShippingOrder(shippingOrder);
+	         shippingDetail.setProduct(detail.getProduct());
+	         shippingDetail.setQuantity(detail.getQuantity());
+	         shippingOrderDetailRepository.save(shippingDetail);
+	
+	         System.out.println("📦 建立出貨明細 - 商品：" + detail.getProduct().getName() +
+	                            "，數量：" + detail.getQuantity());
+	     }
+	
+	     System.out.println("✅ 出貨單建立完成，ID: " + shippingOrder.getId());
+
         // 建立應收帳款資料
         Receivable r = new Receivable();
         r.setOrder(savedOrder);

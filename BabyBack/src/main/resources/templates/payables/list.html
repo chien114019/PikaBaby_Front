@@ -210,9 +210,9 @@
 					<form class="row g-3 align-items-end mb-4" method="get"
 						action="/payables/search">
 						<div class="col-md-4">
-							<label for="keyword" class="form-label">公司名稱關鍵字</label> <input
+							<label for="keyword" class="form-label">付款對象關鍵字</label> <input
 								type="text" class="form-control" id="keyword" name="keyword"
-								placeholder="請輸入供應商名稱">
+								placeholder="請輸入付款對象名">
 						</div>
 						<div class="col-md-3">
 							<label for="startDate" class="form-label">起始日期</label> <input
@@ -230,11 +230,11 @@
 					</form>
 
 					<!-- 表格區塊 -->
-					<table class="table table-bordered">
-						<thead class="text-center">
+					<table class="table table-bordered align-middle">
+						<thead class="table-light text-center">
 							<tr>
 								<th>進貨單編號</th>
-								<th>供應廠商</th>
+								<th>付款對象</th>
 								<th>應付截止日期</th>
 								<th>付款日期</th>
 								<th>金額</th>
@@ -246,16 +246,21 @@
 						<tbody>
 							<tr th:each="item : ${payables}">
 								<td
-									th:text="${item.purchaseOrder != null ? item.purchaseOrder.id : '—'}" class="text-center">1</td>
+									th:text="${item.purchaseOrder != null ? item.purchaseOrder.id : '—'}"
+									class="text-center">1</td>
 								<td
 									th:text="${item.supplier != null ? item.supplier.name : '無供應商'}">廠商</td>
 								<td
-									th:text="${#dates.format(item.purchaseOrder?.dueDate, 'yyyy-MM-dd') ?: '—'}" class="text-center">2025-06-16</td>
-								<td th:text="${#dates.format(item.endDate, 'yyyy-MM-dd')}" class="text-center">2025-06-16</td>
-								<td th:text="${item.amount != null ? item.amount : '0'}" class="text-center">10000</td>
+									th:text="${#dates.format(item.purchaseOrder?.dueDate, 'yyyy-MM-dd') ?: '—'}"
+									class="text-center">2025-06-16</td>
+								<td th:text="${#dates.format(item.endDate, 'yyyy-MM-dd')}"
+									class="text-center">2025-06-16</td>
+							<td th:text="${item.amount != null ? item.amount : '0'}" class="text-center">10000</td> 
+								
 								<td th:text="${item.status}" class="text-center">未付款</td>
 								<td th:text="${item.note}">備註</td>
-								<td class="text-center"><a th:href="@{'/payables/edit/' + ${item.id}}"
+								<td class="text-center"><a
+									th:href="@{'/payables/edit/' + ${item.id}}"
 									class="btn btn-sm btn-warning text-center">編輯</a></td>
 							</tr>
 						</tbody>

@@ -18,7 +18,7 @@
 	      <i class="bi bi-check-circle me-1"></i>
 	      <span th:text="${successMessage}"></span>
 	    </div>
-      <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+     	<div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
 
       <div class="card shadow-sm rounded-4">
         <div class="card-header bg-primary text-white">
@@ -55,12 +55,14 @@
             <tbody>
               <tr th:each="p : ${products}">
                 <td>
-                  <img th:src="${p.imageUrl}" alt="商品圖片" class="img-thumbnail" style="max-width: 60px;">
-                </td>
+				  <img th:if="${imageMap[p.id]} != null"
+				       th:src="'data:image/png;base64,' + ${imageMap[p.id]}"
+				       alt="商品圖片" class="img-thumbnail" style="max-width: 60px;">
+				</td>
                 <td th:text="${p.name}" class="fw-semibold"></td>
              
                <td th:text="${#strings.listJoin(p.ageRanges, ', ')}">-</td>
-                <td th:text="${p.description}" class="text-muted small"></td>
+                <td th:text="${p.note}" class="text-muted small"></td>
                    <td>
                   <input type="hidden" name="productIds" th:value="${p.id}" />
                   <input type="text" name="prices" th:value="${p.price}" class="form-control text-end" />

@@ -86,18 +86,17 @@
     display: block;
   }
   
-
   
 }
 
 
 
 /* 當螢幕寬度 ≤ 1200px 時啟用 */
-@media (max-width: 1200px) {
+/* @media (max-width: 1200px) {
   .breadcrumb li:first-child {
-    margin-left: 4rem; 
+    margin-left: 1rem; 
   }
-}
+} */
 
 
  /* main {

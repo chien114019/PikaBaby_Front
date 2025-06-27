@@ -10,5 +10,5 @@ public interface ProductImageRepository extends JpaRepository<ProductImage, Inte
 	//productImageRepository.saveAll(list);
 	
     // 加上這個方法，能透過 product_id這個欄位 找出所有的 ProductImage圖片
-    List<ProductImage> findByProductId(Long productId);
+    List<ProductImage> findByProductId(Integer integer);
 }

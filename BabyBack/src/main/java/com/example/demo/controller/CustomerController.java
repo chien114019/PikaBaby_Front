@@ -347,7 +347,7 @@ public class CustomerController {
 	    member.put("birthday", customer.getBirthday());
 	    member.put("createdAt", customer.getCreatedAt());
 	    member.put("gender", customer.getGender()); // ✅ 性別欄位
-
+member.put("points", customer.getPoints());
 	    // 寶寶生日轉成 List
 	    
 

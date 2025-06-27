@@ -1,6 +1,4 @@
- /* Sidebar */
-
- /* Main content */
+/* ========= 基本設定 ========= */
  body {
      background-color: #f9f9f9;
      font-family: "Noto Sans TC", sans-serif;
@@ -9,26 +7,32 @@
 
  /* main h2{
     background-color: lightblue;} */
-
+    
+/* ========= 網格容器 ========= */
  .grid-container {
     /* background-color: cadetblue; */
-    
      display: grid;
-     grid-template-areas:
+     
      /* 設定 網格的版面結構 */
+    /*  grid-template-areas: */
        /* "task pos info sale eis report finance inventory "
          "task pos info sale eis report finance inventory " */
      
-        "task       pos      report    sale    inventory "
-         "production   finance    info    eis     inventory " 
-        /*  "finance finance finance finance" */;
+       /*  "task       pos      report    sale    inventory "
+         "production   finance    info    eis     inventory " */ 
+         
+        /*  "finance finance finance finance" */
+       /*  ; */
      gap: 15px;
      padding: 20px;
      
+     /* 0627新增 */
+     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* 每個區塊最小寬度是 250px，剩餘空間平均分配（自動換行） */
+     justify-items: center; /* 區塊水平置中 */
  }
  
  
-
+/* ========= 區塊樣式 ========= */
  .block {
      border: 2px dashed #ccc;
      border-radius: 10px;
@@ -38,10 +42,29 @@
      font-weight: bold;
      font-size: 1.1rem;
      text-align: center;
-     
      width: 250px; 
+     /* 0627新增 */
+     flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  transition: transform 0.3s;
  }
  
+ 
+ 
+ .block-title {
+     margin-bottom: 0.5rem;
+     width: 100%;
+ }
+ 
+ /* 0627新增 */
+ .block:hover {
+  transform: scale(1.03);
+}
+ 
+ 
+/* ========= 按鈕尺寸與狀態 ========= */
 .block .btn {
   width: 90%;        /* 撐滿 .block 寬度 */
   height: 50px;
@@ -63,10 +86,6 @@
   height: 50px;
 }
 
- .block-title {
-     margin-bottom: 0.5rem;
-     width: 100%;
- }
 
  .block.vertical {
      flex-direction: column;
@@ -90,53 +109,44 @@
      margin: 0.25rem;
  }
  
-
+/* ========= 各區塊背景色 ========= */
  .info {
      background-color: #ffe5e5;
-     grid-area: info;
  }
 
  .inventory {
      background-color: #fff4e5;
-     grid-area: inventory;
  }
 
  .sale {
      background-color: #fffbe5;
-     grid-area: sale;
  }
 
  .production {
      background-color: #e5f5e5;
-     grid-area: production;
  }
 
  .secondhand {
      background-color: #e5f0ff;
-     grid-area: eis;
  }
 
  .task {
      background-color: #ffe5f0;
-     grid-area: task;
  }
 
 .finance {
 	background-color: #e5f5e5;
-	grid-area: finance;
 }
 
 .report {
 	background-color: #f0e5ff;
-	grid-area: report;
 }
 
 .pos {
      background-color: #e5faff;
-     grid-area: pos;
  }
  
- /*  logo 和標題 */
+/* ========= Logo 和標題置中區 ========= */
  .header-center {
 	display: flex;
 	justify-content: center; /* 水平置中整體 */
@@ -158,5 +168,34 @@
 }
 
 
+/* ========= 水平排列區塊（保留以防未來需要） ========= */
+.block.horizontal {
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.block.horizontal .btn {
+  width: auto;
+  margin: 0.25rem;
+}
+
+/* ========= 響應式調整 ========= */
+@media (max-width: 768px) {
+  .header-center {
+    flex-direction: column;
+  }
+
+  .header-center h1 {
+    font-size: 2.3rem;
+    line-height: 2.5;
+  }
+
+  .logo-img {
+    height: 180px;
+    margin-top: 0;
+    margin-bottom: -50px; /* 調整圖片和標題之間的間距 */
+  }
+}
 
  

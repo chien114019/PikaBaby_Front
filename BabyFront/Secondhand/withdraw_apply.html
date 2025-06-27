@@ -352,6 +352,9 @@
                     setUserToggle(data);
 
                     $("#totalAmount").text(data.total);
+                    if (data.total <= 0) {
+                        $("#applyBtn").attr("disabled", "disabled");
+                    }
                     consign.amount = data.total;
                     (data.ids).forEach(element => {
                         consign.ids.push(element);

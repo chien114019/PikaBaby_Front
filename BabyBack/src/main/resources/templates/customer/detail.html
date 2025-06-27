@@ -213,25 +213,25 @@
                         <div class="col-md-3">
                             <div class="bg-light p-3 rounded shadow-sm text-center">
                                 <div class="fw-bold">累積消費總額</div>
-                                <div class="fs-4 text-primary"><span th:text="${consumption}"></span></div>
+                                <div class="fs-4 text-primary"><span th:text="${customer.consumption}"></span></div>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="bg-light p-3 rounded shadow-sm text-center">
                                 <div class="fw-bold">訂單數量（件）</div>
-                                <div class="fs-4 text-primary"><span th:text="${orderTotal}"></span></div>
+                                <div class="fs-4 text-primary"><span th:text="${customer.orderTotal}"></span></div>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="bg-light p-3 rounded shadow-sm text-center">
                                 <div class="fw-bold">二手商品託售數量</div>
-                                <div class="fs-4 text-primary"><span th:text="${consignTotal}"></span></div>
+                                <div class="fs-4 text-primary"><span th:text="${customer.consignTotal}"></span></div>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="bg-light p-3 rounded shadow-sm text-center">
                                 <div class="fw-bold">持有有效紅利（點）</div>
-                                <div class="fs-4 text-primary"><span th:text="${points}"></span></div>
+                                <div class="fs-4 text-primary"><span th:text="${customer.points}"></span></div>
                             </div>
                         </div>
                     </div>
@@ -264,21 +264,19 @@
                                 </div>
                                 <div class="mb-2">
                                     <i class="bi bi-house me-2"></i>會員地址：
-                                    <span th:text="${homeAddress.city} + ${homeAddress.district} + 
-                                    	${homeAddress.street}"></span>
+                                    <span th:text="${customer.homeAddress}"></span>
                                 </div>
 								<div class="mb-2">
                                     <i class="bi bi-house me-2"></i>收件地址：
-                                    <span th:text="${deliverAddress.city} + ${deliverAddress.district} + 
-                                    	${deliverAddress.street}"></span>
+                                    <span th:text="${customer.deliverAddress}"></span>
                                 </div>
                                 <div class="mb-2">
                                     <i class="bi bi-person-add me-2"></i>註冊時間：<span
-                                        th:text="${createdAt}"></span>
+                                        th:text="${customer.createdAt}"></span>
                                 </div>
                                 <div class="mb-2">
                                     <i class="bi bi-door-open-fill me-2"></i>首登時間：<span
-                                        th:text="${firstLoginAt}"></span>
+                                        th:text="${customer.firstLoginAt}"></span>
                                 </div>
                             </div>
                         </div>

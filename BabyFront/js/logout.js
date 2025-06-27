@@ -1,7 +1,7 @@
-
 function logout() {
   fetch("http://localhost:8080/customers/front/logout", {
-    method: "POST"
+    method: "POST",
+    credentials: "include"
   })
   .then(res => {
     if (!res.ok) throw new Error("伺服器錯誤：" + res.status);

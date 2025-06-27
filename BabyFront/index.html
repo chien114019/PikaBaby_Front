@@ -129,13 +129,13 @@
                             </div> -->
                         </li>
                         <!-- ✅ 未登入時：跳 login，不顯示 dropdown -->
-                        <li class="nav-item" id="loginNavItem" style="display: none;">
+                        <li class="nav-item" id="loginNavItem">
                             <a class="nav-link" href="./Member/login.html">
                                 <img src="images/user.png" style="width: 30px;" alt="會員登入圖示">
                             </a>
                         </li>
                         <!-- ✅ 已登入時：正常 dropdown -->
-                        <li class="nav-item dropdown" id="memberDropdownItem">
+                        <li class="nav-item dropdown" id="memberDropdownItem" style="display: none;">
                             <a class="nav-link dropdown-toggle" id="navbarDropdown5" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <img src="images/user.png" style="width: 30px;" alt="會員圖示">
@@ -440,8 +440,8 @@
                 success: function (data) {
                     setUserToggle(data);
                 },
-                error: function () {
-                    alert("系統錯誤，請稍後再試");
+                error: function() {
+                    console.log("未登入");
                 }
             })
 

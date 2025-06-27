@@ -1,6 +1,10 @@
 package com.example.demo.controller;
 
+<<<<<<< Updated upstream
 import java.time.LocalDate;
+=======
+import java.net.http.HttpRequest;
+>>>>>>> Stashed changes
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -36,6 +40,7 @@ import com.example.demo.service.AddressService;
 import com.example.demo.service.CustomerFavoritesService;
 import com.example.demo.service.CustomerService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 @CrossOrigin(origins = "http://localhost:5501", allowCredentials = "true")
@@ -259,10 +264,10 @@ public class CustomerController {
 // 註冊   
 	@PostMapping("/front/register")
 	@ResponseBody
-	public ResponseEntity<Map<String, String>> register(@RequestBody Customer customer) {
+	public ResponseEntity<Map<String, String>> register(@RequestBody Customer customer, HttpSession session) {
 		try {
-			service.register(customer);
-
+			Customer cust = service.register(customer);
+			session.setAttribute("customerId", cust.getId());
 			Map<String, String> response = new HashMap<>();
 			response.put("message", "註冊成功！");
 			return ResponseEntity.ok(response);
@@ -310,6 +315,7 @@ public class CustomerController {
 	@PostMapping("/front/logout")
 	@ResponseBody
 	public ResponseEntity<Map<String, Object>> logout(HttpSession session) {
+		System.out.println("登出sessionId: " + session.getId());
 		session.invalidate();
 		Map<String, Object> response = new HashMap<>();
 		response.put("success", true);
@@ -320,10 +326,17 @@ public class CustomerController {
 	// 登入抓會員資料
 	@GetMapping("/front/me")
 	@ResponseBody
+<<<<<<< Updated upstream
 	public ResponseEntity<?> getCurrentMember(HttpSession session) {
 	    Object idObj = session.getAttribute("customerId");
 	    System.out.println("讀取 /me 的 Session ID: " + session.getId());
 	    System.out.println("Session 中的 customerId: " + session.getAttribute("customerId"));
+=======
+	public ResponseEntity<?> getCurrentMember(HttpSession session, HttpServletRequest request) {
+		Object idObj = session.getAttribute("customerId");
+		System.out.println("讀取 /me 的 Session ID: " + session.getId());
+		System.out.println("Session 中的 customerId: " + session.getAttribute("customerId"));
+>>>>>>> Stashed changes
 
 	    if (idObj == null) {
 	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "未登入"));
@@ -339,6 +352,7 @@ public class CustomerController {
 	    Customer customer = optional.get();
 	    CustomerAddress address = addressService.getHomeAddress(customer);
 
+<<<<<<< Updated upstream
 	    Map<String, Object> member = new HashMap<>();
 	    member.put("id", customer.getId());
 	    member.put("name", customer.getName());
@@ -350,6 +364,20 @@ public class CustomerController {
 member.put("points", customer.getPoints());
 	    // 寶寶生日轉成 List
 	    
+=======
+		Map<String, Object> member = new HashMap<>();
+		member.put("id", customer.getId());
+		member.put("name", customer.getName());
+		member.put("email", customer.getEmail());
+		member.put("phone", customer.getPhone() == null? "未填寫" : customer.getPhone());
+		member.put("birthday", customer.getBirthday() == null? "未填寫" : customer.getBirthday());
+		member.put("createdAt", customer.getCreatedAt());
+		member.put("baby1Birthday", customer.getBaby1Birthday() == null? "未填寫" : customer.getBaby1Birthday());
+		member.put("baby2Birthday", customer.getBaby2Birthday() == null? "未填寫" : customer.getBaby2Birthday());
+		member.put("baby3Birthday", customer.getBaby3Birthday() == null? "未填寫" : customer.getBaby3Birthday());
+		member.put("address", address == null? "未填寫" : address.getCity() + address.getDistrict() + address.getStreet());
+		member.put("points", customer.getPoints());
+>>>>>>> Stashed changes
 
 	    List<String> babyBirthdays = new ArrayList<>();
 	    if (customer.getBaby1Birthday() != null)
@@ -447,8 +475,8 @@ member.put("points", customer.getPoints());
 	// 取得會員資料 API (別名)
 	@GetMapping("/profile")
 	@ResponseBody
-	public ResponseEntity<?> getMemberProfile(HttpSession session) {
-		return getCurrentMember(session);
+	public ResponseEntity<?> getMemberProfile(HttpSession session, HttpServletRequest request) {
+		return getCurrentMember(session, request);
 	}
 
 	// 取得會員點數 API

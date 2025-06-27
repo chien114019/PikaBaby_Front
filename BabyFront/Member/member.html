@@ -253,27 +253,27 @@
                                 <div class="modal-content info-modal-content">
                                     <h4 class="fw-bold text-center mb-4 modal-title-custom info-modal-title-custom">
                                         個人資料編輯</h4>
-                                    <form>
+                                    <form id="memberEditForm">
                                         <div class="row mb-3">
                                             <div class="col-md-6">
                                                 <label class="form-label info-form-label">姓氏</label>
-                                                <input type="text" class="form-control info-form-control" value="皮卡">
+                                                <input type="text" class="form-control info-form-control" id="lastname">
                                             </div>
                                             <div class="col-md-6">
                                                 <label class="form-label info-form-label">名字</label>
-                                                <input type="text" class="form-control info-form-control" value="寶貝">
+                                                <input type="text" class="form-control info-form-control" id="firstname">
                                             </div>
                                         </div>
 
                                         <div class="row mb-3">
                                             <div class="col-md-6">
                                                 <label class="form-label info-form-label">生日</label>
-                                                <input type="text" class="form-control info-form-control"
-                                                    value="1997 / 01 / 18" disabled>
+                                                <input type="date" class="form-control info-form-control"
+                                                     >
                                             </div>
                                             <div class="col-md-6">
                                                 <label class="form-label info-form-label">性別</label>
-                                                <select class="form-select info-form-select">
+                                                <select class="form-select info-form-select" id="gender">
                                                     <option selected>女性</option>
                                                     <option>男性</option>
                                                     <option>其他</option>
@@ -284,16 +284,16 @@
                                         <div class="mb-3">
                                             <label class="form-label info-form-label">手機號碼</label>
                                             <div class="d-flex gap-2 align-items-center">
-                                                <select class="form-select info-form-select" style="max-width: 100px;">
+                                                <select id="countryCode" class="form-select info-form-select" style="max-width: 100px;">
                                                     <option>+886</option>
                                                 </select>
-                                                <input type="text" class="form-control info-form-control"
+                                                <input type="text" id="phone" class="form-control info-form-control"
                                                     placeholder="912 345 678">
                                             </div>
                                             <div class="mb-4">
                                                 <label class="form-label info-form-label">Email</label>
-                                                <input type="email" class="form-control info-form-control"
-                                                    value="wanyun0118@gmail.com" disabled>
+                                                <input type="email" id="email" class="form-control info-form-control"
+                                                     disabled>
                                             </div>
                                             <div>
                                                 <div id="baby-container">
@@ -733,6 +733,7 @@
     <script src="../js/logout.js"></script>
     <script src="../js/wishlistAddCart.js"></script>
     <script src="../js/addressData.js"></script>
+    <script src="../js/memberData.js"></script>
     <script>
         // 目前顧客ID
         const custId = 3

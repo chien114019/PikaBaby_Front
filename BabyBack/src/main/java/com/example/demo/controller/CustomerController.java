@@ -1,10 +1,12 @@
 package com.example.demo.controller;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.time.format.DateTimeFormatter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -319,40 +321,110 @@ public class CustomerController {
 	@GetMapping("/front/me")
 	@ResponseBody
 	public ResponseEntity<?> getCurrentMember(HttpSession session) {
-		Object idObj = session.getAttribute("customerId");
-		System.out.println("讀取 /me 的 Session ID: " + session.getId());
-		System.out.println("Session 中的 customerId: " + session.getAttribute("customerId"));
+	    Object idObj = session.getAttribute("customerId");
+	    System.out.println("讀取 /me 的 Session ID: " + session.getId());
+	    System.out.println("Session 中的 customerId: " + session.getAttribute("customerId"));
 
-		if (idObj == null) {
-			System.out.println("idObj == null");
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "未登入"));
-		}
+	    if (idObj == null) {
+	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "未登入"));
+	    }
 
-		Integer id = (Integer) idObj;
-		Optional<Customer> optional = service.findById(id);
+	    Integer id = (Integer) idObj;
+	    Optional<Customer> optional = service.findById(id);
 
-		if (optional.isEmpty()) {
-			System.out.println("optional.isEmpty()");
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", "會員不存在"));
-		}
+	    if (optional.isEmpty()) {
+	        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", "會員不存在"));
+	    }
 
-		Customer customer = optional.get();
-		CustomerAddress address = addressService.getHomeAddress(customer);
+	    Customer customer = optional.get();
+	    CustomerAddress address = addressService.getHomeAddress(customer);
 
-		Map<String, Object> member = new HashMap<>();
-		member.put("id", customer.getId());
-		member.put("name", customer.getName());
-		member.put("email", customer.getEmail());
-		member.put("phone", customer.getPhone());
-		member.put("birthday", customer.getBirthday());
-		member.put("createdAt", customer.getCreatedAt());
-		member.put("baby1Birthday", customer.getBaby1Birthday());
-		member.put("baby2Birthday", customer.getBaby2Birthday());
-//		member.put("address", customer.getAddress());
-		member.put("address", address.getCity() + address.getDistrict() + address.getStreet());
+	    Map<String, Object> member = new HashMap<>();
+	    member.put("id", customer.getId());
+	    member.put("name", customer.getName());
+	    member.put("email", customer.getEmail());
+	    member.put("phone", customer.getPhone());
+	    member.put("birthday", customer.getBirthday());
+	    member.put("createdAt", customer.getCreatedAt());
+	    member.put("gender", customer.getGender()); // ✅ 性別欄位
 
-		return ResponseEntity.ok(member);
+	    // 寶寶生日轉成 List
+	    
+
+	    List<String> babyBirthdays = new ArrayList<>();
+	    if (customer.getBaby1Birthday() != null)
+	        babyBirthdays.add(customer.getBaby1Birthday().toString());
+	    if (customer.getBaby2Birthday() != null)
+	        babyBirthdays.add(customer.getBaby2Birthday().toString());
+	    if (customer.getBaby3Birthday() != null)
+	        babyBirthdays.add(customer.getBaby3Birthday().toString());
+
+	    member.put("babyBirthdays", babyBirthdays);
+
+	    // 地址
+	    if (address != null) {
+	        member.put("address", address.getCity() + address.getDistrict() + address.getStreet());
+	    } else {
+	        member.put("address", "尚未設定");
+	    }
+
+	    // ✅ 信用卡遮罩（只取最後四碼）
+	    if (customer.getCreditCard() != null && customer.getCreditCard().length() >= 4) {
+	        String last4 = customer.getCreditCard().substring(customer.getCreditCard().length() - 4);
+	        member.put("creditCardLast4", "**** **** **** " + last4);
+	    } else {
+	        member.put("creditCardLast4", "尚未綁定");
+	    }
+
+	    return ResponseEntity.ok(member);
 	}
+
+	
+//編輯會員資料
+	@PutMapping("/front/me/update")
+	@ResponseBody
+	public ResponseEntity<?> updateMember(@RequestBody Map<String, Object> payload, HttpSession session) {
+	    Integer customerId = (Integer) session.getAttribute("customerId");
+	    if (customerId == null) {
+	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("未登入");
+	    }
+
+	    Optional<Customer> optional = service.findById(customerId);
+	    if (optional.isEmpty()) {
+	        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("會員不存在");
+	    }
+
+	    Customer customer = optional.get();
+
+	    // 取資料並更新
+	    String lastName = (String) payload.get("lastName");
+	    String firstName = (String) payload.get("firstName");
+	    customer.setName(lastName + firstName);
+	    customer.setPhone((String) payload.get("phone"));
+	    customer.setGender((String) payload.get("gender"));
+
+	    // 處理 babyBirthdays（List<String> → LocalDate）
+	    List<String> babyBirthdays = (List<String>) payload.get("babyBirthdays");
+	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+	    if (babyBirthdays != null) {
+	    	  if (babyBirthdays.size() > 0) customer.setBaby1Birthday(LocalDate.parse(babyBirthdays.get(0)+ "-01", formatter));
+	    	    if (babyBirthdays.size() > 1) customer.setBaby2Birthday(LocalDate.parse(babyBirthdays.get(1)+ "-01", formatter));
+	    	    if (babyBirthdays.size() > 2) customer.setBaby3Birthday(LocalDate.parse(babyBirthdays.get(2)+ "-01", formatter));
+	    	}
+	    
+	    service.save(customer);
+	    return ResponseEntity.ok("會員資料更新成功");
+	    }
+
+	   
+	
+
+	
+	
+	
+	
+	
+	
 
 	// 檢查會員登入狀態 API
 	@GetMapping("/check-login")

@@ -21,6 +21,7 @@ public class Customer {
     private String phone;
     private String email;
     private String password;
+    private String gender;
     private LocalDate birthday;
     
     private LocalDate baby1Birthday;
@@ -124,6 +125,14 @@ public class Customer {
 	}
 	public void setAddresses(List<CustomerAddress> addresses) {
 		this.address = addresses;
+	}
+	
+	
+	public String getGender() {
+		return gender;
+	}
+	public void setGender(String gender) {
+		this.gender = gender;
 	}
 	// 空建構子（必要）
     public Customer() {}

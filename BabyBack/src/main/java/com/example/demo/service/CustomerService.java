@@ -9,6 +9,8 @@ import java.util.Optional;
 import org.hibernate.type.descriptor.java.LocalDateTimeJavaType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.stereotype.Service;
 
@@ -36,7 +38,8 @@ import jakarta.servlet.http.HttpSession;
 public class CustomerService {
 
 	private final SecurityFilterChain filterChain;
-
+	@Autowired
+    private PasswordEncoder passwordEncoder; // 自動注入
 	@Autowired
 	private CustomerRepository repository;
 
@@ -57,6 +60,8 @@ public class CustomerService {
 
 	@Autowired
 	private AddressRepository aRepository;
+	
+	
 
 	CustomerService(SecurityFilterChain filterChain) {
 		this.filterChain = filterChain;
@@ -217,6 +222,8 @@ public class CustomerService {
 //    public void delete(Integer id) {
 //        repository.deleteById(id);
 //    }
+	
+	//刪除帳號?
 	public Response delete(Integer id) {
 		Response response = new Response();
 		Customer cust = repository.findById(id).orElse(null);
@@ -337,7 +344,11 @@ public class CustomerService {
 		Customer customer = new Customer();
 		customer.setName(name);
 		customer.setEmail(email);
-		customer.setPassword(password);
+		
+		 // 密碼加密（BCrypt）
+	    String hashedPassword = passwordEncoder.encode(password);
+	    customer.setPassword(hashedPassword);
+	    
 		customer.setCreatedAt(LocalDateTime.now());
 		customer.setFirstLoginAt(LocalDateTime.now());
 		customer.setPoints(100);
@@ -357,10 +368,17 @@ public class CustomerService {
 //	}
 
 //    登入比對
+	
+	public boolean checkLogin(String email, String rawPassword) {
+	    Optional<Customer> optional = repository.findByEmail(email);
+	    if (optional.isEmpty()) return false;
+
+	    String hashedPassword = optional.get().getPassword();
+	    return passwordEncoder.matches(rawPassword, hashedPassword);
+	}
 	public Optional<Customer> findByEmail(String email) {
 		return repository.findByEmail(email);
 	}
-
 	public Optional<Customer> findById(Integer id) {
 		return repository.findById(id);
 	}

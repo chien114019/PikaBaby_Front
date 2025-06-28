@@ -12,6 +12,7 @@ import java.time.format.DateTimeFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -53,6 +54,9 @@ public class CustomerController {
 
 	@Autowired
 	private CustomerRepository customerRepo;
+	
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
 
 	// 顯示客戶清單
 	// 路徑：/customers，方法：GET
@@ -341,23 +345,23 @@ public class CustomerController {
 
 		Customer customer = optional.get();
 
-		if (!customer.getPassword().equals(request.getPassword())) {
-			response.put("success", false);
-			response.put("mesg", "密碼錯誤");
-			return ResponseEntity.ok(response);
+		if (!passwordEncoder.matches(request.getPassword(), customer.getPassword())) {
+		    response.put("success", false);
+		    response.put("mesg", "密碼錯誤");
+		    return ResponseEntity.ok(response);
 		}
 
 		// 登入成功
 		session.setAttribute("customerId", customer.getId());
 		session.setAttribute("customerName", customer.getName());
-		System.out.println("已登入，Session ID: " + session.getId());
-		System.out.println("已設 customerId: " + session.getAttribute("customerId"));
+//		System.out.println("已登入，Session ID: " + session.getId());
+//		System.out.println("已設 customerId: " + session.getAttribute("customerId"));
 		response.put("success", true);
 		response.put("mesg", "登入成功");
 		return ResponseEntity.ok(response);
 
 	}
-
+//登出
 	@PostMapping("/front/logout")
 	@ResponseBody
 	public ResponseEntity<Map<String, Object>> logout(HttpSession session) {

@@ -378,8 +378,8 @@ public class CustomerController {
 	@ResponseBody
 	public ResponseEntity<?> getCurrentMember(HttpSession session, HttpServletRequest request) {
 		Object idObj = session.getAttribute("customerId");
-		System.out.println("讀取 /me 的 Session ID: " + session.getId());
-		System.out.println("Session 中的 customerId: " + session.getAttribute("customerId"));
+//		System.out.println("讀取 /me 的 Session ID: " + session.getId());
+//		System.out.println("Session 中的 customerId: " + session.getAttribute("customerId"));
 
 		if (idObj == null) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "未登入"));
@@ -689,4 +689,39 @@ public class CustomerController {
 		favoritesService.addFavorite(customer, product);
 		return ResponseEntity.ok("已加入收藏");
 	}
+	//會員更換密碼
+
+	@PostMapping("/front/changePassword")
+	@ResponseBody
+	public ResponseEntity<Map<String, Object>> changePassword(@RequestBody Map<String, String> body, HttpSession session) {
+	    Integer id = (Integer) session.getAttribute("customerId");
+	    if (id == null) {
+	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+	                .body(Map.of("success", false, "mesg", "尚未登入"));
+	    }
+
+	    String newPassword = body.get("newPassword");
+	    if (newPassword == null || newPassword.length() < 6) {
+	        return ResponseEntity.badRequest()
+	                .body(Map.of("success", false, "mesg", "密碼長度需大於等於6"));
+	    }
+
+	    Optional<Customer> optional = customerRepo.findById(id);
+	    if (optional.isEmpty()) {
+	        return ResponseEntity.badRequest()
+	                .body(Map.of("success", false, "mesg", "會員不存在"));
+	    }
+
+	    Customer customer = optional.get();
+	    customer.setPassword(passwordEncoder.encode(newPassword));
+	    customerRepo.save(customer);
+
+	    session.invalidate();
+
+	    return ResponseEntity.ok(Map.of("success", true, "mesg", "密碼已變更，請重新登入"));
+	}
 }
+
+
+
+

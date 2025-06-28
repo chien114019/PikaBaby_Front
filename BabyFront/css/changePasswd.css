@@ -3,17 +3,34 @@
  }
 
  .pwd-btn-outline-dark {
-   border-radius: 30px;
-   width: 100px;
+  background-color: #d7d4d4;
+  color: rgb(36, 34, 34);
+  border-radius: 30px;
+  width: 100px;
+  border: 1px solid #706d6d;
  }
 
- .pwd-btn-disabled {
-   background-color: #eee;
-   color: #aaa;
-   border-radius: 30px;
-   width: 100px;
- }
+#savePwdBtn:disabled {
+  background-color: #d7d4d4;
+  color: #7d7c7c;
+  border: 1px solid #bbb7b7;
+  border-radius: 30px;
+  width: 100px;
+  opacity: 1; /* 🔧 避免透明 */
+  cursor: not-allowed;
+}
 
+.pwd-btn-dark {
+    background-color: #d7d4d4;
+  color: rgb(36, 34, 34);
+  border-radius: 30px;
+  width: 100px;
+  border: 1px solid #706d6d;
+}
+
+
+
+/* 刪除帳號 */
  .custom-underline {
   display: inline-block;
   border-bottom: 2px solid #dc3546d8;

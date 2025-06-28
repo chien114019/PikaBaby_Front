@@ -222,47 +222,53 @@
 					<!-- 從此往下寫右側區域功能 -->
 					<div class="card w-75 mx-auto bg-white m-5 shadow rounded-4"
 						style="padding: 4rem;">
-					<h2 th:text="${supplierProduct.id != null ? '編輯供應商商品對應' : '新增供應商商品對應'}"class="text-center">新增供應商商品對應</h2> 
-					
-
-					<form th:action="@{/supplier-products/save}"
-						th:object="${supplierProduct}" method="post">
-
-						<div class="mb-3">
-							<label class="fw-bold mb-2">商品名稱：</label> 
-							<select class="form-select"
-								th:field="*{product.id}" required>
-								<option value="" disabled selected>請選擇</option>
-								<option th:each="p : ${products}" th:value="${p.id}"
-									th:text="${p.name}"></option>
-							</select>
-						</div>
+						<h2
+							th:text="${supplierProduct.id != null ? '編輯供應商商品對應' : '新增供應商商品對應'}"
+							class="text-center">新增供應商商品對應</h2>
 
 
-						<div class="mb-3">
-							<label class="fw-bold mb-2">廠商名稱：</label> 
-							<select class="form-select"
-								th:field="*{supplier.id}" required>
-								<option value="" disabled selected>請選擇</option>
-								<option th:each="s : ${suppliers}" th:value="${s.id}"
-									th:text="${s.name}"></option>
-							</select>
-						</div>
+						<form th:action="@{/supplier-products/save}"
+							th:object="${supplierProduct}" method="post">
 
-						<div class="mb-3">
-							<label class="fw-bold mb-2">價格：</label> <input type="number"
-								class="form-control" th:field="*{price}" step="0.01" required>
-						</div>
+							<div class="mb-3">
+								<label class="fw-bold mt-2">建立日期：</label> 
+								<input type="date" th:field="*{createdDate}" class="form-control w-75 mt-2" />
+							</div>
 
-						
-						<div class="text-center mt-5">
+							<div class="mb-3">
+								<label class="fw-bold mb-2">商品名稱：</label> <select
+									class="form-select w-75" th:field="*{product.id}" required>
+									<option value="" disabled selected>請選擇</option>
+									<option th:each="p : ${products}" th:value="${p.id}"
+										th:text="${p.name}"></option>
+								</select>
+							</div>
+
+
+							<div class="mb-3">
+								<label class="fw-bold mb-2">廠商名稱：</label> <select
+									class="form-select w-75" th:field="*{supplier.id}" required>
+									<option value="" disabled selected>請選擇</option>
+									<option th:each="s : ${suppliers}" th:value="${s.id}"
+										th:text="${s.name}"></option>
+								</select>
+							</div>
+
+							<div class="mb-3">
+								<label class="fw-bold mb-2">價格：</label> <input type="number"
+									class="form-control w-75" th:field="*{price}" step="0.01" required>
+							</div>
+
+
+							<div class="text-center mt-5">
 								<button class="btn btn-outline-success" type="submit">
 									<i class="bi bi-check2-square me-1"></i>儲存
 								</button>
-								<a class="btn btn-outline-secondary ms-2" th:href="@{/supplier-products}"><i
+								<a class="btn btn-outline-secondary ms-2"
+									th:href="@{/supplier-products}"><i
 									class="bi bi-x-circle me-1"></i>取消</a>
 							</div>
-					</form>
+						</form>
 					</div>
 					<!-- 從此以上寫右側區域功能 -->
 				</div>

@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -33,7 +35,9 @@ public class SupplierProduct {
 
     private BigDecimal price;
     
-    private LocalDateTime createdDate;
+//    private LocalDateTime createdDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date createdDate;
 
     private String note;
     
@@ -73,11 +77,11 @@ public class SupplierProduct {
 		this.price = price;
 	}
 
-	public LocalDateTime getCreatedDate() {
+	public Date getCreatedDate() {
 	    return createdDate;
 	}
 
-	public void setCreatedDate(LocalDateTime createdDate) {
+	public void setCreatedDate(Date createdDate) {
 	    this.createdDate = createdDate;
 	}
 

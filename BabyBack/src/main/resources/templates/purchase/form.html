@@ -15,7 +15,7 @@
 </head>
 
 <body>
-<!-- 0627進銷存分開 還有最下方js-->
+	<!-- 0627進銷存分開 還有最下方js-->
 	<!-- 黑色遮罩（點擊可關閉 sidebar） -->
 	<div class="overlay" id="sidebarOverlay"></div>
 
@@ -219,98 +219,140 @@
 							<li class="breadcrumb-item active" aria-current="page">進貨單</li>
 						</ol>
 					</nav>
-					
-					
+
+
 					<!-- 從此往下寫右側區域功能 -->
 					<div class="card w-100 mx-auto bg-white m-4 shadow rounded-4"
 						style="padding: 3rem;">
-					<h2 th:text="${order.id} != null ? '編輯進貨單' : '新增進貨單'" class="text-center"></h2>
+						<h2 th:text="${order.id} != null ? '編輯進貨單' : '新增進貨單'"
+							class="text-center"></h2>
 
-					<form th:action="@{/purchases/save}" th:object="${order}"  method="post">
-					<input type="hidden" name="id" th:value="${order.id}" />
+						<form th:action="@{/purchases/save}" th:object="${order}"
+							method="post">
+							<input type="hidden" name="id" th:value="${order.id}" />
 
-						<div class="row g-3">
-							<!-- 左欄 -->
-							<div class="col-md-6">
-								<div class="mb-3">
-									<label class="fw-bold mt-2">進貨日：</label> 
-									<input type="date" name="orderDate" th:value="${#dates.format(order.orderDate, 'yyyy-MM-dd')}" class="form-control w-50 mt-2" />
+							<div class="row g-3">
+								<!-- 左欄 -->
+								<div class="col-md-6">
+									<div class="mb-3">
+										<label class="fw-bold mt-2">進貨日：</label> <input type="date"
+											name="orderDate"
+											th:value="${#dates.format(order.orderDate, 'yyyy-MM-dd')}"
+											class="form-control w-50 mt-2" />
+									</div>
+								</div>
+
+								<!-- 右欄 -->
+								<div class="col-md-6">
+									<div class="mb-3">
+										<label class="fw-bold mt-2">進貨單號：</label> <input type="text"
+											name="orderNumber" th:field="*{orderNumber}"
+											class="form-control w-50 mt-2" readonly>
+									</div>
+
 								</div>
 							</div>
 
-							<!-- 右欄 -->
-							<div class="col-md-6">
-								<div class="mb-3">
-									<label class="fw-bold mt-2" >進貨單號：</label> 
-									<input type="text" name="orderNumber" th:field="*{orderNumber}" class="form-control w-50 mt-2" readonly>
-								</div>
-								
+							<!-- <hr> -->
+							<div
+								style="height: 1px; background: linear-gradient(to right, transparent, #999, transparent); border: 0; margin: 1.5rem 0;"></div>
+
+							<!-- <h5 class="mb-3">商品明細</h5> -->
+
+							<div class="d-flex align-items-center mb-3">
+								<h5 class="mb-0 me-3">商品明細</h5>
+								<span class="text-danger small mt-1">※ 不同廠商請分別建立進貨單</span>
 							</div>
-						</div>
 
-						<!-- <hr> -->
-						 <div style="height: 1px; background: linear-gradient(to right, transparent, #999, transparent); border: 0; margin: 1.5rem 0;"></div> 
+							<table class="table table-bordered align-middle"
+								id="detailsTable" style="table-layout: fixed; width: 100%;">
+								<thead class="text-center table-light align-middle">
+									<tr>
+										<th style="width: 5%;">序號</th>
+										<th style="width: 35%;">商品/供應商</th>
+										<th style="width: 20%;">規格</th>
+										<th style="width: 15%;">數量</th>
+										<th style="width: 15%;">金額</th>
+										<th style="width: 10%;">操作</th>
+									</tr>
+								</thead>
+								<tbody id="detailRows" class="text-center">
+									<!-- 已有明細的情況 -->
+									<tr th:each="detail, iterStat : ${order.details}">
+										<td th:text="${iterStat.index + 1}" class="align-middle"></td>
 
-						<h5 class="mb-3">商品明細</h5>
-						
-						<table class="table table-bordered align-middle" id="detailsTable" style="table-layout: fixed; width: 100%;">
-							<thead class="text-center table-light align-middle">
-								<tr>
-									<th style="width: 5%;">序號</th>
-									<th style="width: 35%;">商品/供應商</th>
-									<th style="width: 20%;">規格</th>
-									<th style="width: 15%;">數量</th>
-									<th style="width: 15%;">金額</th>
-									<th style="width: 10%;">操作</th>
-								</tr>
-							</thead>
-							<tbody id="detailRows" class="text-center">
-								<tr>
-								  <td class="align-middle">&nbsp;</td>
-								
-								  <!-- 商品 + 廠商選擇 -->
-								  <td>
-								    <select name="supplierProductIds" class="form-select" required onchange="updateDetails(this)">
-								      <option value="">請選擇商品與廠商</option>
-								      <option th:each="sp : ${supplierProducts}"
-								              th:value="${sp.id}"
-								              th:data-spec="${sp.product != null ? sp.product.specification : ''}"
-								              th:data-price="${sp.price}"
-								              th:data-supplier="${sp.supplier != null ? sp.supplier.name : ''}"
-								               th:text="${(sp.product != null ? sp.product.name : '無商品') + ' / ' + (sp.supplier != null ? sp.supplier.name : '無供應商')}">
-								      </option>
-								    </select>
-								  </td>
-								
-								  <!-- 規格欄 -->
-								  <td><input type="text" name="spec" class="form-control" readonly></td>
-								
-								  <!-- 數量 -->
-								  <td><input type="number" name="quantities" class="form-control" min="1" required></td>
-								
-								  <!-- 單價 -->
-								  <td><input type="number" name="unitPrice" class="form-control" readonly></td>
-								
-								  <!-- 操作 -->
-								  <td><button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">刪除</button></td>
-								</tr>
-							</tbody>
-						</table>
+										<!-- 商品 + 廠商選擇 -->
+										<td><select name="supplierProductIds" class="form-select"
+											required onchange="updateDetails(this)">
+												<option value="">請選擇商品與廠商</option>
+												<option th:each="sp : ${supplierProducts}"
+													th:value="${sp.id}"
+													th:selected="${sp.id == detail.supplierProduct.id}" 
+													th:data-spec="${sp.product != null ? sp.product.specification : ''}"
+													th:data-price="${sp.price}"
+													th:data-supplier="${sp.supplier != null ? sp.supplier.name : ''}"
+													th:text="${(sp.product != null ? sp.product.name : '無商品') + ' / ' + (sp.supplier != null ? sp.supplier.name : '無供應商')}">
+												</option>
+										</select></td>
 
-					<div class="text-end mb-3">
-							<button type="button" class="btn btn-outline-primary" onclick="addRow()"><i class="bi bi-plus-circle me-1"></i>新增商品</button>
-						</div>
+										<!-- 規格欄 -->
+										<td><input type="text" name="spec" class="form-control"
+											readonly></td>
 
-						<!-- 按鈕 -->
-						<div class="text-center mt-5">
+										<!-- 數量 -->
+										<td><input type="number" name="quantities"
+											class="form-control" min="1" th:value="${detail.quantity}" required></td>
+
+										<!-- 單價 -->
+										<td><input type="number" name="unitPrice"
+											class="form-control" readonly></td>
+
+										<!-- 操作 -->
+										<td><button type="button" class="btn btn-danger btn-sm"
+												onclick="removeRow(this)">刪除</button></td>
+									</tr>
+									<!-- 若沒有任何明細，才顯示空白一筆 -->
+  <tr th:if="${order.details == null or order.details.size() == 0}">
+    <td class="align-middle">&nbsp;</td>
+    <td>
+      <select name="supplierProductIds" class="form-select" required onchange="updateDetails(this)">
+        <option value="">請選擇商品與廠商</option>
+        <option th:each="sp : ${supplierProducts}"
+                th:value="${sp.id}"
+                th:data-spec="${sp.product != null ? sp.product.specification : ''}"
+                th:data-price="${sp.price}"
+                th:data-supplier="${sp.supplier != null ? sp.supplier.name : ''}"
+                th:text="${(sp.product != null ? sp.product.name : '無商品') + ' / ' + (sp.supplier != null ? sp.supplier.name : '無供應商')}">
+        </option>
+      </select>
+    </td>
+    <td><input type="text" name="spec" class="form-control" readonly></td>
+    <td><input type="number" name="quantities" class="form-control" min="1" required></td>
+    <td><input type="number" name="unitPrice" class="form-control" readonly></td>
+    <td><button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">刪除</button></td>
+  </tr>
+									
+									
+								</tbody>
+							</table>
+
+							<div class="text-end mb-3">
+								<button type="button" class="btn btn-outline-primary"
+									onclick="addRow()">
+									<i class="bi bi-plus-circle me-1"></i>新增商品
+								</button>
+							</div>
+
+							<!-- 按鈕 -->
+							<div class="text-center mt-5">
 								<button class="btn btn-outline-success" type="submit">
 									<i class="bi bi-check2-square me-1"></i>儲存
 								</button>
-								<a class="btn btn-outline-secondary ms-2" th:href="@{/purchases}"><i
-									class="bi bi-x-circle me-1"></i>取消</a>
+								<a class="btn btn-outline-secondary ms-2"
+									th:href="@{/purchases}"><i class="bi bi-x-circle me-1"></i>取消</a>
 							</div>
-						
-					</form>
+
+						</form>
 					</div>
 					<!-- 從此以上寫右側區域功能 -->
 				</div>
@@ -319,7 +361,8 @@
 		</div>
 	</div>
 
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 	<script>
 	document.addEventListener('change', function (e) {
 		  if (e.target.name === 'supplierProductIds') {
@@ -383,7 +426,17 @@
   }
 
   // 初始頁面載入時也更新一次
-  window.addEventListener('DOMContentLoaded', updateIndex);
+  window.addEventListener('DOMContentLoaded', () => {
+    updateIndex();
+
+    // 載入畫面時，針對所有已有選擇的 supplierProduct 自動填值
+    const selects = document.querySelectorAll('select[name="supplierProductIds"]');
+    selects.forEach(select => {
+      if (select.value) {
+        updateDetails(select);
+      }
+    });
+  });
   
   /* Sidebar響應式功能 */
 	 const toggleBtn = document.getElementById("toggleSidebarBtn");

@@ -261,12 +261,15 @@
 		        <table class="table table-sm table-bordered mt-2 align-middle">
 		            <thead class="table-light text-center">
 		                <tr>
+		                <th>報價建立日期</th>
 		                    <th>供應商名稱</th>
 		                    <th>價格</th>
 		                </tr>
 		            </thead>
 		            <tbody class="text-center">
 		                <tr th:each="sp : ${product.supplierProducts}">
+		                <!-- <td th:text="${sp.createdDate}">報價建立日期</td> -->
+		                <td th:text="${#dates.format(sp.createdDate, 'yyyy-MM-dd')}">報價建立日期</td>
 		                    <td th:text="${sp.supplier.name}">供應商名稱</td>
 		                    <td th:text="${sp.price}">價格</td>
 		                </tr>

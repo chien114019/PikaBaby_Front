@@ -293,7 +293,7 @@
         }
 
         .card {
-            display: flex;
+            display: none;
             flex-direction: column;
             height: 100%;
             width: 100%;
@@ -301,6 +301,10 @@
             color: #333;
             font-size: 18px;
             transition: transform .5s ease-in-out;
+        }
+
+        .card.active {
+            display: block;
         }
 
         .card-small-title {
@@ -354,7 +358,17 @@
             }
 
             .hero-section {
-                margin-top: -100px;
+                height: auto !important;
+                min-height: 180px;
+                max-height: 40vh;
+            }
+
+            .hero-image {
+                object-fit: contain !important;
+                width: 100%;
+                height: auto !important;
+                max-height: 40vh;
+                object-position: top;
             }
 
             .hero-title {
@@ -413,6 +427,112 @@
                 gap: 20px;
             }
         }
+
+        .navbar-toggler {
+            border: none;
+            box-shadow: none !important;
+            background: #222 !important;
+            padding: 8px 10px;
+            border-radius: 4px;
+        }
+        .navbar-toggler-icon.custom-toggler {
+            background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='white' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+        }
+        @media (max-width: 991.98px) {
+            .navbar-nav {
+                gap: 0 !important;
+            }
+            .navbar-collapse {
+                background: #fff;
+                padding: 1rem;
+                border-radius: 0 0 10px 10px;
+            }
+            .navbar-brand img {
+                height: 48px !important;
+            }
+        }
+        @media (max-width: 575.98px) {
+            .nav-logo-row {
+                justify-content: center;
+            }
+        }
+        /* 響應式footer：小螢幕直排 */
+        @media (max-width: 768px) {
+            .footer-container {
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: center !important;
+            }
+            .footer-section, .footer-section.w-100 {
+                width: 100% !important;
+                min-width: 0 !important;
+                margin-bottom: 1rem !important;
+                align-items: center !important;
+                justify-content: center !important;
+                text-align: center !important;
+            }
+            .footer-logo {
+                margin-bottom: 0.5rem !important;
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+        footer .footer-title, footer h3 {
+            margin-bottom: 0.3rem !important;
+            margin-top: 0.3rem !important;
+            font-size: 1.1rem !important;
+            font-weight: 600;
+        }
+        footer .footer-line {
+            margin: 0.3rem auto !important;
+            height: 1px;
+            background: #222;
+            width: 60%;
+        }
+        footer .mb-1 {
+            margin-bottom: 0.15rem !important;
+            font-size: 0.95rem;
+        }
+        footer .container.py-3 {
+            padding-top: 0.7rem !important;
+            padding-bottom: 0.7rem !important;
+        }
+        /* --- 主要內容區響應式 --- */
+        @media (max-width: 991.98px) {
+          .hero-title { font-size: 2rem; }
+          .about-title { font-size: 1.3rem; }
+          .about-content { margin: 40px auto; }
+          .letter-content { padding: 20px; font-size: 1rem; }
+          .signature { font-size: 0.95rem; margin-right: 5%; }
+        }
+        @media (max-width: 768px) {
+          #main { flex-direction: column; height: auto; min-height: unset; padding: 0 0 30px 0; }
+          #click-section, #slide-section { width: 100% !important; height: auto !important; margin: 0 !important; padding: 0 !important; order: unset; }
+          #drawerboxes { flex-direction: row !important; justify-content: center !important; align-items: center !important; margin: 0 !important; width: 100% !important; height: auto !important; gap: 10px; }
+          .drawerbox { width: 48px !important; height: 48px !important; margin: 0 !important; padding: 0 !important; flex: 0 0 48px !important; transition: none; }
+          .drawer-btn { width: 48px !important; height: 48px !important; border-radius: 50% !important; padding: 0 !important; font-size: 0 !important; display: flex; align-items: center; justify-content: center; background: #f0ebe5; box-shadow: 0 2px 6px rgba(0,0,0,0.04); position: relative; }
+          .drawer-btn .drawer-head { position: static !important; font-size: 28px !important; color: #a67c52 !important; opacity: 1 !important; pointer-events: auto !important; margin: 0 auto; display: block; text-align: center; }
+          .drawer-btn.active { background: linear-gradient(135deg, #eacfc3 0%, #f0ebe5 100%) !important; box-shadow: 0 0 0 2px #d89a64; }
+          .drawer-btn span:not(.drawer-head) { display: none !important; }
+          .drawer-btn::after { display: none !important; }
+          .drawer-btn { color: #a67c52 !important; }
+          .drawer-btn { font-size: 0 !important; }
+          .drawer-btn .drawer-head { font-size: 28px !important; }
+          #slide-section, #card-section, .card, .card-img { height: auto !important; min-height: unset !important; max-height: unset !important; }
+          .card-img { min-height: 60px !important; height: 100px !important; }
+          .card-content { min-height: unset !important; margin-bottom: 10px !important; }
+          .image-gallery { grid-template-columns: 1fr !important; gap: 10px !important; margin: 30px auto !important; }
+        }
+        @media (max-width: 575.98px) {
+          .hero-title { font-size: 1.3rem; }
+          .about-title { font-size: 1.1rem; }
+          .letter-content { padding: 10px; font-size: 0.95rem; }
+          .signature { font-size: 0.85rem; margin-right: 0; }
+          .card-title { font-size: 1rem !important; }
+          .card-content { font-size: 0.85rem !important; }
+          .card-img { height: 70px !important; }
+        }
     </style>
 </head>
 
@@ -434,19 +554,21 @@
     </header>
 
     <!-- 導覽列 -->
-    <nav class="navbar navbar-expand-lg navbar-dark">
+    <nav class="navbar navbar-expand-lg navbar-light bg-white">
         <div class="container-fluid">
-            <!-- <div class="collapse navbar-collapse justify-content-center d-flex" id="navbarSupportedContent"> -->
-            <div class="collapse navbar-collapse justify-content-around d-flex" id="navbarSupportedContent">
-                <!-- LOGO -->
-                <img id="logo" src="images/logo-pikababy.png" alt="PikaBaby"
-                    style="height: 80px; width: 0px; transition: 3s; display: none;" />
-                <ul class="navbar-nav ml-auto nav-links gap-5 me-0">
+            <a class="navbar-brand" href="/index.html" id="navbarLogo" style="display: none;">
+                <img src="images/logo-pikababy.png" alt="PikaBaby" style="height: 60px;">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon custom-toggler"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0 nav-links gap-lg-5">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="index.html">首頁</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdown1" role="button" data-toggle="dropdown"
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown1" role="button" data-bs-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false">
                             年齡區間(0-3M)
                         </a>
@@ -462,7 +584,7 @@
                         </div>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdown2" role="button" data-toggle="dropdown"
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown2" role="button" data-bs-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false">
                             年齡區間(3-6M)
                         </a>
@@ -476,7 +598,7 @@
                         </div>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdown3" role="button" data-toggle="dropdown"
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown3" role="button" data-bs-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false">
                             年齡區間(6-12M)
                         </a>
@@ -491,7 +613,7 @@
                         </div>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdown4" role="button" data-toggle="dropdown"
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown4" role="button" data-bs-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false">
                             年齡區間(2-3y)
                         </a>
@@ -507,8 +629,8 @@
                         </div>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdown5" role="button"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown5" role="button" data-bs-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
                             二手託售
                         </a>
                         <div class="dropdown-menu p-3 justify-content-center gap-5" aria-labelledby="navbarDropdown5">
@@ -522,36 +644,27 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#">關於我們</a>
                     </li>
-                    <div class="d-flex gap-3">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="Shopping/shoppingcart.html">
-                                <img src="images/cart.png" style="width: 30px;">
-                            </a>
-                            <!-- <div class="dropdown-menu p-3 justify-content-center gap-5"
-                                aria-labelledby="navbarDropdown5">
-                                <a class="dropdown-item" href="Shopping/shoppingcart.html">購物車</a>
-                                <a class="dropdown-item" href="Shopping/order.html">訂單查詢</a>
-                            </div> -->
-                        </li>
-                          <!-- ✅ 未登入時：跳 login，不顯示 dropdown -->
-                        <li class="nav-item" id="loginNavItem" style="display: none;">
-                            <a class="nav-link" href="Member/login.html">
-                                <img src="images/user.png" style="width: 30px;" alt="會員登入圖示">
-                            </a>
-                        </li>
-                        <!-- ✅ 已登入時：正常 dropdown -->
-                        <li class="nav-item dropdown" id="memberDropdownItem">
-                            <a class="nav-link dropdown-toggle" id="navbarDropdown5" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img src="images/user.png" style="width: 30px;" alt="會員圖示">
-                            </a>
-                            <div class="dropdown-menu p-3 justify-content-center gap-5" id="dropdownForUser"
-                                aria-labelledby="navbarDropdown5">
-                                <a class="dropdown-item" href="Member/member.html">會員中心</a>
-                                <a class="dropdown-item text-danger" href="#" onclick="logout()">登出</a>
-                            </div>
-                        </li>
-                    </div>
+                    <li class="nav-item dropdown list-unstyled">
+                        <a class="nav-link dropdown-toggle" href="Shopping/shoppingcart.html">
+                            <img src="images/cart.png" style="width: 30px;">
+                        </a>
+                    </li>
+                    <li class="nav-item list-unstyled" id="loginNavItem">
+                        <a class="nav-link" href="Member/login.html">
+                            <img src="images/user.png" style="width: 30px;" alt="會員登入圖示">
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown list-unstyled" id="memberDropdownItem" style="display: none;">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown5" role="button"
+                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <img src="images/user.png" style="width: 30px;" alt="會員圖示">
+                        </a>
+                        <div class="dropdown-menu p-3 justify-content-center gap-5" id="dropdownForUser"
+                            aria-labelledby="navbarDropdown5">
+                            <a class="dropdown-item" href="Member/member.html">會員中心</a>
+                            <a class="dropdown-item text-danger" href="#" onclick="logout()">登出</a>
+                        </div>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -766,17 +879,11 @@
         function slideTo(slideNumber) {
             drawerboxToggle(slideNumber); // 切換抽屜面板狀態 
             drawerbtnToggle(slideNumber); // 切換抽屜按鈕狀態 
-            // 更新偏移量 
-            let previousSlideNumber = chosenSlideNumber;
-            chosenSlideNumber = slideNumber;
-            offset += (chosenSlideNumber - previousSlideNumber) * (-100); // 計算幻燈片偏移量 
-            barOffset += (chosenSlideNumber - previousSlideNumber) * (100); // 計算導航條偏移量 
-            barSlide(barOffset); // 移動導航條 
-            // 獲取所有幻燈片，為每個幻燈片設置偏移量 
-            const slides = document.querySelectorAll(".card");
-            Array.from(slides).forEach(slide => {
-                slide.style.transform = `translateY(${offset}%)`;
-            })
+            // 顯示對應卡片，隱藏其他卡片
+            const slides = document.querySelectorAll('.card');
+            slides.forEach((slide, idx) => {
+                slide.classList.toggle('active', idx === slideNumber - 1);
+            });
         }
 
         // 切換抽屜面板狀態 
@@ -827,6 +934,23 @@
             const categoryParam = urlParams.get('category');
             if (categoryParam && window.location.pathname.includes('product.html')) {
                 filterProducts(categoryParam);
+            }
+        });
+
+        // 頁面載入時預設第一個卡片加active
+        window.addEventListener('DOMContentLoaded', function() {
+            const slides = document.querySelectorAll('.card');
+            slides.forEach((slide, idx) => {
+                slide.classList.toggle('active', idx === 0);
+            });
+        });
+
+        window.addEventListener('scroll', function () {
+            const logo = document.getElementById('navbarLogo');
+            if (window.scrollY > 50) {
+                logo.style.display = 'block';
+            } else {
+                logo.style.display = 'none';
             }
         });
     </script>

@@ -15,7 +15,7 @@
 </head>
 
 <body>
-	<!-- 0627新增銷貨單 還有最下方js-->
+<!-- 0629登入權限改路徑 還有最下方js-->
 	<!-- 黑色遮罩（點擊可關閉 sidebar） -->
 	<div class="overlay" id="sidebarOverlay"></div>
 
@@ -43,7 +43,7 @@
                   <div id="collapse2" class="accordion-collapse collapse" aria-labelledby="heading2" >
                     <div class="accordion-body">
                       <ul class="list-unstyled">
-                        <li><a href="/auth" class="text-secondary">登入/權限管理</a></li>
+                        <li><a href="/employee/list" class="text-secondary">登入/權限管理</a></li>
                         <li><a href="/customers" class="text-secondary">會員帳號管理</a></li>
                         <li><a href="/company" class="text-secondary">公司資料維護</a></li>
                         
@@ -208,7 +208,7 @@
 						th:href="@{/logout}">登出</a></li>
 				</ul>
 			</div>
-
+			
 			<!-- Main content -->
 			<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 offset-md-3">
 				<div class="pt-2">

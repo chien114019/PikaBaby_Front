@@ -424,7 +424,8 @@ public class CustomerService {
 				else {
 //					將 googleId 存到對應的顧客資料
 					cust.setGoogleId(subId);
-					repository.save(cust);
+					Integer custId = repository.save(cust).getId();
+					session.setAttribute("customerId", custId);
 					
 	            	response.setMesg("登入成功");
 				}

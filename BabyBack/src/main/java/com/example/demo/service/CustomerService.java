@@ -431,9 +431,11 @@ public class CustomerService {
 				}
 			}
             else {
+    			Integer custId = cust.getId();
+    			session.setAttribute("customerId", custId);
             	response.setMesg("登入成功");            	
             }
-            
+
             response.setSuccess(true);
             
         } catch (Exception e) {

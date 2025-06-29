@@ -685,15 +685,50 @@
                                     <div class="d-flex justify-content-center gap-3">
                                         <button type="button" class="btn btn-outline-dark pwd-btn-outline-dark"
                                             data-bs-dismiss="modal">取消</button>
-                                        <button type="button" class="btn pwd-btn-disabled"
-                                            id="savePwdBtn" disabled>儲存</button>
+                                        <button type="button" class="btn pwd-btn-disabled" id="savePwdBtn"
+                                            disabled>儲存</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <!-- 刪除帳號觸發文字 -->
                         <div class="text-center p-5">
-                            <h6 id="changePasswordLabel" class="mb-4 custom-underline">刪除帳號</h6>
+                            <h6 id="deleteAccountTrigger" class="mb-4 text-danger custom-underline"
+                                data-bs-toggle="modal" data-bs-target="#deleteAccountModal">
+                                刪除帳號
+                            </h6>
                         </div>
+
+                        <!-- Bootstrap Modal -->
+                        <div class="modal fade" id="deleteAccountModal" tabindex="-1"
+                            aria-labelledby="deleteAccountModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="deleteAccountModalLabel">確定要刪除帳號？</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="關閉"></button>
+                                    </div>
+
+                                    <div class="modal-body">
+                                        <p class="text-danger">⚠ 此操作無法復原，請輸入密碼以確認刪除帳號：</p>
+                                        <input type="password" id="confirmPwd" class="form-control" placeholder="請輸入密碼">
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">取消</button>
+                                        <button type="button" class="btn btn-danger"
+                                            onclick="confirmDelete()">確認刪除</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+
                     </div>
                 </div>
 
@@ -749,6 +784,7 @@
     <script src="../js/wishlistAddCart.js"></script>
     <script src="../js/addressData.js"></script>
     <script src="../js/memberData.js"></script>
+    <script src="../js/changePswd.js"></script>
     <script>
         // 目前顧客ID
         const host = "http://localhost:8080"
@@ -978,27 +1014,27 @@
             icon.classList.add("bi-eye-slash");
         }
         //檢查兩次密碼一致const saveBtn = document.getElementById("saveBtn");
-       const saveBtn = document.getElementById("savePwdBtn");
-const newPwd = document.getElementById("newPassword");
-const confirmPwd = document.getElementById("confirmPassword");
+        const saveBtn = document.getElementById("savePwdBtn");
+        const newPwd = document.getElementById("newPassword");
+        const confirmPwd = document.getElementById("confirmPassword");
 
-[newPwd, confirmPwd].forEach(input => {
-  input.addEventListener("input", () => {
-    const valid = newPwd.value.length >= 6 && newPwd.value === confirmPwd.value;
+        [newPwd, confirmPwd].forEach(input => {
+            input.addEventListener("input", () => {
+                const valid = newPwd.value.length >= 6 && newPwd.value === confirmPwd.value;
 
-    if (valid) {
-      // 移除灰色樣式，加入黃色
-      
-      saveBtn.classList.add("pwd-btn-dark");
-      saveBtn.disabled = false;
-    } else {
-      // 移除黃色樣式，加入灰色
-      saveBtn.classList.remove("pwd-btn-dark");
-      
-      saveBtn.disabled = true;
-    }
-  });
-});
+                if (valid) {
+                    // 移除灰色樣式，加入黃色
+
+                    saveBtn.classList.add("pwd-btn-dark");
+                    saveBtn.disabled = false;
+                } else {
+                    // 移除黃色樣式，加入灰色
+                    saveBtn.classList.remove("pwd-btn-dark");
+
+                    saveBtn.disabled = true;
+                }
+            });
+        });
 
 
 

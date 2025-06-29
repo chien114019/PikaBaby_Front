@@ -13,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.controller.LinePayController;
 import com.example.demo.model.Consignment;
@@ -223,7 +224,8 @@ public class CustomerService {
 //        repository.deleteById(id);
 //    }
 	
-	//刪除帳號?
+	//刪除帳號
+	@Transactional
 	public Response delete(Integer id) {
 		Response response = new Response();
 		Customer cust = repository.findById(id).orElse(null);

@@ -41,6 +41,9 @@ public class Customer {
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CustomerAddress> address;
     
+    @Column(name = "is_deleted")
+    private Boolean isDeleted = false;
+    
 	public Integer getId() {
 		return id;
 	}
@@ -133,6 +136,20 @@ public class Customer {
 	}
 	public void setGender(String gender) {
 		this.gender = gender;
+	}
+	
+	
+	public List<CustomerAddress> getAddress() {
+		return address;
+	}
+	public void setAddress(List<CustomerAddress> address) {
+		this.address = address;
+	}
+	public Boolean getIsDeleted() {
+		return isDeleted;
+	}
+	public void setIsDeleted(Boolean isDeleted) {
+		this.isDeleted = isDeleted;
 	}
 	// 空建構子（必要）
     public Customer() {}

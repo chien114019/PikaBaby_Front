@@ -31,14 +31,39 @@
 
 
 /* 刪除帳號 */
- .custom-underline {
-  display: inline-block;
+.custom-underline {
+  cursor: pointer;
   border-bottom: 2px solid #dc3546d8;
   color: #dc3546cc;
+  display: inline-block;
   transition: all 0.3s ease;
 }
 
 .custom-underline:hover {
-  color: #e7a5ab; 
+  color: #e7a5ab;
   border-bottom-color: #e7a5ab;
+}
+
+
+.delete-modal {
+  position: fixed;
+  z-index: 1050;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.delete-modal-content {
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+}
+
+.d-none {
+  display: none !important;
 }

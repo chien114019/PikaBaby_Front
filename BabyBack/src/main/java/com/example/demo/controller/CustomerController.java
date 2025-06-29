@@ -350,6 +350,13 @@ public class CustomerController {
 		    response.put("mesg", "密碼錯誤");
 		    return ResponseEntity.ok(response);
 		}
+		
+		 // 過濾已刪除帳號
+	    if (Boolean.TRUE.equals(customer.getIsDeleted())) {
+	        response.put("success", false);
+	        response.put("mesg", "帳號不存在");
+	        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
+	    }
 
 		// 登入成功
 		session.setAttribute("customerId", customer.getId());
@@ -720,6 +727,49 @@ public class CustomerController {
 
 	    return ResponseEntity.ok(Map.of("success", true, "mesg", "密碼已變更，請重新登入"));
 	}
+	
+	//前台刪除會員
+	@DeleteMapping("/front/delete")
+	@ResponseBody
+	public ResponseEntity<Map<String, Object>> deleteMember(@RequestBody Map<String, String> body, HttpSession session) {
+	    Map<String, Object> response = new HashMap<>();
+	    Integer customerId = (Integer) session.getAttribute("customerId");
+	    String inputPassword = body.get("password");
+
+	    if (customerId == null) {
+	        response.put("success", false);
+	        response.put("mesg", "未登入");
+	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+	    }
+
+	    Customer customer = customerRepo.findById(customerId).orElse(null);
+	    if (customer == null || Boolean.TRUE.equals(customer.getIsDeleted())) {
+	        response.put("success", false);
+	        response.put("mesg", "帳號不存在或已刪除");
+	        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+	    }
+
+	    if (!passwordEncoder.matches(inputPassword, customer.getPassword())) {
+	        response.put("success", false);
+	        response.put("mesg", "密碼錯誤");
+	        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
+	    }
+
+	    //設定 isDeleted 與改信箱
+	    customer.setIsDeleted(true);
+	    customer.setEmail(customer.getEmail() + "_deleted_" + customer.getId());
+	    
+	    
+	    customerRepo.save(customer);
+	    session.invalidate();
+
+	    response.put("success", true);
+	    response.put("mesg", "帳號已成功刪除");
+	    return ResponseEntity.ok(response);
+	}
+
+
+	
 }
 
 

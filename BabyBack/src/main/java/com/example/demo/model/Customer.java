@@ -37,6 +37,7 @@ public class Customer {
     private String creditCard;
     
     private Integer points;
+    private String googleId;
   
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CustomerAddress> address;
@@ -150,6 +151,12 @@ public class Customer {
 	}
 	public void setIsDeleted(Boolean isDeleted) {
 		this.isDeleted = isDeleted;
+	}
+	public String getGoogleId() {
+		return googleId;
+	}
+	public void setGoogleId(String googleId) {
+		this.googleId = googleId;
 	}
 	// 空建構子（必要）
     public Customer() {}

@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import org.openxmlformats.schemas.presentationml.x2006.main.impl.CTCustomerDataListImpl;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -207,4 +208,6 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
 	List<Customer> findAllByKeyword(@Param("keyword") String keyword);
 
 	Optional<Customer> findByEmail(String email);
+
+	Optional<Customer> findByGoogleId(String googleId);
 }

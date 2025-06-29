@@ -3,6 +3,7 @@ package com.example.demo.service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,6 +33,11 @@ import com.example.demo.repository.ReceivableRepository;
 import com.example.demo.repository.SalesOrderRepository;
 import com.example.demo.repository.WithdrawalRepository;
 import com.example.demo.util.SendMailUtils;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.jackson2.JacksonFactory;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -62,7 +68,7 @@ public class CustomerService {
 	@Autowired
 	private AddressRepository aRepository;
 	
-	
+	private final String GOOGLE_CLIENT_ID = "616366543206-n1lcq6hgflspq29lv00088nu19n0ohcu.apps.googleusercontent.com";
 
 	CustomerService(SecurityFilterChain filterChain) {
 		this.filterChain = filterChain;
@@ -357,17 +363,6 @@ public class CustomerService {
 
 		return repository.save(customer);
 	}
-//	public Customer register(Customer Customer) {
-//		if (repository.findByEmail(Customer.getEmail()).isPresent()) {
-//			throw new RuntimeException("Email 已被註冊");
-//		}
-//
-//		Customer.setCreatedAt(LocalDateTime.now());
-//		Customer.setFirstLoginAt(LocalDateTime.now());
-//		Customer.setPoints(100);
-//
-//		return repository.save(Customer);
-//	}
 
 //    登入比對
 	
@@ -385,6 +380,69 @@ public class CustomerService {
 		return repository.findById(id);
 	}
 
+//	Google 登入
+	public Response googleLogin(String token, HttpSession session) {
+		Response response = new Response();
+		System.out.println("token: " + token);
+
+		GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(
+                new NetHttpTransport(), new JacksonFactory())
+                .setAudience(Collections.singletonList(GOOGLE_CLIENT_ID)) // 你的 Google client id
+                .build();
+
+        GoogleIdToken idToken = null;
+        try {
+            idToken = verifier.verify(token);
+            Payload payload = idToken.getPayload();
+            
+            String email = payload.getEmail();
+            String name = (String) payload.get("name");
+            String subId = payload.getSubject(); // Google 帳號唯一 id
+            
+            System.out.println("email: " + email);
+            System.out.println("name: " + name);
+            System.out.println("subId: " + subId);
+            
+            Customer cust = repository.findByGoogleId(subId).orElse(null);
+            
+            if (cust == null) {
+				cust = findByEmail(email).orElse(null);
+				if(cust == null) {
+//					建立新的顧客資料
+					cust = new Customer();
+					cust.setEmail(email);
+					cust.setName(name);
+					cust.setGoogleId(subId);
+					cust.setCreatedAt(LocalDateTime.now());
+					cust.setFirstLoginAt(LocalDateTime.now());
+					cust.setPoints(100);
+					Integer custId = repository.save(cust).getId();
+					session.setAttribute("customerId", custId);
+					
+	            	response.setMesg("登入成功，歡迎加入 PikaBaby 嬰幼兒商品專賣店會員。");            	
+				}
+				else {
+//					將 googleId 存到對應的顧客資料
+					cust.setGoogleId(subId);
+					repository.save(cust);
+					
+	            	response.setMesg("登入成功");
+				}
+			}
+            else {
+            	response.setMesg("登入成功");            	
+            }
+            
+            response.setSuccess(true);
+            
+        } catch (Exception e) {
+        	System.out.println(e);
+        	response.setSuccess(false);
+        	response.setMesg("token 驗證有誤");
+        }
+		return response;
+	}
+	
 	// ===== 點數相關業務邏輯 =====
 
 	/**

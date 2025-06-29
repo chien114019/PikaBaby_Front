@@ -368,7 +368,17 @@ public class CustomerController {
 		return ResponseEntity.ok(response);
 
 	}
-//登出
+	
+//	Google登入
+	@PostMapping("/front/googleLogin")
+	@ResponseBody
+	public ResponseEntity<Response> googleLogin(@RequestBody Map<String, String> body, HttpSession session) {
+		String token = body.get("token");
+		Response response = service.googleLogin(token, session);
+		return ResponseEntity.ok(response);
+
+	}
+
 	@PostMapping("/front/logout")
 	@ResponseBody
 	public ResponseEntity<Map<String, Object>> logout(HttpSession session) {

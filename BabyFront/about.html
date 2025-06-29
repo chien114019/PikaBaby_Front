@@ -877,29 +877,18 @@
 
         // 切換到指定編號的幻燈片 
         function slideTo(slideNumber) {
-            drawerboxToggle(slideNumber); // 切換抽屜面板狀態 
-            drawerbtnToggle(slideNumber); // 切換抽屜按鈕狀態 
-            // 顯示對應卡片，隱藏其他卡片
-            const slides = document.querySelectorAll('.card');
-            slides.forEach((slide, idx) => {
-                slide.classList.toggle('active', idx === slideNumber - 1);
-            });
-        }
+            // 先移除所有 active
+            document.querySelectorAll('.drawerbox').forEach(box => box.classList.remove('active'));
+            document.querySelectorAll('.drawer-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.card').forEach(card => card.classList.remove('active'));
 
-        // 切換抽屜面板狀態 
-        function drawerboxToggle(drawerboxNumber) {
-            let prevDrawerboxNumber = chosenSlideNumber;
-            const drawerboxes = document.querySelectorAll(".drawerbox");
-            drawerboxes[prevDrawerboxNumber - 1].classList.toggle("active"); // 切換前一個抽屜面板的狀態 
-            drawerboxes[drawerboxNumber - 1].classList.toggle("active"); // 切換當前抽屜面板的狀態 
-        }
+            // 只給當前的加上 active
+            document.querySelectorAll('.drawerbox')[slideNumber - 1].classList.add('active');
+            document.querySelectorAll('.drawer-btn')[slideNumber - 1].classList.add('active');
+            document.querySelectorAll('.card')[slideNumber - 1].classList.add('active');
 
-        // 切換抽屜按鈕狀態 
-        function drawerbtnToggle(drawerBtnNumber) {
-            let prevDrawerBtnNumber = chosenSlideNumber;
-            const drawerBtns = document.querySelectorAll(".drawer-btn");
-            drawerBtns[prevDrawerBtnNumber - 1].classList.toggle("active"); // 切換前一個抽屜按鈕的狀態 
-            drawerBtns[drawerBtnNumber - 1].classList.toggle("active"); // 切換當前抽屜按鈕的狀態 
+            // 更新目前選擇
+            chosenSlideNumber = slideNumber;
         }
 
         // 移動導航條 

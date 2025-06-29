@@ -359,27 +359,29 @@
 
                             <!-- 預設訂單地址 -->
                             <div class="d-flex justify-content-between align-items-center mb-2">
-                                <p class="mb-0">
+                                <p class="mb-0 py-2">
                                     <strong>預設訂單地址：</strong><span id="memberOrderAddress">載入中...</span>
                                 </p>
                                 <div class="d-flex gap-2 ms-3">
                                     <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal"
-                                        data-bs-target="#addressModal" onclick="editAddress('order')">編輯</button>
-                                    <button class="btn btn-sm btn-outline-danger"
-                                        onclick="deleteAddress('order')">刪除</button>
+                                        data-bs-target="#addressModal" onclick="editAddress('order')"
+                                        style="display: none;">編輯</button>
+                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteAddress('order')"
+                                        style="display: none;">刪除</button>
                                 </div>
                             </div>
 
                             <!-- 預設配送地址 -->
                             <div class="d-flex justify-content-between align-items-center mb-3">
-                                <p class="mb-0">
+                                <p class="mb-0 py-2">
                                     <strong>預設配送地址：</strong><span id="memberShippingAddress">載入中...</span>
                                 </p>
                                 <div class="d-flex gap-2 ms-3">
                                     <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal"
-                                        data-bs-target="#addressModal" onclick="editAddress('shipping')">編輯</button>
-                                    <button class="btn btn-sm btn-outline-danger"
-                                        onclick="deleteAddress('shipping')">刪除</button>
+                                        data-bs-target="#addressModal" onclick="editAddress('shipping')"
+                                        style="display: none;">編輯</button>
+                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteAddress('shipping')"
+                                        style="display: none;">刪除</button>
                                 </div>
                             </div>
 

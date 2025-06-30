@@ -28,8 +28,11 @@
      margin-right:40px;
      margin-left:40px;
      /* 0627新增 */
-     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* 每個區塊最小寬度是 250px，剩餘空間平均分配（自動換行） */
+    /*  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));  *//* 每個區塊最小寬度是 250px，剩餘空間平均分配（自動換行） */
      justify-items: center; /* 區塊水平置中 */
+     
+     /* 0630新增 */
+     grid-template-columns: repeat(4, 1fr); /* ✅ 改動：固定每列顯示 4 欄 */
  }
  
  
@@ -43,13 +46,18 @@
      font-weight: bold;
      font-size: 1.1rem;
      text-align: center;
-     width: 250px; 
+     /* width: 250px;  */
      /* 0627新增 */
      flex-direction: column;
   /* justify-content: space-between; */
   align-items: center;
   width: 100%;
   transition: transform 0.3s;
+  
+  /* 0630新增 */
+   /* ✅ 改動：限制最大寬，避免撐太大 */
+    width: 100%;
+    max-width: 250px;
  }
  
  
@@ -170,7 +178,7 @@
 }
 
 
-/* ========= 水平排列區塊（保留以防未來需要） ========= */
+/* ========= 水平排列區塊 ========= */
 .block.horizontal {
   flex-direction: row;
   flex-wrap: wrap;
@@ -182,7 +190,38 @@
   margin: 0.25rem;
 }
 
+/* ========= 響應式設計：小螢幕自動換行 ========= */
+/* 0630新增 */
+/* ✅ 新增：平板尺寸 → 2欄 */
+@media (max-width: 992px) {
+    .grid-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* ✅ 新增：手機尺寸 → 單欄 */
+@media (max-width: 576px) {
+    .grid-container {
+        grid-template-columns: 1fr;
+    }
+    .header-center {
+        flex-direction: column;
+    }
+    .header-center h1 {
+        font-size: 2.3rem;
+        line-height: 2.5;
+    }
+    .logo-img {
+        height: 180px;
+        margin-top: 0;
+        margin-bottom: -50px;
+    }
+}
+
+
 /* ========= 響應式調整 ========= */
+/* 0630註解 */
+/* 
 @media (max-width: 768px) {
   .header-center {
     flex-direction: column;
@@ -196,8 +235,8 @@
   .logo-img {
     height: 180px;
     margin-top: 0;
-    margin-bottom: -50px; /* 調整圖片和標題之間的間距 */
+    margin-bottom: -50px; 調整圖片和標題之間的間距
   }
-}
+} */
 
  

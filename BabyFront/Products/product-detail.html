@@ -303,7 +303,7 @@
         /* 返回按鈕 */
         .back-btn {
             position: fixed;
-            top: 120px;
+            top: 50vh;
             left: 20px;
             background: rgba(255, 255, 255, 0.9);
             border: 1px solid #ddd;
@@ -379,11 +379,6 @@
 </head>
 
 <body>
-    <!-- 返回按鈕 -->
-    <button class="back-btn" onclick="goBack()" title="返回商品列表">
-        ←
-    </button>
-
     <header>
         <!-- 置頂的促銷訊息 -->
         <div class="top-banner">
@@ -526,6 +521,10 @@
 
     <!-- 主要內容 -->
     <main>
+        <!-- 返回按鈕 -->
+        <button class="back-btn" onclick="goBack()" title="返回商品列表">
+            ←
+        </button>
         <!-- 加載中 -->
         <div id="loading-container" class="loading-container">
             <div class="loading-spinner"></div>

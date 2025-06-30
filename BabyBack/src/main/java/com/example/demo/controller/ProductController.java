@@ -3,8 +3,10 @@ package com.example.demo.controller;
 import com.example.demo.dto.ProductDto;
 import com.example.demo.model.Product;
 import com.example.demo.model.ProductImage;
+import com.example.demo.model.ProductType;
 import com.example.demo.repository.ProductImageRepository;
 import com.example.demo.repository.ProductRepository;
+import com.example.demo.repository.ProductTypeRepository;
 import com.example.demo.repository.PurchaseOrderDetailRepository;
 import com.example.demo.service.ProductService;
 import com.example.demo.service.SupplierProductService;
@@ -53,6 +55,9 @@ public class ProductController {
     
     @Autowired
     private ProductImageRepository imageRepository;
+    
+    @Autowired
+    private ProductTypeRepository ptRepository;
     
     @Autowired
     private PurchaseOrderDetailRepository purchaseOrderDetailRepository;
@@ -394,6 +399,13 @@ public class ProductController {
             throw new RuntimeException("無法獲取商品列表", e);
         }
     }
+    
+    @GetMapping("/front/product-types")
+    @ResponseBody
+    public List<ProductType> getProductTypes() {
+    	return ptRepository.findAll();
+    }
+    
     
     // 新增：獲取單一商品詳情
     @GetMapping("/front/detail/{id}")

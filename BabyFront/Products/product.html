@@ -387,12 +387,12 @@
                         <div class="dropdown-menu p-3 justify-content-center" aria-labelledby="navbarDropdown1">
                             <a class="dropdown-item" href="product.html?category=feeding">奶瓶/奶嘴</a>
                             <a class="dropdown-item" href="product.html?category=clothes">圍兜/揹巾</a>
-                            <a class="dropdown-item" href="product.html?category=clothes">嬰兒服裝</a>
+                            <a class="dropdown-item" href="product.html?category=1">嬰兒服裝</a>
                             <a class="dropdown-item" href="product.html?category=care">清潔用品</a>
-                            <a class="dropdown-item" href="product.html?category=stroller">嬰兒推車</a>
-                            <a class="dropdown-item" href="product.html?category=furniture">嬰兒床</a>
+                            <a class="dropdown-item" href="product.html?category=2">嬰兒推車</a>
+                            <a class="dropdown-item" href="product.html?category=3">嬰兒床</a>
                             <a class="dropdown-item" href="product.html?category=feeding">哺乳用品</a>
-                            <a class="dropdown-item" href="product.html?category=care">嬰兒用品</a>
+                            <a class="dropdown-item" href="product.html?category=4">嬰兒用品</a>
                         </div>
                     </li>
                     <li class="nav-item dropdown">
@@ -401,12 +401,12 @@
                             年齡區間(3-6M)
                         </a>
                         <div class="dropdown-menu p-3 justify-content-center" aria-labelledby="navbarDropdown2">
-                            <a class="dropdown-item" href="product.html?category=clothes">嬰兒服裝</a>
-                            <a class="dropdown-item" href="product.html?category=toys">玩具</a>
-                            <a class="dropdown-item" href="product.html?category=stroller">嬰兒推車</a>
-                            <a class="dropdown-item" href="product.html?category=furniture">嬰兒床</a>
-                            <a class="dropdown-item" href="product.html?category=car-seat">汽座</a>
-                            <a class="dropdown-item" href="product.html?category=care">嬰兒用品</a>
+                            <a class="dropdown-item" href="product.html?category=1">嬰兒服裝</a>
+                            <a class="dropdown-item" href="product.html?category=5">玩具</a>
+                            <a class="dropdown-item" href="product.html?category=2">嬰兒推車</a>
+                            <a class="dropdown-item" href="product.html?category=3">嬰兒床</a>
+                            <a class="dropdown-item" href="product.html?category=6">汽座</a>
+                            <a class="dropdown-item" href="product.html?category=4">嬰兒用品</a>
                         </div>
                     </li>
                     <li class="nav-item dropdown">
@@ -516,7 +516,7 @@
             <div class="filter-section">
                 <div class="filter-title">商品種類</div>
                 <select class="category-select" id="category-select">
-                    <option value="">全部商品</option>
+                    <!-- <option value="">全部商品</option> -->
                     <!-- 動態載入的分類選項會在這裡顯示 -->
                 </select>
             </div>
@@ -613,7 +613,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../js/navbar.js"></script>
     <script src="../js/logout.js"></script>
-    <!-- <script src="../js/usernoToggle.js"></script> -->
+
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             //若有登入會員，下拉選單顯示
@@ -627,7 +627,7 @@
                     setUserToggle(data);
                 },
                 error: function () {
-                    alert("系統錯誤，請稍後再試");
+                    console.log("未登入");
                 }
             })
         })
@@ -718,6 +718,7 @@
 
         // 整合的篩選和排序功能
         document.addEventListener('DOMContentLoaded', function () {
+            // console.log("DOMContentLoaded 1");
             // 注意：不要在這裡獲取商品，因為動態商品還沒載入
             const sortSelect = document.getElementById('sort-select');
             const categorySelect = document.getElementById('category-select');
@@ -790,6 +791,7 @@
                 const products = document.querySelectorAll('.product-card');
 
                 products.forEach(product => {
+                    console.log("product dataset:" + product.dataset.category);
                     const productCategory = product.dataset.category;
                     const productCondition = product.dataset.condition;
                     const productTitle = product.querySelector('.product-title').textContent.toLowerCase();
@@ -888,8 +890,10 @@
             }
 
             // 修改 filterProducts 函數，使其能夠處理 URL 參數
+            // window.filterProducts = function (category) {
             window.filterProducts = function (category) {
                 console.log(`🔍 篩選分類: ${category}`);
+                // console.log("URL:" + window.location.href);
 
                 // 更新 URL 參數
                 const url = new URL(window.location.href);
@@ -909,8 +913,6 @@
                 // 執行篩選
                 filterAndSortProducts();
             };
-
-            // 移除重複的DOMContentLoaded監聽器，URL參數處理已在loadProductTypes中完成
 
             // 添加事件監聽器
             if (sortSelect) {
@@ -1054,13 +1056,15 @@
         let isUsingDynamicData = false; // 標記是否使用動態資料
 
         document.addEventListener("DOMContentLoaded", function () {
+            // console.log("DOMContentLoaded 2")
             console.log("🚀 開始載入商品資料...");
-            loadProductTypes(); // 先載入商品分類
+            const pageCategory = window.location.href.split("=")[1]
+            loadProductTypes(pageCategory); // 先載入商品分類
             loadProductsFromDatabase(); // 再載入商品
         });
 
         // 載入商品分類
-        async function loadProductTypes() {
+        async function loadProductTypes(pageCategory) {
             try {
                 console.log("📡 載入商品分類...");
                 const response = await fetch("http://localhost:8080/products/front/product-types");
@@ -1076,38 +1080,46 @@
                 const categorySelect = document.getElementById('category-select');
 
                 // 清空現有選項（保留"全部商品"）
-                const allOption = categorySelect.querySelector('option[value=""]');
-                categorySelect.innerHTML = '';
-                categorySelect.appendChild(allOption);
+                // const allOption = categorySelect.querySelector('option[value=""]');
+                // categorySelect.innerHTML = '';
+                // categorySelect.appendChild(allOption);
 
                 // 添加動態分類選項
+                const allOption = document.createElement('option');
+                allOption.value = "";
+                allOption.textContent = "全部商品";
+                categorySelect.appendChild(allOption);
                 productTypes.forEach(type => {
                     const option = document.createElement('option');
-                    option.value = type.typeName; // 使用typeName作為值
+                    option.value = type.id;
+                    if (option.value == pageCategory) {
+                        // 設為selected
+                        option.setAttribute("selected", "true");
+                    }
                     option.textContent = type.typeName;
                     categorySelect.appendChild(option);
                 });
 
-                console.log("✅ 商品分類選項已更新");
+                // console.log("✅ 商品分類選項已更新");
 
-                // 分類選項載入完成後，立即檢查並處理URL參數
-                setTimeout(() => {
-                    const urlParams = new URLSearchParams(window.location.search);
-                    const categoryParam = urlParams.get('category');
-                    if (categoryParam) {
-                        console.log(`🎯 分類選項載入完成，處理URL分類參數: ${categoryParam}`);
+                // // 分類選項載入完成後，立即檢查並處理URL參數
+                // setTimeout(() => {
+                //     const urlParams = new URLSearchParams(window.location.search);
+                //     const categoryParam = urlParams.get('category');
+                //     if (categoryParam) {
+                //         console.log(`🎯 分類選項載入完成，處理URL分類參數: ${categoryParam}`);
 
-                        // 將舊式分類代碼轉換為ProductType名稱
-                        const mappedCategory = mapLegacyCategoryToProductType(categoryParam);
-                        console.log(`🔄 映射結果: ${categoryParam} → ${mappedCategory}`);
+                //         // 將舊式分類代碼轉換為ProductType名稱
+                //         const mappedCategory = mapLegacyCategoryToProductType(categoryParam);
+                //         console.log(`🔄 映射結果: ${categoryParam} → ${mappedCategory}`);
 
-                        // 更新下拉選單
-                        updateCategorySelector(mappedCategory);
+                //         // 更新下拉選單
+                //         updateCategorySelector(mappedCategory);
 
-                        // 設置篩選條件但不執行篩選，等商品載入後再執行
-                        window.pendingCategoryFilter = categoryParam;
-                    }
-                }, 100);
+                //         // 設置篩選條件但不執行篩選，等商品載入後再執行
+                //         window.pendingCategoryFilter = categoryParam;
+                //     }
+                // }, 100);
 
             } catch (error) {
                 console.error("❌ 載入商品分類失敗:", error);
@@ -1154,30 +1166,30 @@
                 console.log("✅ 成功載入已發布商品資料:", products);
 
                 if (products && products.length > 0) {
-                    console.log(`📦 API返回 ${products.length} 個商品:`, products);
+                    // console.log(`📦 API返回 ${products.length} 個商品:`, products);
 
                     // 獲取當前頁面上已存在的商品ID
                     const container = document.getElementById('dynamic-products-grid');
                     const existingCards = container.querySelectorAll('.product-card[data-product-id]');
                     const existingIds = Array.from(existingCards).map(card => parseInt(card.dataset.productId));
 
-                    console.log(`🔍 頁面現有商品ID: [${existingIds.join(', ')}]`);
+                    // console.log(`🔍 頁面現有商品ID: [${existingIds.join(', ')}]`);
 
                     // 檢查是否有新商品（不在頁面上的商品）
                     const newProducts = products.filter(p => !existingIds.includes(p.id));
 
                     if (existingIds.length === 0) {
                         // 頁面上沒有商品，直接顯示所有商品
-                        console.log(`🎉 首次載入 ${products.length} 個商品`);
+                        // console.log(`🎉 首次載入 ${products.length} 個商品`);
                         allProducts = [...products];
                         renderDynamicProducts(products);
                     } else if (newProducts.length > 0) {
                         // 有新商品，增量添加
-                        console.log(`🆕 發現 ${newProducts.length} 個新商品，增量添加:`, newProducts);
+                        // console.log(`🆕 發現 ${newProducts.length} 個新商品，增量添加:`, newProducts);
                         allProducts = [...allProducts, ...newProducts];
                         renderDynamicProducts(newProducts);
                     } else {
-                        console.log("📋 沒有新商品，保持現有商品不變");
+                        // console.log("📋 沒有新商品，保持現有商品不變");
                     }
 
                     isUsingDynamicData = true;
@@ -1185,19 +1197,22 @@
 
                     // 商品載入完成後，處理待處理的分類篩選
                     setTimeout(() => {
-                        if (window.pendingCategoryFilter) {
-                            console.log(`🎯 商品載入完成，執行待處理的分類篩選: ${window.pendingCategoryFilter}`);
-                            filterProducts(window.pendingCategoryFilter);
-                            window.pendingCategoryFilter = null; // 清除待處理的篩選
-                        } else {
-                            // 如果沒有待處理的篩選，檢查URL參數
-                            const urlParams = new URLSearchParams(window.location.search);
-                            const categoryParam = urlParams.get('category');
-                            if (categoryParam) {
-                                console.log(`🎯 商品載入完成，處理URL分類參數: ${categoryParam}`);
-                                filterProducts(categoryParam);
-                            }
-                        }
+                        console.log($("#category-select").val())
+                        const category = $("#category-select").val()
+                        filterProducts(category);
+                        // if (window.pendingCategoryFilter) {
+                        //     console.log(`🎯 商品載入完成，執行待處理的分類篩選: ${window.pendingCategoryFilter}`);
+                        // filterProducts(window.pendingCategoryFilter);
+                        //     window.pendingCategoryFilter = null; // 清除待處理的篩選
+                        // } else {
+                        //     // 如果沒有待處理的篩選，檢查URL參數
+                        //     const urlParams = new URLSearchParams(window.location.search);
+                        //     const categoryParam = urlParams.get('category');
+                        //     if (categoryParam) {
+                        //         console.log(`🎯 商品載入完成，處理URL分類參數: ${categoryParam}`);
+                        //         filterProducts(categoryParam);
+                        //     }
+                        // }
                     }, 300);
                 } else {
                     console.log("⚠️ 資料庫中沒有已發布的商品");
@@ -1255,9 +1270,9 @@
                 .map(card => card.dataset.productId)
                 .filter(id => id);
 
-            console.log(`🔍 容器中現有商品數量: ${existingProductIds.length}`);
-            console.log(`🔍 容器中現有商品ID: [${existingProductIds.join(', ')}]`);
-            console.log(`🔍 準備處理的商品:`, products);
+            // console.log(`🔍 容器中現有商品數量: ${existingProductIds.length}`);
+            // console.log(`🔍 容器中現有商品ID: [${existingProductIds.join(', ')}]`);
+            // console.log(`🔍 準備處理的商品:`, products);
 
             // 只添加新商品（避免重複）
             let newProductsCount = 0;
@@ -1265,16 +1280,16 @@
 
             products.forEach((product, index) => {
                 const productIdStr = product.id.toString();
-                console.log(`🔍 檢查商品 ${product.name} (ID: ${product.id})`);
+                // console.log(`🔍 檢查商品 ${product.name} (ID: ${product.id})`);
 
                 if (!existingProductIds.includes(productIdStr)) {
                     const productCard = createDynamicProductCard(product, index);
                     container.appendChild(productCard);
                     newProductsCount++;
-                    console.log(`➕ 成功新增商品: ${product.name} (ID: ${product.id})`);
+                    // console.log(`➕ 成功新增商品: ${product.name} (ID: ${product.id})`);
                 } else {
                     skippedCount++;
-                    console.log(`⚠️ 跳過重複商品: ${product.name} (ID: ${product.id})`);
+                    // console.log(`⚠️ 跳過重複商品: ${product.name} (ID: ${product.id})`);
                 }
             });
 
@@ -1291,7 +1306,7 @@
         // 根據商品資料獲取分類 (直接使用ProductType名稱)
         function getProductCategory(product) {
             // 直接返回 ProductType 的 typeName，如果沒有則返回 'others'
-            return product.productTypeName || 'others';
+            return product.productTypeId || 'others';
         }
 
         // 將資料庫的 ProductType 對應到前端分類 (備用 - 向後兼容)
@@ -1338,6 +1353,14 @@
             card.dataset.category = getProductCategory(product); // 優先使用ProductType分類
             card.dataset.condition = product.condition || 'new';
             card.dataset.productId = product.id;
+            
+            const urlCategory = window.location.href.split("=")[1];
+            if(card.dataset.category == urlCategory) {
+                card.style.display = "flex"            
+            }
+            else {
+                card.style.display = "none"
+            }
 
             // 處理圖片URL - 優先使用product_image表的圖片
             let imageUrl = product.primaryImageUrl || product.imageUrl;
@@ -1582,19 +1605,20 @@
         }
 
         // 搜尋功能（保留原有功能）
-        function filterProducts(category) {
-            console.log(`🔍 篩選商品類別: ${category}`);
+        // function filterProducts(category) {
+        //     console.log(`🔍 篩選商品類別: ${category}`);
 
-            const allCards = document.querySelectorAll('.product-card');
+        //     const allCards = document.querySelectorAll('.product-card');
 
-            allCards.forEach(card => {
-                if (category === '' || card.dataset.category === category) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        }
+        //     allCards.forEach(card => {
+        //         console.log("card:" + card)
+        //         if (category === '' || card.dataset.category === category) {
+        //             card.style.display = 'block';
+        //         } else {
+        //             card.style.display = 'none';
+        //         }
+        //     });
+        // }
     </script>
 
 </body>

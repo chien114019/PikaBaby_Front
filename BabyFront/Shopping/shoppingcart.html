@@ -256,10 +256,12 @@
             }
         }
 
-        input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button {
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
             -webkit-appearance: none;
             margin: 0;
         }
+
         input[type=number] {
             -moz-appearance: textfield;
         }
@@ -270,7 +272,8 @@
 
         .cart-action-row {
             margin-top: 0;
-            margin-bottom: 20px; /* 可依需求調整 */
+            margin-bottom: 20px;
+            /* 可依需求調整 */
         }
 
         @media (max-width: 991.98px) {
@@ -278,13 +281,16 @@
                 background-color: #f5e6c8 !important;
                 border-radius: 0 0 12px 12px;
             }
+
             .navbar-collapse .mobile-logo {
                 display: none;
             }
+
             .navbar-collapse.show .mobile-logo {
                 display: block !important;
             }
         }
+
         @media (min-width: 992px) {
             .mobile-logo {
                 display: none !important;
@@ -313,8 +319,9 @@
     <!-- 導覽列 -->
     <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container-fluid">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse justify-content-around" id="navbarSupportedContent">
@@ -411,10 +418,12 @@
                         </a>
                     </li>
                     <li class="nav-item dropdown" id="memberDropdownItem" style="display: none;">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdown6" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown6" role="button" data-bs-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
                             <img src="../images/user.png" style="width: 30px;" alt="會員圖示">
                         </a>
-                        <div class="dropdown-menu p-3 justify-content-center gap-5" id="dropdownForUser" aria-labelledby="navbarDropdown6">
+                        <div class="dropdown-menu p-3 justify-content-center gap-5" id="dropdownForUser"
+                            aria-labelledby="navbarDropdown6">
                             <a class="dropdown-item" href="../Member/member.html">會員中心</a>
                             <a class="dropdown-item text-danger" href="#" onclick="logout()">登出</a>
                         </div>
@@ -446,7 +455,8 @@
                         <tfoot>
                             <tr>
                                 <td colspan="4"></td>
-                                <td style="font-size: 1.2em; font-weight: bold; border-bottom: none;" id="cart-total">總計：NT$ 0</td>
+                                <td style="font-size: 1.2em; font-weight: bold; border-bottom: none;" id="cart-total">
+                                    總計：NT$ 0</td>
                                 <td></td>
                             </tr>
                             <tr>
@@ -489,7 +499,8 @@
                                 style="width: 80px;"><br>
                             <span style="margin-left:8px;color:#e6b800;">剩餘點數：<span id="availablePoints">載入中...</span>
                                 點</span>
-                            <div id="pointsError" style="color: red; font-size: 12px; margin-top: 4px; display: none;"></div>
+                            <div id="pointsError" style="color: red; font-size: 12px; margin-top: 4px; display: none;">
+                            </div>
                         </div>
                         <div class="h5">應付總額：<span id="orderTotal">0</span> 元</div>
                     </div>
@@ -516,40 +527,42 @@
                     </div>
                 </div>
 
-                                  <!-- 收件資訊表單 -->
-                  <form id="orderForm" onsubmit="submitOrder(event)" style="width:100%;max-width:600px;margin:0 auto;">
-                      <!-- 會員資料自動帶入選項 -->
-                      <div class="mb-4 p-3" style="background-color: #f8f9fa; border-radius: 8px; border: 1px solid #dee2e6; margin-top: 32px;">
-                          <div class="form-check">
-                              <input class="form-check-input" type="checkbox" id="useMemberData" onchange="toggleMemberData()">
-                              <label class="form-check-label fw-bold" for="useMemberData" style="color: #0d6efd;">
-                                  使用會員資料作為收件人資訊
-                              </label>
-                          </div>
-                          <small class="text-muted">勾選此選項將自動帶入您的會員資料，並鎖定收件人欄位</small>
-                      </div>
+                <!-- 收件資訊表單 -->
+                <form id="orderForm" onsubmit="submitOrder(event)" style="width:100%;max-width:600px;margin:0 auto;">
+                    <!-- 會員資料自動帶入選項 -->
+                    <div class="mb-4 p-3"
+                        style="background-color: #f8f9fa; border-radius: 8px; border: 1px solid #dee2e6; margin-top: 32px;">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="useMemberData"
+                                onchange="toggleMemberData()">
+                            <label class="form-check-label fw-bold" for="useMemberData" style="color: #0d6efd;">
+                                使用會員資料作為收件人資訊
+                            </label>
+                        </div>
+                        <small class="text-muted">勾選此選項將自動帶入您的會員資料，並鎖定收件人欄位</small>
+                    </div>
 
-                      <div class="mb-3">
-                          <label class="form-label">收件人姓名</label>
-                          <input type="text" class="form-control" name="name" id="recipientName" required>
-                      </div>
-                                          <div class="mb-3">
-                          <label class="form-label">聯絡電話</label>
-                          <input type="tel" class="form-control" name="phone" id="recipientPhone" required>
-                      </div>
-                      <div class="mb-3">
-                          <label class="form-label">Email</label>
-                          <input type="email" class="form-control" name="email" id="recipientEmail" required>
-                      </div>
-                      <div class="mb-3">
-                          <label class="form-label">收件地址</label>
-                          <input type="text" class="form-control" name="address" id="recipientAddress" required>
-                      </div>
+                    <div class="mb-3">
+                        <label class="form-label">收件人姓名</label>
+                        <input type="text" class="form-control" name="name" id="recipientName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">聯絡電話</label>
+                        <input type="tel" class="form-control" name="phone" id="recipientPhone" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-control" name="email" id="recipientEmail" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">收件地址</label>
+                        <input type="text" class="form-control" name="address" id="recipientAddress" required>
+                    </div>
                     <div class="mb-3">
                         <label class="form-label">付款方式</label>
                         <select class="form-select" name="paymentMethod" required>
                             <option value="">請選擇付款方式</option>
-                            <option value="credit">💳 信用卡</option>
+                            <option value="ecpay">💳 信用卡</option>
                             <option value="transfer">🏦 銀行轉帳</option>
                             <option value="linepay">💚 LINE Pay</option>
                         </select>
@@ -621,10 +634,10 @@
                     method: 'GET',
                     credentials: 'include' // 包含 Session cookie
                 });
-                
+
                 if (response.ok) {
                     const loginStatus = await response.json();
-                    
+
                     if (loginStatus.isLoggedIn) {
                         // 已登入，直接進入結帳流程
                         console.log('✅ 會員已登入，進入結帳流程');
@@ -652,7 +665,7 @@
                 '點擊「確定」前往登入頁面\n' +
                 '點擊「取消」繼續瀏覽商品'
             );
-            
+
             if (loginConfirm) {
                 // 儲存當前頁面到登入後返回
                 sessionStorage.setItem('returnToCheckout', 'true');
@@ -663,7 +676,7 @@
         // 當頁面加載時執行
         document.addEventListener('DOMContentLoaded', async function () {
             await loadCart();
-            
+
             // 檢查是否需要直接顯示結帳表單（從登入頁面返回）
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.get('checkout') === 'true') {
@@ -674,7 +687,7 @@
                     await showCheckoutForm();
                 }, 100);
             }
-            
+
             // 檢查 LINE Pay 取消付款的情況
             if (urlParams.get('linepay') === 'cancelled') {
                 // 恢復購物車資料
@@ -687,12 +700,12 @@
                     }
                 }
                 localStorage.removeItem('pendingOrder');
-                
+
                 // 清理URL參數並顯示提示
                 window.history.replaceState({}, document.title, window.location.pathname);
                 alert('LINE Pay 付款已取消，商品已恢復到購物車中。');
             }
-            
+
             // 會員點數將在顯示結帳表單時動態載入
             // 檢查加購商品按鈕狀態
             let cart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -757,12 +770,12 @@
         // 同步購物車商品資訊與資料庫
         async function syncCartWithDatabase(cart) {
             const updatedCart = [];
-            
+
             for (const item of cart) {
                 try {
                     // 從後端獲取最新的商品資訊
                     const response = await fetch(`http://localhost:8080/products/front/detail/${item.id}`);
-                    
+
                     if (response.ok) {
                         const productData = await response.json();
                         if (productData.success) {
@@ -772,10 +785,10 @@
                                 name: productData.name,
                                 price: productData.price,
                                 quantity: item.quantity,
-                                image: productData.primaryImageUrl ? 
-                                    (productData.primaryImageUrl.startsWith('/products/front/images/') ? 
-                                        'http://localhost:8080' + productData.primaryImageUrl : 
-                                        productData.primaryImageUrl) : 
+                                image: productData.primaryImageUrl ?
+                                    (productData.primaryImageUrl.startsWith('/products/front/images/') ?
+                                        'http://localhost:8080' + productData.primaryImageUrl :
+                                        productData.primaryImageUrl) :
                                     '../images/baby.jpg'
                             };
                             updatedCart.push(updatedItem);
@@ -793,7 +806,7 @@
                     updatedCart.push(item);
                 }
             }
-            
+
             return updatedCart;
         }
 
@@ -850,11 +863,11 @@
                     method: 'GET',
                     credentials: 'include'
                 });
-                
+
                 if (response.ok) {
                     memberData = await response.json();
                     console.log('會員資料載入成功:', memberData);
-                    
+
                     // 顯示勾選選項
                     const memberDataOption = document.querySelector('.mb-4.p-3');
                     if (memberDataOption) {
@@ -883,26 +896,26 @@
             const phoneField = document.getElementById('recipientPhone');
             const emailField = document.getElementById('recipientEmail');
             const addressField = document.getElementById('recipientAddress');
-            
+
             if (checkbox.checked && memberData) {
                 // 填入會員資料並禁用欄位
                 nameField.value = memberData.name || '';
                 phoneField.value = memberData.phone || '';
                 emailField.value = memberData.email || '';
                 addressField.value = memberData.address || '';
-                
+
                 // 設為禁用狀態
                 nameField.disabled = true;
                 phoneField.disabled = true;
                 emailField.disabled = true;
                 addressField.disabled = true;
-                
+
                 // 視覺效果
                 nameField.style.backgroundColor = '#f8f9fa';
                 phoneField.style.backgroundColor = '#f8f9fa';
                 emailField.style.backgroundColor = '#f8f9fa';
                 addressField.style.backgroundColor = '#f8f9fa';
-                
+
                 console.log('已帶入會員資料並鎖定欄位');
             } else {
                 // 清空並啟用欄位
@@ -910,19 +923,19 @@
                 phoneField.value = '';
                 emailField.value = '';
                 addressField.value = '';
-                
+
                 // 恢復可編輯狀態
                 nameField.disabled = false;
                 phoneField.disabled = false;
                 emailField.disabled = false;
                 addressField.disabled = false;
-                
+
                 // 恢復原始樣式
                 nameField.style.backgroundColor = '';
                 phoneField.style.backgroundColor = '';
                 emailField.style.backgroundColor = '';
                 addressField.style.backgroundColor = '';
-                
+
                 console.log('已清空欄位並解除鎖定');
             }
         }
@@ -934,26 +947,26 @@
                     method: 'GET',
                     credentials: 'include'
                 });
-                
+
                 if (response.ok) {
                     const pointsData = await response.json();
                     memberPoints = pointsData.points || 0;
-                    
+
                     console.log('✅ 會員點數載入成功:', memberPoints);
-                    
+
                     // 更新點數顯示
                     const availablePointsSpan = document.getElementById('availablePoints');
                     const pointsInput = document.getElementById('points');
                     const pointsLabel = document.querySelector('label[for="points"]');
-                    
+
                     if (availablePointsSpan) {
                         availablePointsSpan.textContent = memberPoints;
                     }
-                    
+
                     if (pointsInput) {
                         pointsInput.max = memberPoints;
                         pointsInput.value = '0';
-                        
+
                         if (memberPoints > 0) {
                             pointsInput.disabled = false;
                             pointsInput.placeholder = `可使用 0-${memberPoints} 點`;
@@ -962,30 +975,30 @@
                             pointsInput.placeholder = '無可用點數';
                         }
                     }
-                    
+
                     if (pointsLabel && memberPoints <= 0) {
                         pointsLabel.innerHTML = '使用點數 <small class="text-muted">(無可用點數)</small>';
                     }
-                    
+
                 } else {
                     console.log('🔍 無法載入會員點數，可能未登入');
                     memberPoints = 0;
-                    
+
                     // 設為未登入狀態
                     const availablePointsSpan = document.getElementById('availablePoints');
                     const pointsInput = document.getElementById('points');
                     const pointsLabel = document.querySelector('label[for="points"]');
-                    
+
                     if (availablePointsSpan) {
                         availablePointsSpan.textContent = '0';
                     }
-                    
+
                     if (pointsInput) {
                         pointsInput.disabled = true;
                         pointsInput.value = '0';
                         pointsInput.placeholder = '請先登入';
                     }
-                    
+
                     if (pointsLabel) {
                         pointsLabel.innerHTML = '使用點數 <small class="text-muted">(請先登入)</small>';
                     }
@@ -993,15 +1006,15 @@
             } catch (error) {
                 console.error('❌ 載入會員點數失敗:', error);
                 memberPoints = 0;
-                
+
                 // 設為錯誤狀態
                 const availablePointsSpan = document.getElementById('availablePoints');
                 const pointsInput = document.getElementById('points');
-                
+
                 if (availablePointsSpan) {
                     availablePointsSpan.textContent = '0';
                 }
-                
+
                 if (pointsInput) {
                     pointsInput.disabled = true;
                     pointsInput.value = '0';
@@ -1070,17 +1083,17 @@
             const pointsInput = document.getElementById('points');
             const availablePointsSpan = document.getElementById('availablePoints');
             const pointsError = document.getElementById('pointsError');
-            
+
             if (!pointsInput || !availablePointsSpan) return;
-            
+
             const inputPoints = parseInt(pointsInput.value) || 0;
             const availablePoints = parseInt(availablePointsSpan.textContent) || 0;
-            
+
             // 隱藏錯誤訊息
             if (pointsError) {
                 pointsError.style.display = 'none';
             }
-            
+
             // 驗證點數
             if (inputPoints < 0) {
                 pointsInput.value = '0';
@@ -1095,7 +1108,7 @@
                     pointsError.style.display = 'block';
                 }
             }
-            
+
             // 更新總額
             updateTotal();
         }
@@ -1115,7 +1128,7 @@
 
                 // 獲取使用的點數
                 const pointsUsed = parseInt(document.getElementById('points').value) || 0;
-                
+
                 // 直接從DOM元素獲取值（避免禁用欄位問題）
                 const name = document.getElementById('recipientName').value.trim();
                 const phone = document.getElementById('recipientPhone').value.trim();
@@ -1151,7 +1164,7 @@
                         };
                     })
                 };
-                
+
                 console.log('📝 訂單數據:', orderData);
 
                 // 如果選擇 LINE Pay，則導向 LINE Pay 流程
@@ -1159,6 +1172,12 @@
                     await processLinePayPayment(orderData, cart);
                     return;
                 }
+
+                if (paymentMethod === 'ecpay') {
+                    await processEcpayPayment(orderData);
+                    return;
+                }
+
 
                 // 其他付款方式：發送請求到後端 - 使用原本的API路徑
                 const response = await fetch('http://localhost:8080/orders/api/cart', {
@@ -1171,7 +1190,7 @@
 
                 console.log('🔍 伺服器響應狀態:', response.status);
                 console.log('🔍 響應 Content-Type:', response.headers.get('content-type'));
-                
+
                 if (!response.ok) {
                     // 檢查是否為JSON響應
                     const contentType = response.headers.get('content-type');
@@ -1215,14 +1234,46 @@
             }
         }
 
+        async function processEcpayPayment(orderData) {
+            try {
+                console.log('🟢 準備導向綠界付款...');
+
+                const response = await fetch('http://localhost:8080/ecpay/checkout', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: new URLSearchParams({
+                        orderNumber: 'ORDER_' + Date.now(), // 或 orderData.orderId
+                        amount: Math.round(orderData.totalAmount),
+                        item: 'PikaBaby 購物商品'
+                    })
+                });
+
+                const html = await response.text();
+
+                // 開新視窗送出付款表單
+                const win = window.open('', '_blank');
+                win.document.open();
+                win.document.write(html);
+                win.document.close();
+
+                // 可選：將訂單儲存起來供 callback 使用
+                localStorage.setItem('pendingOrder', JSON.stringify(orderData));
+
+            } catch (error) {
+                console.error('❌ 綠界付款錯誤:', error);
+                alert('綠界付款初始化失敗：' + error.message);
+            }
+        }
+
+
         // LINE Pay 付款處理函數
         async function processLinePayPayment(orderData, cart) {
             try {
                 console.log('🔄 準備 LINE Pay 付款...');
-                
+
                 // 生成唯一訂單ID
                 const orderId = 'ORDER_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-                
+
                 // 準備 LINE Pay 請求數據
                 const linePayRequest = {
                     amount: Math.round(orderData.totalAmount), // LINE Pay 需要整數金額
@@ -1244,16 +1295,16 @@
                         cancelUrl: `${window.location.origin}/BabyFront/Shopping/shoppingcart.html?linepay=cancelled`
                     }
                 };
-                
+
                 console.log('📝 LINE Pay 請求數據:', linePayRequest);
-                
+
                 // 暫存訂單資料到 localStorage（用於付款確認後建立正式訂單）
                 localStorage.setItem('pendingOrder', JSON.stringify({
                     ...orderData,
                     orderId: orderId,
                     cart: cart
                 }));
-                
+
                 // 發送 LINE Pay 請求
                 const response = await fetch('http://localhost:8080/linepay/request', {
                     method: 'POST',
@@ -1262,14 +1313,14 @@
                     },
                     body: JSON.stringify(linePayRequest)
                 });
-                
+
                 if (!response.ok) {
                     throw new Error('LINE Pay 請求失敗');
                 }
-                
+
                 const result = await response.json();
                 console.log('✅ LINE Pay 響應:', result);
-                
+
                 if (result.returnCode === '0000' && result.info && result.info.paymentUrl) {
                     // 成功建立 LINE Pay 付款請求，導向付款頁面
                     console.log('🔄 導向 LINE Pay 付款頁面...');
@@ -1277,7 +1328,7 @@
                 } else {
                     throw new Error('LINE Pay 初始化失敗: ' + (result.returnMessage || '未知錯誤'));
                 }
-                
+
             } catch (error) {
                 console.error('❌ LINE Pay 付款處理失敗:', error);
                 alert('LINE Pay 付款處理失敗：' + error.message);
@@ -1383,4 +1434,5 @@
         }
     </script>
 </body>
+
 </html>

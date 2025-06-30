@@ -22,6 +22,79 @@
         #ui-datepicker-div {
             display: none !important;
         }
+
+        /* 首頁navbar響應式下拉選單樣式 */
+        .navbar-toggler {
+            border: none;
+            box-shadow: none !important;
+            background: #222 !important;
+            padding: 8px 10px;
+            border-radius: 4px;
+        }
+        .navbar-toggler-icon.custom-toggler {
+            background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='white' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+        }
+        @media (max-width: 991.98px) {
+            .navbar-nav {
+                gap: 0 !important;
+            }
+            .navbar-collapse {
+                background: #fff;
+                padding: 1rem;
+                border-radius: 0 0 10px 10px;
+                box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+            }
+            .navbar-brand img {
+                height: 48px !important;
+            }
+        }
+        @media (max-width: 575.98px) {
+            .nav-logo-row {
+                justify-content: center;
+            }
+        }
+        @media (max-width: 768px) {
+            .row, .row-cols-3, .row-cols-4, .row-cols-6 {
+                flex-direction: column !important;
+                display: flex !important;
+            }
+            .col-md-4, .col-md-6, .col-md-8, .col-md-2 {
+                max-width: 100% !important;
+                flex: 0 0 100% !important;
+            }
+            .d-flex.flex-row.gap-2, .d-flex.flex-row {
+                flex-direction: column !important;
+                gap: 0.5rem !important;
+            }
+            .footer-container {
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: center !important;
+            }
+            .footer-section, .footer-section.w-100 {
+                width: 100% !important;
+                min-width: 0 !important;
+                margin-bottom: 1rem !important;
+                align-items: center !important;
+                justify-content: center !important;
+                text-align: center !important;
+            }
+            .footer-logo {
+                margin-bottom: 0.5rem !important;
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+        @media (max-width: 576px) {
+            .container.my-5, .container {
+                padding-left: 0.5rem !important;
+                padding-right: 0.5rem !important;
+            }
+            h3, h4 {
+                font-size: 1.1rem !important;
+            }
+        }
     </style>
 
 </head>
@@ -43,23 +116,22 @@
         </div>
     </header>
 
-    <!-- 導覽列 -->
-    <nav class="navbar navbar-expand-lg navbar-dark">
+    <!-- 導覽列（與首頁一致，含漢堡選單） -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white">
         <div class="container-fluid">
-            <!-- <div class="collapse navbar-collapse justify-content-center d-flex" id="navbarSupportedContent"> -->
-            <div class="collapse navbar-collapse justify-content-around d-flex" id="navbarSupportedContent">
-                <!-- LOGO -->
-                <img id="logo" src="../images/logo-pikababy.png" alt="PikaBaby"
-                    style="height: 80px; width: 0px; transition: 3s; display: none;" />
-                <ul class="navbar-nav ml-auto nav-links gap-5 me-0">
+            <a class="navbar-brand" href="../index.html" id="navbarLogo" style="display: none;">
+                <img src="../images/logo-pikababy.png" alt="PikaBaby" style="height: 60px;">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon custom-toggler"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0 nav-links gap-lg-5">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="../index.html">首頁</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdown1" role="button" data-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="false">
-                            年齡區間(0-3M)
-                        </a>
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown1" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">年齡區間(0-3M)</a>
                         <div class="dropdown-menu p-3 justify-content-center" aria-labelledby="navbarDropdown1">
                             <a class="dropdown-item" href="../Products/product.html?category=feeding">奶瓶/奶嘴</a>
                             <a class="dropdown-item" href="../Products/product.html?category=clothes">圍兜/揹巾</a>
@@ -72,10 +144,7 @@
                         </div>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdown2" role="button" data-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="false">
-                            年齡區間(3-6M)
-                        </a>
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown2" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">年齡區間(3-6M)</a>
                         <div class="dropdown-menu p-3 justify-content-center" aria-labelledby="navbarDropdown2">
                             <a class="dropdown-item" href="../Products/product.html?category=clothes">嬰兒服裝</a>
                             <a class="dropdown-item" href="../Products/product.html?category=toys">玩具</a>
@@ -86,10 +155,7 @@
                         </div>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdown3" role="button" data-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="false">
-                            年齡區間(6-12M)
-                        </a>
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown3" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">年齡區間(6-12M)</a>
                         <div class="dropdown-menu p-3 justify-content-center" aria-labelledby="navbarDropdown3">
                             <a class="dropdown-item" href="../Products/product.html?category=walking">學步用品</a>
                             <a class="dropdown-item" href="../Products/product.html?category=dining">餐具用品</a>
@@ -101,10 +167,7 @@
                         </div>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdown4" role="button" data-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="false">
-                            年齡區間(2-3y)
-                        </a>
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown4" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">年齡區間(2-3y)</a>
                         <div class="dropdown-menu p-3 justify-content-center" aria-labelledby="navbarDropdown4">
                             <a class="dropdown-item" href="../Products/product.html?category=education">幼教用品</a>
                             <a class="dropdown-item" href="../Products/product.html?category=clothes">兒童服裝</a>
@@ -117,13 +180,10 @@
                         </div>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdown5" role="button" data-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="false">
-                            二手託售
-                        </a>
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown5" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">二手託售</a>
                         <div class="dropdown-menu p-3 justify-content-center gap-5" aria-labelledby="navbarDropdown5">
                             <a class="dropdown-item" href="consign.html">託售服務</a>
-                            <a class="dropdown-item" href="#">二手託售申請</a>
+                            <a class="dropdown-item" href="consign_apply.html">二手託售申請</a>
                             <a class="dropdown-item" href="consign_search.html">託售紀錄查詢</a>
                             <a class="dropdown-item" href="withdraw_apply.html">託售提款申請</a>
                             <a class="dropdown-item" href="withdraw_search.html">提款紀錄查詢</a>
@@ -132,36 +192,25 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="../about.html">關於我們</a>
                     </li>
-                    <div class="d-flex gap-3">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="../Shopping/shoppingcart.html">
-                                <img src="../images/cart.png" style="width: 30px;">
-                            </a>
-                            <!-- <div class="dropdown-menu p-3 justify-content-center gap-5"
-                                aria-labelledby="navbarDropdown5">
-                                <a class="dropdown-item" href="Shopping/shoppingcart.html">購物車</a>
-                                <a class="dropdown-item" href="Shopping/order.html">訂單查詢</a>
-                            </div> -->
-                        </li>
-                        <!-- ✅ 未登入時：跳 login，不顯示 dropdown -->
-                        <li class="nav-item" id="loginNavItem">
-                            <a class="nav-link" href="../Member/login.html">
-                                <img src="../images/user.png" style="width: 30px;" alt="會員登入圖示">
-                            </a>
-                        </li>
-                        <!-- ✅ 已登入時：正常 dropdown -->
-                        <li class="nav-item dropdown" id="memberDropdownItem" style="display: none;">
-                            <a class="nav-link dropdown-toggle" id="navbarDropdown5" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img src="../images/user.png" style="width: 30px;" alt="會員圖示">
-                            </a>
-                            <div class="dropdown-menu p-3 justify-content-center gap-5" id="dropdownForUser"
-                                aria-labelledby="navbarDropdown5">
-                                <a class="dropdown-item" href="../Member/member.html">會員中心</a>
-                                <a class="dropdown-item text-danger" href="#" onclick="logout()">登出</a>
-                            </div>
-                        </li>
-                    </div>
+                    <li class="nav-item dropdown list-unstyled">
+                        <a class="nav-link dropdown-toggle" href="../Shopping/shoppingcart.html">
+                            <img src="../images/cart.png" style="width: 30px;">
+                        </a>
+                    </li>
+                    <li class="nav-item list-unstyled" id="loginNavItem">
+                        <a class="nav-link" href="../Member/login.html">
+                            <img src="../images/user.png" style="width: 30px;" alt="會員登入圖示">
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown list-unstyled" id="memberDropdownItem" style="display: none;">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown5" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <img src="../images/user.png" style="width: 30px;" alt="會員圖示">
+                        </a>
+                        <div class="dropdown-menu p-3 justify-content-center gap-5" id="dropdownForUser" aria-labelledby="navbarDropdown5">
+                            <a class="dropdown-item" href="../Member/member.html">會員中心</a>
+                            <a class="dropdown-item text-danger" href="#" onclick="logout()">登出</a>
+                        </div>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -232,7 +281,7 @@
                                     <label for="picInput_1" class="col-md-4">
                                         <div id="addPhoto1" class="card-img-top d-flex">
                                             <i class="bi bi-plus-circle"></i>
-                                            <img id="photo1" class="w-100 h-100"
+                                            <img id="photo1" class="w-100 h-100 img-fluid"
                                                 style="object-fit: cover; display: none;">
                                         </div>
                                     </label>
@@ -240,7 +289,7 @@
                                     <label for="picInput_2" class="col-md-4">
                                         <div id="addPhoto2" class="card-img-top d-flex">
                                             <i class="bi bi-plus-circle"></i>
-                                            <img id="photo2" class="w-100 h-100"
+                                            <img id="photo2" class="w-100 h-100 img-fluid"
                                                 style="object-fit: cover; display: none;">
                                         </div>
                                     </label>
@@ -248,7 +297,7 @@
                                     <label for="picInput_3" class="col-md-4">
                                         <div id="addPhoto3" class="card-img-top d-flex">
                                             <i class="bi bi-plus-circle"></i>
-                                            <img id="photo3" class="w-100 h-100"
+                                            <img id="photo3" class="w-100 h-100 img-fluid"
                                                 style="object-fit: cover; display: none;">
                                         </div>
                                     </label>
@@ -448,7 +497,7 @@
 
             let newImg = $(`#photo${index}`);
             newImg.prop("src", URL.createObjectURL(file));
-            newImg.addClass("w-100 h-100");
+            newImg.addClass("w-100 h-100 img-fluid");
             newImg.css("display", "inline-block");
 
             console.log(file);

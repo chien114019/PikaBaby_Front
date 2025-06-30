@@ -21,8 +21,22 @@ fetch("http://localhost:8080/customers/front/address", {
         document.getElementById("memberOrderAddress").textContent =
             orderAddress ? formatAddress(orderAddress) : "尚未設定";
 
+        if (orderAddress) {
+            const outerDiv = $("#memberOrderAddress").closest("p").closest("div")
+            $(outerDiv).find("div").find("button").each(function () {
+                $(this).css("display", "inline");
+            })
+        }
+
         document.getElementById("memberShippingAddress").textContent =
             shippingAddress ? formatAddress(shippingAddress) : "尚未設定";
+
+        if (shippingAddress) {
+            const outerDiv = $("#memberShippingAddress").closest("p").closest("div")
+            $(outerDiv).find("div").find("button").each(function () {
+                $(this).css("display", "inline");
+            })
+        }
     })
     .catch(err => {
         console.error("載入地址失敗", err);
@@ -58,15 +72,17 @@ function capitalize(str) {
 
 // 共用 zipData
 const zipData = {
-    "台中市": { "中區": "400",
-    "東區": "401",
-    "南區": "402",
-    "西區": "403",
-    "北區": "404","北屯區": "406", "西屯區": "407","南屯區": "408",
-    "太平區": "411",
-    "大里區": "412",
-    "霧峰區": "413",
-    "烏日區": "414" },
+    "台中市": {
+        "中區": "400",
+        "東區": "401",
+        "南區": "402",
+        "西區": "403",
+        "北區": "404", "北屯區": "406", "西屯區": "407", "南屯區": "408",
+        "太平區": "411",
+        "大里區": "412",
+        "霧峰區": "413",
+        "烏日區": "414"
+    },
     "台北市": { "大安區": "106" },
     "高雄市": { "鼓山區": "804" }
 };
@@ -173,7 +189,7 @@ document.getElementById("addressEditForm").addEventListener("submit", function (
 //新增送出表單
 document.getElementById("addressAddForm").addEventListener("submit", function (e) {
     e.preventDefault();
- const form = this; // ✅ 這行不可少
+    const form = this; // ✅ 這行不可少
     if (orderAddress && shippingAddress) {
         alert("最多只能新增兩筆預設地址（訂單與配送各一）");
         return;

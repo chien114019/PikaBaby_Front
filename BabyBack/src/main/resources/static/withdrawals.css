@@ -5,21 +5,102 @@
 
  .sidebar {
      background-color: #f3d0a7;
-     min-height: 100vh;
-     /* ✅ 高度撐滿整個畫面 */
+     height: 100vh;
+     /* 高度撐滿整個畫面 */
      position: fixed;
-     /* ✅ 固定在左邊 */
+     /* 固定在左邊 */
      top: 0;
      left: 0;
      width: 250px;
      /* 或用 col 設定寬度時要配合 main 留 margin */
      z-index: 1000;
+     overflow-y: auto;
+     /* 讓 sidebar 本體可以捲動 */
  }
+ 
+ /* 0625新增sidebar中間側邊欄按鈕 */
+.sidebar-toggle {
+  display: none;
+  transition: left 0.3s ease;
+}
+
+/* 當螢幕寬度 ≤ 768px 時啟用 */
+@media (max-width: 768px) {
+  .sidebar-toggle {
+    position: fixed;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    z-index: 1001;
+    width: 40px;
+    height: 80px;
+    background: #333;
+    color: white;
+    border: none;
+    border-radius: 0 10px 10px 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* 畫面縮小時，點開sidebar縮合按鍵貼在sidebar右側邊 */
+  .sidebar-toggle.open {
+  left: 250px;
+}
+
+.sidebar-toggle i {
+    transition: transform 0.3s ease;
+  }
+
+/* 找到 .sidebar.show 的「同一層後面」的 .sidebar-toggle 元素 */
+
+  /* .sidebar.show ~ .sidebar-toggle i {
+    transform: scaleX(-1); 展開時翻轉箭頭
+  } */
+  
+  .sidebar-toggle.open i {
+    transform: scaleX(-1);
+  }
+  
+  .sidebar {
+    left: -250px;
+    transition: left 0.3s ease;
+  }
+
+  .sidebar.show {
+    left: 0;
+  }
+
+  .overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    display: none;
+  }
+
+  .overlay.show {
+    display: block;
+  }
+  
+  
+}
+
+
+
+/* 當螢幕寬度 ≤ 1200px 時啟用 */
+/* @media (max-width: 1200px) {
+  .breadcrumb li:first-child {
+    margin-left: 1rem; 
+  }
+} */
+
 
  /* main {
   margin-left: 250px; } /* 跟 sidebar 寬度一致 */
-
-
 
  .sidebar h2 {
      color: black;
@@ -73,6 +154,11 @@
 
  .accordion-body a:hover {
      background-color: #f0f0f0;
+ }
+
+ /* Bootstrap 會對 .accordion-body 裡的元素套一點預設 margin，讓排版比較鬆，用手動移除 margin */
+ .accordion-body ul {
+     margin: 0;
  }
 
  /* .accordion-button 在"被展開時（非 collapsed 狀態）"有藍色框框 */

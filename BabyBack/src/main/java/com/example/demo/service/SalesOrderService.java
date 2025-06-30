@@ -61,6 +61,9 @@ public class SalesOrderService {
     @Autowired
     private ShippingOrderDetailRepository shippingOrderDetailRepository;
     
+    @Autowired
+    private OrderStatusService orderStatusService;
+    
     @Transactional
     public void updatePayStatus(Integer orderId, Integer payStatus) {
         SalesOrder order = getById(orderId);
@@ -76,7 +79,7 @@ public class SalesOrderService {
 
 
     @Transactional
-    public void save(SalesOrder order) {
+    public Integer save(SalesOrder order) {
         System.out.println("=== 開始保存訂單 ===");
         System.out.println("訂單包含商品數量: " + (order.getDetails() != null ? order.getDetails().size() : 0));
         
@@ -163,6 +166,8 @@ public class SalesOrderService {
         
         System.out.println("✅ 訂單完整保存成功，ID: " + savedOrder.getId() + "，總金額: " + savedOrder.getTotalAmount());
         System.out.println("=== 訂單保存完成 ===");
+        
+        return savedOrder.getId();
     }
 
     public List<SalesOrder> listAll() {
@@ -314,7 +319,7 @@ public class SalesOrderService {
         order.setDetails(detailList);
         
         // 保存訂單
-        save(order);
+        Integer orderIdInt = save(order);
         
         // 處理點數交易
         if (pointsUsed > 0) {
@@ -327,16 +332,29 @@ public class SalesOrderService {
             customerService.addPoints(customer, earnedPoints);
         }
         
-        // 返回結果
         Map<String, Object> result = new HashMap<>();
-        result.put("success", true);
-        result.put("message", "訂單創建成功");
-        result.put("orderId", order.getId());
-        result.put("totalAmount", totalAmount);
-        result.put("pointsUsed", pointsUsed);
-        result.put("pointsEarned", earnedPoints);
-        result.put("remainingPoints", customer.getPoints());
-        result.put("customerId", customer.getId());
+
+        try {
+        	System.out.println("更新訂單狀態");        	
+            orderStatusService.updatePayStatus(orderIdInt, 1); // 1 表示已付款
+        	
+            // 返回結果
+            result.put("success", true);
+            result.put("message", "訂單創建成功");
+            result.put("orderId", order.getId());
+            result.put("totalAmount", totalAmount);
+            result.put("pointsUsed", pointsUsed);
+            result.put("pointsEarned", earnedPoints);
+            result.put("remainingPoints", customer.getPoints());
+            result.put("customerId", customer.getId());
+
+        } catch (Exception ex) {
+            System.err.println("❌ 更新付款狀態時發生錯誤：" + ex.getMessage());
+            ex.printStackTrace();
+            result.put("success", false);
+            result.put("message", "訂單創建失敗");
+        }
+        
         
         return result;
     }

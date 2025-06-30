@@ -532,6 +532,7 @@ public class CustomerService {
 	public Customer getOrCreateCustomer(String customerName, String phone, String email, String address) {
 		List<Customer> existingCustomers = repository.findByName(customerName);
 		Customer customer;
+		System.out.println("address: " + address);
 		CustomerAddress custAddress;
 		String city = address.substring(0, 3);
 		String district = address.substring(3, 6);

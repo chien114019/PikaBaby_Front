@@ -24,6 +24,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 public class LinePayService {
+
+    private final SalesOrderService salesOrderService;
 	
 	@Autowired
 	private OrderStatusService orderStatusService;
@@ -44,13 +46,17 @@ public class LinePayService {
 	private RestTemplate template;
 	private CheckoutPaymentRequestForm form;
 	
-	public LinePayService() {
+	public LinePayService(SalesOrderService salesOrderService) {
 		mapper = new ObjectMapper();
 		template = new RestTemplate();
+		this.salesOrderService = salesOrderService;
 	}
 
 	public ResponseEntity<Response> RequestService(CheckoutPaymentRequestForm form) throws Exception {
 		System.out.println("RequestService()");
+		System.out.println("amount: " + form.getAmount());
+		
+		this.form = form;
 		
 		String requestUri = "/v3/payments/request";
 		String requestNonce = UUID.randomUUID().toString();	
@@ -70,11 +76,11 @@ public class LinePayService {
 	}
 	
 	public Response ConfirmService(String transactionId, String orderId) throws Exception {
-	    System.out.println("ConfirmService");
-
+	    System.out.println("ConfirmService()");
+	    System.out.println("orderId: " + orderId);
 	    // 建立確認資料
 	    ConfirmData confirmData = new ConfirmData();
-
+        confirmData.setAmount(form.getAmount());
 	    confirmData.setCurrency("TWD");
 
 	    // 設定確認簽章
@@ -93,10 +99,18 @@ public class LinePayService {
 	    // ✅ 付款成功則更新訂單狀態
 	    if (response != null && "0000".equals(response.getReturnCode())) {
 	        try {
-	            Integer orderIdInt = Integer.parseInt(orderId);
-	            orderStatusService.updatePayStatus(orderIdInt, 1); // 1 表示已付款
+//	        	System.out.println("更新訂單狀態");
+//	            Integer orderIdInt = Integer.parseInt(orderId);
+//	        	Integer orderIdInt = 0;
+//	        	SalesOrder order = salesOrderRepository.findByOrderNumber(orderId).orElse(null);
+//	        	if(order != null) {
+//	        		orderIdInt = order.getId();
+//	        	}
+//	        	
+//	            orderStatusService.updatePayStatus(orderIdInt, 1); // 1 表示已付款
 	        } catch (Exception ex) {
 	            System.err.println("❌ 更新付款狀態時發生錯誤：" + ex.getMessage());
+	            ex.printStackTrace();
 	        }
 	    }
 

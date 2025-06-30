@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>商品上架</title>
+<title>銷售管理/商品上架</title>
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
 	rel="stylesheet">
@@ -247,7 +247,7 @@
 										<colgroup>
 											<col style="width: 80px;">
 											<col style="width: 150px;">
-											<col style="width: 120px;">
+											<!-- <col style="width: 120px;"> -->
 											<col style="width: 320px;">
 											<col style="width: 100px;">
 											<col style="width: 100px;">
@@ -260,7 +260,7 @@
 													class="text-decoration-none">
 													<i class="bi bi-arrow-down-up"></i></a>
 												</th>
-												<th>分類</th>
+												<!-- <th>分類</th> -->
 												<th>描述</th>
 												<th>價格</th>
 												<th>庫存</th>
@@ -277,7 +277,7 @@
 												</td>
 												<td th:text="${p.name}" class="fw-semibold text-start"></td>
 
-												<td th:text="${#strings.listJoin(p.ageRanges, ', ')}">-</td>
+											<!-- 	<td th:text="${#strings.listJoin(p.ageRanges, ', ')}">-</td> -->
 												<td th:text="${p.note}" class="text-muted small text-start"></td>
 												<td><input type="hidden" name="productIds"
 													th:value="${p.id}" /> <input type="text" name="prices"

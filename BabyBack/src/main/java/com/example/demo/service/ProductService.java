@@ -2,9 +2,11 @@ package com.example.demo.service;
 
 import com.example.demo.model.Product;
 import com.example.demo.model.ProductImage;
+import com.example.demo.model.ProductType;
 import com.example.demo.model.PurchaseOrderDetail;
 import com.example.demo.repository.ProductImageRepository;
 import com.example.demo.repository.ProductRepository;
+import com.example.demo.repository.ProductTypeRepository;
 import com.example.demo.repository.PurchaseOrderDetailRepository;
 import com.example.demo.repository.SalesOrderDetailRepository;
 import com.example.demo.repository.SupplierProductRepository;
@@ -37,6 +39,9 @@ public class ProductService {
     
     @Autowired 
     private SupplierProductRepository supplierProductRepository;
+    
+    @Autowired
+    private ProductTypeRepository ptRepository;
 
     public List<Product> listAll() {
     	return repository.findByDeletedFalse();
@@ -142,7 +147,9 @@ public class ProductService {
         return totalIn != null ? totalIn : 0L;
     }
 
-    public void save(Product product, MultipartFile[] imageFiles) throws IOException {
+    public void save(Product product, MultipartFile[] imageFiles, Integer type) throws IOException {
+    	ProductType pt = ptRepository.findById(type).orElse(null);
+    	product.setProductType(pt);
         Product savedProduct = repository.save(product);
 
         List<ProductImage> imageList = new ArrayList<>();

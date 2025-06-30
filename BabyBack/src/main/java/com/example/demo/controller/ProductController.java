@@ -83,6 +83,7 @@ public class ProductController {
     @GetMapping("/new")
     public String createForm(Model model) {
         model.addAttribute("product", new Product());
+        model.addAttribute("productType", ptRepository.findAll());
         model.addAttribute("suppliers", supplierService.listAll());
         model.addAttribute("supplierProducts", supplierProductService.listAll());
         model.addAttribute("allAgeRanges", List.of("嬰幼兒（0-3M）", "幼童（3-6M）", "兒童（6-12M）", "青少年（2-3y以上）"));
@@ -117,9 +118,9 @@ public class ProductController {
     
     //0621更改存多圖片
     @PostMapping("/save")
-    public String save(@ModelAttribute Product product,
+    public String save(@ModelAttribute Product product, @RequestParam("type") Integer type, 
                        @RequestParam("imageFiles") MultipartFile[] imageFiles) throws IOException {
-    	productService.save(product, imageFiles);  // 呼叫 Service 處理商品+圖片儲存
+    	productService.save(product, imageFiles, type);  // 呼叫 Service 處理商品+圖片儲存
     	productRepository.save(product); 
         return "redirect:/products";
     }
@@ -130,6 +131,8 @@ public class ProductController {
     public String editForm(@PathVariable Integer id, Model model) {
     	 Product product = productService.getById(id);
         model.addAttribute("product", product);
+        model.addAttribute("selectType", product.getProductType().getId());
+        model.addAttribute("productType", ptRepository.findAll());
         model.addAttribute("suppliers", supplierService.listAll());
         model.addAttribute("images", product.getImages()); // 讓 HTML 可顯示圖片
         model.addAttribute("allAgeRanges", List.of("嬰幼兒（0-3M）", "幼童（3-6M）", "兒童（6-12M）", "青少年（2-3y以上）"));

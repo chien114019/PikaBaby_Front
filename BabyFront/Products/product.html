@@ -385,13 +385,13 @@
                             年齡區間(0-3M)
                         </a>
                         <div class="dropdown-menu p-3 justify-content-center" aria-labelledby="navbarDropdown1">
-                            <a class="dropdown-item" href="product.html?category=feeding">奶瓶/奶嘴</a>
-                            <a class="dropdown-item" href="product.html?category=clothes">圍兜/揹巾</a>
+                            <a class="dropdown-item" href="product.html?category=14">奶瓶/奶嘴</a>
+                            <a class="dropdown-item" href="product.html?category=15">圍兜/揹巾</a>
                             <a class="dropdown-item" href="product.html?category=1">嬰兒服裝</a>
-                            <a class="dropdown-item" href="product.html?category=care">清潔用品</a>
+                            <a class="dropdown-item" href="product.html?category=16">清潔用品</a>
                             <a class="dropdown-item" href="product.html?category=2">嬰兒推車</a>
                             <a class="dropdown-item" href="product.html?category=3">嬰兒床</a>
-                            <a class="dropdown-item" href="product.html?category=feeding">哺乳用品</a>
+                            <a class="dropdown-item" href="product.html?category=17">哺乳用品</a>
                             <a class="dropdown-item" href="product.html?category=4">嬰兒用品</a>
                         </div>
                     </li>
@@ -415,13 +415,13 @@
                             年齡區間(6-12M)
                         </a>
                         <div class="dropdown-menu p-3 justify-content-center" aria-labelledby="navbarDropdown3">
-                            <a class="dropdown-item" href="product.html?category=walking">學步用品</a>
-                            <a class="dropdown-item" href="product.html?category=dining">餐具用品</a>
-                            <a class="dropdown-item" href="product.html?category=clothes">幼兒服裝</a>
-                            <a class="dropdown-item" href="product.html?category=toys">玩具</a>
-                            <a class="dropdown-item" href="product.html?category=stroller">嬰兒推車</a>
-                            <a class="dropdown-item" href="product.html?category=car-seat">汽座</a>
-                            <a class="dropdown-item" href="product.html?category=care">嬰兒用品</a>
+                            <a class="dropdown-item" href="product.html?category=7">學步用品</a>
+                            <a class="dropdown-item" href="product.html?category=18">餐具用品</a>
+                            <a class="dropdown-item" href="product.html?category=8">幼兒服裝</a>
+                            <a class="dropdown-item" href="product.html?category=5">玩具</a>
+                            <a class="dropdown-item" href="product.html?category=2">嬰兒推車</a>
+                            <a class="dropdown-item" href="product.html?category=6">汽座</a>
+                            <a class="dropdown-item" href="product.html?category=4">嬰兒用品</a>
                         </div>
                     </li>
                     <li class="nav-item dropdown">
@@ -430,14 +430,14 @@
                             年齡區間(2-3y)
                         </a>
                         <div class="dropdown-menu p-3 justify-content-center" aria-labelledby="navbarDropdown4">
-                            <a class="dropdown-item" href="product.html?category=education">幼教用品</a>
-                            <a class="dropdown-item" href="product.html?category=clothes">兒童服裝</a>
-                            <a class="dropdown-item" href="product.html?category=toys">玩具</a>
-                            <a class="dropdown-item" href="product.html?category=car-seat">汽座</a>
-                            <a class="dropdown-item" href="product.html?category=stroller">兒童推車</a>
-                            <a class="dropdown-item" href="product.html?category=furniture">餐椅</a>
-                            <a class="dropdown-item" href="product.html?category=appliance">電器用品</a>
-                            <a class="dropdown-item" href="product.html?category=care">嬰兒用品</a>
+                            <a class="dropdown-item" href="product.html?category=9">幼教用品</a>
+                            <a class="dropdown-item" href="product.html?category=10">兒童服裝</a>
+                            <a class="dropdown-item" href="product.html?category=5">玩具</a>
+                            <a class="dropdown-item" href="product.html?category=5">汽座</a>
+                            <a class="dropdown-item" href="product.html?category=11">兒童推車</a>
+                            <a class="dropdown-item" href="product.html?category=12">餐椅</a>
+                            <a class="dropdown-item" href="product.html?category=13">電器用品</a>
+                            <a class="dropdown-item" href="product.html?category=4">嬰兒用品</a>
                         </div>
                     </li>
                     <li class="nav-item dropdown">
@@ -553,6 +553,10 @@
                 <h5>🚫 載入失敗</h5>
                 <p>無法從伺服器載入商品資料，請檢查後端服務是否啟動</p>
                 <button class="btn btn-primary" onclick="retryLoadProducts()">重新載入</button>
+            </div>
+
+            <div id="null-indicator" class="alert alert-secondary text-center" style="display: none;">
+                <h5>此類別暫無上架商品</h5>
             </div>
 
 
@@ -824,13 +828,18 @@
 
                 // 排序可見的商品
                 const visibleProducts = Array.from(products).filter(p => p.style.display !== 'none');
-                const sortedProducts = sortProducts(visibleProducts, currentFilters.sort);
-
-                // 重新排列DOM
-                const productsGrid = document.getElementById('dynamic-products-grid');
-                sortedProducts.forEach(product => {
-                    productsGrid.appendChild(product);
-                });
+                if(visibleProducts.length == 0) {
+                    document.getElementById("null-indicator").style.display = "block";
+                }
+                else {
+                    const sortedProducts = sortProducts(visibleProducts, currentFilters.sort);
+    
+                    // 重新排列DOM
+                    const productsGrid = document.getElementById('dynamic-products-grid');
+                    sortedProducts.forEach(product => {
+                        productsGrid.appendChild(product);
+                    });
+                }
 
                 // 更新選擇器的狀態
                 if (categorySelect && currentFilters.category) {

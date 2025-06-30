@@ -828,10 +828,12 @@
 
                 // 排序可見的商品
                 const visibleProducts = Array.from(products).filter(p => p.style.display !== 'none');
+                console.log("visibleProducts: " + visibleProducts)
                 if(visibleProducts.length == 0) {
                     document.getElementById("null-indicator").style.display = "block";
                 }
                 else {
+                    document.getElementById("null-indicator").style.display = "none";
                     const sortedProducts = sortProducts(visibleProducts, currentFilters.sort);
     
                     // 重新排列DOM
@@ -1137,27 +1139,27 @@
         }
 
         // 更新分類選擇器的輔助函數
-        function updateCategorySelector(targetCategory) {
-            const categorySelect = document.getElementById('category-select');
-            if (!categorySelect) return;
+        // function updateCategorySelector(targetCategory) {
+        //     const categorySelect = document.getElementById('category-select');
+        //     if (!categorySelect) return;
 
-            console.log(`🔧 嘗試更新分類選擇器為: ${targetCategory}`);
+        //     console.log(`🔧 嘗試更新分類選擇器為: ${targetCategory}`);
 
-            // 列出所有可用選項（除錯用）
-            const options = Array.from(categorySelect.options);
-            console.log('📋 可用分類選項:', options.map(opt => `"${opt.value}"`));
+        //     // 列出所有可用選項（除錯用）
+        //     const options = Array.from(categorySelect.options);
+        //     console.log('📋 可用分類選項:', options.map(opt => `"${opt.value}"`));
 
-            // 尋找匹配的選項
-            const matchingOption = options.find(option => option.value === targetCategory);
+        //     // 尋找匹配的選項
+        //     const matchingOption = options.find(option => option.value === targetCategory);
 
-            if (matchingOption) {
-                categorySelect.value = targetCategory;
-                console.log(`✅ 成功設置分類選擇器為: ${targetCategory}`);
-            } else {
-                console.log(`⚠️ 未找到匹配的分類選項: ${targetCategory}`);
-                categorySelect.value = '';
-            }
-        }
+        //     if (matchingOption) {
+        //         categorySelect.value = targetCategory;
+        //         console.log(`✅ 成功設置分類選擇器為: ${targetCategory}`);
+        //     } else {
+        //         console.log(`⚠️ 未找到匹配的分類選項: ${targetCategory}`);
+        //         categorySelect.value = '';
+        //     }
+        // }
 
         // 從資料庫載入商品
         async function loadProductsFromDatabase() {

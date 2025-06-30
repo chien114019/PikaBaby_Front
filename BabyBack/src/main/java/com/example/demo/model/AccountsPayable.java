@@ -106,5 +106,12 @@ public class AccountsPayable {
 		EndDate = endDate;
 	}
 
+//	0630新增 價格轉型
+	@jakarta.persistence.Transient
+	public String getFormattedAmount() {
+	    if (amount == null) return "$0";
+	    return "$" + String.format("%,.0f", amount);
+	}
+
     
 }

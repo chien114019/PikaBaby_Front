@@ -265,7 +265,10 @@
 								<td th:text="${sp.supplier != null ? sp.supplier.name : '無供應商'}" class="ps-4"></td>
 								<!-- <td th:text="${sp.createdDate != null ? #temporals.format(sp.createdDate, 'yyyy-MM-dd') : '無建立日期'}" class="text-center">建立日期</td> -->
 								<td th:text="${sp.createdDate != null ? #dates.format(sp.createdDate, 'yyyy-MM-dd') : '無建立日期'}" class="text-center">建立日期</td>
-								<td th:text="${sp.price}" class="ps-4"></td>
+								<!-- <td th:text="${sp.price}" class="ps-4"></td>  -->
+								<td th:text="${sp.formattedPrice}" class="ps-4"></td>
+
+
 								<td class="text-center" ><a th:href="@{'/supplier-products/edit/' + ${sp.id}}"
 									class="btn btn-warning btn-sm me-1">編輯</a> <a
 									th:href="@{'/supplier-products/delete/' + ${sp.id}}"

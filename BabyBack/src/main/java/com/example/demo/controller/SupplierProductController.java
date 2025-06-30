@@ -33,7 +33,7 @@ public class SupplierProductController {
     public String list(Model model) {
         List<SupplierProduct> list = supplierProductRepository.findAllValid();
         model.addAttribute("supplierProducts", list);
-        return "supplier-product/list";  // 你必須建立這個 HTML
+        return "supplier-product/list";  // 必須建立這個 HTML
     }
 
     @GetMapping("/new")
@@ -41,7 +41,7 @@ public class SupplierProductController {
         model.addAttribute("supplierProduct", new SupplierProduct());
         model.addAttribute("suppliers", supplierService.listAll());
         model.addAttribute("products", productService.listAll());
-        return "supplier-product/form";  // 你必須建立這個 HTML
+        return "supplier-product/form";  // 必須建立這個 HTML
     }
 
     @PostMapping("/save")

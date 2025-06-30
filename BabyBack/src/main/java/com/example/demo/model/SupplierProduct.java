@@ -117,7 +117,12 @@ public class SupplierProduct {
 		this.purchaseOrderDetails = purchaseOrderDetails;
 	} 
 	
-	
+	// 0630新增 價格格式轉型
+		@jakarta.persistence.Transient
+		public String getFormattedPrice() {
+		    if (price == null) return "—";
+		    return "$" + String.format("%,.0f", price);
+		}
 	
     
 }

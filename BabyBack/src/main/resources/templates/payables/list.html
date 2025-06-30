@@ -250,7 +250,7 @@
 					<table class="table table-bordered align-middle">
 						<thead class="table-light text-center">
 							<tr>
-								<th>進貨單編號</th>
+								<!-- <th>進貨單編號</th> -->
 								<th>付款對象</th>
 								<th>應付截止日期</th>
 								<th>付款日期</th>
@@ -262,17 +262,19 @@
 						</thead>
 						<tbody>
 							<tr th:each="item : ${payables}">
-								<td
+								<!-- <td
 									th:text="${item.purchaseOrder != null ? item.purchaseOrder.id : '—'}"
-									class="text-center">1</td>
+									class="text-center">1</td> -->
 								<td
-									th:text="${item.supplier != null ? item.supplier.name : '無供應商'}">廠商</td>
+									th:text="${item.supplier != null ? item.supplier.name : '無供應商'}" class="ps-5">廠商</td>
 								<td
 									th:text="${#dates.format(item.purchaseOrder?.dueDate, 'yyyy-MM-dd') ?: '—'}"
 									class="text-center">2025-06-16</td>
 								<td th:text="${#dates.format(item.endDate, 'yyyy-MM-dd')}"
 									class="text-center">2025-06-16</td>
-							<td th:text="${item.amount != null ? item.amount : '0'}" class="text-center">10000</td> 
+							<!-- <td th:text="${item.amount != null ? item.amount : '0'}" class="text-center">10000</td>  -->
+							<td th:text="${item.formattedAmount}" class="text-center">$10,000元</td>
+							
 								
 								<td th:text="${item.status}" class="text-center">未付款</td>
 								<td th:text="${item.note}">備註</td>

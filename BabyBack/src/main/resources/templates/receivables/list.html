@@ -264,7 +264,7 @@
 								<tr th:each="r : ${receivables}" class="text-center">
 									<td th:text="${r.order.id}">3</td>
 									<td th:text="${r.customer.name}">張可可</td>
-									<td th:text="'$' + ${#numbers.formatDecimal(r.amount, 0, 'COMMA', 0, 'POINT')} + ' 元'">$3,600元</td>
+									<td th:text="'$' + ${#numbers.formatDecimal(r.amount, 0, 'COMMA', 0, 'POINT')}">$3,600</td>
 									<td th:text="${r.status}">未收款</td>
 									<td th:text="${r.paidDate}">到期日</td>
 									<td th:text="${#dates.format(r.createdAt, 'yyyy-MM-dd HH:mm')}">建立時間</td>

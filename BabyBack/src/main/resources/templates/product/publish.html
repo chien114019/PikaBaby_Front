@@ -280,7 +280,8 @@
 											<!-- 	<td th:text="${#strings.listJoin(p.ageRanges, ', ')}">-</td> -->
 												<td th:text="${p.note}" class="text-muted small text-start"></td>
 												<td><input type="hidden" name="productIds"
-													th:value="${p.id}" /> <input type="text" name="prices"
+													th:value="${p.id}" /> 
+													<input type="text" name="prices"
 													th:value="${p.price}" class="form-control text-end" /></td>
 												<td th:text="${stockMap[p.id]}"></td>
 												<td>

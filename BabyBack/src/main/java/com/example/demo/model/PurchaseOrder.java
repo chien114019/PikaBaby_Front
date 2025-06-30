@@ -89,7 +89,13 @@ public class PurchaseOrder {
 	}
 	
 
-	
+	@Transient
+	public String getFormattedTotalAmount() {
+	    BigDecimal total = getTotalAmount();
+	    if (total == null) return "$0";
+	    return "$" + String.format("%,.0f", total);
+	}
+
 
     
 }

@@ -21,6 +21,143 @@
         .btn:disabled {
             border: 0;
         }
+        /* 響應式表格 */
+        .order-card table {
+            width: 100%;
+        }
+        @media (max-width: 768px) {
+            .order-card table, .order-card thead, .order-card tbody, .order-card th, .order-card td, .order-card tr {
+                display: block;
+            }
+            .order-card thead {
+                display: none;
+            }
+            .order-card tr {
+                margin-bottom: 1rem;
+                border-bottom: 1px solid #eee;
+            }
+            .order-card td {
+                position: relative;
+                padding-left: 50%;
+                min-height: 40px;
+                border: none;
+            }
+            .order-card td:before {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 45%;
+                padding-left: 1rem;
+                white-space: nowrap;
+                font-weight: bold;
+                color: #888;
+                content: attr(data-label);
+            }
+        }
+        /* 響應式卡片 */
+        .card, .order-card, .coupon-card, .favorite-card {
+            margin-bottom: 1.5rem;
+        }
+        @media (max-width: 768px) {
+            .col-md-8.p-5 {
+                padding: 1rem !important;
+            }
+            .card, .order-card, .coupon-card, .favorite-card {
+                padding: 1rem !important;
+            }
+        }
+        /* 響應式tab按鈕 */
+        .nav-button {
+            min-width: 120px;
+        }
+        @media (max-width: 576px) {
+            .nav-button {
+                min-width: 90px;
+                font-size: 0.95rem;
+                margin-bottom: 0.5rem;
+            }
+            .d-flex.gap-3.flex-wrap {
+                gap: 0.5rem !important;
+            }
+        }
+        /* 響應式footer */
+        .footer-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            padding: 2rem 1rem;
+        }
+        @media (max-width: 768px) {
+            .footer-container {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            .footer-section {
+                width: 100% !important;
+                margin-bottom: 1rem;
+            }
+        }
+        /* 響應式圖片 */
+        .product-img, .footer-logo, .nav-logo, .floating-bottle {
+            max-width: 100%;
+            height: auto;
+        }
+        /* 響應式modal內容 */
+        @media (max-width: 576px) {
+            .modal-content {
+                padding: 0.5rem !important;
+            }
+            .modal-dialog {
+                margin: 0.5rem;
+            }
+        }
+        /* 響應式寶寶欄位 */
+        @media (max-width: 576px) {
+            #baby-container .d-flex.gap-2 {
+                flex-direction: column !important;
+                gap: 0.5rem !important;
+            }
+        }
+        /* 響應式信用卡欄位 */
+        @media (max-width: 576px) {
+            .credit-modal-content .row {
+                flex-direction: column;
+            }
+            .credit-modal-content .col {
+                width: 100%;
+            }
+        }
+        /* 首頁navbar響應式下拉選單樣式 */
+        .navbar-toggler {
+            border: none;
+            box-shadow: none !important;
+            background: #222 !important;
+            padding: 8px 10px;
+            border-radius: 4px;
+        }
+        .navbar-toggler-icon.custom-toggler {
+            background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='white' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+        }
+        @media (max-width: 991.98px) {
+            .navbar-nav {
+                gap: 0 !important;
+            }
+            .navbar-collapse {
+                background: #fff;
+                padding: 1rem;
+                border-radius: 0 0 10px 10px;
+                box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+            }
+            .navbar-brand img {
+                height: 48px !important;
+            }
+        }
+        @media (max-width: 575.98px) {
+            .nav-logo-row {
+                justify-content: center;
+            }
+        }
     </style>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
@@ -36,30 +173,27 @@
                 Ispian love you
             </div>
         </div>
-
         <!-- LOGO -->
         <div class="nav-logo-row">
             <img src="../images/logo-pikababy.png" alt="PikaBaby" class="nav-logo" />
         </div>
     </header>
-
-    <!-- 導覽列 -->
-    <nav class="navbar navbar-expand-lg navbar-dark">
+    <!-- 導覽列（與首頁一致，含漢堡選單） -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white">
         <div class="container-fluid">
-            <!-- <div class="collapse navbar-collapse justify-content-center d-flex" id="navbarSupportedContent"> -->
-            <div class="collapse navbar-collapse justify-content-around d-flex" id="navbarSupportedContent">
-                <!-- LOGO -->
-                <img id="logo" src="../images/logo-pikababy.png" alt="PikaBaby"
-                    style="height: 80px; width: 0px; transition: 3s; display: none;" />
-                <ul class="navbar-nav ml-auto nav-links gap-5 me-0">
+            <a class="navbar-brand" href="../index.html" id="navbarLogo" style="display: none;">
+                <img src="../images/logo-pikababy.png" alt="PikaBaby" style="height: 60px;">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon custom-toggler"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0 nav-links gap-lg-5">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="../index.html">首頁</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdown1" role="button" data-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="false">
-                            年齡區間(0-3M)
-                        </a>
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown1" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">年齡區間(0-3M)</a>
                         <div class="dropdown-menu p-3 justify-content-center" aria-labelledby="navbarDropdown1">
                             <a class="dropdown-item" href="../Products/product.html?category=feeding">奶瓶/奶嘴</a>
                             <a class="dropdown-item" href="../Products/product.html?category=clothes">圍兜/揹巾</a>
@@ -72,10 +206,7 @@
                         </div>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdown2" role="button" data-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="false">
-                            年齡區間(3-6M)
-                        </a>
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown2" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">年齡區間(3-6M)</a>
                         <div class="dropdown-menu p-3 justify-content-center" aria-labelledby="navbarDropdown2">
                             <a class="dropdown-item" href="../Products/product.html?category=clothes">嬰兒服裝</a>
                             <a class="dropdown-item" href="../Products/product.html?category=toys">玩具</a>
@@ -86,10 +217,7 @@
                         </div>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdown3" role="button" data-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="false">
-                            年齡區間(6-12M)
-                        </a>
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown3" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">年齡區間(6-12M)</a>
                         <div class="dropdown-menu p-3 justify-content-center" aria-labelledby="navbarDropdown3">
                             <a class="dropdown-item" href="../Products/product.html?category=walking">學步用品</a>
                             <a class="dropdown-item" href="../Products/product.html?category=dining">餐具用品</a>
@@ -101,10 +229,7 @@
                         </div>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdown4" role="button" data-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="false">
-                            年齡區間(2-3y)
-                        </a>
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown4" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">年齡區間(2-3y)</a>
                         <div class="dropdown-menu p-3 justify-content-center" aria-labelledby="navbarDropdown4">
                             <a class="dropdown-item" href="../Products/product.html?category=education">幼教用品</a>
                             <a class="dropdown-item" href="../Products/product.html?category=clothes">兒童服裝</a>
@@ -117,10 +242,7 @@
                         </div>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdown5" role="button" data-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="false">
-                            二手託售
-                        </a>
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown5" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">二手託售</a>
                         <div class="dropdown-menu p-3 justify-content-center gap-5" aria-labelledby="navbarDropdown5">
                             <a class="dropdown-item" href="../Secondhand/consign.html">託售服務</a>
                             <a class="dropdown-item" href="../Secondhand/consign_apply.html">二手託售申請</a>
@@ -132,29 +254,25 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="../about.html">關於我們</a>
                     </li>
-                    <div class="d-flex gap-3">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="../Shopping/shoppingcart.html">
-                                <img src="../images/cart.png" style="width: 30px;">
-                            </a>
-                            <!-- <div class="dropdown-menu p-3 justify-content-center gap-5"
-                                aria-labelledby="navbarDropdown5">
-                                <a class="dropdown-item" href="Shopping/shoppingcart.html">購物車</a>
-                                <a class="dropdown-item" href="Shopping/order.html">訂單查詢</a>
-                            </div> -->
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" id="navbarDropdown5" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img src="../images/user.png" style="width: 30px;" alt="會員圖示">
-                            </a>
-                            <div class="dropdown-menu p-3 justify-content-center gap-5" id="dropdownForUser"
-                                aria-labelledby="navbarDropdown5">
-                                <a class="dropdown-item" href="#">會員中心</a>
-                                <a class="dropdown-item text-danger" href="#" onclick="logout()">登出</a>
-                            </div>
-                        </li>
-                    </div>
+                    <li class="nav-item dropdown list-unstyled">
+                        <a class="nav-link dropdown-toggle" href="../Shopping/shoppingcart.html">
+                            <img src="../images/cart.png" style="width: 30px;">
+                        </a>
+                    </li>
+                    <li class="nav-item list-unstyled" id="loginNavItem">
+                        <a class="nav-link" href="login.html">
+                            <img src="../images/user.png" style="width: 30px;" alt="會員登入圖示">
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown list-unstyled" id="memberDropdownItem" style="display: none;">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown5" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <img src="../images/user.png" style="width: 30px;" alt="會員圖示">
+                        </a>
+                        <div class="dropdown-menu p-3 justify-content-center gap-5" id="dropdownForUser" aria-labelledby="navbarDropdown5">
+                            <a class="dropdown-item" href="member.html">會員中心</a>
+                            <a class="dropdown-item text-danger" href="#" onclick="logout()">登出</a>
+                        </div>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -210,7 +328,7 @@
                                 <h2>訂單資訊</h2>
                                 <p class="description">訂單成立後，請等待5至10分鐘更新，方可查詢訂單資料</p>
 
-                                <table>
+                                <table class="table table-responsive-md">
                                     <thead>
                                         <tr class="order-header">
                                             <th>訂單編號</th>
@@ -577,9 +695,9 @@
                         <br><br>
                         <!-- 我的收藏（簡化版） -->
                         <!-- <div class="d-flex justify-content-center"> -->
-                        <div class="favorite-card">
-                            <img src="../images/pineapple6.jpg" class="product-img">
-                            <div class="product-info">
+                        <div class="favorite-card d-flex flex-wrap align-items-center gap-3">
+                            <img src="../images/pineapple6.jpg" class="product-img img-fluid" style="max-width:120px;">
+                            <div class="product-info flex-grow-1">
                                 <div class="product-title">Pikababy 野餐系鳳梨包屁衣</div>
                                 <div class="product-sub">顏色：鮮黃｜產品規格：12M</div>
                                 <div class="product-price">$693</div>
@@ -591,9 +709,9 @@
                         </div>
 
                         <!-- 商品 2 -->
-                        <div class="favorite-card">
-                            <img src="../images/pineapple6.jpg" class="product-img">
-                            <div class="product-info">
+                        <div class="favorite-card d-flex flex-wrap align-items-center gap-3">
+                            <img src="../images/pineapple6.jpg" class="product-img img-fluid" style="max-width:120px;">
+                            <div class="product-info flex-grow-1">
                                 <div class="product-title">Pikababy 野餐系鳳梨包屁衣</div>
                                 <div class="product-sub">顏色：鮮黃｜產品規格：12M</div>
                                 <div class="product-price">$693</div>
@@ -605,9 +723,9 @@
                         </div>
 
                         <!-- 商品 3 -->
-                        <div class="favorite-card">
-                            <img src="../images/pineapple6.jpg" class="product-img">
-                            <div class="product-info">
+                        <div class="favorite-card d-flex flex-wrap align-items-center gap-3">
+                            <img src="../images/pineapple6.jpg" class="product-img img-fluid" style="max-width:120px;">
+                            <div class="product-info flex-grow-1">
                                 <div class="product-title">Pikababy 野餐系鳳梨包屁衣</div>
                                 <div class="product-sub">顏色：鮮黃｜產品規格：12M</div>
                                 <div class="product-price">$693</div>
@@ -744,27 +862,27 @@
     <!-- 頁尾 -->
     <footer>
         <div class="footer-container align-items-center">
-            <div class="footer-section" style="flex: 0;">
-                <img src="../images/logo-pikababy.png" alt="PikaBaby" class="footer-logo" />
+            <div class="footer-section" style="flex: 0; min-width: 120px;">
+                <img src="../images/logo-pikababy.png" alt="PikaBaby" class="footer-logo img-fluid" />
             </div>
             <div class="footer-section w-100">
                 <p class="footer-title">PikaBaby</p>
                 <div class="footer-line"></div>
                 <p class="mb-1">
-                    <a href="/index.html">HOME</a>
+                    <a href="../index.html">HOME</a>
                 </p>
                 <p class="mb-1">
-                    <a href="/about.html">關於我們</a>
+                    <a href="../about.html">關於我們</a>
                 </p>
             </div>
             <div class="footer-section w-100">
                 <h3>品牌服務</h3>
                 <div class="footer-line"></div>
                 <p class="mb-1">
-                    <a href="/Products/product.html">Baby Store</a>
+                    <a href="../Products/product.html">Baby Store</a>
                 </p>
                 <p class="mb-1">
-                    <a href="/Secondhand/consign.html">二手託售</a>
+                    <a href="../Secondhand/consign.html">二手託售</a>
                 </p>
             </div>
             <div class="footer-section w-100">

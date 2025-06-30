@@ -8,6 +8,7 @@
 .order-card h2 {
     font-size: 24px;
     margin-bottom: 0.5rem;
+    color:#6f655d;
 }
 
 .order-card p.description {
@@ -19,6 +20,7 @@
 table, th {
     background-color: inherit;
     box-shadow: none;
+    color:#786e68;
 }
 
 .order-header {

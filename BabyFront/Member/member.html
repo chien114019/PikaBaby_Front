@@ -186,8 +186,8 @@
 
                 <!-- 主要內容 -->
                 <div class="col-md-8 p-5 text-start mx-auto">
-                    <div class="text-center mb-4">
-                        <h5 id="welcomeText" class="text-start text-muted mt-2">歡迎回來，皮卡！</h5>
+                    <div class="text-center mb-4 text-muted">
+                        <h4 id="welcomeText" class="text-start  mt-2">歡迎回來，皮卡！</h4>
                     </div>
                     <br>
 
@@ -246,7 +246,7 @@
                             <div id="memberBabyBirthday" class="ms-3 mt-1"></div>
                             </p>
                             <div class="text-end mt-3">
-                                <button class="btn btn-outline-primary" data-bs-toggle="modal"
+                                <button class="btn btn-outline-warning" data-bs-toggle="modal"
                                     data-bs-target="#editModal">編輯資料</button>
                             </div>
                         </div>
@@ -355,7 +355,7 @@
 
                         <!-- 常用地址 -->
                         <div class="card p-4">
-                            <h4 class="mb-3">常用地址</h4>
+                            <h3 class="mb-3">常用地址</h3>
 
                             <!-- 預設訂單地址 -->
                             <div class="d-flex justify-content-between align-items-center mb-2">
@@ -363,9 +363,9 @@
                                     <strong>預設訂單地址：</strong><span id="memberOrderAddress">載入中...</span>
                                 </p>
                                 <div class="d-flex gap-2 ms-3">
-                                    <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal"
-                                        data-bs-target="#addressModal" onclick="editAddress('order')">編輯</button>
-                                    <button class="btn btn-sm btn-outline-danger"
+                                    <button class="btn btn-sm btn-outline-warning" data-bs-toggle="modal"
+                                        data-bs-target="#addressModal"   data-address-type="order" onclick="editAddress('order')">編輯</button>
+                                    <button class="btn btn-sm btn-outline-success"
                                         onclick="deleteAddress('order')">刪除</button>
                                 </div>
                             </div>
@@ -376,19 +376,19 @@
                                     <strong>預設配送地址：</strong><span id="memberShippingAddress">載入中...</span>
                                 </p>
                                 <div class="d-flex gap-2 ms-3">
-                                    <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal"
-                                        data-bs-target="#addressModal" onclick="editAddress('shipping')">編輯</button>
-                                    <button class="btn btn-sm btn-outline-danger"
+                                    <button class="btn btn-sm btn-outline-warning" data-bs-toggle="modal"
+                                        data-bs-target="#addressModal" data-address-type="shipping" onclick="editAddress('shipping')">編輯</button>
+                                    <button class="btn btn-sm btn-outline-success"
                                         onclick="deleteAddress('shipping')">刪除</button>
                                 </div>
                             </div>
 
                             <!-- 底部提示 + 新增按鈕 -->
-                            <div class="d-flex justify-content-between align-items-center">
+                            <!-- <div class="d-flex justify-content-between align-items-center">
                                 <small class="text-muted">共可填 2 筆預設地址。</small>
-                                <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal"
+                                <button class="btn btn-sm btn-outline-danger" data-bs-toggle="modal"
                                     data-bs-target="#address_addModal" onclick="addAddress()">新增</button>
-                            </div>
+                            </div> -->
                         </div>
 
                         <!-- 編輯地址彈出視窗 Modal -->
@@ -525,13 +525,13 @@
                         <div class="card">
                             <h3>常用信用卡</h3>
                             <p><strong>💳 國泰世華銀行</strong>（•••• 8860）</p>
-                            <div class="text-end d-flex gap-2 justify-content-end">
+                            <!-- <div class="text-end d-flex gap-2 justify-content-end">
                                 <button class="btn btn-outline-primary">預設</button>
                                 <button class="btn btn-outline-danger">刪除</button>
                                 <button class="btn btn-outline-primary" data-bs-toggle="modal"
                                     data-bs-target="#cardModal">新增</button>
-                            </div>
-                            <small class="text-muted">最多可登錄 3 張信用卡。</small>
+                            </div> -->
+                            <!-- <small class="text-muted">最多可登錄 3 張信用卡。</small> -->
                         </div>
                         <!-- 信用卡彈出視窗 -->
                         <div class="modal fade" id="cardModal" tabindex="-1" aria-labelledby="cardModalLabel"

@@ -14,6 +14,10 @@ fetch("http://localhost:8080/customers/front/address", {
         orderAddress = addresses.find(addr => addr.isDefaultOrder);
         shippingAddress = addresses.find(addr => addr.isDefaultShipping);
 
+        // 套用地址與按鈕邏輯
+    updateAddressUI("order", orderAddress);
+    updateAddressUI("shipping", shippingAddress);
+
         document.getElementById("memberOrderAddress").textContent =
             orderAddress ? formatAddress(orderAddress) : "尚未設定";
 
@@ -25,6 +29,32 @@ fetch("http://localhost:8080/customers/front/address", {
         document.getElementById("memberOrderAddress").textContent = "載入失敗";
         document.getElementById("memberShippingAddress").textContent = "載入失敗";
     });
+
+    //判斷新增還是編輯
+function updateAddressUI(type, address) {
+    const addressSpan = document.getElementById(`member${capitalize(type)}Address`);
+    const btn = document.querySelector(`button[data-address-type="${type}"]`);
+
+    if (address && address.id) {
+        addressSpan.textContent = `${address.city}${address.district}${address.street}`;
+        btn.textContent = '編輯';
+        btn.classList.remove('btn-outline-danger');
+        btn.classList.add('btn-outline-warning');
+        btn.setAttribute('data-bs-target', '#addressModal'); 
+        btn.setAttribute('onclick', `editAddress('${type}')`);
+    } else {
+        addressSpan.textContent = '尚未填寫';
+        btn.textContent = '新增';
+        btn.classList.remove('btn-outline-warning');
+        btn.classList.add('btn-outline-danger');
+        btn.setAttribute('data-bs-target', '#address_addModal');
+        btn.setAttribute('onclick', `addAddress('${type}')`);
+    }
+}
+
+function capitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}
 
 // 共用 zipData
 const zipData = {
@@ -193,5 +223,6 @@ function deleteAddress(type) {
         })
         .catch(err => alert("錯誤：" + err.message));
 }
+
 
 

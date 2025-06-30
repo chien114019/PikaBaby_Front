@@ -210,4 +210,9 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
 	Optional<Customer> findByEmail(String email);
 
 	Optional<Customer> findByGoogleId(String googleId);
+	
+	Optional<Customer> findByEmailAndIsDeletedFalse(String email);
+	
+	Optional<Customer> findByResetToken(String token);
+
 }

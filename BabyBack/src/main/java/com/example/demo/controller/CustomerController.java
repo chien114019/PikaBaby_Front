@@ -1,12 +1,14 @@
 package com.example.demo.controller;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.net.http.HttpRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 import java.time.format.DateTimeFormatter;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +39,7 @@ import com.example.demo.repository.CustomerRepository;
 import com.example.demo.service.AddressService;
 import com.example.demo.service.CustomerFavoritesService;
 import com.example.demo.service.CustomerService;
+import com.example.demo.util.SendMailUtils;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -54,7 +57,7 @@ public class CustomerController {
 
 	@Autowired
 	private CustomerRepository customerRepo;
-	
+
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 
@@ -137,7 +140,7 @@ public class CustomerController {
 		List<Map<String, Object>> custList = new ArrayList<Map<String, Object>>();
 		for (Customer cust : customers) {
 			Map<String, Object> map = new HashMap<String, Object>();
-			cust.setPhone(cust.getPhone() == null? "無" : cust.getPhone());
+			cust.setPhone(cust.getPhone() == null ? "無" : cust.getPhone());
 			map.put("customer", cust);
 			CustomerAddress address = addressService.getHomeAddress(cust);
 			if (address == null) {
@@ -208,38 +211,38 @@ public class CustomerController {
 	public String showCustomerDetail(@PathVariable Integer id, Model model) {
 		Customer target = service.getById(id); // 這邊用 service.getById 方法
 		Map<String, Object> customer = new HashMap<String, Object>();
-		
+
 		Integer consumption = service.getConsumption(target);
 		Integer orderTotal = service.getOrderTotal(target);
 		Integer consignTotal = service.getConsignTotal(target);
 		Integer points = target.getPoints();
 		CustomerAddress homeAddress = addressService.getHomeAddress(target);
 		CustomerAddress deliverAddress = addressService.getDeliverAddress(target);
-		
+
 		customer.put("id", target.getId());
 		customer.put("consumption", consumption);
 		customer.put("orderTotal", orderTotal);
 		customer.put("consignTotal", consignTotal);
 		customer.put("points", points == null ? 0 : points);
 		customer.put("name", target.getName());
-		customer.put("birthday", target.getBirthday() == null? "未填寫" : target.getBirthday());
+		customer.put("birthday", target.getBirthday() == null ? "未填寫" : target.getBirthday());
 		customer.put("email", target.getEmail());
-		customer.put("phone", target.getPhone() == null? "未填寫" : target.getPhone());
-		customer.put("homeAddress", homeAddress == null? "未填寫" : homeAddress.getCity() + homeAddress.getDistrict() 
-			+ homeAddress.getStreet());
-		customer.put("deliverAddress", deliverAddress == null? "未填寫" : deliverAddress.getCity() + deliverAddress.getDistrict() 
-			+ deliverAddress.getStreet());
-		
+		customer.put("phone", target.getPhone() == null ? "未填寫" : target.getPhone());
+		customer.put("homeAddress", homeAddress == null ? "未填寫"
+				: homeAddress.getCity() + homeAddress.getDistrict() + homeAddress.getStreet());
+		customer.put("deliverAddress", deliverAddress == null ? "未填寫"
+				: deliverAddress.getCity() + deliverAddress.getDistrict() + deliverAddress.getStreet());
+
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 		String createdAt = dtf.format(target.getCreatedAt());
 		String firstLoginAt = dtf.format(target.getFirstLoginAt());
-		
+
 		customer.put("createdAt", createdAt);
 		customer.put("firstLoginAt", firstLoginAt);
-		
-		customer.put("baby1Birthday", target.getBaby1Birthday() == null? "未填寫" : target.getBaby1Birthday());
-		customer.put("baby2Birthday", target.getBaby2Birthday() == null? "未填寫" : target.getBaby2Birthday());
-		customer.put("baby3Birthday", target.getBaby3Birthday() == null? "未填寫" : target.getBaby3Birthday());
+
+		customer.put("baby1Birthday", target.getBaby1Birthday() == null ? "未填寫" : target.getBaby1Birthday());
+		customer.put("baby2Birthday", target.getBaby2Birthday() == null ? "未填寫" : target.getBaby2Birthday());
+		customer.put("baby3Birthday", target.getBaby3Birthday() == null ? "未填寫" : target.getBaby3Birthday());
 
 		model.addAttribute("customer", customer);
 		return "customer/detail";
@@ -287,7 +290,7 @@ public class CustomerController {
 		}
 		return ResponseEntity.ok(response);
 	}
-	
+
 //	傳送驗證信
 	@GetMapping("/front/sendEmail")
 	@ResponseBody
@@ -299,11 +302,11 @@ public class CustomerController {
 		Response response = service.sendEmail(email, name);
 		return ResponseEntity.ok(response);
 	}
-	
+
 	// 註冊
 	@PostMapping("/front/register")
 	@ResponseBody
-	public ResponseEntity<Response> verifyEmail(@RequestBody Map<String, String> body, HttpSession session, 
+	public ResponseEntity<Response> verifyEmail(@RequestBody Map<String, String> body, HttpSession session,
 			HttpServletRequest request) {
 		String code = body.get("code");
 		Response response = service.verifyEmail(code);
@@ -313,13 +316,13 @@ public class CustomerController {
 				String email = (String) session.getAttribute("email");
 				String password = (String) session.getAttribute("password");
 				session.invalidate();
-				
+
 				Customer cust = service.register(name, email, password);
-				session = request.getSession(true); 
+				session = request.getSession(true);
 				session.setAttribute("customerId", cust.getId());
 				response.setMesg("註冊成功！");
 				return ResponseEntity.ok(response);
-	
+
 			} catch (Exception e) {
 				response.setSuccess(false);
 				response.setMesg("註冊失敗：" + e.getMessage());
@@ -346,17 +349,17 @@ public class CustomerController {
 		Customer customer = optional.get();
 
 		if (!passwordEncoder.matches(request.getPassword(), customer.getPassword())) {
-		    response.put("success", false);
-		    response.put("mesg", "密碼錯誤");
-		    return ResponseEntity.ok(response);
+			response.put("success", false);
+			response.put("mesg", "密碼錯誤");
+			return ResponseEntity.ok(response);
 		}
-		
-		 // 過濾已刪除帳號
-	    if (Boolean.TRUE.equals(customer.getIsDeleted())) {
-	        response.put("success", false);
-	        response.put("mesg", "帳號不存在");
-	        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
-	    }
+
+		// 過濾已刪除帳號
+		if (Boolean.TRUE.equals(customer.getIsDeleted())) {
+			response.put("success", false);
+			response.put("mesg", "帳號不存在");
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
+		}
 
 		// 登入成功
 		session.setAttribute("customerId", customer.getId());
@@ -368,7 +371,7 @@ public class CustomerController {
 		return ResponseEntity.ok(response);
 
 	}
-	
+
 //	Google登入
 	@PostMapping("/front/googleLogin")
 	@ResponseBody
@@ -481,7 +484,7 @@ public class CustomerController {
 		// 處理 babyBirthdays（List<String> → LocalDate）
 		List<String> babyBirthdays = (List<String>) payload.get("babyBirthdays");
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		
+
 		// 先清空
 		customer.setBaby1Birthday(null);
 		customer.setBaby2Birthday(null);
@@ -706,82 +709,146 @@ public class CustomerController {
 		favoritesService.addFavorite(customer, product);
 		return ResponseEntity.ok("已加入收藏");
 	}
-	//會員更換密碼
+	// 會員更換密碼
 
 	@PostMapping("/front/changePassword")
 	@ResponseBody
-	public ResponseEntity<Map<String, Object>> changePassword(@RequestBody Map<String, String> body, HttpSession session) {
-	    Integer id = (Integer) session.getAttribute("customerId");
-	    if (id == null) {
-	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-	                .body(Map.of("success", false, "mesg", "尚未登入"));
-	    }
+	public ResponseEntity<Map<String, Object>> changePassword(@RequestBody Map<String, String> body,
+			HttpSession session) {
+		Integer id = (Integer) session.getAttribute("customerId");
+		if (id == null) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("success", false, "mesg", "尚未登入"));
+		}
 
-	    String newPassword = body.get("newPassword");
-	    if (newPassword == null || newPassword.length() < 6) {
-	        return ResponseEntity.badRequest()
-	                .body(Map.of("success", false, "mesg", "密碼長度需大於等於6"));
-	    }
+		String newPassword = body.get("newPassword");
+		if (newPassword == null || newPassword.length() < 6) {
+			return ResponseEntity.badRequest().body(Map.of("success", false, "mesg", "密碼長度需大於等於6"));
+		}
 
-	    Optional<Customer> optional = customerRepo.findById(id);
+		Optional<Customer> optional = customerRepo.findById(id);
+		if (optional.isEmpty()) {
+			return ResponseEntity.badRequest().body(Map.of("success", false, "mesg", "會員不存在"));
+		}
+
+		Customer customer = optional.get();
+		customer.setPassword(passwordEncoder.encode(newPassword));
+		customerRepo.save(customer);
+
+		session.invalidate();
+
+		return ResponseEntity.ok(Map.of("success", true, "mesg", "密碼已變更，請重新登入"));
+	}
+
+	// 前台刪除會員
+	@DeleteMapping("/front/delete")
+	@ResponseBody
+	public ResponseEntity<Map<String, Object>> deleteMember(@RequestBody Map<String, String> body,
+			HttpSession session) {
+		Map<String, Object> response = new HashMap<>();
+		Integer customerId = (Integer) session.getAttribute("customerId");
+		String inputPassword = body.get("password");
+
+		if (customerId == null) {
+			response.put("success", false);
+			response.put("mesg", "未登入");
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+		}
+
+		Customer customer = customerRepo.findById(customerId).orElse(null);
+		if (customer == null || Boolean.TRUE.equals(customer.getIsDeleted())) {
+			response.put("success", false);
+			response.put("mesg", "帳號不存在或已刪除");
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+		}
+
+		if (!passwordEncoder.matches(inputPassword, customer.getPassword())) {
+			response.put("success", false);
+			response.put("mesg", "密碼錯誤");
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
+		}
+
+		// 設定 isDeleted 與改信箱
+		customer.setIsDeleted(true);
+		customer.setEmail(customer.getEmail() + "_deleted_" + customer.getId());
+
+		customerRepo.save(customer);
+		session.invalidate();
+
+		response.put("success", true);
+		response.put("mesg", "帳號已成功刪除");
+		return ResponseEntity.ok(response);
+	}
+	
+	//忘記密碼
+	@PostMapping("/front/forgot-password")
+	@ResponseBody
+	public ResponseEntity<Map<String, Object>> forgotPassword(@RequestBody Map<String, String> body) {
+	    Map<String, Object> response = new HashMap<>();
+	    String email = body.get("email");
+
+	    Optional<Customer> optional = customerRepo.findByEmailAndIsDeletedFalse(email);
 	    if (optional.isEmpty()) {
-	        return ResponseEntity.badRequest()
-	                .body(Map.of("success", false, "mesg", "會員不存在"));
+	        response.put("success", false);
+	        response.put("mesg", "查無此信箱");
+	        return ResponseEntity.status(404).body(response);
 	    }
 
 	    Customer customer = optional.get();
-	    customer.setPassword(passwordEncoder.encode(newPassword));
+	    String token = UUID.randomUUID().toString(); // 產生唯一 token
+
+	    customer.setResetToken(token);
+	    customer.setTokenExpiry(LocalDateTime.now().plusMinutes(30)); // 30 分鐘內有效
 	    customerRepo.save(customer);
 
-	    session.invalidate();
+	    // 寄信邏輯（請串接你現有的 EmailService）
+	    String resetUrl = "http://localhost:5501/Member/reset-password.html?token=" + token;
+	    String mailContent = String.format("親愛的 %s：\n\n您申請了重設密碼。\n請在 30 分鐘內點擊以下連結重設密碼：\n%s\n\n若您未申請，請忽略本信。", customer.getName(), resetUrl);
 
-	    return ResponseEntity.ok(Map.of("success", true, "mesg", "密碼已變更，請重新登入"));
-	}
-	
-	//前台刪除會員
-	@DeleteMapping("/front/delete")
-	@ResponseBody
-	public ResponseEntity<Map<String, Object>> deleteMember(@RequestBody Map<String, String> body, HttpSession session) {
-	    Map<String, Object> response = new HashMap<>();
-	    Integer customerId = (Integer) session.getAttribute("customerId");
-	    String inputPassword = body.get("password");
-
-	    if (customerId == null) {
-	        response.put("success", false);
-	        response.put("mesg", "未登入");
-	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
-	    }
-
-	    Customer customer = customerRepo.findById(customerId).orElse(null);
-	    if (customer == null || Boolean.TRUE.equals(customer.getIsDeleted())) {
-	        response.put("success", false);
-	        response.put("mesg", "帳號不存在或已刪除");
-	        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
-	    }
-
-	    if (!passwordEncoder.matches(inputPassword, customer.getPassword())) {
-	        response.put("success", false);
-	        response.put("mesg", "密碼錯誤");
-	        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
-	    }
-
-	    //設定 isDeleted 與改信箱
-	    customer.setIsDeleted(true);
-	    customer.setEmail(customer.getEmail() + "_deleted_" + customer.getId());
-	    
-	    
-	    customerRepo.save(customer);
-	    session.invalidate();
+	    try {
+			SendMailUtils.sendEmail(email, "PikaBaby 密碼重設連結", mailContent);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
 
 	    response.put("success", true);
-	    response.put("mesg", "帳號已成功刪除");
+	    response.put("mesg", "已寄出重設密碼連結，請至信箱查看");
+	    return ResponseEntity.ok(response);
+	}
+
+	//重設密碼
+	@PostMapping("/front/reset-password")
+	@ResponseBody
+	public ResponseEntity<Map<String, Object>> resetPassword(@RequestBody Map<String, String> body) {
+	    String token = body.get("token");
+	    String newPassword = body.get("newPassword");
+
+	    Map<String, Object> response = new HashMap<>();
+	    Optional<Customer> optional = customerRepo.findByResetToken(token);
+
+	    if (optional.isEmpty()) {
+	        response.put("success", false);
+	        response.put("mesg", "此連結已失效，請重新申請重設密碼。");
+	        return ResponseEntity.ok(response); 
+	    }
+
+	    Customer customer = optional.get();
+
+	    if (customer.getTokenExpiry().isBefore(LocalDateTime.now())) {
+	        response.put("success", false);
+	        response.put("mesg", "Token 已過期");
+	        return ResponseEntity.status(410).body(response);
+	    }
+
+	    // 更新密碼（記得加密）
+	    customer.setPassword(passwordEncoder.encode(newPassword));
+	    customer.setResetToken(null);
+	    customer.setTokenExpiry(null);
+	    customerRepo.save(customer);
+
+	    response.put("success", true);
+	    response.put("mesg", "密碼已更新，請重新登入");
 	    return ResponseEntity.ok(response);
 	}
 
 
-	
 }
-
-
-
-

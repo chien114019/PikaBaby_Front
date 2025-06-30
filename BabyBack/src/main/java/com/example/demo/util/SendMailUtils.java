@@ -95,4 +95,15 @@ public class SendMailUtils {
 	public static boolean verifySuccess(String code) {
 		return verifyCode.equals(code);
 	}
+	
+	public static void sendEmail(String toEmail, String subject, String content) throws Exception {
+	    Session session = getSession();
+	    Message msg = new MimeMessage(session);
+	    msg.setFrom(new InternetAddress(SMTP_USER));
+	    msg.setRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
+	    msg.setSubject(subject);
+	    msg.setText(content);
+	    Transport.send(msg);
+	}
+
 }

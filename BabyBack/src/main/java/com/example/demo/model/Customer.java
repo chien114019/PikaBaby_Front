@@ -45,6 +45,10 @@ public class Customer {
     @Column(name = "is_deleted")
     private Boolean isDeleted = false;
     
+    private String resetToken;         // 唯一重設碼
+    private LocalDateTime tokenExpiry;// 到期時間
+
+    
 	public Integer getId() {
 		return id;
 	}
@@ -157,6 +161,20 @@ public class Customer {
 	}
 	public void setGoogleId(String googleId) {
 		this.googleId = googleId;
+	}
+	
+	
+	public String getResetToken() {
+		return resetToken;
+	}
+	public void setResetToken(String resetToken) {
+		this.resetToken = resetToken;
+	}
+	public LocalDateTime getTokenExpiry() {
+		return tokenExpiry;
+	}
+	public void setTokenExpiry(LocalDateTime tokenExpiry) {
+		this.tokenExpiry = tokenExpiry;
 	}
 	// 空建構子（必要）
     public Customer() {}

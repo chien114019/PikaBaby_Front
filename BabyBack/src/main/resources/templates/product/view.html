@@ -274,7 +274,9 @@
 		                <!-- <td th:text="${sp.createdDate}">報價建立日期</td> -->
 		                <td th:text="${#dates.format(sp.createdDate, 'yyyy-MM-dd')}">報價建立日期</td>
 		                    <td th:text="${sp.supplier.name}">供應商名稱</td>
-		                    <td th:text="${sp.price}">價格</td>
+		                    <!-- <td th:text="${sp.price}">價格</td> -->
+		                    <td th:text="'$' + ${#numbers.formatDecimal(sp.price, 0, 'COMMA', 0, 'POINT')}">價格</td>
+		                    
 		                </tr>
 		                <tr th:if="${#lists.isEmpty(product.supplierProducts)}">
 		                    <td colspan="2" class="text-muted text-center">尚無供應商價格資料</td>

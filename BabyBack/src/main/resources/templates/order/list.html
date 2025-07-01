@@ -210,7 +210,7 @@
 			</div>
 			<!-- Main content -->
 			<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 offset-md-3">
-				<div class="pt-2" >
+				<div class="pt-2">
 					<!-- 麵包屑 -->
 					<nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
 						<ol class="breadcrumb">
@@ -224,8 +224,8 @@
 
 					<form method="get" action="/products" class="mb-3">
 						<div class="d-flex align-items-end flex-wrap gap-3">
-						<!-- 左側搜尋 -->
-						<div>
+							<!-- 左側搜尋 -->
+							<div>
 								<label for="keyword" class="form-label"></label> <input
 									type="text" class="form-control" id="keyword" name="keyword"
 									th:value="${param.keyword}" placeholder="請輸入關鍵字">
@@ -236,8 +236,8 @@
 									<i class="bi bi-search"></i> 查詢
 								</button>
 							</div>
-							
-						<!-- 右側新增按鈕 -->
+
+							<!-- 右側新增按鈕 -->
 							<div class="ms-auto pt-2">
 								<a class="btn btn-outline-primary " th:href="@{/orders/new}"><i
 									class="bi bi-plus-circle me-1"></i> 新增銷貨單</a> <a
@@ -252,7 +252,7 @@
 					<table class="table table-bordered align-middle">
 						<thead class="text-center table-light">
 							<tr>
-								<th class="d-none">ID</th> 
+								<th class="d-none">ID</th>
 								<th>訂單編號</th>
 								<th>客戶</th>
 								<th>日期</th>
@@ -265,19 +265,17 @@
 						</thead>
 						<tbody>
 							<tr th:each="order : ${orders}">
-								<td th:text="${order.id}" class="text-center d-none"></td> 
+								<td th:text="${order.id}" class="text-center d-none"></td>
 								<td th:text="${order.orderNumber}" class="text-center"></td>
 								<td th:text="${order.customer?.name} ?: '（未指定）'"></td>
 								<td th:text="${#dates.format(order.orderDate, 'yyyy-MM-dd')}"
 									class="text-center"></td>
 								<td>
 									<ul>
-										<!-- <li th:each="d : ${order.details}"
-											th:text="${d.product.name + ' x ' + d.quantity + '（$' + d.unitPrice + '）'}"></li> -->
-											<li th:each="d : ${order.details}"
-    th:text="${d.product.name + ' x ' + d.quantity + '（$' + #numbers.formatDecimal(d.unitPrice, 0, 'COMMA', 0, 'POINT') + '）'}">
-</li>
-											
+										<li th:each="d : ${order.details}"
+											th:text="${d.product.name + ' x ' + d.quantity + '（$' + #numbers.formatDecimal(d.unitPrice, 0, 'COMMA', 0, 'POINT') + '）'}">
+										</li>
+
 									</ul>
 								</td>
 								<td class="text-center"><span

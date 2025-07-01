@@ -277,7 +277,7 @@
 												</td>
 												<td th:text="${p.name}" class="fw-semibold text-start"></td>
 
-											<td th:text="${#strings.listJoin(p.ageRanges, ', ')}">-</td>
+											<td th:text="${p.productType.typeName}">-</td>
 												<td th:text="${p.note}" class="text-muted small text-start"></td>
 												<td><input type="hidden" name="productIds"
 													th:value="${p.id}" /> 

@@ -1307,11 +1307,11 @@
                         id: 'PACKAGE_1',
                         amount: Math.round(orderData.totalAmount),
                         name: 'PikaBaby 購物',
-                        products: cart.map(item => ({
+                        products: cart.map((item, index) => ({
                             id: item.id.toString(),
                             name: item.name,
                             quantity: item.quantity,
-                            price: Math.round(item.price)
+                            price: index == 0? Math.round(item.price) - orderData.pointsUsed : Math.round(item.price)
                         }))
                     }],
                     redirectUrls: {

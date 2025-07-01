@@ -25,15 +25,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Service
 public class LinePayService {
 
-    private final SalesOrderService salesOrderService;
-	
-	@Autowired
-	private OrderStatusService orderStatusService;
-	
-	@Autowired
-	private SalesOrderRepository salesOrderRepository;
-
-	@Value("${linepay.channelid}")
+    @Value("${linepay.channelid}")
 	private String ChannelID;
 	
 	@Value("${linepay.channelsecret}")
@@ -49,7 +41,6 @@ public class LinePayService {
 	public LinePayService(SalesOrderService salesOrderService) {
 		mapper = new ObjectMapper();
 		template = new RestTemplate();
-		this.salesOrderService = salesOrderService;
 	}
 
 	public ResponseEntity<Response> RequestService(CheckoutPaymentRequestForm form) throws Exception {

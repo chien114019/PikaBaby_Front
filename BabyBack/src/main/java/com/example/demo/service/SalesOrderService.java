@@ -138,7 +138,9 @@ public class SalesOrderService {
         shippingOrder.setSalesOrder(savedOrder);
         shippingOrder.setShippingDate(LocalDate.now());
         shippingOrder.setStatus("待出貨");
-        shippingOrderRepository.save(shippingOrder);
+        ShippingOrder newData = shippingOrderRepository.save(shippingOrder);
+        
+        System.out.println("New Shipping: " + newData.getStatus());
         
 
 	     // 建立出貨明細

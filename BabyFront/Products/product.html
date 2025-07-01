@@ -183,17 +183,29 @@
         .product-card {
             display: flex;
             flex-direction: column;
+            justify-content: space-between;
             align-items: center;
             text-align: center;
             padding: 20px;
-            border-radius: 8px;
-            transition: all 0.3s ease;
+            border-radius: 20px;
             width: 100%;
-            background-color: #fff;
+            background-color: #fff; /* 恢復白色 */
+            box-shadow: 0 2px 12px 0 rgba(180,150,80,0.07); /* 恢復原陰影 */
+            border: 1.5px solid #f3e9d2; /* 恢復原邊框 */
             text-decoration: none;
             color: inherit;
             cursor: pointer;
             position: relative;
+            min-height: 480px;
+            overflow: visible;
+            transition: box-shadow 0.28s cubic-bezier(.4,0,.2,1), border-color 0.22s, transform 0.22s;
+        }
+
+        .product-card:hover {
+            box-shadow: 0 12px 36px 0 rgba(255,225,53,0.18), 0 2px 12px 0 rgba(180,150,80,0.10);
+            border-color: #ffe135;
+            transform: translateY(-7px) scale(1.03);
+            background-color: #fff;
         }
 
         .product-link {
@@ -209,21 +221,27 @@
             position: absolute;
             top: 18px;
             right: 18px;
-            background: none;
+            background: transparent;
+            border-radius: 50%;
             border: none;
             font-size: 32px;
             cursor: pointer;
             color: #ccc;
-            transition: color 0.3s ease;
-            z-index: 2;
+            transition: color 0.3s, box-shadow 0.2s, background 0.2s;
+            z-index: 99;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: none;
         }
 
-        .wishlist-btn:hover {
-            color: #ff4d4d;
-        }
-
+        .wishlist-btn:hover,
         .wishlist-btn.active {
             color: #ff4d4d;
+            background: transparent;
+            box-shadow: none;
         }
 
         .wishlist-btn:not(.active)::before {
@@ -251,6 +269,7 @@
 
         .add-to-cart-btn {
             width: 100%;
+            margin-top: auto;
             padding: 10px 15px;
             background-color: #FFE135;
             border: none;
@@ -259,7 +278,6 @@
             font-weight: bold;
             cursor: pointer;
             transition: all 0.2s ease;
-            margin-top: 10px;
         }
 
         .add-to-cart-btn:hover {
@@ -302,21 +320,17 @@
             }
         }
 
-        .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-
+        /* 商品圖片圓形 */
         .product-image {
             width: 250px;
             height: 250px;
             object-fit: contain;
             margin-bottom: 15px;
-            transition: transform 0.3s ease;
-        }
-
-        .product-card:hover .product-image {
-            transform: scale(1.05);
+            border-radius: 50%;
+            border: 2px solid #f3e9d2;
+            box-shadow: 0 2px 8px rgba(180,150,80,0.10);
+            background: #fff;
+            padding: 0;
         }
 
         .product-title {
@@ -347,6 +361,61 @@
             text-decoration: none;
             color: inherit;
             position: relative;
+        }
+
+        /* 加減號圓形奶茶色設計 */
+        .quantity-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            border: none;
+            background: linear-gradient(145deg, #f5e9da 60%, #e9c9a8 100%);
+            color: #b87c2a;
+            font-size: 18px;
+            font-weight: bold;
+            box-shadow: 0 2px 8px rgba(216,176,140,0.10);
+            transition: background 0.2s, box-shadow 0.2s, color 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 38px;
+            padding: 0;
+        }
+        .quantity-btn:hover {
+            background: #e9c9a8;
+            color: #fff;
+            box-shadow: 0 4px 16px rgba(216,176,140,0.18);
+        }
+
+        .quantity-control {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 8px;
+            gap: 8px;
+        }
+        .quantity-number {
+            width: 40px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .quantity-input {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: transparent;
+            color: #b87c2a;
+            font-weight: bold;
+            text-align: center;
+            font-size: 18px;
+            pointer-events: none;
+            user-select: none;
+            box-shadow: none;
+            outline: none;
+            margin: 0;
+            padding: 0;
         }
     </style>
 </head>
@@ -1504,11 +1573,11 @@
             <p class="product-price">售價：${formattedPrice}元</p>
         </a>
 
-        <div class="quantity-control" style="display:flex;justify-content:center;align-items:center;margin-bottom:8px;">
+        <div class="quantity-control">
             <button class="quantity-btn minus" type="button" onclick="changeQuantity(this, -1)">-</button>
-            <input type="number" class="quantity-input" value="1" min="1" max="99" 
-                   style="width:40px;text-align:center;margin:0 5px;" 
-                   onchange="validateQuantity(this)">
+            <div class="quantity-number">
+                <input type="number" class="quantity-input" value="1" min="1" max="99" readonly onchange="validateQuantity(this)">
+            </div>
             <button class="quantity-btn plus" type="button" onclick="changeQuantity(this, 1)">+</button>
         </div>
         <button class="add-to-cart-btn" 

@@ -3,15 +3,15 @@ document.addEventListener("DOMContentLoaded", () => {
     fetch("http://localhost:8080/customers/front/favorites", {
         credentials: "include"
     })
-    .then(res => res.json())
-    .then(data => renderFavorites(data));
+        .then(res => res.json())
+        .then(data => renderFavorites(data));
 });
 
 function renderFavorites(favorites) {
     const container = document.getElementById("wishlist");
     container.innerHTML = ""; // 清空舊內容
 
-     if (favorites.length === 0) {
+    if (favorites.length === 0) {
         // 顯示提示文字
         container.innerHTML = `
             <div class="text-center text-muted py-5">
@@ -30,25 +30,26 @@ function renderFavorites(favorites) {
         card.dataset.id = product.id;
         card.dataset.name = product.name;
         card.dataset.price = product.price;
-        // 處理圖片 URL
-    let imageUrl = product.imageUrl;
-    console.log("fav: " + imageUrl);
-    if (imageUrl && imageUrl.startsWith('/products/front/images/')) {
-        imageUrl = 'http://localhost:8080' + imageUrl;
-    } else if (!imageUrl || imageUrl.trim() === '' || imageUrl === '/images/default.jpg') {
-        imageUrl = '../images/baby.jpg'; // fallback 預設圖
-    } else if (imageUrl.startsWith('images/')) {
-        imageUrl = '../' + imageUrl;
-    } else if (!imageUrl.startsWith('http') && !imageUrl.startsWith('../')) {
-        imageUrl = '../images/baby.jpg';
-    }
 
-         // 儲存顏色與規格（可選）
+        // 處理圖片 URL，優先使用product_image表的圖片
+        let imageUrl = product.primaryImageUrl || product.imageUrl;
+        console.log("fav: " + imageUrl);
+        if (imageUrl && imageUrl.startsWith('/products/front/images/')) {
+            imageUrl = 'http://localhost:8080' + imageUrl;
+        } else if (!imageUrl || imageUrl.trim() === '' || imageUrl === '/images/default.jpg') {
+            imageUrl = '../images/baby.jpg'; // fallback 預設圖
+        } else if (imageUrl.startsWith('images/')) {
+            imageUrl = '../' + imageUrl;
+        } else if (!imageUrl.startsWith('http') && !imageUrl.startsWith('../')) {
+            imageUrl = '../images/baby.jpg';
+        }
+
+        // 儲存顏色與規格（可選）
         const color = product.color || '無';
         const spec = product.specification || '無';
 
         card.innerHTML = `
-            <img src="${product.imageUrl}" class="product-img">
+            <img src="${imageUrl}" class="product-img">
             <div class="product-info">
                 <div class="product-title">${product.name}</div>
                 <div class="product-sub">顏色：${color}｜產品規格：${spec}</div>

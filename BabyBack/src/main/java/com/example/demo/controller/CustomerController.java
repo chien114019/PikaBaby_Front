@@ -685,12 +685,21 @@ public class CustomerController {
 			m.put("specification", p.getSpecification()); // ✅ 新增
 			
 			// 加在這裡：處理圖片路徑
-	        String imageUrl = null;
-	        if (fav.getProductImage() != null) {
-	            imageUrl = fav.getProductImage().getImagePath();
-	        } else if (p.getImages() != null && !p.getImages().isEmpty()) {
-	            imageUrl = p.getImages().get(0).getImagePath();
-	        }
+//	        String imageUrl = null;
+//	        if (fav.getProductImage() != null) {
+//	            imageUrl = fav.getProductImage().getImagePath();
+//	        } else if (p.getImages() != null && !p.getImages().isEmpty()) {
+//	            imageUrl = p.getImages().get(0).getImagePath();
+//	        }
+			String imageUrl = p.getImageUrl();
+            if (imageUrl == null || imageUrl.isBlank()) {
+                // 如果沒有圖片URL，嘗試從product_image表獲取第一張圖片
+                if (p.getImages() != null && !p.getImages().isEmpty()) {
+                    imageUrl = "/products/front/images/" + p.getImages().get(0).getId();
+                } else {
+                    imageUrl = "/images/default.jpg";
+                }
+            }
 	        System.out.println("fav imageUrl: " + imageUrl);
 	        m.put("imageUrl", imageUrl);
 	        

@@ -883,6 +883,7 @@
                     return res.json();
                 })
                 .then(data => {
+                    setUserToggle(data);
                     console.log(data);
 
                     // 歡迎詞

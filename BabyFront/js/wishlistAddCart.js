@@ -30,7 +30,18 @@ function renderFavorites(favorites) {
         card.dataset.id = product.id;
         card.dataset.name = product.name;
         card.dataset.price = product.price;
-        card.dataset.image = product.imageUrl;
+        // 處理圖片 URL
+    let imageUrl = product.imageUrl;
+    console.log("fav: " + imageUrl);
+    if (imageUrl && imageUrl.startsWith('/products/front/images/')) {
+        imageUrl = 'http://localhost:8080' + imageUrl;
+    } else if (!imageUrl || imageUrl.trim() === '' || imageUrl === '/images/default.jpg') {
+        imageUrl = '../images/baby.jpg'; // fallback 預設圖
+    } else if (imageUrl.startsWith('images/')) {
+        imageUrl = '../' + imageUrl;
+    } else if (!imageUrl.startsWith('http') && !imageUrl.startsWith('../')) {
+        imageUrl = '../images/baby.jpg';
+    }
 
          // 儲存顏色與規格（可選）
         const color = product.color || '無';

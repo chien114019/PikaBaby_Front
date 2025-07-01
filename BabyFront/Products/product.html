@@ -1469,6 +1469,7 @@
 
             // 處理圖片URL - 優先使用product_image表的圖片
             let imageUrl = product.primaryImageUrl || product.imageUrl;
+            console.log(imageUrl);
 
             // 如果是API路徑，轉換為完整URL
             if (imageUrl && imageUrl.startsWith('/products/front/images/')) {

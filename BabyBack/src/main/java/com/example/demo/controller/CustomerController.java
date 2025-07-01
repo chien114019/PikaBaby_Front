@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -481,6 +482,16 @@ public class CustomerController {
 		customer.setPhone((String) payload.get("phone"));
 		customer.setGender((String) payload.get("gender"));
 
+		// 生日處理
+		String birthdayStr = (String) payload.get("birthday");
+		if (birthdayStr != null && !birthdayStr.equals("未填寫") && !birthdayStr.isBlank()) {
+		    try {
+		        LocalDate birthday = LocalDate.parse(birthdayStr);
+		        customer.setBirthday(birthday);
+		    } catch (DateTimeParseException e) {
+		        return ResponseEntity.badRequest().body("生日無法顯示");
+		    }
+		}
 		// 處理 babyBirthdays（List<String> → LocalDate）
 		List<String> babyBirthdays = (List<String>) payload.get("babyBirthdays");
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -670,10 +681,20 @@ public class CustomerController {
 			m.put("id", p.getId());
 			m.put("name", p.getName());
 			m.put("price", p.getPrice());
-			m.put("imageUrl", p.getImageUrl());
 			m.put("color", p.getColor()); // ✅ 新增
 			m.put("specification", p.getSpecification()); // ✅ 新增
-			return m;
+			
+			// 加在這裡：處理圖片路徑
+	        String imageUrl = null;
+	        if (fav.getProductImage() != null) {
+	            imageUrl = fav.getProductImage().getImagePath();
+	        } else if (p.getImages() != null && !p.getImages().isEmpty()) {
+	            imageUrl = p.getImages().get(0).getImagePath();
+	        }
+	        System.out.println("fav imageUrl: " + imageUrl);
+	        m.put("imageUrl", imageUrl);
+	        
+	        return m;
 		}).toList();
 
 		return ResponseEntity.ok(list);

@@ -1,5 +1,5 @@
 function confirmDelete() {
-  const password = document.getElementById('confirmPwd').value;
+  const password = document.getElementById('confirmPassword').value;
 
   if (!password) {
     alert("請輸入密碼！");
@@ -30,3 +30,12 @@ function confirmDelete() {
       alert("發生錯誤，請稍後再試");
     });
 }
+//按取消清空欄位
+document.getElementById('cancelPwdBtn').addEventListener('click', () => {
+    document.getElementById('newPassword').value = '';
+    document.getElementById('confirmPassword').value = '';
+
+    const saveBtn = document.getElementById('savePwdBtn');
+    saveBtn.classList.add('pwd-btn-disabled');
+    saveBtn.disabled = true;
+});

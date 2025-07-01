@@ -1,6 +1,7 @@
 package com.example.demo.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -20,6 +21,10 @@ public class CustomerFavorites {
     @ManyToOne
     @JoinColumn(name = "productId")
     private Product product;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_image_id")
+    private ProductImage productImage; // 收藏對應的一張圖片
 
 	public Integer getId() {
 		return id;
@@ -43,6 +48,14 @@ public class CustomerFavorites {
 
 	public void setProduct(Product product) {
 		this.product = product;
+	}
+
+	public ProductImage getProductImage() {
+		return productImage;
+	}
+
+	public void setProductImage(ProductImage productImage) {
+		this.productImage = productImage;
 	}
 
    

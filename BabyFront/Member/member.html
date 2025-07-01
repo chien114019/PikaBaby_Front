@@ -185,7 +185,7 @@
             </div>
         </div>
     </div>
-
+<br><br>
     <!-- 主內容區塊 -->
     <div>
         <div class="container">
@@ -200,7 +200,7 @@
 
                     <!-- 導覽 Tabs -->
                     <div class="container text-center mt-4 border-bottom ">
-                        <div class="d-flex justify-content-center gap-3 flex-wrap">
+                        <div class="d-flex justify-content-center gap-4 flex-wrap">
                             <button class="btn nav-button active" onclick="switchTab(event, 'order')"> 交易紀錄</button>
                             <button class="btn nav-button" onclick="switchTab(event, 'profile')"> 會員資料</button>
                             <button class="btn nav-button" onclick="switchTab(event, 'wishlist')"> 我的收藏</button>
@@ -208,7 +208,7 @@
                             <button class="btn nav-button" onclick="switchTab(event, 'password')"> 帳號管理</button>
                         </div>
                     </div>
-                    <br><br>
+                    <br><br><br>
                     <!-- 各區塊內容 -->
                     <div id="order" class="tab-content active">
                         <div class="row">
@@ -280,7 +280,7 @@
                                         <div class="row mb-3">
                                             <div class="col-md-6">
                                                 <label class="form-label info-form-label">生日</label>
-                                                <input type="date" class="form-control info-form-control">
+                                                <input type="date" class="form-control info-form-control" id="birthday">
                                             </div>
                                             <div class="col-md-6">
                                                 <label class="form-label info-form-label">性別</label>
@@ -692,21 +692,24 @@
                                     </div>
 
                                     <div class="d-flex justify-content-center gap-3">
-                                        <button type="button" class="btn btn-outline-dark pwd-btn-outline-dark"
+                                        <button id="cancelPwdBtn" type="button"
+                                            class="btn btn-outline-dark pwd-btn-outline-dark"
                                             data-bs-dismiss="modal">取消</button>
-                                        <button type="button" class="btn pwd-btn-disabled" id="savePwdBtn"
+                                        <button type="button" class="pwd-btn-outline-dark" id="savePwdBtn"
                                             disabled>儲存</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <!-- 刪除帳號觸發文字 -->
+                        <!-- 刪除帳號觸發按鈕 -->
                         <div class="text-center p-5">
-                            <h6 id="deleteAccountTrigger" class="mb-4 text-danger custom-underline"
+                            <button id="deleteAccountTrigger"
+                                class="btn btn-outline-danger btn-lg custom-underline border-0 bg-transparent fw-bold"
                                 data-bs-toggle="modal" data-bs-target="#deleteAccountModal">
                                 刪除帳號
-                            </h6>
+                            </button>
                         </div>
+
 
                         <!-- Bootstrap Modal -->
                         <div class="modal fade" id="deleteAccountModal" tabindex="-1"

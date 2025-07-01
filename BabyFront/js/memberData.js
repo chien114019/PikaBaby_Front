@@ -45,16 +45,17 @@ document.getElementById("memberEditForm").addEventListener("submit", function (e
     e.preventDefault();
 
 
-    const payload = {
-        lastName: document.getElementById('lastname').value.trim(),
-        firstName: document.getElementById('firstname').value.trim(),
-        gender: document.getElementById('gender').value,
-        phone: document.getElementById('phone').value.trim(),
-        birthday: document.querySelector('input[type="date"]').value,
-        babyBirthdays: Array.from(document.querySelectorAll('#baby-container input[type="month"]'))
-             .map(input => input.value.trim())
-  .filter(val => /^\d{4}-\d{2}$/.test(val)) // 僅傳送合法年月格式
-    };
+const payload = {
+    lastName: document.getElementById('lastname').value.trim(),
+    firstName: document.getElementById('firstname').value.trim(),
+    gender: document.getElementById('gender').value,
+    phone: document.getElementById('phone').value.trim(),
+    birthday: document.getElementById('birthday').value,
+    babyBirthdays: Array.from(document.querySelectorAll('#baby-container input[type="month"]'))
+        .map(input => input.value.trim())
+        .filter(val => /^\d{4}-\d{2}$/.test(val))
+};
+
     console.log("送出資料：", JSON.stringify(payload, null, 2));
     fetch("http://localhost:8080/customers/front/me/update", {
         method: "PUT",

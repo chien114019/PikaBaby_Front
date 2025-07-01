@@ -410,18 +410,16 @@
                 data.slice(0, 3).forEach((item, idx) => {
                     const rankColor = rankColors[idx] || '#e6b800';
                     html += `
-                        <div class="col-12 col-md-4">
-                            <div class="ranking-item" style="text-align: center; padding: 20px; border: 1px solid #ddd; border-radius: 8px; background: #fff; min-height: 320px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                                <div style="font-size:24px;font-weight:bold;color:${rankColor};margin-bottom:10px;">
-                                    第 ${idx + 1} 名
+                        <div class="col-12 col-md-4 d-flex justify-content-center">
+                            <div class="ranking-item ranking-card" style="background: #faf6ef; box-shadow: 0 2px 12px rgba(180,150,80,0.07); border-radius: 28px; min-width: 270px; max-width: 340px; margin: 22px 0; padding: 38px 22px 28px 22px; display: flex; flex-direction: column; align-items: center; transition: transform 0.25s, box-shadow 0.25s;">
+                                <div class="rank-badge2" style="background:${rankColor}; color:#fff; font-size:1.5rem; font-weight:800; width:54px; height:54px; border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 12px ${rankColor}55; margin-bottom:18px; letter-spacing:1px; border:4px solid #fff;">${idx + 1}</div>
+                                <div style="width:120px;height:120px;display:flex;align-items:center;justify-content:center;margin-bottom:20px;">
+                                    <img src="${getProductImageUrl(item.primaryImageUrl)}" alt="${item.name}" loading="lazy" style="width:110px;height:110px;object-fit:cover;border-radius:50%;box-shadow:0 4px 24px 0 #ffe13533,0 0 0 8px #fff; background:#f8f8f8; border:2px solid #f7e7b6; transition:box-shadow 0.22s, transform 0.22s;" onerror="this.src='images/baby.jpg';">
                                 </div>
-                                <img src="${item.image}" alt="${item.name}" loading="lazy" style="width:120px;height:120px;object-fit:cover;border-radius:8px;margin-bottom:15px;">
-                                <div style="font-weight:bold;font-size:16px;margin-bottom:8px;">${item.name}</div>
-                                <div style="color:#e44d26;font-size:18px;font-weight:bold;margin-bottom:5px;">
-                                    售價：NT$ ${item.price}
-                                </div>
-                                <div style="color:#666;font-size:14px;">
-                                    總銷量：${item.sold} 件
+                                <div style="font-weight:800;font-size:1.18rem;margin-bottom:10px;letter-spacing:1px;color:#222;text-align:center;">${item.name}</div>
+                                <div class="rank-labels2" style="display:flex;gap:10px;justify-content:center;margin-bottom:8px;">
+                                    <span style="background:#ffe135;color:#222;font-size:1rem;font-weight:700;padding:3px 14px;border-radius:12px;">NT$ ${item.price}</span>
+                                    <span style="background:#f7e7b6;color:#7a5c00;font-size:0.98rem;font-weight:600;padding:3px 12px;border-radius:12px;">銷量 ${item.sold} 件</span>
                                 </div>
                             </div>
                         </div>
@@ -663,6 +661,29 @@
             margin-bottom: 60px !important;
             margin-top: 40px !important;
         }
+
+        .ranking-card {
+            background: #faf6ef;
+            box-shadow: 0 2px 12px rgba(180,150,80,0.07);
+            border-radius: 28px;
+            transition: transform 0.22s cubic-bezier(.4,0,.2,1), box-shadow 0.22s cubic-bezier(.4,0,.2,1), background 0.22s;
+        }
+        .ranking-card:hover {
+            background: #fffbe6;
+            transform: translateY(-10px) scale(1.045);
+            box-shadow: 0 12px 32px rgba(180,150,80,0.13);
+            z-index: 2;
+        }
+        .ranking-card img {
+            transition: box-shadow 0.22s, filter 0.22s, transform 0.22s;
+        }
+        .rank-badge2 {
+            font-family: 'Segoe UI', 'Arial', sans-serif;
+            letter-spacing: 1px;
+        }
+        .rank-labels2 span {
+            display: inline-block;
+        }
     </style>
 
     <script>
@@ -674,6 +695,24 @@
                 logo.style.display = 'none';
             }
         });
+    </script>
+
+    <script>
+        function getProductImageUrl(url) {
+            if (!url || url.trim() === '' || url === '/images/default.jpg') {
+                return 'images/baby.jpg';
+            }
+            if (url.startsWith('/products/front/images/')) {
+                return 'http://localhost:8080' + url;
+            }
+            if (url.startsWith('images/')) {
+                return url;
+            }
+            if (!url.startsWith('http')) {
+                return 'images/baby.jpg';
+            }
+            return url;
+        }
     </script>
 
 </body>

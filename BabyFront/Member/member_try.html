@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>會員專區</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f8f8f8;
+      font-family: "Helvetica Neue", sans-serif;
+    }
+
+    .card-box {
+      background-color: #fff;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      margin-bottom: 24px;
+    }
+
+    .card-title {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 16px;
+      color: #92625a;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 8px;
+    }
+
+    .info-label {
+      font-weight: 600;
+      color: #5b7c4a;
+      width: 120px;
+      display: inline-block;
+    }
+
+    .info-value {
+      color: #333;
+    }
+
+    .info-row {
+      margin-bottom: 10px;
+    }
+
+    .nav-button {
+      border: none;
+      background: none;
+      color: #5b7c4a;
+      padding: 0.75rem 1.25rem;
+      font-weight: 500;
+      position: relative;
+      font-size: 18px;
+    }
+
+    .nav-button.active {
+      color: #92625a;
+      font-weight: 600;
+    }
+
+    .nav-button.active::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -2px;
+      height: 4px;
+      width: 100%;
+      background-color: #f1f454;
+    }
+
+    .btn-sm-space {
+      margin-right: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container py-5">
+    <div class="d-flex justify-content-center gap-4 flex-wrap mb-4 border-bottom pb-2">
+      <button class="nav-button active">交易紀錄</button>
+      <button class="nav-button">會員資料</button>
+      <button class="nav-button">我的收藏</button>
+      <button class="nav-button">折扣專區</button>
+      <button class="nav-button">帳號管理</button>
+    </div>
+
+    <div class="card-box">
+      <div class="card-title">會員資料</div>
+      <div class="info-row"><span class="info-label">會員姓名：</span><span class="info-value">皮皮</span></div>
+      <div class="info-row"><span class="info-label">Email：</span><span class="info-value">wanyu0118@gmail.com</span></div>
+      <div class="info-row"><span class="info-label">手機：</span><span class="info-value">0977777777</span></div>
+      <div class="info-row"><span class="info-label">生日：</span><span class="info-value">2002-01-01</span></div>
+      <div class="info-row"><span class="info-label">註冊時間：</span><span class="info-value">2025-06-29</span></div>
+      <button class="btn btn-outline-warning btn-sm mt-3">編輯資料</button>
+    </div>
+
+    <div class="card-box">
+      <div class="card-title">常用地址</div>
+      <div class="info-row">
+        <span class="info-value">🏠 台中市中區自由路二段97號</span>
+        <div class="mt-2">
+          <button class="btn btn-outline-secondary btn-sm btn-sm-space">編輯</button>
+          <button class="btn btn-outline-danger btn-sm">刪除</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-box">
+      <div class="card-title">常用信用卡</div>
+      <div class="info-row">
+        <span class="info-value">💳 **** **** **** 8860</span>
+      </div>
+    </div>
+  </div>
+</body>
+</html> 

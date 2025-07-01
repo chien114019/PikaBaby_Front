@@ -265,6 +265,7 @@
 								<th>名稱</th>
 								<!--  <th>價格</th>-->
 								<th>備註</th>
+								<th>類別</th>
 								<th>詳細資料</th>
 								<th>操作</th>
 							</tr>
@@ -278,6 +279,8 @@
 								<!-- <td th:text="'$' + ${#numbers.formatDecimal(p.price, 0, 'COMMA', 0, 'POINT')}" class="text-center"></td>-->
 								<td th:text="${#strings.abbreviate(p.note, 30)}"
 									th:title="${p.note}"  th:classappend="${p.deleted} ? 'text-muted text-decoration-line-throughps-4' : 'ps-4'">說明</td>
+									<td th:text="${p.productType.typeName}" class="text-center"
+									 th:classappend="${p.deleted} ? 'text-muted text-decoration-line-through' : ''">類別</td>
 								<td class="text-center" ><a class="btn btn-sm btn-info "
 									th:href="@{'/products/view/' + ${p.id}}">查看</a></td>
 								<!-- <td th:text="${p.stock}" class="text-center">50</td> -->

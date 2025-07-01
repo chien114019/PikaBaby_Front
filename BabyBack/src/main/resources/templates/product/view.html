@@ -242,8 +242,10 @@
 		        <!-- 商品基本資訊 -->
 		        <!-- <h4 th:text="${product.name}">商品名稱</h4> -->
 		        <p><strong>商品名稱：</strong> <span th:text="${product.name}">商品名稱</span></p>
+		        <p><strong>類別：</strong> <span th:text="${product.productType.typeName}">類別</span></p>
 		        <p><strong>規格：</strong> <span th:text="${product.specification}">規格</span></p>
 		        <p><strong>顏色：</strong> <span th:text="${product.color}">顏色</span></p>
+		        
 		
 		        <!-- 年齡區間 -->
 		        <!-- <p>

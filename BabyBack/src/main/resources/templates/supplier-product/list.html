@@ -269,8 +269,10 @@
 								<td th:text="${sp.formattedPrice}" class="text-center"></td>
 
 
-								<td class="text-center" ><a th:href="@{'/supplier-products/edit/' + ${sp.id}}"
-									class="btn btn-warning btn-sm me-1">編輯</a> <a
+								<td class="text-center" >
+								<!-- <a th:href="@{'/supplier-products/edit/' + ${sp.id}}"
+									class="btn btn-warning btn-sm me-1">編輯</a>  -->
+									<a
 									th:href="@{'/supplier-products/delete/' + ${sp.id}}"
 									class="btn btn-danger btn-sm">刪除</a></td>
 							</tr>

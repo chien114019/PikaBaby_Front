@@ -255,8 +255,8 @@
 					<table class="table table-bordered align-middle">
 							<thead class="text-center table-light">
 							<tr>
-								<th>出貨單 ID</th>
-								<th>銷貨單 ID</th>
+								<th class="d-none">出貨單 ID</th>
+								<th class="d-none">銷貨單 ID</th>
 								<th>訂單編號</th>
 								<th>客戶</th>
 								<th>出貨日期</th>
@@ -267,8 +267,8 @@
 						</thead>
 						<tbody>
 							<tr th:each="ship : ${shippingOrders}">
-								<td class="text-center" th:text="${ship.id}"></td>
-								<td class="text-center" th:text="${ship.salesOrder.id}"></td>
+								<td class="text-center d-none" th:text="${ship.id}"></td>
+								<td class="text-center d-none" th:text="${ship.salesOrder.id}"></td>
 								<td class="text-center" th:text="${ship.salesOrder.orderNumber}"></td>
 								<td th:text="${ship.salesOrder.customer.name}"></td>
 								<td class="text-center"

@@ -250,7 +250,7 @@
 					<table class="table table-bordered align-middle">
 						<thead class="text-center table-light">
 							<tr>
-								<th>報價ID</th>
+								<th class="d-none">報價ID</th>
 								<th>商品名稱</th>
 								<th>廠商名稱</th>
 								<th>建立日期</th>
@@ -260,13 +260,13 @@
 						</thead>
 						<tbody>
 							<tr th:each="sp : ${supplierProducts}">
-								<td th:text="${sp.id}" class="text-center"></td>
-								<td th:text="${sp.product != null ? sp.product.name : '無商品'}" class="ps-4"></td>
-								<td th:text="${sp.supplier != null ? sp.supplier.name : '無供應商'}" class="ps-4"></td>
+								<td th:text="${sp.id}" class="text-center d-none"></td> 
+								<td th:text="${sp.product != null ? sp.product.name : '無商品'}" class="ps-5"></td>
+								<td th:text="${sp.supplier != null ? sp.supplier.name : '無供應商'}" class="text-center"></td>
 								<!-- <td th:text="${sp.createdDate != null ? #temporals.format(sp.createdDate, 'yyyy-MM-dd') : '無建立日期'}" class="text-center">建立日期</td> -->
 								<td th:text="${sp.createdDate != null ? #dates.format(sp.createdDate, 'yyyy-MM-dd') : '無建立日期'}" class="text-center">建立日期</td>
 								<!-- <td th:text="${sp.price}" class="ps-4"></td>  -->
-								<td th:text="${sp.formattedPrice}" class="ps-4"></td>
+								<td th:text="${sp.formattedPrice}" class="text-center"></td>
 
 
 								<td class="text-center" ><a th:href="@{'/supplier-products/edit/' + ${sp.id}}"

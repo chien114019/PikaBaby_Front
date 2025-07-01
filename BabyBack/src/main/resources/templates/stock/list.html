@@ -248,7 +248,7 @@
 						style="table-layout: fixed; width: 100%; max-width: 1000px;">
 						<thead class="text-center table-light">
 							<tr>
-								<th style="width: 10%;">商品ID</th>
+								<th class="d-none" style="width: 10%;">商品ID</th>
 								<th style="width: 50%;">商品名稱</th>
 								<th style="width: 20%;">目前庫存</th>
 								<th style="width: 20%;">詳細資訊</th>
@@ -256,7 +256,7 @@
 						</thead>
 						<tbody>
 							<tr th:each="p : ${products}">
-								<td th:text="${p.id}" class="text-center"></td>
+								<td th:text="${p.id}" class="text-center d-none"></td> 
 								<td th:text="${p.name}" class="ps-4"></td>
 								<td th:text="${stockMap[p.id]}" class="text-center"></td>
 								<td class="text-center"><a class="btn btn-sm btn-info "

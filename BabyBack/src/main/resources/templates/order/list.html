@@ -252,7 +252,7 @@
 					<table class="table table-bordered align-middle">
 						<thead class="text-center table-light">
 							<tr>
-								<!-- <th>ID</th> -->
+								<th class="d-none">ID</th> 
 								<th>訂單編號</th>
 								<th>客戶</th>
 								<th>日期</th>
@@ -265,7 +265,7 @@
 						</thead>
 						<tbody>
 							<tr th:each="order : ${orders}">
-								<!-- <td th:text="${order.id}" class="text-center"></td> -->
+								<td th:text="${order.id}" class="text-center d-none"></td> 
 								<td th:text="${order.orderNumber}" class="text-center"></td>
 								<td th:text="${order.customer?.name} ?: '（未指定）'"></td>
 								<td th:text="${#dates.format(order.orderDate, 'yyyy-MM-dd')}"

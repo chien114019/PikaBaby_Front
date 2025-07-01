@@ -246,12 +246,12 @@
 		        <p><strong>顏色：</strong> <span th:text="${product.color}">顏色</span></p>
 		
 		        <!-- 年齡區間 -->
-		        <p>
+		        <!-- <p>
 		            <strong>適用年齡區間：</strong>
 		            <span th:if="${#lists.isEmpty(product.ageRanges)}" class="text-muted">未指定</span>
 		            <span th:each="age, iterStat : ${product.ageRanges}"
 		                  th:text="${age + (iterStat.last ? '' : ', ')}"></span>
-		        </p>
+		        </p> -->
 		        
 		         <!--   <hr> -->
 		       <div style="height: 1px; background: linear-gradient(to right, transparent, #999, transparent); border: 0; margin: 1.5rem 0;"></div> 

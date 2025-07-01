@@ -247,7 +247,7 @@
 										<colgroup>
 											<col style="width: 80px;">
 											<col style="width: 150px;">
-											<!-- <col style="width: 120px;"> -->
+											<col style="width: 120px;">
 											<col style="width: 320px;">
 											<col style="width: 100px;">
 											<col style="width: 100px;">
@@ -260,7 +260,7 @@
 													class="text-decoration-none">
 													<i class="bi bi-arrow-down-up"></i></a>
 												</th>
-												<!-- <th>分類</th> -->
+												<th>類別</th>
 												<th>描述</th>
 												<th>價格</th>
 												<th>庫存</th>
@@ -277,7 +277,7 @@
 												</td>
 												<td th:text="${p.name}" class="fw-semibold text-start"></td>
 
-											<!-- 	<td th:text="${#strings.listJoin(p.ageRanges, ', ')}">-</td> -->
+											<td th:text="${#strings.listJoin(p.ageRanges, ', ')}">-</td>
 												<td th:text="${p.note}" class="text-muted small text-start"></td>
 												<td><input type="hidden" name="productIds"
 													th:value="${p.id}" /> 

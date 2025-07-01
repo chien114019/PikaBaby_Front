@@ -10,7 +10,7 @@
     <style>
         /* Main Content Styles */
         .main-content {
-            margin-top: 50px;
+            margin-top: 0;
             padding: 20px;
         }
 
@@ -83,7 +83,7 @@
         /* 篩選面板樣式 */
         .filter-container {
             max-width: 1200px;
-            margin: 0 auto 20px auto;
+            margin: 24px auto 20px auto;
             padding: 20px;
             background: #fff;
             border-radius: 8px;
@@ -155,11 +155,10 @@
         .banner-image {
             width: 1200px;
             height: 400px;
-            margin: auto;
+            margin: 24px auto 20px auto;
             display: block;
             object-fit: cover;
             object-position: 100% 40%;
-            margin-bottom: 40px;
         }
 
         .products-container {
@@ -208,11 +207,11 @@
 
         .wishlist-btn {
             position: absolute;
-            top: 10px;
-            right: 10px;
+            top: 18px;
+            right: 18px;
             background: none;
             border: none;
-            font-size: 24px;
+            font-size: 32px;
             cursor: pointer;
             color: #ccc;
             transition: color 0.3s ease;
@@ -966,100 +965,194 @@
             console.log('📋 篩選功能已初始化，等待商品載入');
         });
 
-        // 願望清單功能
-        function toggleWishlist(button) {
-            button.classList.toggle('active');
-            const productCard = button.closest('.product-card');
-            const productId = productCard.querySelector('.add-to-cart-btn').dataset.productId;
-            const productName = productCard.querySelector('.product-title').textContent;
-            const productPrice = productCard.querySelector('.product-price').textContent.match(/\d+/)[0];
-            const productImage = productCard.querySelector('.product-image').src;
-
-            // 發送請求到後端API
-            fetch('/api/wishlist/toggle', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    productId: productId,
-                    name: productName,
-                    price: productPrice,
-                    image: productImage
+        // 收藏/取消收藏功能
+        function toggleWishlist(btn) {
+            const card = btn.closest('.product-card');
+            const productId = card?.dataset.productId || card?.querySelector('[data-product-id]')?.getAttribute('data-product-id');
+            if (!productId) {
+                alert('找不到商品ID，無法收藏');
+                return;
+            }
+            if (!btn.classList.contains('active')) {
+                btn.classList.add('active');
+                // 加入收藏
+                fetch('http://localhost:8080/customers/front/favorites', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({ productId: parseInt(productId) })
                 })
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
+                .then(res => {
+                    if (!res.ok) throw new Error('請先登入或稍後再試');
+                    return res.text();
                 })
-                .then(data => {
-                    if (button.classList.contains('active')) {
-                        showNotification(`已將 ${productName} 加入願望清單`);
-                    } else {
-                        showNotification(`已將 ${productName} 從願望清單移除`);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    showNotification('操作失敗，請稍後再試');
-                    button.classList.toggle('active'); // 恢復按鈕狀態
+                .catch(err => {
+                    // 失敗還原
+                    btn.classList.remove('active');
+                    showMessage(err.message || '加入收藏失敗', 'error');
                 });
+            } else {
+                // 立即切換為灰色
+                btn.classList.remove('active');
+                // 取消收藏
+                fetch(`http://localhost:8080/customers/front/favorites/${productId}`, {
+                    method: 'DELETE',
+                    credentials: 'include'
+                })
+                .then(res => {
+                    if (!res.ok) throw new Error('請先登入或稍後再試');
+                    return res.text();
+                })
+                .catch(err => {
+                    // 失敗還原
+                    btn.classList.add('active');
+                    showMessage(err.message || '移除收藏失敗', 'error');
+                });
+            }
         }
 
         // 加入購物車功能
         function addToCart(button) {
-            const productId = button.dataset.productId;
-            const productName = button.dataset.productName;
-            const productPrice = parseFloat(button.dataset.productPrice);
-            const productImage = button.closest('.product-card').querySelector('.product-image').src;
-            const quantityInput = button.parentElement.querySelector('.quantity-input');
-            const quantity = quantityInput ? parseInt(quantityInput.value) : 1;
+            console.log("🛒 開始加入購物車...");
 
-            // 發送請求到後端API
-            fetch('http://localhost:8080/orders/api/cart/add', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    productId: productId,
+            const productId = button.getAttribute('data-product-id');
+            const productName = button.getAttribute('data-product-name');
+            const productPrice = parseFloat(button.getAttribute('data-product-price'));
+            const productImage = button.getAttribute('data-product-image');
+
+            console.log("🔍 商品資訊:", { productId, productName, productPrice, productImage });
+
+            // 檢查必要資料
+            if (!productId || !productName || isNaN(productPrice)) {
+                console.error("❌ 商品資料不完整:", { productId, productName, productPrice });
+                showMessage('商品資料錯誤，無法加入購物車', 'error');
+                return;
+            }
+
+            // 獲取數量 - 修正查找邏輯
+            const productCard = button.closest('.product-card');
+            const quantityInput = productCard?.querySelector('.quantity-input');
+            const quantity = parseInt(quantityInput?.value) || 1;
+
+            console.log("🔍 數量輸入框查找:", { productCard: !!productCard, quantityInput: !!quantityInput, quantity });
+
+            console.log("📦 準備加入購物車的商品:", { productId, productName, productPrice, quantity });
+
+            // 禁用按鈕，防止重複點擊
+            button.disabled = true;
+            const originalText = button.textContent;
+            button.textContent = '加入中...';
+
+            try {
+                // 創建商品物件
+                const product = {
+                    id: parseInt(productId),
                     name: productName,
                     price: productPrice,
                     quantity: quantity,
-                    image: productImage
-                })
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    // 更新購物車數量
-                    updateCartCount();
-                    // 顯示成功訊息（含數量和總價）
-                    showNotification(`已將 ${quantity} 件 ${productName} 加入購物車，總價：${productPrice * quantity} 元`);
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    showNotification('加入購物車失敗，請稍後再試');
-                });
+                    image: productImage || '../images/baby.jpg'
+                };
+
+                // 加入購物車
+                let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+                // 檢查商品是否已存在
+                const existingIndex = cart.findIndex(item => item.id === product.id);
+
+                if (existingIndex > -1) {
+                    // 商品已存在，增加數量
+                    cart[existingIndex].quantity += quantity;
+                    console.log(`➕ 增加商品數量: ${productName} x${quantity} (總計: ${cart[existingIndex].quantity})`);
+                } else {
+                    // 新商品，直接加入
+                    cart.push(product);
+                    console.log(`🛒 新增商品到購物車: ${productName} x${quantity}`);
+                }
+
+                // 儲存到 localStorage
+                localStorage.setItem('cart', JSON.stringify(cart));
+                console.log("💾 購物車已儲存到 localStorage");
+
+                // 顯示成功訊息
+                showAddToCartSuccess(productName, quantity);
+
+                // 重置數量為1
+                if (quantityInput) {
+                    quantityInput.value = 1;
+                }
+
+                // 更新購物車數量顯示（如果有的話）
+                updateCartCount();
+
+            } catch (error) {
+                console.error('❌ 加入購物車失敗:', error);
+                showMessage('加入購物車失敗：' + error.message, 'error');
+            } finally {
+                // 恢復按鈕狀態
+                button.disabled = false;
+                button.textContent = originalText;
+            }
         }
 
-        // 網址變動時（例如使用者點擊導覽列分類）
-        window.addEventListener('popstate', function () {
-            console.log('🔄 URL變動，重新處理分類參數');
-            const urlParams = new URLSearchParams(window.location.search);
-            const categoryParam = urlParams.get('category');
-            if (categoryParam) {
-                filterProducts(categoryParam);
-            } else {
-                filterProducts('');
-            }
-        });
+        // 顯示加入購物車成功訊息
+        function showAddToCartSuccess(productName, quantity) {
+            // 簡單的成功提示
+            const message = `✅ 已將 ${productName} x${quantity} 加入購物車！`;
+            showMessage(message, 'success');
+            console.log(message);
+        }
+
+        // 通用訊息顯示函數
+        function showMessage(message, type = 'info') {
+            // 創建臨時提示元素
+            const toast = document.createElement('div');
+
+            let backgroundColor = '#17a2b8'; // info
+            if (type === 'success') backgroundColor = '#28a745';
+            if (type === 'error') backgroundColor = '#dc3545';
+            if (type === 'warning') backgroundColor = '#ffc107';
+
+            toast.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: ${backgroundColor};
+        color: white;
+        padding: 12px 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        z-index: 9999;
+        font-weight: 500;
+        max-width: 300px;
+        word-wrap: break-word;
+    `;
+            toast.textContent = message;
+
+            document.body.appendChild(toast);
+
+            // 3秒後移除提示
+            setTimeout(() => {
+                if (toast.parentNode) {
+                    toast.parentNode.removeChild(toast);
+                }
+            }, 3000);
+        }
+
+        // 搜尋功能（保留原有功能）
+        // function filterProducts(category) {
+        //     console.log(`🔍 篩選商品類別: ${category}`);
+
+        //     const allCards = document.querySelectorAll('.product-card');
+
+        //     allCards.forEach(card => {
+        //         console.log("card:" + card)
+        //         if (category === '' || card.dataset.category === category) {
+        //             card.style.display = 'block';
+        //         } else {
+        //             card.style.display = 'none';
+        //         }
+        //     });
+        // }
     </script>
 
     <script>

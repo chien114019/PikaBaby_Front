@@ -33,14 +33,10 @@ public class LinePayController {
 
 	private Map<String, String> payStatus = new ConcurrentHashMap<>();
 
-	private BigDecimal amount;
-
 	@PostMapping("/request")
 	public ResponseEntity<Response> PayRequest(@RequestBody CheckoutPaymentRequestForm form) {
 		try {
 			System.out.println("PayRequest()");
-
-			amount = form.getAmount();
 //			System.out.println("PayRequest() amount = " + amount);
 
 			return linePayService.RequestService(form);

@@ -23,7 +23,8 @@ public class EcpayController {
                                HttpServletResponse response) throws IOException {
 
         Map<String, String> params = new LinkedHashMap<>();
-        params.put("MerchantID", "2000132");
+//        params.put("MerchantID", "2000132");
+        params.put("MerchantID", "3002607");
         params.put("MerchantTradeNo", "TEST" + System.currentTimeMillis());
         params.put("MerchantTradeDate", new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date()));
         params.put("PaymentType", "aio");
@@ -32,6 +33,7 @@ public class EcpayController {
         params.put("ItemName", item);
         params.put("ReturnURL", "http://localhost:8080/ecpay/callback");
         params.put("ChoosePayment", "ALL");
+        params.put("EncryptType", "1");
 
         String checkMacValue = EcpayUtil.generateCheckMacValue(params);
         params.put("CheckMacValue", checkMacValue);
@@ -47,7 +49,7 @@ public class EcpayController {
 
         // ✅ 自動送出表單（使用 nonce）
         StringBuilder html = new StringBuilder();
-        html.append("<html><body>");
+        html.append("<html><body onload='document.forms[0].submit()'>");
         html.append("<form id='ecpayForm' method='post' action='https://payment-stage.ecpay.com.tw/Cashier/AioCheckOut/V5'>");
         for (Map.Entry<String, String> entry : params.entrySet()) {
             html.append("<input type='hidden' name='")
@@ -56,8 +58,8 @@ public class EcpayController {
                 .append(entry.getValue().replace("\"", "&quot;"))
                 .append("'/>");
         }
-        html.append("<p>請點擊按鈕前往綠界付款</p>");
-        html.append("<button type='submit'>前往付款</button>");  // ✅ 改為手動送出
+//        html.append("<p>請點擊按鈕前往綠界付款</p>");
+//        html.append("<button type='submit'>前往付款</button>");  // ✅ 改為手動送出
         html.append("</form>");
         html.append("</body></html>");
 

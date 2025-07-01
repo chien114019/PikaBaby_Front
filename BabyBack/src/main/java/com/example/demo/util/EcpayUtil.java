@@ -1,5 +1,6 @@
 package com.example.demo.util;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -9,8 +10,11 @@ import java.util.TreeMap;
 
 public class EcpayUtil {
 
-    private static final String HASH_KEY = "5294y06JbISpM5x9";
-    private static final String HASH_IV = "v77hoKGq4kWxNNIS";
+//    private static final String HASH_KEY = "5294y06JbISpM5x9";
+//    private static final String HASH_IV = "v77hoKGq4kWxNNIS";
+
+    private static final String HASH_KEY = "pwFHCqoQZGmho4w6";
+    private static final String HASH_IV = "EkRm7iFT261dpevs";
 
     public static String generateCheckMacValue(Map<String, String> params) {
         try {
@@ -42,13 +46,14 @@ public class EcpayUtil {
         }
     }
 
-    private static String urlEncode(String input) {
-        return URLEncoder.encode(input, StandardCharsets.UTF_8)
-                .replaceAll("\\+", "%20")
-                .replaceAll("%21", "!")
-                .replaceAll("%28", "(")
-                .replaceAll("%29", ")")
-                .replaceAll("%2A", "*")
-                .replaceAll("%7E", "~");
+    private static String urlEncode(String input) throws Exception {
+    	return URLEncoder.encode(input, StandardCharsets.UTF_8.toString());
+//        return URLEncoder.encode(input, StandardCharsets.UTF_8)
+//                .replaceAll("\\+", "%20")
+//                .replaceAll("%21", "!")
+//                .replaceAll("%28", "(")
+//                .replaceAll("%29", ")")
+//                .replaceAll("%2A", "*")
+//                .replaceAll("%7E", "~");
     }
 }

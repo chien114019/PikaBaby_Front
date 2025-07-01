@@ -47,34 +47,61 @@ public class PurchaseOrderController {
     // 儲存進貨單
     @PostMapping("/save")
     public String saveOrder(
+            @RequestParam(value = "id", required = false) Integer orderId,
             @RequestParam("supplierProductIds") Integer[] supplierProductIds,
             @RequestParam("quantities") Long[] quantities,
             @RequestParam("unitPrice") BigDecimal[] unitPrice,
             @RequestParam("orderDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date orderDate) {
 
-        PurchaseOrder order = new PurchaseOrder();
-        order.setOrderDate(orderDate);
+        PurchaseOrder order;
+        if (orderId != null) {
+            // 編輯流程
+            order = orderService.getById(orderId);
+            order.setOrderDate(orderDate);
 
-        List<PurchaseOrderDetail> detailList = new ArrayList<>();
-        for (int i = 0; i < supplierProductIds.length; i++) {
-            SupplierProduct sp = supplierProductService.getById(supplierProductIds[i]);
+            // 只「清空」原有明細（保留 reference）
+            order.getDetails().clear();
 
-            PurchaseOrderDetail detail = new PurchaseOrderDetail();
-            detail.setOrder(order);
-            detail.setSupplierProduct(sp);
-            detail.setQuantity(quantities[i]);
-            detail.setUnitPrice(sp.getPrice());
-            detailList.add(detail);
+            // 新增新明細（務必 setOrder(order)）
+            for (int i = 0; i < supplierProductIds.length; i++) {
+                SupplierProduct sp = supplierProductService.getById(supplierProductIds[i]);
+                PurchaseOrderDetail detail = new PurchaseOrderDetail();
+                detail.setOrder(order);
+                detail.setSupplierProduct(sp);
+                detail.setQuantity(quantities[i]);
+                detail.setUnitPrice(unitPrice[i]);
+                order.getDetails().add(detail);
+            }
+
+            if (!order.getDetails().isEmpty()) {
+                order.setSupplier(order.getDetails().get(0).getSupplierProduct().getSupplier());
+            }
+        } else {
+            // 新增流程
+            order = new PurchaseOrder();
+            order.setOrderDate(orderDate);
+
+            List<PurchaseOrderDetail> detailList = new ArrayList<>();
+            for (int i = 0; i < supplierProductIds.length; i++) {
+                SupplierProduct sp = supplierProductService.getById(supplierProductIds[i]);
+                PurchaseOrderDetail detail = new PurchaseOrderDetail();
+                detail.setOrder(order);
+                detail.setSupplierProduct(sp);
+                detail.setQuantity(quantities[i]);
+                detail.setUnitPrice(unitPrice[i]);
+                detailList.add(detail);
+            }
+
+            if (!detailList.isEmpty()) {
+                order.setSupplier(detailList.get(0).getSupplierProduct().getSupplier());
+            }
+            order.setDetails(detailList);
         }
-
-        if (!detailList.isEmpty()) {
-            order.setSupplier(detailList.get(0).getSupplierProduct().getSupplier());
-        }
-        order.setDetails(detailList);
 
         orderService.save(order);
         return "redirect:/purchases";
     }
+
 
     // 顯示進貨單清單
     @GetMapping
@@ -115,6 +142,7 @@ public class PurchaseOrderController {
         }
 
         model.addAttribute("order", order);
+        model.addAttribute("orderDetail", order.getDetails());
         model.addAttribute("suppliers", supplierService.listAll());
         model.addAttribute("products", productService.listAll());
         model.addAttribute("supplierProducts", supplierProductService.listAll());

@@ -230,7 +230,7 @@
 
 						<form th:action="@{/supplier-products/save}"
 							th:object="${supplierProduct}" method="post">
-<input type="hidden" th:field="*{id}"/> 
+							<input type="hidden" th:field="*{id}"/> 
 							<div class="mb-3">
 								<label class="fw-bold mt-2">建立日期：</label> 
 								<input type="date" th:field="*{createdDate}" class="form-control w-75 mt-2" />

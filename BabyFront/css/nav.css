@@ -118,7 +118,7 @@ nav .dropdown-toggle::after {
 }
 
 .dropdown-item {
-    width: 10%;
+    width: 100%;
     text-align: center;
 }
 
@@ -330,4 +330,14 @@ footer a {
         transform: scaleX(1);
         /* 翻轉回初始狀態準備下一輪 */
     }
+}
+
+/* 修正 Bootstrap 響應式 navbar 收合與下拉 */
+@media (max-width: 991.98px) {
+  .nav-links {
+    flex-direction: column !important;
+    gap: 0 !important;
+    margin-right: 0 !important;
+    width: 100%;
+  }
 }

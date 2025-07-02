@@ -568,16 +568,17 @@
         
         $("#review").on("change", function() {
         	const review = $(this).prop("value");
+        	console.log(review);
         	switch(review) {
-        		case 0:
+        		case "0":
     	        	$("#price").prop("value", "");
     	        	$("#price").attr("readonly", true);
         			break;
-        		case 1:
+        		case "1":
     	        	$("#price").prop("value", 0);
     	        	$("#price").attr("readonly", false);
         			break;
-        		case 2:
+        		case "2":
     	        	$("#price").prop("value", 0);
     	        	$("#price").attr("readonly", true);
         			break;

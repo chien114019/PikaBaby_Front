@@ -18,30 +18,28 @@
         <div class="top-banner">
             每週五六日🔥新人代理寄賣免運
             <font color="red"><span></span> 日 <span></span> 時 <span></span> 分 <span></span> 秒</font>
-            <div style="display: inline-block; background-color: black; color: white">
-                Ispian love you
-            </div>
         </div>
-
-        <!-- LOGO -->
+        <!-- 中置LOGO -->
         <div class="nav-logo-row">
-            <img src="images/logo-pikababy.png" alt="PikaBaby" class="nav-logo" />
-            <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs"
-                type="module"></script>
-            <dotlottie-player src="https://lottie.host/e2f58f36-abb9-4162-93b2-73b0ebcc405f/4XheDkzWUL.lottie"
-                background="transparent" speed="0.8" style="width: 200px; height: 200px" loop autoplay class="walker "></dotlottie-player>
+            <img src="images/logo-pikababy.png" alt="PikaBaby" class="nav-logo" style="height: 80px; width: auto;">
         </div>
     </header>
 
     <!-- 導覽列 -->
-    <nav class="navbar navbar-expand-lg navbar-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-white">
         <div class="container-fluid">
-            <!-- <div class="collapse navbar-collapse justify-content-center d-flex" id="navbarSupportedContent"> -->
-            <div class="collapse navbar-collapse justify-content-around d-flex" id="navbarSupportedContent">
-                <!-- LOGO -->
-                <img id="logo" src="../images/logo-pikababy.png" alt="PikaBaby"
-                    style="height: 80px; width: 0px; transition: 3s; display: none;" />
-                <ul class="navbar-nav ml-auto nav-links gap-5 me-0">
+            <div class="d-flex align-items-center">
+                <a class="navbar-brand" href="#" id="logo" style="display:none;width:80px;">
+                    <img src="images/logo-pikababy.png" alt="PikaBaby" style="height: 80px; width: auto;">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+            <!-- collapse只包選單 -->
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mx-auto nav-links gap-5 mb-2 mb-lg-0">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="../index.html">首頁</a>
                     </li>
@@ -122,37 +120,16 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="../about.html">關於我們</a>
                     </li>
-                    <div class="d-flex gap-3">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="../Shopping/shoppingcart.html">
-                                <img src="../images/cart.png" style="width: 30px;">
-                            </a>
-                            <!-- <div class="dropdown-menu p-3 justify-content-center gap-5"
-                                aria-labelledby="navbarDropdown5">
-                                <a class="dropdown-item" href="Shopping/shoppingcart.html">購物車</a>
-                                <a class="dropdown-item" href="Shopping/order.html">訂單查詢</a>
-                            </div> -->
-                        </li>
-                        <!-- ✅ 未登入時：跳 login，不顯示 dropdown -->
-                        <li class="nav-item" id="loginNavItem">
-                            <a class="nav-link" href="../Member/login.html">
-                                <img src="../images/user.png" style="width: 30px;" alt="會員登入圖示">
-                            </a>
-                        </li>
-                        <!-- ✅ 已登入時：正常 dropdown -->
-                        <li class="nav-item dropdown" id="memberDropdownItem" style="display: none;">
-                            <a class="nav-link dropdown-toggle" id="navbarDropdown5" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img src="../images/user.png" style="width: 30px;" alt="會員圖示">
-                            </a>
-                            <div class="dropdown-menu p-3 justify-content-center gap-5" id="dropdownForUser"
-                                aria-labelledby="navbarDropdown5">
-                                <a class="dropdown-item" href="../Member/member.html">會員中心</a>
-                                <a class="dropdown-item text-danger" href="#" onclick="logout()">登出</a>
-                            </div>
-                        </li>
-                    </div>
                 </ul>
+            </div>
+            <!-- icon永遠在右邊 -->
+            <div class="d-flex align-items-center gap-3">
+                <a class="nav-link" href="../Shopping/shoppingcart.html">
+                    <img src="../images/cart.png" style="width: 30px;">
+                </a>
+                <a class="nav-link" href="../Member/login.html">
+                    <img src="../images/user.png" style="width: 30px;" alt="會員登入圖示">
+                </a>
             </div>
         </div>
     </nav>
@@ -414,7 +391,7 @@
                             <div class="ranking-item ranking-card" style="background: #faf6ef; box-shadow: 0 2px 12px rgba(180,150,80,0.07); border-radius: 28px; min-width: 270px; max-width: 340px; margin: 22px 0; padding: 38px 22px 28px 22px; display: flex; flex-direction: column; align-items: center; transition: transform 0.25s, box-shadow 0.25s;">
                                 <div class="rank-badge2" style="background:${rankColor}; color:#fff; font-size:1.5rem; font-weight:800; width:54px; height:54px; border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 12px ${rankColor}55; margin-bottom:18px; letter-spacing:1px; border:4px solid #fff;">${idx + 1}</div>
                                 <div style="width:120px;height:120px;display:flex;align-items:center;justify-content:center;margin-bottom:20px;">
-                                    <img src="${getProductImageUrl(item.primaryImageUrl)}" alt="${item.name}" loading="lazy" style="width:110px;height:110px;object-fit:cover;border-radius:50%;box-shadow:0 4px 24px 0 #ffe13533,0 0 0 8px #fff; background:#f8f8f8; border:2px solid #f7e7b6; transition:box-shadow 0.22s, transform 0.22s;" onerror="this.src='images/baby.jpg';">
+                                    <img src="${getProductImageUrl(item.image)}" alt="${item.name}" loading="lazy" style="width:110px;height:110px;object-fit:cover;border-radius:50%;box-shadow:0 4px 24px 0 #ffe13533,0 0 0 8px #fff; background:#f8f8f8; border:2px solid #f7e7b6; transition:box-shadow 0.22s, transform 0.22s;" onerror="this.src='images/baby.jpg';">
                                 </div>
                                 <div style="font-weight:800;font-size:1.18rem;margin-bottom:10px;letter-spacing:1px;color:#222;text-align:center;">${item.name}</div>
                                 <div class="rank-labels2" style="display:flex;gap:10px;justify-content:center;margin-bottom:8px;">
@@ -515,7 +492,8 @@
             }
 
             .navbar-brand img {
-                height: 48px !important;
+                height: 80px !important;
+                width: auto !important;
             }
         }
 
@@ -688,7 +666,8 @@
 
     <script>
         window.addEventListener('scroll', function () {
-            const logo = document.getElementById('navbarLogo');
+            const logo = document.getElementById('logo');
+            if (!logo) return;
             if (window.scrollY > 50) {
                 logo.style.display = 'block';
             } else {

@@ -18,6 +18,7 @@
         #h3 {
             scroll-margin-top: 40vh;
         }
+
         /* 首頁navbar響應式下拉選單樣式 */
         .navbar-toggler {
             border: none;
@@ -26,50 +27,68 @@
             padding: 8px 10px;
             border-radius: 4px;
         }
+
         .navbar-toggler-icon.custom-toggler {
             background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='white' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
         }
+
         @media (max-width: 991.98px) {
             .navbar-nav {
                 gap: 0 !important;
             }
+
             .navbar-collapse {
                 background: #fff;
                 padding: 1rem;
                 border-radius: 0 0 10px 10px;
-                box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+                box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
             }
+
             .navbar-brand img {
                 height: 48px !important;
             }
         }
+
         @media (max-width: 575.98px) {
             .nav-logo-row {
                 justify-content: center;
             }
         }
+
         @media (max-width: 768px) {
             .row-cols-6 {
                 grid-template-columns: repeat(1, 1fr) !important;
                 display: grid !important;
             }
-            .row-cols-6 > .col {
+
+            .row-cols-6>.col {
                 margin-bottom: 1rem;
             }
-            .col-md-6, .col-md-8, .col-md-4, .col-md-2 {
+
+            .col-md-6,
+            .col-md-8,
+            .col-md-4,
+            .col-md-2 {
                 flex: 0 0 100%;
                 max-width: 100%;
             }
-            .pe-4, .ps-4, .pe-0, .ps-0 {
+
+            .pe-4,
+            .ps-4,
+            .pe-0,
+            .ps-0 {
                 padding-right: 0 !important;
                 padding-left: 0 !important;
             }
+
             .footer-container {
                 display: flex !important;
                 flex-direction: column !important;
                 align-items: center !important;
             }
-            .footer-section, .footer-section.w-100 {
+
+            .footer-section,
+            .footer-section.w-100 {
                 width: 100% !important;
                 min-width: 0 !important;
                 margin-bottom: 1rem !important;
@@ -77,6 +96,7 @@
                 justify-content: center !important;
                 text-align: center !important;
             }
+
             .footer-logo {
                 margin-bottom: 0.5rem !important;
                 display: block;
@@ -84,12 +104,17 @@
                 margin-right: auto;
             }
         }
+
         @media (max-width: 576px) {
-            .container.my-5, .container {
+
+            .container.my-5,
+            .container {
                 padding-left: 0.5rem !important;
                 padding-right: 0.5rem !important;
             }
-            h3, h4 {
+
+            h3,
+            h4 {
                 font-size: 1.1rem !important;
             }
         }
@@ -269,14 +294,14 @@
                 <h3 class="text-black mb-4">託售服務</h3>
                 <section style="margin-bottom: 150px;">
                     <h4>託售三步驟</h4>
-                    <div class="row row-cols-1 row-cols-md-3 px-2 px-md-5 me-0 me-md-5">
+                    <div class="row row-cols-6 px-5 me-5">
                         <div class="col"></div>
                         <div class="col"></div>
                         <div class="col h-50">
                             <div class="hexagon flex-column align-content-center">
                                 <h6 class="d-flex justify-content-center mb-2">Step 2.</h6>
                                 <div class="d-flex justify-content-center px-3">
-                                    <img src="../images/package.png" class="img-fluid" style="object-fit: contain; width: 50%;" alt="">
+                                    <img src="../images/package.png" style="object-fit: contain; width: 50%;" alt="">
                                 </div>
                                 <h6 class="d-flex justify-content-center mt-2">
                                     <span class="w-50" style="text-align: center;">交貨，由 PikaBaby 提供銷售相關服務</span>
@@ -291,7 +316,7 @@
                             <div class="hexagon flex-column align-content-center">
                                 <h6 class="d-flex justify-content-center mb-2">Step 1.</h6>
                                 <div class="d-flex justify-content-center">
-                                    <img src="../images/servey.png" class="img-fluid" style="object-fit: contain; width: 50%;" alt="">
+                                    <img src="../images/servey.png" style="object-fit: contain; width: 50%;" alt="">
                                 </div>
                                 <h6 class="d-flex justify-content-center mt-2">填寫申請單，選交貨方式</h6>
                             </div>
@@ -303,7 +328,7 @@
                             <div class="hexagon flex-column align-content-center">
                                 <h6 class="d-flex justify-content-center mb-2">Step 3.</h6>
                                 <div class="d-flex justify-content-center p-4 py-3">
-                                    <img src="../images/withdraw.png" class="img-fluid" style="object-fit: contain; width: 50%;" alt="">
+                                    <img src="../images/withdraw.png" style="object-fit: contain; width: 50%;" alt="">
                                 </div>
                                 <h6 class="d-flex justify-content-center mt-2">審核追蹤，遠端提款</h6>
                             </div>

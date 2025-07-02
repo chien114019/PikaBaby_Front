@@ -1,140 +1,150 @@
 .coupon-h2 {
-      font-size: 1.5rem;
-      color: #5e3b1f;
-      margin-bottom: 1rem;
-      font-weight: bold;
-    }
+  font-size: 25px;
+  color: #5e3b1f;
+  margin-bottom: 1rem;
+  font-weight: bold;
+}
 
-    .coupon-h1 {
-      font-size: 1.2rem;
-      color: #5e3b1f;
-      margin-bottom: 1rem;
-      font-weight: bold;
-    }
+.coupon-h1 {
+  font-size: 1.2rem;
+  color: #5e3b1f;
+  margin-bottom: 1rem;
+  font-weight: bold;
+}
 
-    .coupon-card {
-      background-color: hsl(44, 92%, 90%);
-       border: 1px solid #ffe3d5;
-      padding: 1.5rem;
-      margin-bottom: 2rem;
-      border-radius: 12px;
-      box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
-    }
+.coupon-card {
+  background-color: hsl(44, 92%, 90%);
+  border: 1px solid #ffe3d5;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
+  font-size: 1rem;
+  /* 原本沒有，整體放大 */
+}
 
-    .dashed-box {
-      border: 2px dashed #aaa;
-      padding: 1rem;
-      border-radius: 8px;
-      background-color: #fffdf7;
-      font-size: 0.9rem;
-      color: #555;
-    }
+.dashed-box {
+  border: 2px dashed #aaa;
+  padding: 1.2rem;
+  border-radius: 8px;
+  background-color: #fffdf7;
+  font-size: 0.9rem;
+  color: #555;
+  font-size: 1.1rem;
+}
 
-    .points {
-      text-align: right;
-      font-weight: bold;
-      color: #804d3d;
-      margin-top: 0.8rem;
-      font-size: 1.3rem;
-    }
+.dashed-box svg {
+  vertical-align: middle;
+  margin-right: 0.5rem;
+  width: 20px;
+  height: 20px;
+}
 
-    .points span {
-      font-size: 1.8rem;
-      color: rgb(239, 96, 96);
-    }
+.points {
+  text-align: right;
+  font-weight: bold;
+  color: #804d3d;
+  margin-top: 1.2rem;
+  font-size: 1.4rem;
+}
 
-    .coupon-section {
-      display: flex;
-      gap: 2rem;
-      align-items: flex-start;
-      flex-wrap: wrap;
-      /* 若螢幕小會換行 */
-    }
+.points span {
+  font-size: 2rem;
+  color: rgb(239, 96, 96);
+}
 
-    .coupon-block {
-      flex: 1 1 45%;
-      min-width: 300px;
-    }
+.coupon-section {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  /* 若螢幕小會換行 */
+}
 
-    .status-tag-available {
-      display: inline-block;
-      background-color: #f0ded0;
-      /* 根據圖片推估的淺米色 */
-      color: #7a6b68;
-      /* 根據圖片推估的深灰字色 */
-      padding: 8px 20px;
-      border-radius: 999px;
-      font-weight: bold;
-      font-size: 1.2rem;
-      font-family: "Noto Sans TC", sans-serif;
-      margin-bottom: 1rem;
-    }
+.coupon-block {
+  flex: 1 1 45%;
+  min-width: 300px;
+}
 
-    .status-tag-used {
-      display: inline-block;
-      background-color: #958071ce;
-      /* 根據圖片推估的淺米色 */
-      color: #554744;
-      /* 根據圖片推估的深灰字色 */
-      padding: 8px 20px;
-      border-radius: 999px;
-      font-weight: bold;
-      font-size: 1.2rem;
-      font-family: "Noto Sans TC", sans-serif;
-      margin-bottom: 1rem;
-    }
+.status-tag-available {
+  display: inline-block;
+  background-color: #f0ded0;
+  /* 根據圖片推估的淺米色 */
+  color: #7a6b68;
+  /* 根據圖片推估的深灰字色 */
+  padding: 8px 20px;
+  border-radius: 999px;
+  font-weight: bold;
+  font-size: 1.2rem;
+  font-family: "Noto Sans TC", sans-serif;
+  margin-bottom: 1rem;
+}
 
-    .coupon-container {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-      margin-bottom: 2rem;
-    }
+.status-tag-used {
+  display: inline-block;
+  background-color: #958071ce;
+  /* 根據圖片推估的淺米色 */
+  color: #554744;
+  /* 根據圖片推估的深灰字色 */
+  padding: 8px 20px;
+  border-radius: 999px;
+  font-weight: bold;
+  font-size: 1.2rem;
+  font-family: "Noto Sans TC", sans-serif;
+  margin-bottom: 1rem;
+}
 
-    .coupon {
-      background-color: #fdf5f0;
-      border: 1px solid #e0cfc2;
-      border-radius: 10px;
-      padding: 1rem;
-      width: 230px;
-      box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
-      position: relative;
-    }
+.coupon-container {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
 
-    .coupon::before,
-    .coupon::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 12px;
-      height: 24px;
-      background-color: #fffaf4;
-      border: 1px solid #e0cfc2;
-      border-radius: 50%;
-    }
+.coupon {
+  background-color: #fdf5f0;
+  border: 1px solid #e0cfc2;
+  border-radius: 10px;
+  padding: 1rem;
+  width: 230px;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
 
-    .coupon::before {
-      left: -6px;
-    }
+.coupon::before,
+.coupon::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 12px;
+  height: 24px;
+  background-color: #fffaf4;
+  border: 1px solid #e0cfc2;
+  border-radius: 50%;
+}
 
-    .coupon::after {
-      right: -6px;
-    }
+.coupon::before {
+  left: -6px;
+}
 
-    .coupon h4 {
-      font-size: 1rem;
-      color: #5e3b1f;
-      margin-bottom: 0.5rem;
-    }
+.coupon::after {
+  right: -6px;
+}
 
-    .coupon p {
-      font-size: 0.85rem;
-      color: #555;
-    }
+.coupon h4 {
+  font-size: 1rem;
+  color: #5e3b1f;
+  margin-bottom: 0.5rem;
+}
 
-    @media (max-width: 768px) {
-      .coupon-block {
-        flex: 1 1 100%;
-      }
-    }
+.coupon p {
+  font-size: 0.85rem;
+  color: #555;
+}
+
+@media (max-width: 768px) {
+  .coupon-block {
+    flex: 1 1 100%;
+  }
+}

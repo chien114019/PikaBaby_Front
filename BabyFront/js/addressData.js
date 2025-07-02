@@ -52,7 +52,7 @@ function updateAddressUI(type, address) {
     if (address && address.id) {
         addressSpan.textContent = `${address.city}${address.district}${address.street}`;
         btn.innerHTML = '✎';
-        btn.classList.remove('btn-outline-danger');
+        btn.classList.remove('btn-outline-success');
         btn.classList.add('btn-outline-warning');
         btn.setAttribute('data-bs-target', '#addressModal'); 
         btn.setAttribute('onclick', `editAddress('${type}')`);
@@ -60,7 +60,7 @@ function updateAddressUI(type, address) {
         addressSpan.textContent = '尚未設定';
         btn.innerHTML = '<i class="bi bi-plus-lg"></i></i>';
         btn.classList.remove('btn-outline-warning');
-        btn.classList.add('btn-outline-danger');
+        btn.classList.add('btn-outline-success');
         btn.setAttribute('data-bs-target', '#address_addModal');
         btn.setAttribute('onclick', `addAddress('${type}')`);
     }

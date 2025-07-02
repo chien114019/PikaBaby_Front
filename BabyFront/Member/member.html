@@ -242,24 +242,28 @@
                     <div id="profile" class="tab-content member-section">
                         <!-- 會員資訊 -->
 
-                        <div class="card ">
-                            <h3>會員資訊</h3>
-                            <hr>
-                           
-                            <p><strong>會員名稱：</strong> <span id="memberName">載入中...</span></p>
-                            <p><strong>Email：</strong> <span id="memberEmail">載入中...</span></p>
-                            <p><strong>手機：</strong><span id="memberPhone">載入中...</span></p>
-                            <p><strong>生日：</strong><span id="memberBirthday">載入中...</span></p>
-                            <p><strong>註冊日期：</strong><span id="memberCreatedAt">載入中...</span></p>
-                            <br>
-                            <p><strong>寶寶出生年月：</strong>
-                                <span id="memberBabyBirthday" class="ms-3 mt-1"></span>
-                            </p>
-                            <div class="text-end mt-3">
-                                <button class="btn" data-bs-toggle="modal"
-                                    data-bs-target="#editModal"><i class="bi bi-pencil-square edit-icons" ></i></button>
+                        <div class="card">
+                            <div class="card-body">
+                                
+                                <h3><i class="bi bi-person"></i>    會員資訊</h3>
+                                <hr>
+
+                                <p><strong>會員名稱：</strong> <span id="memberName">載入中...</span></p>
+                                <p><strong>Email：</strong> <span id="memberEmail">載入中...</span></p>
+                                <p><strong>手機：</strong><span id="memberPhone">載入中...</span></p>
+                                <p><strong>生日：</strong><span id="memberBirthday">載入中...</span></p>
+                                <p><strong>註冊日期：</strong><span id="memberCreatedAt">載入中...</span></p>
+                                <br>
+                                <p><strong>寶寶出生年月：</strong>
+                                    <span id="memberBabyBirthday" class="ms-3 mt-1"></span>
+                                </p>
+                                <div class="text-end mt-3">
+                                    <button class="btn" data-bs-toggle="modal" data-bs-target="#editModal"><i
+                                            class="bi bi-pencil-square edit-icons"></i></button>
+                                </div>
                             </div>
                         </div>
+
                         <!-- 彈出視窗 Modal -->
                         <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel"
                             aria-hidden="true">
@@ -365,43 +369,47 @@
 
                         <!-- 常用地址 -->
                         <div class="card p-4 ">
-                            <h3 class="mb-3"><i class="bi bi-house-door"></i> 常用地址</h3>
-                            <hr>
+                            <div class="card-body">
+                                <h3 class="mb-3"><i class="bi bi-house-door"></i> 常用地址</h3>
+                                <hr>
 
-                            <!-- 預設訂單地址 -->
-                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                <p class="mb-0">
-                                    <i class="bi bi-caret-right-fill"></i>
-                                    <strong>預設訂單地址：</strong><span id="memberOrderAddress">載入中...</span>
-                                </p>
-                                <div class="d-flex gap-2 ms-3">
-                                    <button class="btn btn-sm btn-outline-warning" data-bs-toggle="modal"
-                                        data-bs-target="#addressModal" data-address-type="order"
-                                        onclick="editAddress('order')">✎</i></button>
-                                    <button class="btn btn-sm btn-outline-success"
-                                        onclick="deleteAddress('order')">✖</button>
+                                <!-- 預設訂單地址 -->
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <p class="mb-0">
+                                        <i class="bi bi-caret-right-fill"></i>
+                                        <strong>預設訂單地址：</strong><span id="memberOrderAddress">載入中...</span>
+                                    </p>
+                                    <div class="d-flex gap-2 ms-3">
+                                        <button class="btn btn-sm btn-outline-warning" data-bs-toggle="modal"
+                                            data-bs-target="#addressModal" data-address-type="order"
+                                            onclick="editAddress('order')">✎</i></button>
+                                        <button class="btn btn-sm btn-outline-danger"
+                                            onclick="deleteAddress('order')">✖</button>
+                                    </div>
+                                </div>
+                                <!-- 預設配送地址 -->
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <p class="mb-0">
+                                        <i class="bi bi-caret-right-fill"></i>
+                                        <strong>預設配送地址：</strong><span id="memberShippingAddress">載入中...</span>
+                                    </p>
+                                    <div class="d-flex gap-2 ms-3">
+                                        <button class="btn btn-sm btn-outline-warning" data-bs-toggle="modal"
+                                            data-bs-target="#addressModal" data-address-type="shipping"
+                                            onclick="editAddress('shipping')">✎</i></button>
+                                        <button class="btn btn-sm btn-outline-danger"
+                                            onclick="deleteAddress('shipping')">✖</i></i></button>
+                                    </div>
                                 </div>
                             </div>
 
-                            <!-- 預設配送地址 -->
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <p class="mb-0">
-                                    <i class="bi bi-caret-right-fill"></i>
-                                    <strong>預設配送地址：</strong><span id="memberShippingAddress">載入中...</span>
-                                </p>
-                                <div class="d-flex gap-2 ms-3">
-                                    <button class="btn btn-sm btn-outline-warning" data-bs-toggle="modal"
-                                        data-bs-target="#addressModal" data-address-type="shipping"
-                                        onclick="editAddress('shipping')">✎</i></button>
-                                    <button class="btn btn-sm btn-outline-success"
-                                        onclick="deleteAddress('shipping')">✖</i></i></button>
-                                </div>
-                            </div>
+
+
 
                             <!-- 底部提示 + 新增按鈕 -->
                             <!-- <div class="d-flex justify-content-between align-items-center">
                                 <small class="text-muted">共可填 2 筆預設地址。</small>
-                                <button class="btn btn-sm btn-outline-danger" data-bs-toggle="modal"
+                                <button class="btn btn-sm btn-outline-success" data-bs-toggle="modal"
                                     data-bs-target="#address_addModal" onclick="addAddress()">新增</button>
                             </div> -->
                         </div>
@@ -538,17 +546,20 @@
 
                         <!-- 常用信用卡 -->
                         <div class="card">
-                            <h3><i class="bi bi-credit-card-fill"></i> 常用信用卡</h3>
-                            <hr>
-                            <p><strong>💳 國泰世華銀行</strong>（•••• 8860）</p>
-                            <!-- <div class="text-end d-flex gap-2 justify-content-end">
+                            <div class="card-body">
+                                <h3><i class="bi bi-credit-card-fill"></i> 常用信用卡</h3>
+                                <hr>
+                                <p><strong>💳 國泰世華銀行</strong>（•••• 8860）</p>
+                                <!-- <div class="text-end d-flex gap-2 justify-content-end">
                                 <button class="btn btn-outline-primary">預設</button>
                                 <button class="btn btn-outline-danger">刪除</button>
                                 <button class="btn btn-outline-primary" data-bs-toggle="modal"
                                     data-bs-target="#cardModal">新增</button>
                             </div> -->
-                            <!-- <small class="text-muted">最多可登錄 3 張信用卡。</small> -->
+                                <!-- <small class="text-muted">最多可登錄 3 張信用卡。</small> -->
+                            </div>
                         </div>
+
                         <!-- 信用卡彈出視窗 -->
                         <div class="modal fade" id="cardModal" tabindex="-1" aria-labelledby="cardModalLabel"
                             aria-hidden="true">

@@ -39,7 +39,7 @@ public class OrderStatusService {
             // 同步出貨單
             ShippingOrder shippingOrder = shippingOrderRepository.findBySalesOrder(order);
             if (shippingOrder != null) {
-                shippingOrder.setStatus("已付款待出貨");
+                shippingOrder.setStatus("待出貨");
                 shippingOrderRepository.save(shippingOrder);
             }
 

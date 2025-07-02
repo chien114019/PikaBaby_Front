@@ -338,7 +338,7 @@ public class SalesOrderService {
 
         try {
         	System.out.println("更新訂單狀態");        	
-            orderStatusService.updatePayStatus(orderIdInt, 1); // 1 表示已付款
+            orderStatusService.updatePayStatus(orderIdInt, 0); // 0 表示已付款
         	
             // 返回結果
             result.put("success", true);

@@ -252,8 +252,13 @@ public class ConsignmentService {
 		List<Consignment> consigments = null;
 
 		if (pType != null && review != null && delivery != null) {
-			consigments = repository.findAllByProductTypeAndReviewAndDelivery(pType, Integer.parseInt(review),
-					Integer.parseInt(delivery));
+			if (Integer.parseInt(delivery) > 0) {
+				consigments = repository.findAllByProductTypeAndReviewAndDeliveryAndReceivedIsFalse(pType,
+						Integer.parseInt(review), Integer.parseInt(delivery));
+			} else {
+				consigments = repository.findAllByProductTypeAndReviewAndReceivedIsTrue(pType,
+						Integer.parseInt(review));
+			}
 		}
 
 		return consigments;
@@ -277,7 +282,11 @@ public class ConsignmentService {
 		List<Consignment> consigments = null;
 
 		if (pType != null && delivery != null) {
-			consigments = repository.findAllByProductTypeAndDelivery(pType, Integer.parseInt(delivery));
+			if (Integer.parseInt(delivery) > 0) {
+				consigments = repository.findAllByProductTypeAndDeliveryAndReceivedIsFalse(pType, Integer.parseInt(delivery));
+			} else {
+				consigments = repository.findAllByProductTypeAndReceivedIsTrue(pType);
+			}
 		}
 
 		return consigments;
@@ -300,7 +309,12 @@ public class ConsignmentService {
 		List<Consignment> consigments = null;
 
 		if (review != null && delivery != null) {
-			consigments = repository.findAllByReviewAndDelivery(Integer.parseInt(review), Integer.parseInt(delivery));
+			if (Integer.parseInt(delivery) > 0) {
+				consigments = repository.findAllByReviewAndDeliveryAndReceivedIsFalse(Integer.parseInt(review),
+						Integer.parseInt(delivery));
+			} else {
+				consigments = repository.findAllByReviewAndReceivedIsTrue(Integer.parseInt(review));
+			}
 		}
 
 		return consigments;
@@ -322,7 +336,11 @@ public class ConsignmentService {
 		List<Consignment> consigments = null;
 
 		if (delivery != null) {
-			consigments = repository.findAllByDelivery(Integer.parseInt(delivery));
+			if (Integer.parseInt(delivery) > 0) {
+				consigments = repository.findAllByDeliveryAndReceivedIsFalse(Integer.parseInt(delivery));
+			} else {
+				consigments = repository.findAllByReceivedIsTrue();
+			}
 		}
 
 		return consigments;
@@ -342,7 +360,7 @@ public class ConsignmentService {
 				consign.setPrice(null);
 			}
 			repository.save(consign);
-			
+
 //			紅利點數機制 => 成功託售商品，一件商品5點，每五件加10點
 			Customer cust = consign.getCustomer();
 			List<Consignment> consigns;
@@ -352,7 +370,7 @@ public class ConsignmentService {
 					System.out.println("point1");
 					cust.setPoints(cust.getPoints() + 5);
 					cRepository.save(cust);
-					
+
 					consigns = repository.findAllByCustomerAndPointDateIsNullAndReview(cust, 1);
 					System.out.println("consigns.size():" + consigns.size());
 					if (consigns.size() % 5 == 0) {
@@ -376,7 +394,7 @@ public class ConsignmentService {
 					consigns = repository.findAllByNearestPointDate();
 					if (consigns.size() % 5 == 0) {
 						System.out.println("point4");
-						
+
 						for (Consignment item : consigns) {
 							item.setPointDate(null);
 							repository.save(item);
@@ -396,6 +414,20 @@ public class ConsignmentService {
 
 		}
 
+		return response;
+	}
+
+	public Response receiveConsignment(String id, String received) {
+		Response response = new Response();
+		Consignment target = repository.findById(Integer.parseInt(id)).orElse(null);
+		if (target != null) {
+			target.setReceived(Boolean.valueOf(received));
+			repository.save(target);
+			response.setSuccess(true);
+		} else {
+			response.setSuccess(false);
+			response.setMesg("查無此紀錄");
+		}
 		return response;
 	}
 

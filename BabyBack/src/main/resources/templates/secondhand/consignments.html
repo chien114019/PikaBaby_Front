@@ -410,16 +410,21 @@
 									<td th:text="${c.productType.typeName}"></td>
 									<td th:text="${c.quantity}"></td>
 									<td th:text="${c.applyDate}"></td>
-									<td th:switch="${c.delivery}"><span th:case="${0}"
-										th:text="已交貨"></span> <span th:case="${1}" th:text="到府取貨"></span>
-										<span th:case="${2}" th:text="親自交付"></span> <span
-										th:case="${3}" th:text="物流宅配"></span> <span th:case="${4}"
-										th:text="超商寄件"></span></td>
+									<td th:if="${c.received == false}" th:switch="${c.delivery}"><span
+										th:case="${0}" th:text="已收貨"></span> <span th:case="${1}"
+										th:text="到府取貨"></span> <span th:case="${2}" th:text="親自交付"></span>
+										<span th:case="${3}" th:text="物流宅配"></span> <span
+										th:case="${4}" th:text="超商寄件"></span></td>
+									<td th:if="${c.received == true}"><span th:text="已收貨"></span></td>
 									<td th:switch="${c.review}"><span th:case="${0}"
 										th:text="審核中"></span> <span th:case="${1}" th:text="通過"></span>
 										<span th:case="${2}" th:text="未通過"></span></td>
 									<td th:text="${c.price}"></td>
 									<td>
+										<button th:if="${c.received == false}" type="button"
+											class="btn btn-sm btn-warning" th:onclick="editReceived([[${c.id}]], true)">已收貨</button>
+										<button th:if="${c.received == true}" type="button"
+											class="btn btn-sm btn-danger" th:onclick="editReceived([[${c.id}]], false)">未收貨</button>
 										<button type="button" class="btn btn-sm btn-success"
 											data-bs-toggle="modal" data-bs-target="#editModal"
 											th:onclick="getRecord([[${c.id}]])">明細審核</button>
@@ -580,6 +585,27 @@
         			break;
         	}
         });
+        
+        function editReceived(id, received){
+        	let url = "http://localhost:8080/secondhand/consign/received/" + id;
+        	$.ajax({
+        		method: "POST",
+        		url: url,
+        		contentType: "application/json",
+        		data: JSON.stringify({
+               			"received": received
+               		}),
+        		success: function(resp) {
+        			if(!resp.success) {
+        				alert(`託售編號 ${id} ${resp.mesg}`);
+        			}
+		        	window.location.reload();
+        		},
+        		error: function() {
+        			alert("結果儲存失敗");
+        		}
+        	})
+        }
         
         /* Sidebar響應式功能 */
 		 const toggleBtn = document.getElementById("toggleSidebarBtn");

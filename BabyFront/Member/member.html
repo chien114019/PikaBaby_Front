@@ -185,16 +185,16 @@
             </div>
         </div>
     </div>
-<br><br>
+    <br><br>
     <!-- 主內容區塊 -->
     <div>
         <div class="container">
             <div class="d-flex justify-content-center ">
 
                 <!-- 主要內容 -->
-                <div class="col-md-8 p-5 text-start mx-auto">
+                <div class="col-md-8 p-6 text-start mx-auto">
                     <div class="text-center mb-4 text-muted">
-                        <h4 id="welcomeText" class="text-start  mt-2">歡迎回來，皮卡！</h4>
+                        <h4 id="welcomeText" class="text-start  mt-2">Winnie～好久不見👋</h4>
                     </div>
                     <br>
 
@@ -208,7 +208,7 @@
                             <button class="btn nav-button" onclick="switchTab(event, 'password')"> 帳號管理</button>
                         </div>
                     </div>
-                    <br><br><br>
+                    <br>
                     <!-- 各區塊內容 -->
                     <div id="order" class="tab-content active">
                         <div class="row">
@@ -216,7 +216,7 @@
                             <div class="order-card bg-warning-subtle p-4 mt-3 rounded">
                                 <h2>訂單資訊</h2>
                                 <p class="description">訂單成立後，請等待5至10分鐘更新，方可查詢訂單資料</p>
-
+                                <hr>
                                 <table>
                                     <thead>
                                         <tr class="order-header">
@@ -242,19 +242,22 @@
                     <div id="profile" class="tab-content member-section">
                         <!-- 會員資訊 -->
 
-                        <div class="card">
+                        <div class="card ">
                             <h3>會員資訊</h3>
+                            <hr>
+                           
                             <p><strong>會員名稱：</strong> <span id="memberName">載入中...</span></p>
                             <p><strong>Email：</strong> <span id="memberEmail">載入中...</span></p>
                             <p><strong>手機：</strong><span id="memberPhone">載入中...</span></p>
                             <p><strong>生日：</strong><span id="memberBirthday">載入中...</span></p>
                             <p><strong>註冊日期：</strong><span id="memberCreatedAt">載入中...</span></p>
+                            <br>
                             <p><strong>寶寶出生年月：</strong>
-                            <div id="memberBabyBirthday" class="ms-3 mt-1"></div>
+                                <span id="memberBabyBirthday" class="ms-3 mt-1"></span>
                             </p>
                             <div class="text-end mt-3">
-                                <button class="btn btn-outline-warning" data-bs-toggle="modal"
-                                    data-bs-target="#editModal">編輯資料</button>
+                                <button class="btn" data-bs-toggle="modal"
+                                    data-bs-target="#editModal"><i class="bi bi-pencil-square edit-icons" ></i></button>
                             </div>
                         </div>
                         <!-- 彈出視窗 Modal -->
@@ -361,34 +364,37 @@
 
 
                         <!-- 常用地址 -->
-                        <div class="card p-4">
-                            <h3 class="mb-3">常用地址</h3>
+                        <div class="card p-4 ">
+                            <h3 class="mb-3"><i class="bi bi-house-door"></i> 常用地址</h3>
+                            <hr>
 
                             <!-- 預設訂單地址 -->
                             <div class="d-flex justify-content-between align-items-center mb-2">
                                 <p class="mb-0">
+                                    <i class="bi bi-caret-right-fill"></i>
                                     <strong>預設訂單地址：</strong><span id="memberOrderAddress">載入中...</span>
                                 </p>
                                 <div class="d-flex gap-2 ms-3">
                                     <button class="btn btn-sm btn-outline-warning" data-bs-toggle="modal"
                                         data-bs-target="#addressModal" data-address-type="order"
-                                        onclick="editAddress('order')">編輯</button>
+                                        onclick="editAddress('order')">✎</i></button>
                                     <button class="btn btn-sm btn-outline-success"
-                                        onclick="deleteAddress('order')">刪除</button>
+                                        onclick="deleteAddress('order')">✖</button>
                                 </div>
                             </div>
 
                             <!-- 預設配送地址 -->
                             <div class="d-flex justify-content-between align-items-center mb-3">
                                 <p class="mb-0">
+                                    <i class="bi bi-caret-right-fill"></i>
                                     <strong>預設配送地址：</strong><span id="memberShippingAddress">載入中...</span>
                                 </p>
                                 <div class="d-flex gap-2 ms-3">
                                     <button class="btn btn-sm btn-outline-warning" data-bs-toggle="modal"
                                         data-bs-target="#addressModal" data-address-type="shipping"
-                                        onclick="editAddress('shipping')">編輯</button>
+                                        onclick="editAddress('shipping')">✎</i></button>
                                     <button class="btn btn-sm btn-outline-success"
-                                        onclick="deleteAddress('shipping')">刪除</button>
+                                        onclick="deleteAddress('shipping')">✖</i></i></button>
                                 </div>
                             </div>
 
@@ -532,7 +538,8 @@
 
                         <!-- 常用信用卡 -->
                         <div class="card">
-                            <h3>常用信用卡</h3>
+                            <h3><i class="bi bi-credit-card-fill"></i> 常用信用卡</h3>
+                            <hr>
                             <p><strong>💳 國泰世華銀行</strong>（•••• 8860）</p>
                             <!-- <div class="text-end d-flex gap-2 justify-content-end">
                                 <button class="btn btn-outline-primary">預設</button>
@@ -633,7 +640,7 @@
                         <div class="coupon-card">
                             <div class="coupon-h2">我的點數</div>
                             <div class="dashed-box">
-                                <div class="coupon-h2">點數使用規範</div>
+                                <div class="coupon-h1">點數使用規範</div>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="24" fill="#000000"
                                     viewBox="0 0 256 256">
                                     <path
@@ -887,7 +894,7 @@
                     console.log(data);
 
                     // 歡迎詞
-                    document.getElementById("welcomeText").textContent = "歡迎回來，" + data.name + "！";
+                    document.getElementById("welcomeText").textContent = data.name + "~" + "好久不見👋";
                     // 成功拿到會員資料，顯示在前端
                     document.getElementById("memberName").textContent = data.name;
                     document.getElementById("memberEmail").textContent = data.email;

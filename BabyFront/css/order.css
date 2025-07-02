@@ -1,12 +1,15 @@
 /* OrderCard_2 */
 
-.bg-warning-subtle {
-    background-color: #fff5dc;
-    /* 淡黃色 */
+.order-card {
+   
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+   
 }
 
 .order-card h2 {
-    font-size: 24px;
+    font-size: 26px;
     margin-bottom: 0.5rem;
     color:#6f655d;
 }

@@ -51,20 +51,21 @@ function updateAddressUI(type, address) {
 
     if (address && address.id) {
         addressSpan.textContent = `${address.city}${address.district}${address.street}`;
-        btn.textContent = '編輯';
+        btn.innerHTML = '✎';
         btn.classList.remove('btn-outline-danger');
         btn.classList.add('btn-outline-warning');
         btn.setAttribute('data-bs-target', '#addressModal'); 
         btn.setAttribute('onclick', `editAddress('${type}')`);
     } else {
-        addressSpan.textContent = '尚未填寫';
-        btn.textContent = '新增';
+        addressSpan.textContent = '尚未設定';
+        btn.innerHTML = '<i class="bi bi-plus-lg"></i></i>';
         btn.classList.remove('btn-outline-warning');
         btn.classList.add('btn-outline-danger');
         btn.setAttribute('data-bs-target', '#address_addModal');
         btn.setAttribute('onclick', `addAddress('${type}')`);
     }
 }
+
 
 function capitalize(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);

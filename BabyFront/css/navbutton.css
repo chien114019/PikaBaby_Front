@@ -1,12 +1,14 @@
  /* 導覽Tabs */
 
     .nav-wrapper {
-      border-bottom: 2px solid #515b3c;
+       /* max-width: 1000px;
+      border-bottom: 2px solid #f82e71; */
       /* 整條底線 */
       display: flex;
       justify-content: center;
-      gap: 1rem;
+      gap: 2rem;
       padding-bottom: 0.5rem;
+       flex-wrap: wrap;
       
     }
 
@@ -14,7 +16,7 @@
     .nav-button {
       border: none;
       background: none;
-      color: #5b7c4a;
+      color:  #895e54;
       padding: 0.5rem 1rem;
       font-weight: 500;
       position: relative;
@@ -42,7 +44,7 @@ font-size: 1.2rem;
     }
 
     .nav-button.active {
-      color: #92625a;
+      color: #754f1a;
       font-weight: 600;
     }
 

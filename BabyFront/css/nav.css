@@ -104,7 +104,6 @@ nav .dropdown-toggle::after {
 
 /* 下拉選單內容 */
 .dropdown-menu {
-    display: none;
     position: absolute;
     background-color: white;
     width: 100vw;

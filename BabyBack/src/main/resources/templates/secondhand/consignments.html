@@ -211,7 +211,7 @@
 
 
 			<!-- Edit Modal -->
-			<div class="modal fade" id="editModal" tabindex="-1"
+			<div class="modal fade modal-xl" id="editModal" tabindex="-1"
 				aria-labelledby="editModalLabel" aria-hidden="true"
 				data-bs-backdrop="static">
 				<div class="modal-dialog">
@@ -226,50 +226,53 @@
 							<div class="border p-4">
 								<!-- value 填入該筆資料內容 -->
 								<div class="d-flex justify-content-start gap-3">
-									<div class="mb-3">
+									<div class="mb-3 w-25">
 										<label for="pName" class="col-form-label">商品名稱</label> <input
 											type="text" class="form-control" id="pName" value="" readonly>
 									</div>
-									<div class="mb-3">
+									<div class="mb-3 w-25">
 										<label for="pYear" class="col-form-label">製造年份</label> <input
 											type="text" class="form-control" id="pYear" value="" readonly>
 									</div>
-								</div>
-								<div class="d-flex justify-content-start gap-3">
-									<div class="mb-3">
+									<div class="mb-3 w-25">
 										<label for="custName" class="col-form-label">申請人姓名：</label> <input
 											type="text" class="form-control" id="custName" value=""
 											readonly>
 									</div>
-									<div class="mb-3">
+									<div class="mb-3 w-25">
 										<label for="custTel" class="col-form-label">申請人電話：</label> <input
 											type="text" class="form-control" id="custTel" value=""
 											readonly>
 									</div>
 								</div>
 								<div class="d-flex justify-content-start gap-3">
-									<div class="mb-3">
-										<label for="delivery" class="col-form-label">交貨方式：</label> <input
-											type="text" class="form-control" id="delivery" value=""
-											readonly>
+									<div>
+										<div class="d-flex justify-content-start gap-3">
+											<div class="mb-3 w-50">
+												<label for="delivery" class="col-form-label">交貨方式：</label> <input
+													type="text" class="form-control" id="delivery" value=""
+													readonly>
+											</div>
+											<div class="mb-3 w-50">
+												<label for="deliveryDate" class="col-form-label">預約交貨日期（限面交）：</label>
+												<input type="text" class="form-control" id="deliveryDate"
+													value="" readonly>
+											</div>
+										</div>
+										<div class="d-flex flex-column">
+											<label for="recipient-name" class="col-form-label">商品照片：</label>
+											<div class="d-flex w-100 gap-3 h-100">
+												<img id="photo1" alt="照片一" style="width: 20vh"> <img
+													id="photo2" alt="照片二" style="width: 20vh"> <img
+													id="photo3" alt="照片三" style="width: 20vh">
+											</div>
+										</div>
 									</div>
-									<div class="mb-3">
-										<label for="deliveryDate" class="col-form-label">預約交貨日期（限面交）：</label>
-										<input type="text" class="form-control" id="deliveryDate"
-											value="" readonly>
+									<div class="mb-3 w-50 d-flex flex-column" style="height: 319px">
+										<label for="pCondition" class="col-form-label">商品概況：</label>
+										<textarea class="form-control h-100" id="pCondition" wrap="soft"
+											readonly></textarea>
 									</div>
-								</div>
-								<div class="mb-3">
-									<label for="recipient-name" class="col-form-label">商品照片：</label>
-									<div class="d-flex w-100 gap-3">
-										<img id="photo1" alt="照片一"> <img id="photo2" alt="照片二">
-										<img id="photo3" alt="照片三">
-									</div>
-								</div>
-								<div class="mb-3">
-									<label for="pCondition" class="col-form-label">商品概況：</label>
-									<textarea class="form-control" id="pCondition" wrap="soft"
-										readonly></textarea>
 								</div>
 							</div>
 							<h3 class="modal-title fs-5 mt-3" id="editModalLabel">審核填寫</h3>
@@ -410,16 +413,23 @@
 									<td th:text="${c.productType.typeName}"></td>
 									<td th:text="${c.quantity}"></td>
 									<td th:text="${c.applyDate}"></td>
-									<td th:switch="${c.delivery}"><span th:case="${0}"
-										th:text="已交貨"></span> <span th:case="${1}" th:text="到府取貨"></span>
-										<span th:case="${2}" th:text="親自交付"></span> <span
-										th:case="${3}" th:text="物流宅配"></span> <span th:case="${4}"
-										th:text="超商寄件"></span></td>
+									<td th:if="${c.received == false}" th:switch="${c.delivery}"><span
+										th:case="${0}" th:text="已收貨"></span> <span th:case="${1}"
+										th:text="到府取貨"></span> <span th:case="${2}" th:text="親自交付"></span>
+										<span th:case="${3}" th:text="物流宅配"></span> <span
+										th:case="${4}" th:text="超商寄件"></span></td>
+									<td th:if="${c.received == true}"><span th:text="已收貨"></span></td>
 									<td th:switch="${c.review}"><span th:case="${0}"
 										th:text="審核中"></span> <span th:case="${1}" th:text="通過"></span>
 										<span th:case="${2}" th:text="未通過"></span></td>
 									<td th:text="${c.price}"></td>
 									<td>
+										<button th:if="${c.received == false}" type="button"
+											class="btn btn-sm btn-warning"
+											th:onclick="editReceived([[${c.id}]], true)">已收貨</button>
+										<button th:if="${c.received == true}" type="button"
+											class="btn btn-sm btn-danger"
+											th:onclick="editReceived([[${c.id}]], false)">未收貨</button>
 										<button type="button" class="btn btn-sm btn-success"
 											data-bs-toggle="modal" data-bs-target="#editModal"
 											th:onclick="getRecord([[${c.id}]])">明細審核</button>
@@ -563,16 +573,17 @@
         
         $("#review").on("change", function() {
         	const review = $(this).prop("value");
+        	console.log(review);
         	switch(review) {
-        		case 0:
+        		case "0":
     	        	$("#price").prop("value", "");
     	        	$("#price").attr("readonly", true);
         			break;
-        		case 1:
+        		case "1":
     	        	$("#price").prop("value", 0);
     	        	$("#price").attr("readonly", false);
         			break;
-        		case 2:
+        		case "2":
     	        	$("#price").prop("value", 0);
     	        	$("#price").attr("readonly", true);
         			break;
@@ -580,6 +591,27 @@
         			break;
         	}
         });
+        
+        function editReceived(id, received){
+        	let url = "http://localhost:8080/secondhand/consign/received/" + id;
+        	$.ajax({
+        		method: "POST",
+        		url: url,
+        		contentType: "application/json",
+        		data: JSON.stringify({
+               			"received": received
+               		}),
+        		success: function(resp) {
+        			if(!resp.success) {
+        				alert(`託售編號 ${id} ${resp.mesg}`);
+        			}
+		        	window.location.reload();
+        		},
+        		error: function() {
+        			alert("結果儲存失敗");
+        		}
+        	})
+        }
         
         /* Sidebar響應式功能 */
 		 const toggleBtn = document.getElementById("toggleSidebarBtn");

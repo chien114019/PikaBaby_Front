@@ -244,5 +244,16 @@ public class ConsignmentController {
 		return ResponseEntity.ok(response);
 	}
 	
+	@PostMapping("/consign/received/{id}")
+	public ResponseEntity<Response> receiveConsignment(@PathVariable String id, @RequestBody Map<String, String> body) {
+		/* Resquest: { received: "true"} */
+		
+		String received = body.get("received");
+		
+		Response response = service.receiveConsignment(id, received);
+	
+		return ResponseEntity.ok(response);
+	}
+	
 
 }

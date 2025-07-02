@@ -49,11 +49,12 @@ public class Consignment {
     @Temporal(TemporalType.DATE)
 	private Date deliveryDate;
     
-	@ColumnDefault("0")
-	private Integer review;
+	private Integer review = 0;
 	
 	private Integer price;
 	private String produceYear;
+	
+	private Boolean received = false;
 	
 	@Temporal(TemporalType.DATE)
 	private Date pointDate;
@@ -123,6 +124,12 @@ public class Consignment {
 	}
 	public void setReview(Integer review) {
 		this.review = review;
+	}
+	public Boolean getReceived() {
+		return received;
+	}
+	public void setReceived(Boolean received) {
+		this.received = received;
 	}
 	public Integer getPrice() {
 		return price;

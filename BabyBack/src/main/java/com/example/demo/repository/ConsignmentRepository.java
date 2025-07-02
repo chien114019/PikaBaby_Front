@@ -15,19 +15,25 @@ import com.example.demo.model.Withdrawal;
 public interface ConsignmentRepository extends JpaRepository<Consignment, Integer> {
 
 //	============後台API=============
-	List<Consignment> findAllByProductTypeAndReviewAndDelivery(ProductType pType, Integer review, Integer delivery);
+	List<Consignment> findAllByProductTypeAndReviewAndDeliveryAndReceivedIsFalse(ProductType pType, Integer review, Integer delivery);
+	List<Consignment> findAllByProductTypeAndReviewAndReceivedIsTrue(ProductType pType, Integer review);
 
 	List<Consignment> findAllByProductTypeAndReview(ProductType pType, Integer review);
 
-	List<Consignment> findAllByProductTypeAndDelivery(ProductType pType, Integer delivery);
+	List<Consignment> findAllByProductTypeAndDeliveryAndReceivedIsFalse(ProductType pType, Integer delivery);
+	List<Consignment> findAllByProductTypeAndReceivedIsTrue(ProductType pType);
 
 	List<Consignment> findAllByProductType(ProductType pType);
 
-	List<Consignment> findAllByReviewAndDelivery(Integer review, Integer delivery);
+	List<Consignment> findAllByReviewAndDeliveryAndReceivedIsFalse(Integer review, Integer delivery);
+	List<Consignment> findAllByReviewAndReceivedIsTrue(Integer review);
 
 	List<Consignment> findAllByReview(Integer review);
 
 	List<Consignment> findAllByCustomerAndPointDateIsNullAndReview(Customer cust, Integer review);
+
+	List<Consignment> findAllByDeliveryAndReceivedIsFalse(Integer delivery);
+	List<Consignment> findAllByReceivedIsTrue();
 
 	@Query("""
 			SELECT c
@@ -39,7 +45,6 @@ public interface ConsignmentRepository extends JpaRepository<Consignment, Intege
 						""")
 	List<Consignment> findAllByNearestPointDate();
 
-	List<Consignment> findAllByDelivery(Integer delivery);
 
 	@Query("""
 			SELECT c FROM Consignment c

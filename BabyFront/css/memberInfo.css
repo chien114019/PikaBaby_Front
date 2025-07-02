@@ -5,8 +5,9 @@
       padding: 2rem;
     } */
  .member-section .card {
-   background-color: white;
-
+   background-color: #f6eadf;
+   /* background-color: #f0ebe5; */
+   border: 1px solid #f8d9c9;
    border-radius: 12px;
    padding: 1.5rem;
    margin-bottom: 2.5rem;
@@ -24,9 +25,19 @@
  .member-section h3 {
    /* font-weight: bold; */
    color: #d79345;
+}
 
+ .member-section h3:hover{
+   font-weight: bold;
+   color:  #c57f5a;
+   /* font-size: 30px; */
+}
+/* .info-line {
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.5rem;
+  border-bottom: 1px  #fbfbfb;
+} */
 
- }
 
  #welcomeText {
 
@@ -40,6 +51,7 @@
    color: #6b5242;
    font-size: 18px;
    line-height: 1.6;
+   /* border-bottom: 1px dashed #eee; */
  }
 
  .member-section strong {
@@ -60,17 +72,19 @@
  }
 
  /* icon */
+.edit-icons {
+  cursor: pointer;
+  font-size: 28px;
+  display: inline-block;
+  color: #f3c305;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
 
- .edit-icons {
+.edit-icons:hover {
+  transform: scale(1.3);
+  color: #d79345;
+}
 
-   font-size: 28px;
-   cursor: pointer;
-   color: #FCDC3B;
- }
-
- .edit-icons:hover {
-   color: #030303;
- }
 
  /* basicInfo */
  .info-modal-title-custom {

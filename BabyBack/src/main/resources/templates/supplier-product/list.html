@@ -247,13 +247,13 @@
 							</div>
 					</form>
 					
-					<table class="table table-bordered align-middle">
+					<table id="purchaseTable" class="table table-bordered align-middle">
 						<thead class="text-center table-light">
 							<tr>
 								<th class="d-none">報價ID</th>
+								<th id="dateHeader" style="cursor:pointer">日期<span id="dateSortIcon">▼</span></th>
 								<th>商品名稱</th>
 								<th>廠商名稱</th>
-								<th>建立日期</th>
 								<th>價格</th>
 								<th>操作</th>
 							</tr>
@@ -261,11 +261,11 @@
 						<tbody>
 							<tr th:each="sp : ${supplierProducts}">
 								<td th:text="${sp.id}" class="text-center d-none"></td> 
+								<td th:attr="data-date=${sp.createdDate != null ? #dates.format(sp.createdDate, 'yyyy-MM-dd') : ''}"
+								    th:text="${sp.createdDate != null ? #dates.format(sp.createdDate, 'yyyy-MM-dd') : '無建立日期'}"
+								    class="text-center"></td>
 								<td th:text="${sp.product != null ? sp.product.name : '無商品'}" class="ps-5"></td>
-								<td th:text="${sp.supplier != null ? sp.supplier.name : '無供應商'}" class="text-center"></td>
-								<!-- <td th:text="${sp.createdDate != null ? #temporals.format(sp.createdDate, 'yyyy-MM-dd') : '無建立日期'}" class="text-center">建立日期</td> -->
-								<td th:text="${sp.createdDate != null ? #dates.format(sp.createdDate, 'yyyy-MM-dd') : '無建立日期'}" class="text-center">建立日期</td>
-								<!-- <td th:text="${sp.price}" class="ps-4"></td>  -->
+								<td th:text="${sp.supplier != null ? sp.supplier.name : '無供應商'}" class="text-center"></td>					
 								<td th:text="${sp.formattedPrice}" class="text-center"></td>
 
 
@@ -308,6 +308,35 @@
 		    overlay.classList.remove("show");
 		    toggleBtn.classList.remove("open");
 		  });
+
+
+		  document.addEventListener('DOMContentLoaded', function () {
+			  let asc = false; // 預設為新到舊
+
+			  const dateHeader = document.getElementById('dateHeader');
+			  const table = document.getElementById('purchaseTable');
+
+			  if (dateHeader && table) {
+			    dateHeader.addEventListener('click', function () {
+			      const tbody = table.tBodies[0];
+			      const rows = Array.from(tbody.querySelectorAll('tr'));
+			      // 日期欄（第1欄，從0起算）
+			      const dateCol = 1;
+
+			      rows.sort((a, b) => {
+			        let aDate = a.cells[dateCol].getAttribute('data-date') || '';
+			        let bDate = b.cells[dateCol].getAttribute('data-date') || '';
+			        let aTime = new Date(aDate).getTime();
+			        let bTime = new Date(bDate).getTime();
+			        return asc ? aTime - bTime : bTime - aTime;
+			      });
+
+			      rows.forEach(row => tbody.appendChild(row));
+			      asc = !asc;
+			      document.getElementById('dateSortIcon').textContent = asc ? '▲' : '▼';
+			    });
+			  }
+			});
 </script>
 
 </body>

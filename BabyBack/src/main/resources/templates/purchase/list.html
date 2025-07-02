@@ -253,11 +253,11 @@
 
 
 					<!-- 表格區塊 -->
-					<table class="table table-bordered align-middle">
+					<table id="purchaseTable" class="table table-bordered align-middle">
 						<thead class="text-center table-light">
 							<tr>
 								<th class="d-none">ID</th>
-								<th>日期</th>
+								<th id="dateHeader" style="cursor:pointer">日期<span id="dateSortIcon">▼</span></th>
 								<th>供應商</th>
 								<th>明細</th>
 								<th>總額</th>
@@ -345,6 +345,38 @@
 	    overlay.classList.remove("show");
 	    toggleBtn.classList.remove("open");
 	  });
+
+	  let asc = false; // 初始為新→舊
+
+	  document.getElementById('dateHeader').addEventListener('click', function () {
+	      const table = document.getElementById('purchaseTable');
+	      const tbody = table.tBodies[0];
+	      const rows = Array.from(tbody.querySelectorAll('tr'));
+
+	      // 找到日期欄的索引（避免順序變動）
+	      const ths = Array.from(table.tHead.rows[0].cells);
+	      let dateCol = ths.findIndex(th => th.id === 'dateHeader');
+
+	      // 排序
+	      rows.sort((a, b) => {
+	          // 取出日期字串，假設格式 "yyyy-MM-dd"
+	          let aDate = a.cells[dateCol].textContent.trim();
+	          let bDate = b.cells[dateCol].textContent.trim();
+	          // 轉成 timestamp
+	          let aTime = new Date(aDate).getTime();
+	          let bTime = new Date(bDate).getTime();
+	          return asc ? aTime - bTime : bTime - aTime;
+	      });
+
+	      // 清空再 append 排序好的 row
+	      rows.forEach(row => tbody.appendChild(row));
+
+	      // 切換排序狀態
+	      asc = !asc;
+	      document.getElementById('dateSortIcon').textContent = asc ? '▲' : '▼';
+	  });
+
+
   </script>
 </body>
 

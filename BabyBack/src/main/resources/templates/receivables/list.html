@@ -247,15 +247,15 @@
 					</form>
 					<!-- 表格區塊 -->
 					<div class="table-responsive">
-						<table class="table table-bordered table-hover  align-middle">
+						<table id="purchaseTable" class="table table-bordered table-hover  align-middle">
 							<thead class="table-light text-center">
 								<tr>
 									<th class="d-none">出貨單編號</th>
+									<th id="dateHeader" style="cursor:pointer">日期<span id="dateSortIcon" class="ms-2">▼</span></th>
 									<th>請款對象</th>
 									<th>應收金額</th>
 									<th>狀態</th>
 									<th>到期日</th>
-									<th>建立時間</th>
 									<th>備註</th>
 									<th>操作</th>
 								</tr>
@@ -263,6 +263,7 @@
 							<tbody>
 								<tr th:each="r : ${receivables}" class="text-center">
 									<td th:text="${r.order.id}" class="d-none">3</td>
+									<td th:text="${#dates.format(r.order.orderDate, 'yyyy-MM-dd')}">建立日期</td>
 									<td th:text="${r.customer.name}">張可可</td>
 									<td
 										th:text="'$' + ${#numbers.formatDecimal(r.amount, 0, 'COMMA', 0, 'POINT')}">$3,600</td>
@@ -272,7 +273,7 @@
 									</span></td>
 
 									<td th:text="${r.paidDate}">到期日</td>
-									<td th:text="${#dates.format(r.createdAt, 'yyyy-MM-dd HH:mm')}">建立時間</td>
+
 									<td th:text="${r.note}" class="text-start">備註</td>
 									<td><a class="btn btn-sm btn-warning"
 										th:href="@{'/receivables/edit/' + ${r.id}}">編輯</a></td>
@@ -308,6 +309,36 @@
 		    sidebar.classList.remove("show");
 		    overlay.classList.remove("show");
 		    toggleBtn.classList.remove("open");
+		  });
+		  /* 依照日期排序功能 */
+		  let asc = false; // 初始為新→舊
+
+		  document.getElementById('dateHeader').addEventListener('click', function () {
+		      const table = document.getElementById('purchaseTable');
+		      const tbody = table.tBodies[0];
+		      const rows = Array.from(tbody.querySelectorAll('tr'));
+
+		      // 找到日期欄的索引（避免順序變動）
+		      const ths = Array.from(table.tHead.rows[0].cells);
+		      let dateCol = ths.findIndex(th => th.id === 'dateHeader');
+
+		      // 排序
+		      rows.sort((a, b) => {
+		          // 取出日期字串，假設格式 "yyyy-MM-dd"
+		          let aDate = a.cells[dateCol].textContent.trim();
+		          let bDate = b.cells[dateCol].textContent.trim();
+		          // 轉成 timestamp
+		          let aTime = new Date(aDate).getTime();
+		          let bTime = new Date(bDate).getTime();
+		          return asc ? aTime - bTime : bTime - aTime;
+		      });
+
+		      // 清空再 append 排序好的 row
+		      rows.forEach(row => tbody.appendChild(row));
+
+		      // 切換排序狀態
+		      asc = !asc;
+		      document.getElementById('dateSortIcon').textContent = asc ? '▲' : '▼';
 		  });
 </script>
 </body>

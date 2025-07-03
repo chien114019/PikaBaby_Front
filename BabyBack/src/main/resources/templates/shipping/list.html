@@ -261,7 +261,7 @@
 								<th>訂單編號</th>
 								<th>客戶</th>
 								
-								<th>狀態</th>
+								<th class='d-none'>狀態</th>
 								<th>明細</th>
 								<th>操作</th>
 							</tr>
@@ -275,7 +275,7 @@
 								<td class="text-center" th:text="${ship.salesOrder.orderNumber}"></td>
 								<td class="text-center" th:text="${ship.salesOrder.customer.name}"></td>
 								
-								<td class="text-center" th:text="${ship.status}"></td>
+								<td class="text-center d-none" th:text="${ship.status}"></td>
 								<td>
 									<ul>
 										<li th:each="d : ${ship.details}"
@@ -287,12 +287,13 @@
 										<form th:action="@{'/shipping/' + ${ship.id} + '/ship'}"
 											method="post">
 											<input type="hidden" name="_method" value="put" />
-											<button type="submit" class="btn btn-success btn-sm">標記已出貨</button>
+											<button type="submit" class="btn btn-danger btn-sm">未出貨</button>
 										</form>
-									</th:block> <th:block th:if="${ship.status == '已出貨'}">
+									</th:block> 
+									<th:block th:if="${ship.status == '已出貨'}">
 										<form th:action="@{'/shipping/' + ${ship.id} + '/unship'}"
 											method="post">
-											<button type="submit" class="btn btn-warning btn-sm">還原成待出貨</button>
+											<button type="submit" class="btn btn-success btn-sm">已出貨</button>
 										</form>
 									</th:block></td>
 							</tr>

@@ -388,7 +388,7 @@ public class ProductController {
                     productMap.put("price", price);
                     productMap.put("stock", calculatedStock); // 動態計算的庫存
                     
-                    System.out.println("已發布商品API返回 - ID: " + p.getId() + ", 名稱: " + p.getName() + ", 價格: " + price + ", 庫存: " + calculatedStock);
+//                    System.out.println("已發布商品API返回 - ID: " + p.getId() + ", 名稱: " + p.getName() + ", 價格: " + price + ", 庫存: " + calculatedStock);
                     
                     return productMap;
                 })

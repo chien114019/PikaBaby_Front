@@ -257,7 +257,7 @@
 						<thead class="text-center table-light">
 							<tr>
 								<th class="d-none">ID</th>
-								<th id="dateHeader" style="cursor:pointer">日期<span id="dateSortIcon">▼</span></th>
+								<th id="dateHeader" style="cursor:pointer">日期<span id="dateSortIcon" class="ms-3">▼</span></th>
 								<th>供應商</th>
 								<th>明細</th>
 								<th>總額</th>
@@ -346,6 +346,7 @@
 	    toggleBtn.classList.remove("open");
 	  });
 
+	  /* 依照日期排序功能 */
 	  let asc = false; // 初始為新→舊
 
 	  document.getElementById('dateHeader').addEventListener('click', function () {

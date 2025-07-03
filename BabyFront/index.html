@@ -21,7 +21,7 @@
         </div>
         <!-- 中置LOGO -->
         <div class="nav-logo-row">
-            <img src="images/logo-pikababy.png" alt="PikaBaby" class="nav-logo" style="height: 80px; width: auto;">
+            <img src="images/logo-pikababy.png" alt="PikaBaby" class="nav-logo">
         </div>
     </header>
 
@@ -128,14 +128,14 @@
                                 <img src="../images/user.png" style="width: 30px;" alt="會員登入圖示">
                             </a>
                         </li>
-                        <li class="nav-item dropdown" id="memberDropdownItem" style="display: none;">
+                        <li class="nav-item dropdown" id="memberDropdownItem" style="display: none; position: relative;">
                             <a class="nav-link dropdown-toggle" id="navbarDropdown6" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <img src="../images/user.png" style="width: 30px;" alt="會員圖示">
                             </a>
-                            <div class="dropdown-menu p-3 justify-content-center gap-5" id="dropdownForUser"
-                                aria-labelledby="navbarDropdown6">
-                                <a class="dropdown-item" href="../Member/member.html">會員中心</a>
-                                <a class="dropdown-item text-danger" href="#" onclick="logout()">登出</a>
+                            <div class="dropdown-menu p-2" id="dropdownForUser"
+                                aria-labelledby="navbarDropdown6" style="min-width: 120px; position: absolute !important; top: 100% !important; left: 0 !important; right: auto !important; transform: none !important;">
+                                <a class="dropdown-item text-start py-1 px-2" href="../Member/member.html">會員中心</a>
+                                <a class="dropdown-item text-danger text-start py-1 px-2" href="#" onclick="logout()">登出</a>
                             </div>
                         </li>
                     </div>
@@ -398,17 +398,19 @@
                     const rankColor = rankColors[idx] || '#e6b800';
                     html += `
                         <div class="col-12 col-md-4 d-flex justify-content-center">
-                            <div class="ranking-item ranking-card" style="background: #faf6ef; box-shadow: 0 2px 12px rgba(180,150,80,0.07); border-radius: 28px; min-width: 270px; max-width: 340px; margin: 22px 0; padding: 38px 22px 28px 22px; display: flex; flex-direction: column; align-items: center; transition: transform 0.25s, box-shadow 0.25s;">
-                                <div class="rank-badge2" style="background:${rankColor}; color:#fff; font-size:1.5rem; font-weight:800; width:54px; height:54px; border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 12px ${rankColor}55; margin-bottom:18px; letter-spacing:1px; border:4px solid #fff;">${idx + 1}</div>
-                                <div style="width:120px;height:120px;display:flex;align-items:center;justify-content:center;margin-bottom:20px;">
-                                    <img src="${getProductImageUrl(item.image)}" alt="${item.name}" loading="lazy" style="width:110px;height:110px;object-fit:cover;border-radius:50%;box-shadow:0 4px 24px 0 #ffe13533,0 0 0 8px #fff; background:#f8f8f8; border:2px solid #f7e7b6; transition:box-shadow 0.22s, transform 0.22s;" onerror="this.src='images/baby.jpg';">
+                            <a href="Products/product-detail.html?id=${item.id}" style="text-decoration: none; color: inherit;">
+                                <div class="ranking-item ranking-card" style="background: #faf6ef; box-shadow: 0 2px 12px rgba(180,150,80,0.07); border-radius: 28px; min-width: 270px; max-width: 340px; margin: 22px 0; padding: 38px 22px 28px 22px; display: flex; flex-direction: column; align-items: center; transition: transform 0.25s, box-shadow 0.25s; cursor: pointer;">
+                                    <div class="rank-badge2" style="background:${rankColor}; color:#fff; font-size:1.5rem; font-weight:800; width:54px; height:54px; border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 12px ${rankColor}55; margin-bottom:18px; letter-spacing:1px; border:4px solid #fff;">${idx + 1}</div>
+                                    <div style="width:120px;height:120px;display:flex;align-items:center;justify-content:center;margin-bottom:20px;">
+                                        <img src="${getProductImageUrl(item.image)}" alt="${item.name}" loading="lazy" style="width:110px;height:110px;object-fit:cover;border-radius:50%;box-shadow:0 4px 24px 0 #ffe13533,0 0 0 8px #fff; background:#f8f8f8; border:2px solid #f7e7b6; transition:box-shadow 0.22s, transform 0.22s;" onerror="this.src='images/baby.jpg';">
+                                    </div>
+                                    <div style="font-weight:800;font-size:1.18rem;margin-bottom:10px;letter-spacing:1px;color:#222;text-align:center;">${item.name}</div>
+                                    <div class="rank-labels2" style="display:flex;gap:10px;justify-content:center;margin-bottom:8px;">
+                                        <span style="background:#ffe135;color:#222;font-size:1rem;font-weight:700;padding:3px 14px;border-radius:12px;">NT$ ${item.price}</span>
+                                        <span style="background:#f7e7b6;color:#7a5c00;font-size:0.98rem;font-weight:600;padding:3px 12px;border-radius:12px;">銷量 ${item.sold} 件</span>
+                                    </div>
                                 </div>
-                                <div style="font-weight:800;font-size:1.18rem;margin-bottom:10px;letter-spacing:1px;color:#222;text-align:center;">${item.name}</div>
-                                <div class="rank-labels2" style="display:flex;gap:10px;justify-content:center;margin-bottom:8px;">
-                                    <span style="background:#ffe135;color:#222;font-size:1rem;font-weight:700;padding:3px 14px;border-radius:12px;">NT$ ${item.price}</span>
-                                    <span style="background:#f7e7b6;color:#7a5c00;font-size:0.98rem;font-weight:600;padding:3px 12px;border-radius:12px;">銷量 ${item.sold} 件</span>
-                                </div>
-                            </div>
+                            </a>
                         </div>
                     `;
                 });

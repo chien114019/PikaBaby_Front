@@ -64,8 +64,7 @@ public class EmployeeController {
             userAccountRepository.save(emp);
         }
         return "redirect:/employee/list"; // redirect: 是 Spring MVC 裡面專門用來「重新導向」頁面的指令，執行完回到員工清單
-        //因為你剛剛是使用 POST 方法更新資料（切換啟用狀態），如果直接回傳 view：return "employee/list";會造成：使用者按 F5（重新整理）→ 會重新送出 POST 請求 ❌（造成重複寫入）
-
+       
 
     }
   //帳號切換員工角色權限
@@ -74,7 +73,7 @@ public class EmployeeController {
         UserAccount emp = userAccountRepository.findById(id).orElse(null); //透過主鍵 ID 查出這位員工資料，找不到該 ID就回傳 null
         if (emp != null) { //如果有找到ID 
             emp.setRole(role); //設定新角色
-            userAccountRepository.save(emp); //把修改後的員工物件存回資料庫中（JPA 會自動產生 UPDATE 語法）
+            userAccountRepository.save(emp); //把修改後的員工物件存回資料庫中（JPA 自動產生 UPDATE 語法）
         }
         return "redirect:/employee/list";
     }

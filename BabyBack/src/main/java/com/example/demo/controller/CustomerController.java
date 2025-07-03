@@ -797,7 +797,7 @@ public class CustomerController {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
 		}
 
-		// 設定 isDeleted 與改信箱
+		// 設定 isDeleted 與改信箱(採用軟刪除)
 		customer.setIsDeleted(true);
 		customer.setEmail(customer.getEmail() + "_deleted_" + customer.getId());
 

@@ -422,12 +422,12 @@
 
 					<!-- 商品表格 -->
 					<div class="table-responsive">
-						<table class="table table-bordered align-middle text-center">
+						<table id="purchaseTable" class="table table-bordered align-middle text-center">
 							<thead class="table-light">
 								<tr>
-									<th>編號</th>
+								    <th id="dateHeader" style="cursor:pointer">申請日期<span id="dateSortIcon" class="ms-2">▼</span></th>
+									<th class="d-none">編號</th>
 									<th>申請人姓名</th>
-									<th>申請日期</th>
 									<th>總金額</th>
 									<th>銀行代碼</th>
 									<th>提款帳戶</th>
@@ -442,9 +442,9 @@
 							</thead>
 							<tbody>
 								<tr th:each="w: ${withdrawals}" th:switch="${w.withdraw}">
-									<td class="id" th:text="${w.id}"></td>
+								    <td th:text="${w.applyDate}"></td>
+									<td class="id d-none" th:text="${w.id}"></td>
 									<td th:text="${w.customer.name}"></td>
-									<td th:text="${w.applyDate}"></td>
 									<td th:text="${w.amount}"></td>
 									<td th:text="${w.bankNo.bCode}"></td>
 									<td th:text="${w.bankAccount}"></td>
@@ -594,6 +594,37 @@
 		    sidebar.classList.remove("show");
 		    overlay.classList.remove("show");
 		    toggleBtn.classList.remove("open");
+		  });
+		  
+		  /* 依照日期排序功能 */
+		  let asc = false; // 初始為新→舊
+
+		  document.getElementById('dateHeader').addEventListener('click', function () {
+		      const table = document.getElementById('purchaseTable');
+		      const tbody = table.tBodies[0];
+		      const rows = Array.from(tbody.querySelectorAll('tr'));
+
+		      // 找到日期欄的索引（避免順序變動）
+		      const ths = Array.from(table.tHead.rows[0].cells);
+		      let dateCol = ths.findIndex(th => th.id === 'dateHeader');
+
+		      // 排序
+		      rows.sort((a, b) => {
+		          // 取出日期字串，假設格式 "yyyy-MM-dd"
+		          let aDate = a.cells[dateCol].textContent.trim();
+		          let bDate = b.cells[dateCol].textContent.trim();
+		          // 轉成 timestamp
+		          let aTime = new Date(aDate).getTime();
+		          let bTime = new Date(bDate).getTime();
+		          return asc ? aTime - bTime : bTime - aTime;
+		      });
+
+		      // 清空再 append 排序好的 row
+		      rows.forEach(row => tbody.appendChild(row));
+
+		      // 切換排序狀態
+		      asc = !asc;
+		      document.getElementById('dateSortIcon').textContent = asc ? '▲' : '▼';
 		  });
     </script>
 </body>

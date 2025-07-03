@@ -392,45 +392,44 @@
 
 					<!-- 商品表格 -->
 					<div class="table-responsive">
-						<table class="table table-bordered align-middle text-center">
+						<table id="purchaseTable" class="table table-bordered align-middle text-center">
 							<thead class="table-light">
 								<tr>
-									<th>編號</th>
+								    <th id="dateHeader" style="cursor:pointer">申請日期<span id="dateSortIcon" class="ms-2">▼</span></th>
+									<th class="d-none">編號</th>
 									<th>商品名稱</th>
 									<th>商品類別</th>
 									<th>數量</th>
-									<th>申請日期</th>
 									<th>交貨方式</th>
 									<th>審核狀態</th>
 									<th>預估價格</th>
-									<th></th>
+									<th>操作</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr th:each="c: ${consignments}">
-									<td th:text="${c.id}"></td>
+								    <td th:text="${c.applyDate}"></td>
+									<td th:text="${c.id}" class="d-none"></td>
 									<td th:text="${c.productName}"></td>
 									<td th:text="${c.productType.typeName}"></td>
 									<td th:text="${c.quantity}"></td>
-									<td th:text="${c.applyDate}"></td>
-									<td th:if="${c.received == false}" th:switch="${c.delivery}"><span
+									<td th:switch="${c.delivery}"><span
 										th:case="${0}" th:text="已收貨"></span> <span th:case="${1}"
 										th:text="到府取貨"></span> <span th:case="${2}" th:text="親自交付"></span>
 										<span th:case="${3}" th:text="物流宅配"></span> <span
 										th:case="${4}" th:text="超商寄件"></span></td>
-									<td th:if="${c.received == true}"><span th:text="已收貨"></span></td>
 									<td th:switch="${c.review}"><span th:case="${0}"
 										th:text="審核中"></span> <span th:case="${1}" th:text="通過"></span>
 										<span th:case="${2}" th:text="未通過"></span></td>
 									<td th:text="${c.price}"></td>
 									<td>
 										<button th:if="${c.received == false}" type="button"
-											class="btn btn-sm btn-warning"
-											th:onclick="editReceived([[${c.id}]], true)">已收貨</button>
-										<button th:if="${c.received == true}" type="button"
 											class="btn btn-sm btn-danger"
-											th:onclick="editReceived([[${c.id}]], false)">未收貨</button>
-										<button type="button" class="btn btn-sm btn-success"
+											th:onclick="editReceived([[${c.id}]], true)">未收貨</button>
+										<button th:if="${c.received == true}" type="button"
+											class="btn btn-sm btn-success"
+											th:onclick="editReceived([[${c.id}]], false)">已收貨</button>
+										<button type="button" class="btn btn-sm btn-warning"
 											data-bs-toggle="modal" data-bs-target="#editModal"
 											th:onclick="getRecord([[${c.id}]])">明細審核</button>
 									</td>
@@ -628,6 +627,37 @@
 		    sidebar.classList.remove("show");
 		    overlay.classList.remove("show");
 		    toggleBtn.classList.remove("open");
+		  });
+		  
+		  /* 依照日期排序功能 */
+		  let asc = false; // 初始為新→舊
+
+		  document.getElementById('dateHeader').addEventListener('click', function () {
+		      const table = document.getElementById('purchaseTable');
+		      const tbody = table.tBodies[0];
+		      const rows = Array.from(tbody.querySelectorAll('tr'));
+
+		      // 找到日期欄的索引（避免順序變動）
+		      const ths = Array.from(table.tHead.rows[0].cells);
+		      let dateCol = ths.findIndex(th => th.id === 'dateHeader');
+
+		      // 排序
+		      rows.sort((a, b) => {
+		          // 取出日期字串，假設格式 "yyyy-MM-dd"
+		          let aDate = a.cells[dateCol].textContent.trim();
+		          let bDate = b.cells[dateCol].textContent.trim();
+		          // 轉成 timestamp
+		          let aTime = new Date(aDate).getTime();
+		          let bTime = new Date(bDate).getTime();
+		          return asc ? aTime - bTime : bTime - aTime;
+		      });
+
+		      // 清空再 append 排序好的 row
+		      rows.forEach(row => tbody.appendChild(row));
+
+		      // 切換排序狀態
+		      asc = !asc;
+		      document.getElementById('dateSortIcon').textContent = asc ? '▲' : '▼';
 		  });
     </script>
 </body>

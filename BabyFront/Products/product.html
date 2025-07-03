@@ -417,6 +417,94 @@
             margin: 0;
             padding: 0;
         }
+
+        /* 自訂彈窗樣式 - 與網頁風格一致 */
+        .custom-alert-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .custom-alert-overlay.show {
+            opacity: 1;
+        }
+
+        .custom-alert-box {
+            background: #fff;
+            border-radius: 20px;
+            border: 2px solid #f3e9d2;
+            box-shadow: 0 8px 32px rgba(180, 150, 80, 0.15);
+            padding: 30px 40px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            transform: scale(0.8) translateY(20px);
+            transition: transform 0.3s ease;
+        }
+
+        .custom-alert-overlay.show .custom-alert-box {
+            transform: scale(1) translateY(0);
+        }
+
+        .custom-alert-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(145deg, #FFE135 0%, #FFD700 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px auto;
+            font-size: 28px;
+            color: #b87c2a;
+            box-shadow: 0 4px 16px rgba(255, 225, 53, 0.3);
+        }
+
+        .custom-alert-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .custom-alert-message {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .custom-alert-button {
+            background: linear-gradient(145deg, #FFE135 0%, #FFD700 100%);
+            border: none;
+            border-radius: 25px;
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #b87c2a;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(255, 225, 53, 0.2);
+        }
+
+        .custom-alert-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 225, 53, 0.3);
+            background: linear-gradient(145deg, #FFD700 0%, #FFC700 100%);
+        }
+
+        .custom-alert-button:active {
+            transform: translateY(0);
+        }
     </style>
 </head>
 
@@ -680,6 +768,16 @@
     <!-- 奶瓶 -->
     <div class="floating-bottle"></div>
 
+    <!-- 自訂彈窗 -->
+    <div id="customAlert" class="custom-alert-overlay">
+        <div class="custom-alert-box">
+            <div class="custom-alert-icon">🛒</div>
+            <div class="custom-alert-title">已加入購物車</div>
+            <div class="custom-alert-message" id="customAlertMessage">商品已成功加入購物車！</div>
+            <button class="custom-alert-button" onclick="closeCustomAlert()">確定</button>
+        </div>
+    </div>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../js/navbar.js"></script>
@@ -763,8 +861,7 @@
                     // 更新購物車數量
                     updateCartCount();
 
-                    // 彈窗通知
-                    alert(`已將 ${productName} 加入購物車，數量：${quantity}，價格：${productPrice}`);
+                    // 不顯示任何提示
                 });
             });
 
@@ -784,6 +881,74 @@
         window.addEventListener('storage', function (e) {
             if (e.key === 'cart') {
                 updateCartCount();
+            }
+        });
+
+        // 自訂彈窗控制函數
+        function showCustomAlert(message = '商品已成功加入購物車！', type = 'success') {
+            const alertOverlay = document.getElementById('customAlert');
+            const alertMessage = document.getElementById('customAlertMessage');
+            const alertIcon = alertOverlay.querySelector('.custom-alert-icon');
+            const alertTitle = alertOverlay.querySelector('.custom-alert-title');
+            
+            // 根據類型設置不同的圖示、標題和顏色
+            switch(type) {
+                case 'success':
+                    alertIcon.textContent = '🛒';
+                    alertTitle.textContent = '已加入購物車';
+                    alertIcon.style.background = 'linear-gradient(145deg, #FFE135 0%, #FFD700 100%)';
+                    alertIcon.style.color = '#b87c2a';
+                    break;
+                case 'warning':
+                    alertIcon.textContent = '⚠️';
+                    alertTitle.textContent = '庫存不足';
+                    alertIcon.style.background = 'linear-gradient(145deg, #FFC107 0%, #FF9800 100%)';
+                    alertIcon.style.color = '#fff';
+                    break;
+                case 'error':
+                    alertIcon.textContent = '❌';
+                    alertTitle.textContent = '操作失敗';
+                    alertIcon.style.background = 'linear-gradient(145deg, #DC3545 0%, #C82333 100%)';
+                    alertIcon.style.color = '#fff';
+                    break;
+                default:
+                    alertIcon.textContent = '🛒';
+                    alertTitle.textContent = '已加入購物車';
+                    alertIcon.style.background = 'linear-gradient(145deg, #FFE135 0%, #FFD700 100%)';
+                    alertIcon.style.color = '#b87c2a';
+            }
+            
+            alertMessage.textContent = message;
+            alertOverlay.style.display = 'flex';
+            
+            // 觸發動畫
+            setTimeout(() => {
+                alertOverlay.classList.add('show');
+            }, 10);
+        }
+
+        function closeCustomAlert() {
+            const alertOverlay = document.getElementById('customAlert');
+            alertOverlay.classList.remove('show');
+            
+            // 等待動畫完成後隱藏
+            setTimeout(() => {
+                alertOverlay.style.display = 'none';
+            }, 300);
+        }
+
+        // 點擊背景關閉彈窗
+        document.addEventListener('click', function(e) {
+            const alertOverlay = document.getElementById('customAlert');
+            if (e.target === alertOverlay) {
+                closeCustomAlert();
+            }
+        });
+
+        // ESC 鍵關閉彈窗
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeCustomAlert();
             }
         });
 
@@ -1037,7 +1202,7 @@
             const card = btn.closest('.product-card');
             const productId = card?.dataset.productId || card?.querySelector('[data-product-id]')?.getAttribute('data-product-id');
             if (!productId) {
-                alert('找不到商品ID，無法收藏');
+                // alert('找不到商品ID，無法收藏');
                 return;
             }
             if (!btn.classList.contains('active')) {
@@ -1056,7 +1221,7 @@
                 .catch(err => {
                     // 失敗還原
                     btn.classList.remove('active');
-                    showMessage(err.message || '加入收藏失敗', 'error');
+                    // showMessage(err.message || '加入收藏失敗', 'error');
                 });
             } else {
                 // 立即切換為灰色
@@ -1073,7 +1238,7 @@
                 .catch(err => {
                     // 失敗還原
                     btn.classList.add('active');
-                    showMessage(err.message || '移除收藏失敗', 'error');
+                    // showMessage(err.message || '移除收藏失敗', 'error');
                 });
             }
         }
@@ -1092,7 +1257,7 @@
             // 檢查必要資料
             if (!productId || !productName || isNaN(productPrice)) {
                 console.error("❌ 商品資料不完整:", { productId, productName, productPrice });
-                showMessage('商品資料錯誤，無法加入購物車', 'error');
+                // showMessage('商品資料錯誤，無法加入購物車', 'error');
                 return;
             }
 
@@ -1108,8 +1273,73 @@
             // 禁用按鈕，防止重複點擊
             button.disabled = true;
             const originalText = button.textContent;
-            button.textContent = '加入中...';
+            button.textContent = '請稍候...';
 
+            // 檢查庫存
+            checkStockAndAddToCart(productId, productName, productPrice, productImage, quantity, quantityInput, button, originalText);
+        }
+
+        // 檢查庫存並加入購物車
+        async function checkStockAndAddToCart(productId, productName, productPrice, productImage, quantity, quantityInput, button, originalText) {
+            try {
+                // 檢查購物車中是否已有此商品
+                let cart = JSON.parse(localStorage.getItem('cart')) || [];
+                const existingIndex = cart.findIndex(item => item.id === parseInt(productId));
+                let totalQuantityInCart = quantity;
+
+                if (existingIndex > -1) {
+                    totalQuantityInCart = cart[existingIndex].quantity + quantity;
+                }
+
+                // 從後端檢查庫存
+                const response = await fetch(`http://localhost:8080/products/api/stock/${productId}`);
+                
+                if (response.ok) {
+                    const stockData = await response.json();
+                    const availableStock = stockData.stock || 0;
+
+                    console.log(`📦 商品 ${productName} 庫存檢查: 可用庫存=${availableStock}, 要加入數量=${quantity}, 購物車已有=${existingIndex > -1 ? cart[existingIndex].quantity : 0}`);
+
+                    // 檢查庫存是否足夠
+                    if (availableStock <= 0) {
+                        // 完全沒庫存
+                        showCustomAlert(`很抱歉，「${productName}」目前已賣完！`, 'warning');
+                        return;
+                    } else if (totalQuantityInCart > availableStock) {
+                        // 庫存不足
+                        const remainingStock = Math.max(0, availableStock - (existingIndex > -1 ? cart[existingIndex].quantity : 0));
+                        if (remainingStock <= 0) {
+                            showCustomAlert(`非常抱歉！！「${productName}」商品已經賣光了！`, 'warning');
+                        } else {
+                            showCustomAlert(`庫存不足！「${productName}」店裡庫存僅剩 ${availableStock} 件，還可以加入 ${remainingStock} 件`, 'warning');
+                        }
+                        return;
+                    }
+                } else {
+                    console.warn('無法檢查庫存，允許加入購物車');
+                }
+
+                // 庫存充足，執行加入購物車
+                button.textContent = '加入中...';
+                await performAddToCart(productId, productName, productPrice, productImage, quantity, quantityInput, cart, existingIndex);
+
+            } catch (error) {
+                console.error('❌ 庫存檢查失敗:', error);
+                console.warn('庫存檢查失敗，允許加入購物車');
+                // 如果庫存檢查失敗，仍然允許加入購物車
+                button.textContent = '加入中...';
+                let cart = JSON.parse(localStorage.getItem('cart')) || [];
+                const existingIndex = cart.findIndex(item => item.id === parseInt(productId));
+                await performAddToCart(productId, productName, productPrice, productImage, quantity, quantityInput, cart, existingIndex);
+            } finally {
+                // 恢復按鈕狀態
+                button.disabled = false;
+                button.textContent = originalText;
+            }
+        }
+
+        // 執行加入購物車操作
+        async function performAddToCart(productId, productName, productPrice, productImage, quantity, quantityInput, cart, existingIndex) {
             try {
                 // 創建商品物件
                 const product = {
@@ -1119,12 +1349,6 @@
                     quantity: quantity,
                     image: productImage || '../images/baby.jpg'
                 };
-
-                // 加入購物車
-                let cart = JSON.parse(localStorage.getItem('cart')) || [];
-
-                // 檢查商品是否已存在
-                const existingIndex = cart.findIndex(item => item.id === product.id);
 
                 if (existingIndex > -1) {
                     // 商品已存在，增加數量
@@ -1140,33 +1364,65 @@
                 localStorage.setItem('cart', JSON.stringify(cart));
                 console.log("💾 購物車已儲存到 localStorage");
 
-                // 顯示成功訊息
-                showAddToCartSuccess(productName, quantity);
+                // 顯示自訂彈窗
+                showCustomAlert(`已將 ${productName} 加入購物車！`);
 
                 // 重置數量為1
                 if (quantityInput) {
                     quantityInput.value = 1;
                 }
 
-                // 更新購物車數量顯示（如果有的話）
+                // 更新購物車數量顯示
                 updateCartCount();
 
             } catch (error) {
                 console.error('❌ 加入購物車失敗:', error);
-                showMessage('加入購物車失敗：' + error.message, 'error');
-            } finally {
-                // 恢復按鈕狀態
-                button.disabled = false;
-                button.textContent = originalText;
+                showCustomAlert('加入購物車失敗，請稍後再試', 'error');
             }
         }
 
-        // 顯示加入購物車成功訊息
-        function showAddToCartSuccess(productName, quantity) {
-            // 簡單的成功提示
-            const message = `✅ 已將 ${productName} x${quantity} 加入購物車！`;
-            showMessage(message, 'success');
-            console.log(message);
+        // 數量控制
+        function changeQuantity(button, delta) {
+            const input = button.parentNode.querySelector('.quantity-input');
+            let currentValue = parseInt(input.value) || 1;
+            const newValue = Math.max(1, Math.min(99, currentValue + delta));
+            input.value = newValue;
+        }
+
+        // 驗證數量輸入
+        function validateQuantity(input) {
+            let value = parseInt(input.value) || 1;
+            value = Math.max(1, Math.min(99, value));
+            input.value = value;
+        }
+
+        // 綁定數量控制事件
+        function bindQuantityControlEvents() {
+            // 為所有數量按鈕綁定事件（如果還沒有onclick）
+            document.querySelectorAll('.quantity-btn.minus').forEach(btn => {
+                if (!btn.onclick) {
+                    btn.onclick = () => changeQuantity(btn, -1);
+                }
+            });
+
+            document.querySelectorAll('.quantity-btn.plus').forEach(btn => {
+                if (!btn.onclick) {
+                    btn.onclick = () => changeQuantity(btn, 1);
+                }
+            });
+
+            document.querySelectorAll('.quantity-input').forEach(input => {
+                if (!input.onchange) {
+                    input.onchange = () => validateQuantity(input);
+                }
+            });
+        }
+
+        // 查看商品詳情
+        function viewProductDetail(productId) {
+            console.log(`🔍 查看商品詳情: ${productId}`);
+            // 跳轉到商品詳情頁面
+            window.location.href = `product-detail.html?id=${productId}`;
         }
 
         // 通用訊息顯示函數
@@ -1648,97 +1904,6 @@
             console.log(`🔍 查看商品詳情: ${productId}`);
             // 跳轉到商品詳情頁面
             window.location.href = `product-detail.html?id=${productId}`;
-        }
-
-        // 修改 addToCart 函數：簡化邏輯，直接加入購物車
-        function addToCart(button) {
-            console.log("🛒 開始加入購物車...");
-
-            const productId = button.getAttribute('data-product-id');
-            const productName = button.getAttribute('data-product-name');
-            const productPrice = parseFloat(button.getAttribute('data-product-price'));
-            const productImage = button.getAttribute('data-product-image');
-
-            console.log("🔍 商品資訊:", { productId, productName, productPrice, productImage });
-
-            // 檢查必要資料
-            if (!productId || !productName || isNaN(productPrice)) {
-                console.error("❌ 商品資料不完整:", { productId, productName, productPrice });
-                showMessage('商品資料錯誤，無法加入購物車', 'error');
-                return;
-            }
-
-            // 獲取數量 - 修正查找邏輯
-            const productCard = button.closest('.product-card');
-            const quantityInput = productCard?.querySelector('.quantity-input');
-            const quantity = parseInt(quantityInput?.value) || 1;
-
-            console.log("🔍 數量輸入框查找:", { productCard: !!productCard, quantityInput: !!quantityInput, quantity });
-
-            console.log("📦 準備加入購物車的商品:", { productId, productName, productPrice, quantity });
-
-            // 禁用按鈕，防止重複點擊
-            button.disabled = true;
-            const originalText = button.textContent;
-            button.textContent = '加入中...';
-
-            try {
-                // 創建商品物件
-                const product = {
-                    id: parseInt(productId),
-                    name: productName,
-                    price: productPrice,
-                    quantity: quantity,
-                    image: productImage || '../images/baby.jpg'
-                };
-
-                // 加入購物車
-                let cart = JSON.parse(localStorage.getItem('cart')) || [];
-
-                // 檢查商品是否已存在
-                const existingIndex = cart.findIndex(item => item.id === product.id);
-
-                if (existingIndex > -1) {
-                    // 商品已存在，增加數量
-                    cart[existingIndex].quantity += quantity;
-                    console.log(`➕ 增加商品數量: ${productName} x${quantity} (總計: ${cart[existingIndex].quantity})`);
-                } else {
-                    // 新商品，直接加入
-                    cart.push(product);
-                    console.log(`🛒 新增商品到購物車: ${productName} x${quantity}`);
-                }
-
-                // 儲存到 localStorage
-                localStorage.setItem('cart', JSON.stringify(cart));
-                console.log("💾 購物車已儲存到 localStorage");
-
-                // 顯示成功訊息
-                showAddToCartSuccess(productName, quantity);
-
-                // 重置數量為1
-                if (quantityInput) {
-                    quantityInput.value = 1;
-                }
-
-                // 更新購物車數量顯示（如果有的話）
-                updateCartCount();
-
-            } catch (error) {
-                console.error('❌ 加入購物車失敗:', error);
-                showMessage('加入購物車失敗：' + error.message, 'error');
-            } finally {
-                // 恢復按鈕狀態
-                button.disabled = false;
-                button.textContent = originalText;
-            }
-        }
-
-        // 顯示加入購物車成功訊息
-        function showAddToCartSuccess(productName, quantity) {
-            // 簡單的成功提示
-            const message = `✅ 已將 ${productName} x${quantity} 加入購物車！`;
-            showMessage(message, 'success');
-            console.log(message);
         }
 
         // 通用訊息顯示函數

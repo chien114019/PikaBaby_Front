@@ -238,7 +238,9 @@
 									th:text="*{purchaseOrder.supplier.name}"></span>
 							</div>
 							<div class="mb-3">
-								<strong>金額：</strong><span th:text="*{amount} + ' 元'"></span>
+								<!-- <strong>金額：</strong><span th:text="*{amount} + ' 元'"></span> -->
+								 <strong>金額：</strong>
+  <span th:text="*{formattedAmount}"></span>
 							</div>
                            <div class="mb-3 d-flex align-items-center">
 							<label class="fw-bold me-2 mb-0" style="white-space: nowrap;">狀態：</label>

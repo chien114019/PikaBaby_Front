@@ -280,7 +280,8 @@ public class SalesOrderService {
         }
         
         // 獲取或創建客戶
-        Customer customer = customerService.getOrCreateCustomer(customerName, phone, email, address);
+//        Customer customer = customerService.getOrCreateCustomer(customerName, phone, email, address);
+        Customer customer = customerService.findByEmail(email).orElse(null);
         
         // 驗證點數
         if (pointsUsed > 0 && !customerService.validatePointsUsage(customer, pointsUsed)) {

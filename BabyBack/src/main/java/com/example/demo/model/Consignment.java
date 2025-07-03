@@ -31,15 +31,15 @@ public class Consignment {
 	private String productName;
 	
     @Lob   //表示這是一個「大欄位資料」，讓 JPA 知道這是 byte[] 二進位資料
-    @Column(columnDefinition = "BLOB")
+    @Column(columnDefinition = "LONGBLOB")
 	private byte[] pic1;
 	
     @Lob   //表示這是一個「大欄位資料」，讓 JPA 知道這是 byte[] 二進位資料
-    @Column(columnDefinition = "BLOB")
+    @Column(columnDefinition = "LONGBLOB")
 	private byte[] pic2;
 	
     @Lob   //表示這是一個「大欄位資料」，讓 JPA 知道這是 byte[] 二進位資料
-    @Column(columnDefinition = "BLOB")
+    @Column(columnDefinition = "LONGBLOB")
 	private byte[] pic3;
     
 	private String pCondition;

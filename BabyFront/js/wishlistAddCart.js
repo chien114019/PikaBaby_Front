@@ -44,6 +44,8 @@ function renderFavorites(favorites) {
             imageUrl = '../images/baby.jpg';
         }
 
+        card.dataset.image = imageUrl
+
         // 儲存顏色與規格（可選）
         const color = product.color || '無';
         const spec = product.specification || '無';

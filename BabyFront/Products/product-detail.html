@@ -749,6 +749,9 @@
                     throw new Error(data.message || '載入商品失敗');
                 }
 
+                console.log(data);
+
+
                 currentProduct = data;
                 displayProductDetail(data);
 
@@ -1076,13 +1079,28 @@
                     // 商品已存在，增加數量
                     cart[existingIndex].quantity += quantity;
                 } else {
+                    // 處理圖片 URL，優先使用product_image表的圖片
+                    let imageUrl = currentProduct.allImageUrls[0];
+                    console.log("fav: " + imageUrl);
+                    if (imageUrl && imageUrl.startsWith('/products/front/images/')) {
+                        imageUrl = 'http://localhost:8080' + imageUrl;
+                    } else if (!imageUrl || imageUrl.trim() === '' || imageUrl === '/images/default.jpg') {
+                        imageUrl = '../images/baby.jpg'; // fallback 預設圖
+                    } else if (imageUrl.startsWith('images/')) {
+                        imageUrl = '../' + imageUrl;
+                    } else if (!imageUrl.startsWith('http') && !imageUrl.startsWith('../')) {
+                        imageUrl = '../images/baby.jpg';
+                    }
+
+                    console.log(imageUrl);
+
                     // 新商品，加入購物車
                     cart.push({
                         id: currentProduct.id,
                         name: currentProduct.name,
                         price: currentProduct.price,
                         quantity: quantity,
-                        image: currentProduct.primaryImageUrl || '../images/baby.jpg'
+                        image: imageUrl
                     });
                 }
 

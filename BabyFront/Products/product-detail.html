@@ -685,7 +685,7 @@
     <div id="customAlert" class="custom-alert-overlay">
         <div class="custom-alert-box">
             <div class="custom-alert-icon">🛒</div>
-            <div class="custom-alert-title">已加入購物車</div>
+            <div class="custom-alert-title">已加入願望清單</div>
             <div class="custom-alert-message" id="customAlertMessage">商品已成功加入購物車！</div>
             <button class="custom-alert-button" onclick="closeCustomAlert()">確定</button>
         </div>
@@ -934,17 +934,22 @@
         });
 
         // 自訂彈窗控制函數
-        function showCustomAlert(message = '商品已成功加入購物車！', type = 'success') {
+        function showCustomAlert(message = '商品已成功加入購物車！', type = 'success', title = "") {
             const alertOverlay = document.getElementById('customAlert');
             const alertMessage = document.getElementById('customAlertMessage');
             const alertIcon = alertOverlay.querySelector('.custom-alert-icon');
             const alertTitle = alertOverlay.querySelector('.custom-alert-title');
-            
+
             // 根據類型設置不同的圖示、標題和顏色
-            switch(type) {
+            switch (type) {
                 case 'success':
                     alertIcon.textContent = '🛒';
-                    alertTitle.textContent = '已加入購物車';
+                    if (title != "") {
+                        alertTitle.textContent = title;
+                    }
+                    else {
+                        alertTitle.textContent = '已加入購物車';
+                    }
                     alertIcon.style.background = 'linear-gradient(145deg, #FFE135 0%, #FFD700 100%)';
                     alertIcon.style.color = '#b87c2a';
                     break;
@@ -962,14 +967,19 @@
                     break;
                 default:
                     alertIcon.textContent = '🛒';
-                    alertTitle.textContent = '已加入購物車';
+                    if (title != "") {
+                        alertTitle.textContent = title;
+                    }
+                    else {
+                        alertTitle.textContent = '已加入購物車';
+                    }
                     alertIcon.style.background = 'linear-gradient(145deg, #FFE135 0%, #FFD700 100%)';
                     alertIcon.style.color = '#b87c2a';
             }
-            
+
             alertMessage.textContent = message;
             alertOverlay.style.display = 'flex';
-            
+
             // 觸發動畫
             setTimeout(() => {
                 alertOverlay.classList.add('show');
@@ -979,7 +989,7 @@
         function closeCustomAlert() {
             const alertOverlay = document.getElementById('customAlert');
             alertOverlay.classList.remove('show');
-            
+
             // 等待動畫完成後隱藏
             setTimeout(() => {
                 alertOverlay.style.display = 'none';
@@ -987,7 +997,7 @@
         }
 
         // 點擊背景關閉彈窗
-        document.addEventListener('click', function(e) {
+        document.addEventListener('click', function (e) {
             const alertOverlay = document.getElementById('customAlert');
             if (e.target === alertOverlay) {
                 closeCustomAlert();
@@ -995,7 +1005,7 @@
         });
 
         // ESC 鍵關閉彈窗
-        document.addEventListener('keydown', function(e) {
+        document.addEventListener('keydown', function (e) {
             if (e.key === 'Escape') {
                 closeCustomAlert();
             }
@@ -1010,14 +1020,14 @@
 
             const addToCartBtn = document.getElementById('add-to-cart-btn');
             const originalText = addToCartBtn.textContent;
-            
+
             // 禁用按鈕，防止重複點擊
             addToCartBtn.disabled = true;
             addToCartBtn.textContent = '請稍候...';
 
             try {
                 const quantity = parseInt(document.getElementById('quantity-input').value) || 1;
-                
+
                 // 檢查購物車中是否已有此商品
                 let cart = JSON.parse(localStorage.getItem('cart')) || [];
                 const existingIndex = cart.findIndex(item => item.id === currentProduct.id);
@@ -1030,7 +1040,7 @@
                 // 從後端檢查庫存
                 addToCartBtn.textContent = '請稍候...';
                 const response = await fetch(`http://localhost:8080/products/api/stock/${currentProduct.id}`);
-                
+
                 if (response.ok) {
                     const stockData = await response.json();
                     const availableStock = stockData.stock || 0;
@@ -1039,7 +1049,7 @@
 
                     // 更新庫存狀態顯示
                     updateStockDisplay(availableStock);
-                    
+
                     // 檢查庫存是否足夠
                     if (availableStock <= 0) {
                         // 完全沒庫存
@@ -1104,7 +1114,7 @@
             } catch (error) {
                 console.error('❌ 庫存檢查失敗:', error);
                 console.warn('庫存檢查失敗，允許加入購物車');
-                
+
                 // 如果庫存檢查失敗，仍然允許加入購物車
                 try {
                     addToCartBtn.textContent = '加入中...';
@@ -1127,7 +1137,7 @@
                     localStorage.setItem('cart', JSON.stringify(cart));
                     updateCartCount();
                     showCustomAlert(`已將 ${currentProduct.name} 加入購物車！`);
-                    
+
                     // 重新檢查並更新庫存狀態
                     try {
                         const stockResponse = await fetch(`http://localhost:8080/products/api/stock/${currentProduct.id}`);
@@ -1140,7 +1150,7 @@
                     } catch (stockError) {
                         console.warn('無法更新庫存狀態:', stockError);
                     }
-                    
+
                     document.getElementById('quantity-input').value = 1;
                     currentQuantity = 1;
                 } catch (fallbackError) {
@@ -1176,10 +1186,10 @@
 
             if (button.classList.contains('active')) {
                 button.innerHTML = '♥';
-                showCustomAlert('已加入願望清單', 'success');
+                showCustomAlert('已加入願望清單', 'success', '已加入願望清單');
             } else {
                 button.innerHTML = '♡';
-                showCustomAlert('已從願望清單移除', 'info');
+                showCustomAlert('已從願望清單移除', 'info', '已從願望清單移除');
             }
         }
 

@@ -983,6 +983,8 @@
                             }
 
                             let payStatus = $("<td>");
+                            console.log(element.payStatus);
+                            
                             switch (element.payStatus) {
                                 case 0:
                                     payStatus.text("已付款");
@@ -1018,7 +1020,7 @@
             $("#confirmBtn").on("click", function () {
                 $.ajax({
                     method: "PUT",
-                    url: `${host}/orders/cancel/${id}`,
+                    url: `${host}/orders/front/cancel/${id}`,
                     success: function (resp) {
                         alert(resp.mesg);
                         window.location.reload();

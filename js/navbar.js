@@ -39,6 +39,15 @@ document.addEventListener("scroll", function () {
     }
 });
 
+window.addEventListener('scroll', function () {
+    const logo = document.getElementById('logo');
+    if (window.scrollY > 50) {
+        logo.style.display = 'block';
+    } else {
+        logo.style.display = 'none';
+    }
+});
+
 let spans = $(".top-banner span")
 setInterval(function () {  // 設置倒數計時: 結束時間 - 當前時間
 

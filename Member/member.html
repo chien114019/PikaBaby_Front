@@ -880,15 +880,6 @@
             });
         }
 
-        // // 點數明細
-        // function toggleDetail(button) {
-        //     const container = document.getElementById('points-detail-container');
-        //     const isShown = container.classList.toggle('show');
-        //     button.textContent = isShown ? '隱藏點數明細' : '顯示點數明細';
-        // }
-
-    </script>
-    <script>
         window.addEventListener("DOMContentLoaded", () => {
             fetch("http://localhost:8080/customers/front/me", {
                 method: "GET",
@@ -1072,7 +1063,6 @@
 
 
         // 更換密碼
-
         document.getElementById("savePwdBtn").addEventListener("click", () => {
             const pwd1 = document.querySelectorAll(".pwd-form-control")[0].value.trim();
             const pwd2 = document.querySelectorAll(".pwd-form-control")[1].value.trim();

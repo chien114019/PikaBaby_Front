@@ -1,0 +1,142 @@
+body {
+    font-family: "Microsoft JhengHei", sans-serif;
+}
+
+.brand-header h4 {
+    font-weight: bold;
+    margin-top: 10px;
+    color: #877c6e;
+}
+
+.social-btn {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-weight: bold;
+    border-radius: 25px;
+}
+
+.btn-line {
+    background-color: #2ac84cb1;
+    color: white;
+}
+
+.btn-facebook {
+    background-color: #1876f2a8;
+    color: white;
+}
+
+.btn-google {
+    background-color: white;
+    border: 1px solid #ccc;
+    color: #333;
+}
+
+.btn-google:hover {
+    background-color: white;
+    border: 1px solid #ccc;
+    color: #333;
+}
+
+.login-box {
+
+    max-width: 1000px;
+    margin: 50px auto;
+    display: flex;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+.login-left,
+.login-right {
+
+    flex: 1;
+    padding: 40px;
+}
+
+.login-right {
+    background-color: #fff5dc;
+    /* background-color: #f9f9f9; */
+    border-left: 1px solid #eee;
+    color: #1c1a19;
+}
+
+.btn-login,
+.btn-register {
+    width: 100%;
+    border-radius: 25px;
+    background-color: #f7d53e;
+    color: rgb(23, 22, 22);
+    border: none !important;
+}
+
+.btn-login:hover,
+.btn-register:hover {
+    background-color: #ebcf6a;
+}
+
+/* Footer */
+footer {
+    background-color: #f0ebe5;
+    padding: 30px 0;
+    width: 100%;
+    position: relative;
+    margin-top: auto;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: flex-start;
+    padding: 0 20px;
+}
+
+.footer-logo {
+    width: 100px;
+    margin-right: 40px;
+    align-self: flex-start;
+}
+
+.footer-section {
+    flex: 1;
+    padding: 0 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.footer-title,
+.footer-section h3 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.footer-line {
+    height: 2px;
+    background: #222;
+    width: 60%;
+    min-width: 80px;
+    max-width: 180px;
+    margin: 0 auto 16px auto;
+}
+
+.footer-section:first-child {
+    align-items: flex-start;
+    padding-left: 0;
+}
+
+.footer-section:first-child .footer-title,
+.footer-section:first-child .footer-line {
+    text-align: left;
+    margin-left: 0;
+    margin-right: auto;
+}
+
+.footer-section:last-child {
+    flex: 1.5;
+}

@@ -9,531 +9,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="css/nav.css">
     <link rel="stylesheet" href="css/chatbot.css">
-    <style>
-        /* 統一內容寬度控制 */
-        .content-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* Hero 區域樣式 */
-        .hero-section {
-            height: 60vh;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .hero-overlay {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-        }
-
-        .hero-title {
-            font-size: 3.5rem;
-            font-weight: 300;
-            margin-bottom: 1rem;
-            letter-spacing: 0.2em;
-            color: black;
-        }
-
-        .hero-subtitle {
-            font-size: 1rem;
-            font-weight: 300;
-            letter-spacing: 0.1em;
-            color: black;
-        }
-
-        /* 圖片畫廊樣式 */
-        .image-gallery {
-            margin: 60px auto;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-        }
-
-        .gallery-item {
-            position: relative;
-            overflow: hidden;
-            aspect-ratio: 1;
-        }
-
-        .gallery-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        /* 品牌介紹區域 */
-        .about-content {
-            text-align: center;
-            margin: 80px auto;
-        }
-
-        .about-title {
-            font-size: 2rem;
-            font-weight: 300;
-            letter-spacing: 0.2em;
-            margin-bottom: 40px;
-
-        }
-
-        .about-line {
-            width: 40px;
-            height: 2px;
-            background-color: #333;
-            margin: 15px auto;
-        }
-
-        .about-text {
-            line-height: 2;
-            color: #666;
-            text-align: center;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-
-        /* 信件區域樣式 */
-        .letter-section {
-            width: 100%;
-            background-color: #f9f5f2;
-            padding: 80px 0;
-        }
-
-        .letter-content {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 60px;
-            background-color: white;
-            letter-spacing: 1px;
-            line-height: 1.7;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-        }
-
-        .letter-title {
-            font-size: 1.8rem;
-            font-weight: bold;
-            margin-bottom: 40px;
-            text-align: center;
-            letter-spacing: 0.1em;
-        }
-
-        .letter-text {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .letter-text br {
-            margin-bottom: 10px;
-            content: "";
-            display: block;
-        }
-
-        .signature {
-            text-align: right;
-            margin-top: 20px;
-            font-size: 1.1rem;
-            letter-spacing: 2px;
-            color: #a67c52;
-            width: fit-content;
-            margin-left: auto;
-            margin-right: 20%;
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            gap: 10px;
-        }
-
-        .signature img {
-            display: inline-block;
-            margin: 0;
-            max-width: 120px;
-            vertical-align: middle;
-        }
-
-        /* 滑動卡片效果樣式 */
-        #main {
-            height: 100vh;
-            width: 100vw;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: linear-gradient(135deg, #f0ebe5 0%, #eacfc3 100%);
-            margin: 0;
-            padding: 0;
-        }
-
-        #click-section {
-            width: 25%;
-            height: 100%;
-            padding: 20px 0;
-            position: relative;
-        }
-
-        #drawerboxes {
-            margin-left: 10%;
-            width: 100%;
-            height: 100%;
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-evenly;
-        }
-
-        #drawerboxes::before {
-            content: "";
-            width: 8px;
-            height: 94%;
-            position: absolute;
-            left: -10px;
-            top: 3%;
-            z-index: 120;
-        }
-
-        .drawerbox {
-            height: calc(100% / 4.5);
-            width: 70%;
-            position: relative;
-            z-index: 100;
-            transform: translateX(-70%);
-            transition: transform .5s ease-in-out;
-        }
-
-        .drawerbox.active {
-            transform: translateX(0);
-        }
-
-        .drawer-btn {
-            width: 100%;
-            height: 100%;
-            font: 800 24px '';
-            background-color: #f0ebe5;
-            border: none;
-            transition: background-color .5s ease-in-out;
-            color: #b89b82;
-            border-radius: 10px;
-            margin-bottom: 10px;
-        }
-
-        .drawer-btn.active {
-            background: linear-gradient(135deg, #eacfc3 0%, #f0ebe5 100%);
-            color: #a67c52;
-        }
-
-        .drawer-btn:hover {
-            cursor: pointer;
-            background-color: #eacfc3;
-        }
-
-        .drawer-head {
-            position: absolute;
-            right: 10px;
-            top: 10px;
-            font-size: 32px;
-            color: #eacfc3;
-            text-shadow: none;
-            transition: opacity 0.3s;
-        }
-
-        .drawerbox.active .drawer-head {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        #slide-section {
-            position: relative;
-            height: 100%;
-            width: 75%;
-            display: flex;
-            justify-content: center;
-            padding: 0 40px;
-            background: linear-gradient(to right bottom,
-                #f0ebe5 80%,
-                #eacfc3 100%);
-            backdrop-filter: blur(15px);
-            border-radius: 20px;
-            margin: 20px;
-        }
-
-        #slide-bar {
-            position: absolute;
-            top: 10%;
-            left: 40px;
-            height: 80%;
-            width: 1px;
-            background-color: #eacfc3;
-        }
-
-        #bar {
-            position: absolute;
-            height: calc(100% / 4);
-            width: 5px;
-            top: 0;
-            left: -2px;
-            background: linear-gradient(135deg, #eacfc3 0%, #f0ebe5 100%);
-            transition: transform .5s ease-in-out;
-            border-radius: 3px;
-        }
-
-        #card-section {
-            height: 100%;
-            width: 80%;
-            overflow: hidden;
-        }
-
-        .card {
-            display: none;
-            flex-direction: column;
-            height: 100%;
-            width: 100%;
-            padding: 0;
-            color: #333;
-            font-size: 18px;
-            transition: transform .5s ease-in-out;
-        }
-
-        .card.active {
-            display: block;
-        }
-
-        .card-small-title {
-            font-size: 18px;
-            font-weight: 600;
-            padding: 24px 0 10px 0;
-            color: #a67c52;
-            text-align: center;
-        }
-
-        .card-title {
-            font-size:36px;
-            font-weight: 700;
-            padding-bottom: 20px;
-            color: #d89a64;
-            text-align: center;
-        }
-
-        .card-content {
-            font-size: 16px;
-            font-weight: 400;
-            color: #7c5c3b;
-            margin-bottom: 30px;
-            line-height: 1.8;
-            text-align: center;
-            padding: 0 24px;
-        }
-
-        .card-img {
-            width: 100%;
-            height: 100%;
-            flex: 1 1 0;
-            display: flex;
-            align-items: stretch;
-            justify-content: stretch;
-            overflow: hidden;
-            border-radius: 15px 15px 0 0;
-        }
-
-        .card-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-
-        /* 響應式設計 */
-        @media (max-width: 768px) {
-            body {
-                padding-top: 100px;
-            }
-
-            .hero-section {
-                height: auto !important;
-                min-height: 180px;
-                max-height: 40vh;
-            }
-
-            .hero-image {
-                object-fit: contain !important;
-                width: 100%;
-                height: auto !important;
-                max-height: 40vh;
-                object-position: top;
-            }
-
-            .hero-title {
-                font-size: 2.5rem;
-            }
-
-            #main {
-                flex-direction: column;
-                height: auto;
-                min-height: 100vh;
-            }
-
-            #click-section {
-                width: 100%;
-                height: auto;
-                order: 2;
-            }
-
-            #slide-section {
-                width: 100%;
-                height: 60vh;
-                order: 1;
-                margin: 10px;
-            }
-
-            .drawerbox {
-                width: 90%;
-                height: 80px;
-                transform: translateX(0);
-            }
-
-            .drawer-head {
-                font-size: 60px;
-                right: -15px;
-                top: calc(50% - 40px);
-            }
-
-            .card-img {
-                height: 150px;
-            }
-
-            .letter-content {
-                padding: 30px;
-            }
-
-            .signature {
-                padding-right: 20px;
-            }
-
-            .footer-container {
-                flex-direction: column;
-            }
-
-            .nav-links {
-                flex-wrap: wrap;
-                gap: 20px;
-            }
-        }
-
-        .navbar-toggler {
-            border: none;
-            box-shadow: none !important;
-            background: #222 !important;
-            padding: 8px 10px;
-            border-radius: 4px;
-        }
-        .navbar-toggler-icon.custom-toggler {
-            background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='white' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
-        }
-        @media (max-width: 991.98px) {
-            .navbar-nav {
-                gap: 0 !important;
-            }
-            .navbar-collapse {
-                background: #fff;
-                padding: 1rem;
-                border-radius: 0 0 10px 10px;
-            }
-            .navbar-brand img {
-                height: 48px !important;
-            }
-        }
-        @media (max-width: 575.98px) {
-            .nav-logo-row {
-                justify-content: center;
-            }
-        }
-        /* 響應式footer：小螢幕直排 */
-        @media (max-width: 768px) {
-            .footer-container {
-                display: flex !important;
-                flex-direction: column !important;
-                align-items: center !important;
-            }
-            .footer-section, .footer-section.w-100 {
-                width: 100% !important;
-                min-width: 0 !important;
-                margin-bottom: 1rem !important;
-                align-items: center !important;
-                justify-content: center !important;
-                text-align: center !important;
-            }
-            .footer-logo {
-                margin-bottom: 0.5rem !important;
-                display: block;
-                margin-left: auto;
-                margin-right: auto;
-            }
-        }
-        footer .footer-title, footer h3 {
-            margin-bottom: 0.3rem !important;
-            margin-top: 0.3rem !important;
-            font-size: 1.1rem !important;
-            font-weight: 600;
-        }
-        footer .footer-line {
-            margin: 0.3rem auto !important;
-            height: 1px;
-            background: #222;
-            width: 60%;
-        }
-        footer .mb-1 {
-            margin-bottom: 0.15rem !important;
-            font-size: 0.95rem;
-        }
-        footer .container.py-3 {
-            padding-top: 0.7rem !important;
-            padding-bottom: 0.7rem !important;
-        }
-        /* --- 主要內容區響應式 --- */
-        @media (max-width: 991.98px) {
-          .hero-title { font-size: 2rem; }
-          .about-title { font-size: 1.3rem; }
-          .about-content { margin: 40px auto; }
-          .letter-content { padding: 20px; font-size: 1rem; }
-          .signature { font-size: 0.95rem; margin-right: 5%; }
-        }
-        @media (max-width: 768px) {
-          #main { flex-direction: column; height: auto; min-height: unset; padding: 0 0 30px 0; }
-          #click-section, #slide-section { width: 100% !important; height: auto !important; margin: 0 !important; padding: 0 !important; order: unset; }
-          #drawerboxes { flex-direction: row !important; justify-content: center !important; align-items: center !important; margin: 0 !important; width: 100% !important; height: auto !important; gap: 10px; }
-          .drawerbox { width: 48px !important; height: 48px !important; margin: 0 !important; padding: 0 !important; flex: 0 0 48px !important; transition: none; }
-          .drawer-btn { width: 48px !important; height: 48px !important; border-radius: 50% !important; padding: 0 !important; font-size: 0 !important; display: flex; align-items: center; justify-content: center; background: #f0ebe5; box-shadow: 0 2px 6px rgba(0,0,0,0.04); position: relative; }
-          .drawer-btn .drawer-head { position: static !important; font-size: 28px !important; color: #a67c52 !important; opacity: 1 !important; pointer-events: auto !important; margin: 0 auto; display: block; text-align: center; }
-          .drawer-btn.active { background: linear-gradient(135deg, #eacfc3 0%, #f0ebe5 100%) !important; box-shadow: 0 0 0 2px #d89a64; }
-          .drawer-btn span:not(.drawer-head) { display: none !important; }
-          .drawer-btn::after { display: none !important; }
-          .drawer-btn { color: #a67c52 !important; }
-          .drawer-btn { font-size: 0 !important; }
-          .drawer-btn .drawer-head { font-size: 28px !important; }
-          #slide-section, #card-section, .card, .card-img { height: auto !important; min-height: unset !important; max-height: unset !important; }
-          .card-img { min-height: 60px !important; height: 100px !important; }
-          .card-content { min-height: unset !important; margin-bottom: 10px !important; }
-          .image-gallery { grid-template-columns: 1fr !important; gap: 10px !important; margin: 30px auto !important; }
-        }
-        @media (max-width: 575.98px) {
-          .hero-title { font-size: 1.3rem; }
-          .about-title { font-size: 1.1rem; }
-          .letter-content { padding: 10px; font-size: 0.95rem; }
-          .signature { font-size: 0.85rem; margin-right: 0; }
-          .card-title { font-size: 1rem !important; }
-          .card-content { font-size: 0.85rem !important; }
-          .card-img { height: 70px !important; }
-        }
-    </style>
+    <link rel="stylesheet" href="css/about.css">
 </head>
 
 <body>
@@ -560,7 +36,7 @@
             <div class="collapse navbar-collapse justify-content-around d-flex" id="navbarSupportedContent">
                 <!-- LOGO -->
                 <img id="logo" src="../images/logo-pikababy.png" alt="PikaBaby"
-                    style="height: 80px; width: 0px; transition: 3s; display: none;" />
+                    style="height: 80px; width: 0px; display: none;" />
                 <ul class="navbar-nav ml-auto nav-links gap-5 me-0">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="../index.html">首頁</a>
@@ -690,16 +166,20 @@
         <div id="click-section">
             <div id="drawerboxes">
                 <div class="drawerbox active">
-                    <button class="drawer-btn active" onclick="slideTo(1)">品牌故事<span class="drawer-head"><i class="bi bi-shop"></i></span></button>
+                    <button class="drawer-btn active" onclick="slideTo(1)">品牌故事<span class="drawer-head"><i
+                                class="bi bi-shop"></i></span></button>
                 </div>
                 <div class="drawerbox">
-                    <button class="drawer-btn" onclick="slideTo(2)">建立緣起<span class="drawer-head"><i class="bi bi-pencil"></i></span></button>
+                    <button class="drawer-btn" onclick="slideTo(2)">建立緣起<span class="drawer-head"><i
+                                class="bi bi-pencil"></i></span></button>
                 </div>
                 <div class="drawerbox">
-                    <button class="drawer-btn" onclick="slideTo(3)">未來願景<span class="drawer-head"><i class="bi bi-star"></i></span></button>
+                    <button class="drawer-btn" onclick="slideTo(3)">未來願景<span class="drawer-head"><i
+                                class="bi bi-star"></i></span></button>
                 </div>
                 <div class="drawerbox">
-                    <button class="drawer-btn" onclick="slideTo(4)">Dears<span class="drawer-head"><i class="bi bi-envelope-heart"></i></span></button>
+                    <button class="drawer-btn" onclick="slideTo(4)">Dears<span class="drawer-head"><i
+                                class="bi bi-envelope-heart"></i></span></button>
                 </div>
             </div>
         </div>
@@ -739,14 +219,14 @@
                     </div>
                 </div>
                 <div id="card4" class="card">
-                    
-                    <div  style="font-size:25px;
+
+                    <div style="font-size:25px;
                     font-weight: 600;
                     padding: 24px 0 10px 0;
                     color: #cc723e9a;
                     text-align: center;
                 ">給親愛的您</div>
-                    <div  style="font-size: 16px;
+                    <div style="font-size: 16px;
                     font-weight: 400;
                     color: #5f4c38;
                     margin-bottom: 30px;
@@ -832,21 +312,17 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/navbar.js"></script>
     <script src="js/logout.js"></script>
-    <!-- <script src="js/usernoToggle.js"></script> -->
     <script src="js/chat.js"></script>
+    <script src="js/about.js"></script>
 
     <script>
-        // 滑動卡片效果 JavaScript
-        let chosenSlideNumber = 1; // 當前選擇的幻燈片編號 
-        let offset = 0; // 幻燈片偏移量 
-        let barOffset = 0; // 導航條偏移量 
-        let intervalID; // 定時器 ID 
+        let hostname = "https://pikababy-back.onrender.com"
 
         document.addEventListener('DOMContentLoaded', function () {
             //若有登入會員，下拉選單顯示
             $.ajax({
                 method: "GET",
-                url: "http://localhost:8080/customers/front/me",
+                url: hostname + "/customers/front/me",
                 xhrFields: {
                     withCredentials: true
                 },
@@ -857,6 +333,12 @@
                     console.log("未登入")
                 }
             })
+
+            // 頁面載入時預設第一個卡片加active
+            const slides = document.querySelectorAll('.card');
+            slides.forEach((slide, idx) => {
+                slide.classList.toggle('active', idx === 0);
+            });
         })
 
         // 啟動幻燈片輪播 
@@ -881,74 +363,6 @@
         slideSection.addEventListener("mouseleave", () => {
             startSlide();
         })
-
-        // 切換到指定編號的幻燈片 
-        function slideTo(slideNumber) {
-            // 先移除所有 active
-            document.querySelectorAll('.drawerbox').forEach(box => box.classList.remove('active'));
-            document.querySelectorAll('.drawer-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelectorAll('.card').forEach(card => card.classList.remove('active'));
-
-            // 只給當前的加上 active
-            document.querySelectorAll('.drawerbox')[slideNumber - 1].classList.add('active');
-            document.querySelectorAll('.drawer-btn')[slideNumber - 1].classList.add('active');
-            document.querySelectorAll('.card')[slideNumber - 1].classList.add('active');
-
-            // 更新目前選擇
-            chosenSlideNumber = slideNumber;
-        }
-
-        // 移動導航條 
-        function barSlide(barOffset) {
-            const bar = document.querySelector("#bar");
-            bar.style.transform = `translateY(${barOffset}%)`;
-        }
-
-        // 啟動幻燈片輪播 
-        function startSlide() {
-            intervalID = setInterval(() => {
-                slideTo(chosenSlideNumber % 4 + 1); // 每次切換到下一個幻燈片 
-            }, 10000); // 每隔 10 秒自動切換幻燈片 
-        }
-
-        // 篩選功能
-        function filterProducts(category) {
-            // 更新 URL 參數
-            const url = new URL(window.location.href);
-            url.searchParams.set('category', category);
-            window.history.pushState({}, '', url);
-
-            // 如果當前頁面不是商品頁面，則跳轉到商品頁面
-            if (!window.location.pathname.includes('product.html')) {
-                window.location.href = `product.html?category=${category}`;
-            }
-        }
-
-        // 頁面載入時檢查 URL 參數
-        document.addEventListener('DOMContentLoaded', function () {
-            const urlParams = new URLSearchParams(window.location.search);
-            const categoryParam = urlParams.get('category');
-            if (categoryParam && window.location.pathname.includes('product.html')) {
-                filterProducts(categoryParam);
-            }
-        });
-
-        // 頁面載入時預設第一個卡片加active
-        window.addEventListener('DOMContentLoaded', function() {
-            const slides = document.querySelectorAll('.card');
-            slides.forEach((slide, idx) => {
-                slide.classList.toggle('active', idx === 0);
-            });
-        });
-
-        window.addEventListener('scroll', function () {
-            const logo = document.getElementById('navbarLogo');
-            if (window.scrollY > 50) {
-                logo.style.display = 'block';
-            } else {
-                logo.style.display = 'none';
-            }
-        });
     </script>
 </body>
 

@@ -1,0 +1,105 @@
+body {
+    font-family: "Noto Sans TC", sans-serif;
+    padding: 40px;
+    text-align: center;
+}
+
+.brand-header h4 {
+    font-weight: bold;
+    margin-top: 10px;
+    color: #877c6e;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 25px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.social-btn {
+    width: 250px;
+    margin: 0.5rem;
+}
+
+.line-btn {
+    background-color: #2ac84cd6;
+    color: white;
+}
+
+.fb-btn {
+    background-color: #1876f2cb;
+    color: white;
+}
+
+.google-btn {
+    background-color: white;
+    border: 1px solid #ccc;
+    color: #333;
+}
+
+form {
+    max-width: 400px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.row {
+    margin-left: 0px;
+}
+
+.row.form-group {
+    display: flex;
+    gap: 1rem;
+}
+
+.row.form-group input {
+    flex: 1;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    font-size: 1rem;
+}
+
+input:focus {
+    outline: none;
+    border-bottom: 2px solid #444;
+}
+
+.error {
+    border-bottom: 2px solid red;
+}
+
+.error-message {
+    color: red;
+    font-size: 0.9rem;
+    margin-top: 4px;
+}
+
+.disabled-btn {
+    background-color: #ddd;
+    color: #999;
+    cursor: not-allowed;
+}
+
+.terms {
+    font-size: 0.85rem;
+    color: #666;
+    margin-top: 1rem;
+}
+
+.terms a {
+    color: #444;
+    text-decoration: underline;
+}

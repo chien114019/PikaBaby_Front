@@ -45,11 +45,13 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script>
+        let hostname = "https://pikababy-back.onrender.com";
+
         document.addEventListener("DOMContentLoaded", function () {
             alert("註冊驗證碼已傳送至您的信箱，請前往查收");
             $.ajax({
                 method: "GET",
-                url: "http://localhost:8080/customers/front/sendEmail",
+                url: hostname + "/customers/front/sendEmail",
                 xhrFields:{
                     withCredentials: true
                 },
@@ -83,7 +85,7 @@
 
             $.ajax({
                 method: "POST",
-                url: "http://localhost:8080/customers/front/register",
+                url: hostname + "/customers/front/register",
                 contentType: "application/json",
                 data: JSON.stringify({
                     code: code

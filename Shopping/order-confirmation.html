@@ -307,6 +307,7 @@
     <script src="../js/logout.js"></script>
     <script src="../js/usernoToggle.js"></script>
     <script>
+        let hostname = "https://pikababy-back.onrender.com"
         document.addEventListener('DOMContentLoaded', function () {
             // 從 URL 獲取訂單 ID
             const urlParams = new URLSearchParams(window.location.search);
@@ -319,7 +320,7 @@
             }
 
             // 從後端獲取訂單詳細資訊
-            fetch(`http://localhost:8080/orders/api/order/${orderId}`, {
+            fetch(`${hostname}/orders/api/order/${orderId}`, {
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'

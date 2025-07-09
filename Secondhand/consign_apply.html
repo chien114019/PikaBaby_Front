@@ -401,12 +401,12 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../js/navbar.js"></script>
     <script src="../js/logout.js"></script>
-    <!-- <script src="../js/usernoToggle.js"></script> -->
 
     <script>
-        // let custId = 2
+        let hostname = "https://pikababy-back.onrender.com";
+
         window.onload = function () {
-            let root = "http://localhost:8080/customers"
+            let root = hostname + "/customers"
             $.ajax({
                 method: "GET",
                 url: `${root}/front/me`,
@@ -511,7 +511,7 @@
         })
 
         $("#sendBtn").on("click", function (e) {
-            let root = "http://localhost:8080/secondhand/front/consign/create"
+            let root = hostname + "/secondhand/front/consign/create"
             e.preventDefault()
 
             let isValid = true;

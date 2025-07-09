@@ -117,6 +117,7 @@
     </div>
 
     <script>
+        let hostname = "https://pikababy-back.onrender.com";
         let currentOrderId = null;
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -141,7 +142,7 @@
                 console.log('🔄 確認 LINE Pay 付款...', { transactionId, orderId });
                 
                 // 呼叫後端確認付款
-                const confirmResponse = await fetch(`http://localhost:8080/linepay/confirm?transactionId=${transactionId}&orderId=${orderId}`, {
+                const confirmResponse = await fetch(`${hostname}/linepay/confirm?transactionId=${transactionId}&orderId=${orderId}`, {
                     method: 'GET'
                 });
                 
@@ -151,7 +152,7 @@
                 
                 // 檢查付款狀態
                 const amount = localStorage.getItem('pendingOrder') ? JSON.parse(localStorage.getItem('pendingOrder')).amount : 0;
-                const statusResponse = await fetch(`http://localhost:8080/linepay/checkStatus?orderId=${orderId}`);
+                const statusResponse = await fetch(`${hostname}/linepay/checkStatus?orderId=${orderId}`);
                 const statusResult = await statusResponse.json();
                 
                 console.log('✅ 付款狀態:', statusResult);
@@ -187,7 +188,7 @@
                 orderData.linePayTransactionId = new URLSearchParams(window.location.search).get('transactionId');
                 
                 // 發送到後端建立正式訂單
-                const response = await fetch('http://localhost:8080/orders/api/cart', {
+                const response = await fetch(`${hostname}/orders/api/cart`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

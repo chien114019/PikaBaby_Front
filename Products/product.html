@@ -284,13 +284,14 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../js/navbar.js"></script>
     <script src="../js/logout.js"></script>
+    <script src="../js/product.js"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             //若有登入會員，下拉選單顯示
             $.ajax({
                 method: "GET",
-                url: "http://localhost:8080/customers/front/me",
+                url: hostname + "/customers/front/me",
                 xhrFields: {
                     withCredentials: true
                 },

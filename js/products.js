@@ -1,6 +1,8 @@
+let hostname = "https://pikababy-back.onrender.com"
+
 // 載入商品數據
 function loadProducts() {
-    fetch('http://localhost:8080/products/front/published')
+    fetch(`${hostname}/products/front/published`)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');

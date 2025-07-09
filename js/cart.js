@@ -1,3 +1,5 @@
+let hostname = "https://pikababy-back.onrender.com";
+
 // 會員資料全域變數
 let memberData = null;
 let memberPoints = 0;
@@ -9,7 +11,7 @@ let cartItems = [];
 async function checkLoginAndProceed() {
     try {
         // 檢查會員登入狀態
-        const response = await fetch('http://localhost:8080/customers/check-login', {
+        const response = await fetch(`${hostname}/customers/check-login`, {
             method: 'GET',
             credentials: 'include' // 包含 Session cookie
         });
@@ -62,7 +64,7 @@ async function loadCart() {
     stockMap = {};
     await Promise.all(cart.map(async (item) => {
         try {
-            const response = await fetch(`http://localhost:8080/products/api/stock/${item.id}`);
+            const response = await fetch(`${hostname}/products/api/stock/${item.id}`);
             if (response.ok) {
                 const stockData = await response.json();
                 stockMap[item.id] = stockData.stock || 0;
@@ -107,7 +109,7 @@ async function syncCartWithDatabase(cart) {
     for (const item of cart) {
         try {
             // 從後端獲取最新的商品資訊
-            const response = await fetch(`http://localhost:8080/products/front/detail/${item.id}`);
+            const response = await fetch(`${hostname}/products/front/detail/${item.id}`);
 
             if (response.ok) {
                 const productData = await response.json();
@@ -120,7 +122,7 @@ async function syncCartWithDatabase(cart) {
                         quantity: item.quantity,
                         image: productData.primaryImageUrl ?
                             (productData.primaryImageUrl.startsWith('/products/front/images/') ?
-                                'http://localhost:8080' + productData.primaryImageUrl :
+                                hostname + productData.primaryImageUrl :
                                 productData.primaryImageUrl) :
                             '../images/baby.jpg'
                     };
@@ -188,7 +190,7 @@ async function showCheckoutForm() {
 // 會員資料自動帶入功能
 async function initializeMemberDataOption() {
     try {
-        const response = await fetch('http://localhost:8080/customers/profile', {
+        const response = await fetch(`${hostname}/customers/profile`, {
             method: 'GET',
             credentials: 'include'
         });
@@ -272,7 +274,7 @@ function toggleMemberData() {
 // 更新會員點數顯示
 async function updateMemberPoints() {
     try {
-        const response = await fetch('http://localhost:8080/customers/points', {
+        const response = await fetch(`${hostname}/customers/points`, {
             method: 'GET',
             credentials: 'include'
         });
@@ -507,7 +509,7 @@ async function submitOrder(event) {
 
 
         // 其他付款方式：發送請求到後端 - 使用原本的API路徑
-        const response = await fetch('http://localhost:8080/orders/api/cart', {
+        const response = await fetch(`${hostname}/orders/api/cart`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -565,7 +567,7 @@ async function processEcpayPayment(orderData) {
     try {
         console.log('🟢 準備導向綠界付款...');
 
-        const response = await fetch('http://localhost:8080/ecpay/checkout', {
+        const response = await fetch(`${hostname}/ecpay/checkout`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: new URLSearchParams({
@@ -632,7 +634,7 @@ async function processLinePayPayment(orderData, cart) {
         }));
 
         // 發送 LINE Pay 請求
-        const response = await fetch('http://localhost:8080/linepay/request', {
+        const response = await fetch(`${hostname}/linepay/request`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

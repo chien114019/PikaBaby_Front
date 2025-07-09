@@ -65,11 +65,13 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script>
+        let hostname = "https://pikababy-back.onrender.com";
+
         // 自訂義 Google 登入按鈕
         function handleCredentialResponse(response) {
             $.ajax({
                 method: "POST",
-                url: "http://localhost:8080/customers/front/googleLogin",
+                url: hostname + "/customers/front/googleLogin",
                 contentType: "application/json",
                 xhrFields: {
                     withCredentials: true
@@ -89,8 +91,6 @@
             })
         }
 
-    </script>
-    <script>
         function login(e) {
             e.preventDefault(); // ✅ 防止表單跳轉
 
@@ -101,7 +101,7 @@
 
             console.log("登入資料：", memberData);
 
-            fetch('http://localhost:8080/customers/front/login', {
+            fetch(`${hostname}/customers/front/login`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 credentials: "include",//維持後端 Session 登入

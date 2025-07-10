@@ -1,4 +1,3 @@
-
   function deleteAccount() {
     if (confirm("確定要刪除帳號嗎？此操作無法恢復！")) {
       const memberId = 1; // ← 這裡改成當前使用者 ID，或從後端取得

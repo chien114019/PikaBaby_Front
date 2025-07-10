@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="css/nav.css">
     <link rel="stylesheet" href="css/chatbot.css">
+    <link rel="stylesheet" href="css/index.css">
 </head>
 
 
@@ -364,24 +365,8 @@
         // 自動輪播
         setInterval(() => moveSlide(1), 8000);
 
-        let hostname = "https://pikababy-back.onrender.com"
         // --- 排行榜動態渲染 ---
         document.addEventListener('DOMContentLoaded', function () {
-            //若有登入會員，下拉選單顯示
-            $.ajax({
-                method: "GET",
-                url: hostname + "/customers/front/me",
-                xhrFields: {
-                    withCredentials: true
-                },
-                success: function (data) {
-                    setUserToggle(data);
-                },
-                error: function () {
-                    console.log("未登入");
-                }
-            })
-
             // 取得每月排行榜
             fetch(`${hostname}/products/front/rankings/monthly`)
                 .then(res => {

@@ -1,6 +1,5 @@
-
 document.addEventListener("DOMContentLoaded", () => {
-    fetch("http://localhost:8080/customers/front/favorites", {
+    fetch(`${hostname}/customers/front/favorites`, {
         credentials: "include"
     })
         .then(res => res.json())
@@ -35,7 +34,7 @@ function renderFavorites(favorites) {
         let imageUrl = product.primaryImageUrl || product.imageUrl;
         console.log("fav: " + imageUrl);
         if (imageUrl && imageUrl.startsWith('/products/front/images/')) {
-            imageUrl = 'http://localhost:8080' + imageUrl;
+            imageUrl = hostname + imageUrl;
         } else if (!imageUrl || imageUrl.trim() === '' || imageUrl === '/images/default.jpg') {
             imageUrl = '../images/baby.jpg'; // fallback 預設圖
         } else if (imageUrl.startsWith('images/')) {
@@ -130,7 +129,7 @@ function addToCart(card) {
 // 移除收藏（也可直接點擊「移除」按鈕用）
 function removeFavorite(card, removeFromDOM = true) {
     const id = card.dataset.id;
-    fetch(`http://localhost:8080/customers/front/favorites/${id}`, {
+    fetch(`${hostname}/customers/front/favorites/${id}`, {
         method: "DELETE",
         credentials: "include"
     }).then(() => {

@@ -1,5 +1,3 @@
-let hostname = "https://pikababy-back.onrender.com"
-
 // 載入商品數據
 function loadProducts() {
     fetch(`${hostname}/products/front/published`)

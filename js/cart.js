@@ -1,5 +1,3 @@
-let hostname = "https://pikababy-back.onrender.com";
-
 // 會員資料全域變數
 let memberData = null;
 let memberPoints = 0;

@@ -1,4 +1,3 @@
-let hostname = "https://pikababy-back.onrender.com"
 let currentProduct = null;
 let currentQuantity = 1;
 

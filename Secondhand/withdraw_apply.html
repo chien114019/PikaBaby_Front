@@ -356,7 +356,6 @@
             $("form.slide-down").css("max-height", "485px");
         })
 
-        let host = "https://pikababy-back.onrender.com"
         const consign = {
             amount: 0,
             ids: []
@@ -365,7 +364,7 @@
         window.onload = function () {
             $.ajax({
                 method: "GET",
-                url: `${host}/secondhand/front/withdraw/total/custId`,
+                url: `${hostname}/secondhand/front/withdraw/total/custId`,
                 xhrFields: {
                     withCredentials: true
                 },
@@ -390,7 +389,7 @@
 
             $.ajax({
                 method: "GET",
-                url: `${host}/customers/front/me`,
+                url: `${hostname}/customers/front/me`,
                 xhrFields: {
                     withCredentials: true
                 },
@@ -408,7 +407,7 @@
 
             $.ajax({
                 method: "GET",
-                url: `${host}/secondhand/front/withdraw/banks`,
+                url: `${hostname}/secondhand/front/withdraw/banks`,
                 success: function (data) {
                     data.forEach(element => {
                         console.log(element)
@@ -451,7 +450,7 @@
 
             $.ajax({
                 method: "POST",
-                url: `${host}/secondhand/front/withdraw/create`,
+                url: `${hostname}/secondhand/front/withdraw/create`,
                 xhrFields: {
                     withCredentials: true
                 },

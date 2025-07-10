@@ -269,21 +269,6 @@
     <script>
         // 頁面載入時執行
         document.addEventListener('DOMContentLoaded', function () {
-            //若有登入會員，下拉選單顯示
-            $.ajax({
-                method: "GET",
-                url: hostname + "/customers/front/me",
-                xhrFields: {
-                    withCredentials: true
-                },
-                success: function (data) {
-                    setUserToggle(data);
-                },
-                error: function () {
-                    console.log("未登入");
-                }
-            })
-
             // 從URL參數獲取商品ID
             const urlParams = new URLSearchParams(window.location.search);
             const productId = urlParams.get('id');

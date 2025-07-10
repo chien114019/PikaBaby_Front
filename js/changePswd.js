@@ -6,7 +6,7 @@ function confirmDelete() {
     return;
   }
 
-  fetch('http://localhost:8080/customers/front/delete', {
+  fetch(`${hostname}/customers/front/delete`, {
     method: 'DELETE',
     headers: { 'Content-Type': 'application/json' },
     credentials: 'include',

@@ -1,5 +1,5 @@
 document.querySelector('[data-bs-target="#editModal"]').addEventListener('click', () => {
-    fetch("http://localhost:8080/customers/front/me", {
+    fetch(`${hostname}/customers/front/me`, {
         method: "GET",
         credentials: "include"
     })
@@ -57,7 +57,7 @@ const payload = {
 };
 
     console.log("送出資料：", JSON.stringify(payload, null, 2));
-    fetch("http://localhost:8080/customers/front/me/update", {
+    fetch(`${hostname}/customers/front/me/update`, {
         method: "PUT",
         credentials: "include",
         headers: {

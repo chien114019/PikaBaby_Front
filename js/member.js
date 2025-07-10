@@ -1,5 +1,3 @@
-const hostname = "https://pikababy-back.onrender.com"
-
 // 切換頁面
 function switchTab(event, tabId) {
     document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));

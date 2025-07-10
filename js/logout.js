@@ -1,5 +1,5 @@
 function logout() {
-  fetch("http://localhost:8080/customers/front/logout", {
+  fetch(`${hostname}/customers/front/logout`, {
     method: "POST",
     credentials: "include"
   })

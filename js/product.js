@@ -6,7 +6,7 @@ let isUsingDynamicData = false; // 標記是否使用動態資料
 async function loadProductTypes(pageCategory) {
     try {
         console.log("📡 載入商品分類...");
-        const response = await fetch("http://localhost:8080/products/front/product-types");
+        const response = await fetch(`${hostname}/products/front/product-types`);
 
         if (!response.ok) {
             throw new Error(`HTTP ${response.status}: ${response.statusText}`);
@@ -50,7 +50,7 @@ async function loadProductsFromDatabase() {
         showLoadingIndicator();
 
         console.log("📡 正在呼叫後端API載入已發布商品...");
-        const response = await fetch("http://localhost:8080/products/front/published");
+        const response = await fetch(`${hostname}/products/front/published`);
 
         if (!response.ok) {
             throw new Error(`HTTP ${response.status}: ${response.statusText}`);
@@ -119,7 +119,7 @@ async function loadProductsFromDatabase() {
         // 更詳細的錯誤訊息
         let errorMessage = "載入失敗: ";
         if (error.message.includes("Unexpected token '<'")) {
-            errorMessage += "後端服務器沒有啟動，請確認 Spring Boot 應用程序正在運行於 http://localhost:8080";
+            errorMessage += "後端服務器沒有啟動，請確認 Spring Boot 應用程序正在運行於" + hostname;
         } else if (error.message.includes("Failed to fetch")) {
             errorMessage += "無法連接到後端服務器，請檢查網路連線和服務器狀態";
         } else {
@@ -262,7 +262,7 @@ function createDynamicProductCard(product, index) {
 
     // 如果是API路徑，轉換為完整URL
     if (imageUrl && imageUrl.startsWith('/products/front/images/')) {
-        imageUrl = 'http://localhost:8080' + imageUrl;
+        imageUrl = hostname + imageUrl;
     } else if (!imageUrl || imageUrl.trim() === '' || imageUrl === '/images/default.jpg') {
         // 使用本地預設圖片
         imageUrl = '../images/baby.jpg';
@@ -472,7 +472,7 @@ function toggleWishlist(btn) {
     if (!btn.classList.contains('active')) {
         btn.classList.add('active');
         // 加入收藏
-        fetch('http://localhost:8080/customers/front/favorites', {
+        fetch(`${hostname}/customers/front/favorites`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             credentials: 'include',
@@ -491,7 +491,7 @@ function toggleWishlist(btn) {
         // 立即切換為灰色
         btn.classList.remove('active');
         // 取消收藏
-        fetch(`http://localhost:8080/customers/front/favorites/${productId}`, {
+        fetch(`${hostname}/customers/front/favorites/${productId}`, {
             method: 'DELETE',
             credentials: 'include'
         })
@@ -556,7 +556,7 @@ async function checkStockAndAddToCart(productId, productName, productPrice, prod
         }
 
         // 從後端檢查庫存
-        const response = await fetch(`http://localhost:8080/products/api/stock/${productId}`);
+        const response = await fetch(`${hostname}/products/api/stock/${productId}`);
 
         if (response.ok) {
             const stockData = await response.json();

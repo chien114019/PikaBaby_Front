@@ -89,18 +89,6 @@ function setupProductImages(product) {
     }
 
     console.log(imageUrls);
-    
-
-    // // 轉換相對路徑為完整URL
-    // imageUrls = imageUrls.map(url => {
-    //     if (url.startsWith('/products/front/images/')) {
-    //         return hostname + url;
-    //     } else if (url.startsWith('../')) {
-    //         return url;
-    //     } else {
-    //         return '../images/baby.jpg';
-    //     }
-    // });
 
     // 設置主圖片
     mainImage.src = imageUrls[0];

@@ -344,19 +344,6 @@
 
             // 整合的篩選和排序功能
             // 注意：不要在這裡獲取商品，因為動態商品還沒載入
-            const sortSelect = document.getElementById('sort-select');
-            const categorySelect = document.getElementById('category-select');
-            const conditionSelect = document.getElementById('condition-select');
-            const searchBox = document.querySelector('.search-box');
-
-            // 全局變量來存儲當前的篩選條件
-            let currentFilters = {
-                category: '',
-                condition: '',
-                search: '',
-                sort: 'default'
-            };
-
 
             // 修改 filterProducts 函數，使其能夠處理 URL 參數
             // window.filterProducts = function (category) {

@@ -2,6 +2,19 @@
 let allProducts = []; // 儲存所有商品資料
 let isUsingDynamicData = false; // 標記是否使用動態資料
 
+const sortSelect = document.getElementById('sort-select');
+const categorySelect = document.getElementById('category-select');
+const conditionSelect = document.getElementById('condition-select');
+const searchBox = document.querySelector('.search-box');
+
+// 全局變量來存儲當前的篩選條件
+let currentFilters = {
+    category: '',
+    condition: '',
+    search: '',
+    sort: 'default'
+};
+
 // 載入商品分類
 async function loadProductTypes(pageCategory) {
     try {
@@ -260,17 +273,21 @@ function createDynamicProductCard(product, index) {
     let imageUrl = product.primaryImageUrl || product.imageUrl;
     console.log(imageUrl);
 
-    // 如果是API路徑，轉換為完整URL
-    if (imageUrl && imageUrl.startsWith('/products/front/images/')) {
-        imageUrl = hostname + imageUrl;
-    } else if (!imageUrl || imageUrl.trim() === '' || imageUrl === '/images/default.jpg') {
-        // 使用本地預設圖片
-        imageUrl = '../images/baby.jpg';
-    } else if (imageUrl.startsWith('images/')) {
-        // 如果是images/開頭，加上../前綴
-        imageUrl = '../' + imageUrl;
-    } else if (!imageUrl.startsWith('http') && !imageUrl.startsWith('../')) {
-        // 其他情況使用預設圖片
+    // // 如果是API路徑，轉換為完整URL
+    // if (imageUrl && imageUrl.startsWith('/products/front/images/')) {
+    //     imageUrl = hostname + imageUrl;
+    // } else if (!imageUrl || imageUrl.trim() === '' || imageUrl === '/images/default.jpg') {
+    //     // 使用本地預設圖片
+    //     imageUrl = '../images/baby.jpg';
+    // } else if (imageUrl.startsWith('images/')) {
+    //     // 如果是images/開頭，加上../前綴
+    //     imageUrl = '../' + imageUrl;
+    // } else if (!imageUrl.startsWith('http') && !imageUrl.startsWith('../')) {
+    //     // 其他情況使用預設圖片
+    //     imageUrl = '../images/baby.jpg';
+    // }
+
+    if (!imageUrl) {
         imageUrl = '../images/baby.jpg';
     }
 

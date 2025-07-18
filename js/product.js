@@ -58,12 +58,12 @@ async function loadProductTypes(pageCategory) {
 }
 
 // 從資料庫載入商品
-async function loadProductsFromDatabase() {
+async function loadProductsFromDatabase(age) {
     try {
         showLoadingIndicator();
 
         console.log("📡 正在呼叫後端API載入已發布商品...");
-        const response = await fetch(`${hostname}/products/front/published`);
+        const response = await fetch(`${hostname}/products/front/published?age=${age}`);
 
         if (!response.ok) {
             throw new Error(`HTTP ${response.status}: ${response.statusText}`);

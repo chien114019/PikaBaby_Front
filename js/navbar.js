@@ -1,4 +1,6 @@
-let hostname = "https://pikababy-back.onrender.com"
+// let hostname = "https://pikababy-back.onrender.com";
+let hostname = "http://localhost:8080";
+
 document.addEventListener('DOMContentLoaded', function () {
     //若有登入會員，下拉選單顯示
     $.ajax({

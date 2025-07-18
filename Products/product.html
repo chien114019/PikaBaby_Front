@@ -370,11 +370,15 @@
                 // 更新當前篩選條件（保持原始參數用於篩選邏輯）
                 currentFilters.category = category;
 
-                // 如果分類選擇器尚未設置正確的值，再次嘗試設置
-                const mappedCategory = mapLegacyCategoryToProductType(category);
-                const categorySelect = document.getElementById('category-select');
-                if (categorySelect && categorySelect.value !== mappedCategory) {
-                    updateCategorySelector(mappedCategory);
+                // 更新選擇器的狀態
+                if (categorySelect && currentFilters.category) {
+                    categorySelect.value = currentFilters.category;
+                }
+                if (conditionSelect && currentFilters.condition) {
+                    conditionSelect.value = currentFilters.condition;
+                }
+                if (sortSelect && currentFilters.sort) {
+                    sortSelect.value = currentFilters.sort;
                 }
 
                 // 執行篩選

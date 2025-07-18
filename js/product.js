@@ -31,11 +31,6 @@ async function loadProductTypes(pageCategory) {
         // 動態填充分類選項
         const categorySelect = document.getElementById('category-select');
 
-        // 清空現有選項（保留"全部商品"）
-        // const allOption = categorySelect.querySelector('option[value=""]');
-        // categorySelect.innerHTML = '';
-        // categorySelect.appendChild(allOption);
-
         // 添加動態分類選項
         const allOption = document.createElement('option');
         allOption.value = "";
@@ -739,13 +734,7 @@ function filterAndSortProducts() {
         // 檢查分類匹配 - 支持直接的ProductType名稱匹配和舊式分類映射
         let matchesCategory = !currentFilters.category;
         if (currentFilters.category) {
-            // 直接匹配ProductType名稱
             matchesCategory = productCategory === currentFilters.category;
-
-            // 如果沒有直接匹配，嘗試舊式分類映射（向後兼容）
-            if (!matchesCategory) {
-                matchesCategory = checkLegacyCategoryMatch(productCategory, currentFilters.category);
-            }
         }
 
         const matchesCondition = !currentFilters.condition || productCondition === currentFilters.condition;
@@ -778,37 +767,26 @@ function filterAndSortProducts() {
             productsGrid.appendChild(product);
         });
     }
-
-    // 更新選擇器的狀態
-    if (categorySelect && currentFilters.category) {
-        categorySelect.value = currentFilters.category;
-    }
-    if (conditionSelect && currentFilters.condition) {
-        conditionSelect.value = currentFilters.condition;
-    }
-    if (sortSelect && currentFilters.sort) {
-        sortSelect.value = currentFilters.sort;
-    }
 }
 
 // 檢查舊式分類映射（向後兼容）
-function checkLegacyCategoryMatch(productCategory, filterCategory) {
-    const legacyMapping = {
-        'feeding': ['嬰兒用品'], // 奶瓶/奶嘴、哺乳用品
-        'clothes': ['嬰兒服裝', '幼兒服裝', '兒童服裝'],
-        'stroller': ['嬰兒推車'],
-        'furniture': ['嬰兒床', '餐椅'],
-        'care': ['嬰兒用品'],
-        'toys': ['玩具'],
-        'car-seat': ['汽座'],
-        'walking': ['學步用品'],
-        'dining': ['嬰兒用品'], // 餐具用品
-        'education': ['幼教用品'],
-        'appliance': ['電器用品']
-    };
+// function checkLegacyCategoryMatch(productCategory, filterCategory) {
+//     const legacyMapping = {
+//         'feeding': ['嬰兒用品'], // 奶瓶/奶嘴、哺乳用品
+//         'clothes': ['嬰兒服裝', '幼兒服裝', '兒童服裝'],
+//         'stroller': ['嬰兒推車'],
+//         'furniture': ['嬰兒床', '餐椅'],
+//         'care': ['嬰兒用品'],
+//         'toys': ['玩具'],
+//         'car-seat': ['汽座'],
+//         'walking': ['學步用品'],
+//         'dining': ['嬰兒用品'], // 餐具用品
+//         'education': ['幼教用品'],
+//         'appliance': ['電器用品']
+//     };
 
-    return legacyMapping[filterCategory] && legacyMapping[filterCategory].includes(productCategory);
-}
+//     return legacyMapping[filterCategory] && legacyMapping[filterCategory].includes(productCategory);
+// }
 
 // 將舊式分類代碼轉換為對應的ProductType名稱
 function mapLegacyCategoryToProductType(legacyCategory) {

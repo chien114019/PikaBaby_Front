@@ -36,24 +36,37 @@
         }
 
         @media (max-width: 768px) {
-            .mb-5.flex-row, .mb-5.d-flex, .mb-5.d-flex.flex-row {
+
+            .mb-5.flex-row,
+            .mb-5.d-flex,
+            .mb-5.d-flex.flex-row {
                 flex-direction: column !important;
                 gap: 0.5rem !important;
             }
-            .col-md-5, .col-md-6, .col-md-8, .col-md-2 {
+
+            .col-md-5,
+            .col-md-6,
+            .col-md-8,
+            .col-md-2 {
                 max-width: 100% !important;
                 flex: 0 0 100% !important;
             }
+
             .p-3 {
                 padding: 0.5rem !important;
             }
         }
+
         @media (max-width: 576px) {
-            .container.my-5, .container {
+
+            .container.my-5,
+            .container {
                 padding-left: 0.5rem !important;
                 padding-right: 0.5rem !important;
             }
-            h3, h4 {
+
+            h3,
+            h4 {
                 font-size: 1.1rem !important;
             }
         }
@@ -382,39 +395,29 @@
                     withCredentials: true
                 },
                 success: function (data) {
-                    setUserToggle(data);
+                    if (login) {
+                        setUserToggle(data);
+                        $("#custName").val(userInfo.name);
+                        $("#custTel").val(userInfo.phone);
+                        $("#custEmail").val(userInfo.email);
+                        $("#custAddress").val(userInfo.address);
 
-                    $("#totalAmount").text(data.total);
-                    if (data.total <= 0) {
-                        $("#applyBtn").attr("disabled", "disabled");
+                        $("#totalAmount").text(data.total);
+                        if (data.total <= 0) {
+                            $("#applyBtn").attr("disabled", "disabled");
+                        }
+                        consign.amount = data.total;
+                        (data.ids).forEach(element => {
+                            consign.ids.push(element);
+                        });
+                        console.log(consign);
+
+                    } else {
+                        showLoginPrompt();
                     }
-                    consign.amount = data.total;
-                    (data.ids).forEach(element => {
-                        consign.ids.push(element);
-                    });
-                    console.log(consign);
                 },
                 error: function () {
-                    console.log("Error");
-                    showLoginPrompt();
-                }
-            })
-
-            $.ajax({
-                method: "GET",
-                url: `${hostname}/customers/front/me`,
-                xhrFields: {
-                    withCredentials: true
-                },
-                success: function (data) {
-                    // console.log(dat  a);
-                    $("#custName").val(data.name);
-                    $("#custTel").val(data.phone);
-                    $("#custEmail").val(data.email);
-                    $("#custAddress").val(data.address);
-                },
-                error: function (resp) {
-                    console.log(resp);
+                    alert("系統查詢錯誤");
                 }
             })
 
@@ -437,7 +440,7 @@
         // 顯示登入提示
         function showLoginPrompt() {
             const loginConfirm = confirm(
-                '請先登入會員才能進行申請！\n\n' +
+                '請先登入會員才能進行查詢！\n\n' +
                 '點擊「確定」前往登入頁面\n' +
                 '點擊「取消」前往託售服務頁面'
             );

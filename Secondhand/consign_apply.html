@@ -22,27 +22,42 @@
         #ui-datepicker-div {
             display: none !important;
         }
-        
+
         @media (max-width: 768px) {
-            .row, .row-cols-3, .row-cols-4, .row-cols-6 {
+
+            .row,
+            .row-cols-3,
+            .row-cols-4,
+            .row-cols-6 {
                 flex-direction: column !important;
                 display: flex !important;
             }
-            .col-md-4, .col-md-6, .col-md-8, .col-md-2 {
+
+            .col-md-4,
+            .col-md-6,
+            .col-md-8,
+            .col-md-2 {
                 max-width: 100% !important;
                 flex: 0 0 100% !important;
             }
-            .d-flex.flex-row.gap-2, .d-flex.flex-row {
+
+            .d-flex.flex-row.gap-2,
+            .d-flex.flex-row {
                 flex-direction: column !important;
                 gap: 0.5rem !important;
             }
         }
+
         @media (max-width: 576px) {
-            .container.my-5, .container {
+
+            .container.my-5,
+            .container {
                 padding-left: 0.5rem !important;
                 padding-right: 0.5rem !important;
             }
-            h3, h4 {
+
+            h3,
+            h4 {
                 font-size: 1.1rem !important;
             }
         }
@@ -415,26 +430,15 @@
 
     <script>
         window.onload = function () {
-            let root = hostname + "/customers"
-            $.ajax({
-                method: "GET",
-                url: `${root}/front/me`,
-                xhrFields: {
-                    withCredentials: true
-                },
-                success: function (data) {
-                    console.log(data);
-                    setUserToggle(data);
-                    $("#custName").val(data.name);
-                    $("#custTel").val(data.phone);
-                    $("#custEmail").val(data.email);
-                    $("#custAddress").val(data.address);
-                },
-                error: function (resp) {
-                    console.log(resp);
-                    showLoginPrompt();
-                }
-            })
+            if (login) {
+                $("#custName").val(userInfo.name);
+                $("#custTel").val(userInfo.phone);
+                $("#custEmail").val(userInfo.email);
+                $("#custAddress").val(userInfo.address);
+            }
+            else {
+                showLoginPrompt();
+            }
         }
 
         // 顯示登入提示
@@ -444,7 +448,7 @@
                 '點擊「確定」前往登入頁面\n' +
                 '點擊「取消」前往託售服務頁面'
             );
-            
+
             if (loginConfirm) {
                 window.location.href = '../Member/login.html';
             }

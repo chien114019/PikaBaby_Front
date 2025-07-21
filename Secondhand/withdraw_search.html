@@ -323,12 +323,15 @@
                     withCredentials: true
                 },
                 success: function (data) {
-                    setUserToggle(data);
-                    showData(data);
+                    if (login) {
+                        setUserToggle(data);
+                        showData(data);
+                    } else {
+                        showLoginPrompt();
+                    }
                 },
                 error: function () {
-                    // alert("查詢錯誤");
-                    showLoginPrompt();
+                    alert("系統查詢錯誤");
                 }
             })
         })

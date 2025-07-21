@@ -33,6 +33,7 @@
         }
 
         @media (max-width: 576px) {
+
             .container.my-5,
             .container {
                 padding-left: 0.5rem !important;
@@ -86,11 +87,10 @@
     <!-- 導覽列（與首頁一致，含漢堡選單） -->
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid">
-            <!-- <div class="collapse navbar-collapse justify-content-center d-flex" id="navbarSupportedContent"> -->
             <div class="collapse navbar-collapse justify-content-around d-flex" id="navbarSupportedContent">
                 <!-- LOGO -->
                 <img id="logo" src="../images/logo-pikababy.png" alt="PikaBaby"
-                    style="height: 80px; width: 0px; transition: 3s; display: none;" />
+                    style="height: 80px; width: 0px; display: none;" />
                 <ul class="navbar-nav ml-auto nav-links gap-5 me-0">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="../index.html">首頁</a>
@@ -108,7 +108,6 @@
                             <a class="dropdown-item" href="../Products/product.html?age=1&category=2">嬰兒推車</a>
                             <a class="dropdown-item" href="../Products/product.html?age=1&category=3">嬰兒床</a>
                             <a class="dropdown-item" href="../Products/product.html?age=1&category=17">哺乳用品</a>
-                            <a class="dropdown-item" href="../Products/product.html?age=1&category=4">嬰兒用品</a>
                         </div>
                     </li>
                     <li class="nav-item dropdown">
@@ -122,7 +121,6 @@
                             <a class="dropdown-item" href="../Products/product.html?age=2&category=2">嬰兒推車</a>
                             <a class="dropdown-item" href="../Products/product.html?age=2&category=3">嬰兒床</a>
                             <a class="dropdown-item" href="../Products/product.html?age=2&category=6">汽座</a>
-                            <a class="dropdown-item" href="../Products/product.html?age=2&category=4">嬰兒用品</a>
                         </div>
                     </li>
                     <li class="nav-item dropdown">
@@ -137,7 +135,6 @@
                             <a class="dropdown-item" href="../Products/product.html?age=3&category=5">玩具</a>
                             <a class="dropdown-item" href="../Products/product.html?age=3&category=2">嬰兒推車</a>
                             <a class="dropdown-item" href="../Products/product.html?age=3&category=6">汽座</a>
-                            <a class="dropdown-item" href="../Products/product.html?age=3&category=4">嬰兒用品</a>
                         </div>
                     </li>
                     <li class="nav-item dropdown">
@@ -153,7 +150,6 @@
                             <a class="dropdown-item" href="../Products/product.html?age=4&category=11">兒童推車</a>
                             <a class="dropdown-item" href="../Products/product.html?age=4&category=12">餐椅</a>
                             <a class="dropdown-item" href="../Products/product.html?age=4&category=13">電器用品</a>
-                            <a class="dropdown-item" href="../Products/product.html?age=4&category=4">嬰兒用品</a>
                         </div>
                     </li>
                     <li class="nav-item dropdown">
@@ -169,7 +165,6 @@
                             <a class="dropdown-item" href="../Products/product.html?age=5&category=11">兒童推車</a>
                             <a class="dropdown-item" href="../Products/product.html?age=5&category=12">餐椅</a>
                             <a class="dropdown-item" href="../Products/product.html?age=5&category=13">電器用品</a>
-                            <a class="dropdown-item" href="../Products/product.html?age=5&category=4">嬰兒用品</a>
                         </div>
                     </li>
                     <li class="nav-item dropdown">
@@ -237,20 +232,18 @@
                     <div class="col-md-3 p-3 d-flex align-items-center">
                         <span class="w-75">商品種類：</span>
                         <select id="type" class="form-select">
-                            <option value="">請選擇類別</option>
+                            <option value="0">請選擇類別</option>
                             <option value="1">嬰兒服裝</option>
-                            <option value="2">嬰兒推車</option>
                             <option value="3">嬰兒床</option>
-                            <option value="4">嬰兒用品</option>
                             <option value="5">玩具</option>
-                            <option value="6">汽座</option>
+                            <option value="6">汽座/座椅</option>
                             <option value="7">學步用品</option>
                             <option value="8">幼兒服裝</option>
                             <option value="9">幼教用品</option>
                             <option value="10">兒童服裝</option>
-                            <option value="11">兒童推車</option>
                             <option value="12">餐椅</option>
                             <option value="13">電器用品</option>
+                            <option value="19">嬰幼兒推車</option>
                         </select>
                     </div>
                     <div class="col-md-3 p-3 d-flex align-items-center">

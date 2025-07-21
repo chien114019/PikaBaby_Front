@@ -1,24 +1,6 @@
 // let hostname = "https://pikababy-back.onrender.com";
 let hostname = "http://localhost:8080";
 
-document.addEventListener('DOMContentLoaded', function () {
-    //若有登入會員，下拉選單顯示
-    $.ajax({
-        method: "GET",
-        url: hostname + "/customers/front/me",
-        xhrFields: {
-            withCredentials: true
-        },
-        success: function (data) {
-            setUserToggle(data);
-        },
-        error: function () {
-            console.log("未登入");
-        }
-    })
-});
-
-
 // 導覽列
 const $dropdown = $(".dropdown");
 const $dropdownMenu = $(".dropdown-menu");
@@ -105,3 +87,20 @@ function setUserToggle(data) {
         loginNavItem.style.display = "none";
     }
 }
+
+document.addEventListener('DOMContentLoaded', function () {
+    //若有登入會員，下拉選單顯示
+    $.ajax({
+        method: "GET",
+        url: hostname + "/customers/front/me",
+        xhrFields: {
+            withCredentials: true
+        },
+        success: function (data) {
+            setUserToggle(data);
+        },
+        error: function () {
+            console.log("未登入");
+        }
+    })
+});

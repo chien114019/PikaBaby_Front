@@ -1,5 +1,5 @@
-// let hostname = "https://pikababy-back.onrender.com";
-let hostname = "http://localhost:8080";
+let hostname = "https://pikababy-back.onrender.com";
+// let hostname = "http://localhost:8080";
 
 // 導覽列
 const $dropdown = $(".dropdown");

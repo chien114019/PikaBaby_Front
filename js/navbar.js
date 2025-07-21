@@ -1,33 +1,6 @@
 let hostname = "https://pikababy-back.onrender.com";
 // let hostname = "http://localhost:8080";
 
-// 導覽列
-const $dropdown = $(".dropdown");
-const $dropdownMenu = $(".dropdown-menu");
-const showClass = "show";
-$(window).on("load resize", function () {
-    if (this.matchMedia("(min-width: 768px)").matches) {
-        $dropdown.hover(
-            function (e) {
-                const $this = $(this);
-                $this.addClass(showClass);
-                $this.find($dropdownMenu).addClass(showClass);
-                $this.find($dropdownMenu).addClass("d-flex");
-                $this.find($dropdownMenu).css("left", `-${$this.position().left}px`);
-            },
-            function () {
-                const $this = $(this);
-                $this.removeClass(showClass);
-                $this.find($dropdownMenu).removeClass(showClass);
-                $this.find($dropdownMenu).removeClass("d-flex");
-
-            }
-        );
-    } else {
-        $dropdown.off("mouseenter mouseleave");
-    }
-});
-
 document.addEventListener("scroll", function () {
     if (window.scrollY > $("header").height() - 10) {
         console.log(`${$("header").height()}`)
@@ -89,6 +62,33 @@ function setUserToggle(data) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
+    // 導覽列
+    const $dropdown = $(".dropdown");
+    const $dropdownMenu = $(".dropdown-menu");
+    const showClass = "show";
+    $(window).on("load resize", function () {
+        if (this.matchMedia("(min-width: 768px)").matches) {
+            $dropdown.hover(
+                function (e) {
+                    const $this = $(this);
+                    $this.addClass(showClass);
+                    $this.find($dropdownMenu).addClass(showClass);
+                    $this.find($dropdownMenu).addClass("d-flex");
+                    $this.find($dropdownMenu).css("left", `-${$this.position().left}px`);
+                },
+                function () {
+                    const $this = $(this);
+                    $this.removeClass(showClass);
+                    $this.find($dropdownMenu).removeClass(showClass);
+                    $this.find($dropdownMenu).removeClass("d-flex");
+
+                }
+            );
+        } else {
+            $dropdown.off("mouseenter mouseleave");
+        }
+    });
+    
     //若有登入會員，下拉選單顯示
     $.ajax({
         method: "GET",
